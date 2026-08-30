@@ -61,6 +61,18 @@ jobs:
           python -m cdc.collect.runner ${{ inputs.dry_run && '--dry-run' || '' }} \
             | tee cycle-report.json
 
+      # Instagram runs as a bounded cohort on its own 3-hourly clock, so most
+      # hourly invocations of this step deliberately do nothing and spend
+      # nothing. It must never fail the job: a Scrape Creators outage is not a
+      # reason to lose the YouTube snapshot, which is the primary dataset.
+      - name: Run Instagram cohort round
+        if: ${{ !inputs.dry_run }}
+        continue-on-error: true
+        env:
+          SCRAPECREATORS_API_KEY: ${{ secrets.SCRAPECREATORS_API_KEY }}
+          PYTHONPATH: src
+        run: python -m cdc.collect.ig_runner | tee ig-report.json
+
       - name: Commit collected data
         if: ${{ !inputs.dry_run }}
         run: |

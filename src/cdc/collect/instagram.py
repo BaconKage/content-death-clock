@@ -23,6 +23,7 @@ channel. Calling ``/v1/instagram/post`` per post would cost 12x for the same dat
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import time
@@ -38,7 +39,22 @@ from cdc.config import ROOT, settings
 log = logging.getLogger(__name__)
 
 RETRY_STATUS = {429, 500, 502, 503, 504}
-LEDGER_PATH = ROOT / "data" / "bronze" / "_credits" / "scrapecreators.json"
+CREDITS_DIR = ROOT / "data" / "bronze" / "_credits"
+
+
+def key_id(api_key: str) -> str:
+    """Short, stable, non-reversible identifier for an API key.
+
+    The ledger is per-key because credits are per-key. A second key with its own
+    100 credits must start from zero spent, not inherit the first key's count and
+    immediately refuse to run. We hash rather than store the key itself so the
+    ledger stays committable to a public repo.
+    """
+    return hashlib.sha256(api_key.encode()).hexdigest()[:12]
+
+
+def ledger_path(kid: str) -> Path:
+    return CREDITS_DIR / f"scrapecreators-{kid}.json"
 
 
 class CreditsExhausted(RuntimeError):
@@ -57,17 +73,20 @@ class CreditLedger:
     budget_total: int
     spent_total: int = 0
     spent_this_run: int = 0
-    path: Path = LEDGER_PATH
+    path: Path | None = None
+    key_id: str | None = None
     by_day: dict[str, int] = field(default_factory=dict)
 
     @classmethod
-    def load(cls, budget_total: int, path: Path | None = None) -> "CreditLedger":
-        path = path or LEDGER_PATH
+    def load(cls, budget_total: int, api_key: str | None = None,
+             path: Path | None = None) -> "CreditLedger":
+        kid = key_id(api_key) if api_key else None
+        path = path or (ledger_path(kid) if kid else CREDITS_DIR / "scrapecreators.json")
         if path.exists():
             d = json.loads(path.read_text(encoding="utf-8"))
             return cls(budget_total=budget_total, spent_total=int(d.get("spent_total", 0)),
-                       by_day=dict(d.get("by_day", {})), path=path)
-        return cls(budget_total=budget_total, path=path)
+                       by_day=dict(d.get("by_day", {})), path=path, key_id=kid)
+        return cls(budget_total=budget_total, path=path, key_id=kid)
 
     @property
     def remaining(self) -> int:
@@ -86,8 +105,11 @@ class CreditLedger:
         self.by_day[day] = self.by_day.get(day, 0) + n
 
     def save(self) -> None:
+        if self.path is None:
+            return
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.path.write_text(json.dumps({
+            "key_id": self.key_id,
             "spent_total": self.spent_total,
             "budget_total": self.budget_total,
             "by_day": self.by_day,
@@ -95,8 +117,9 @@ class CreditLedger:
         }, indent=2), encoding="utf-8")
 
     def summary(self) -> dict[str, Any]:
-        return {"spent_this_run": self.spent_this_run, "spent_total": self.spent_total,
-                "budget_total": self.budget_total, "remaining": self.remaining}
+        return {"key_id": self.key_id, "spent_this_run": self.spent_this_run,
+                "spent_total": self.spent_total, "budget_total": self.budget_total,
+                "remaining": self.remaining}
 
 
 class InstagramClient:
@@ -106,7 +129,8 @@ class InstagramClient:
         self.api_key = api_key
         self.base = cfg["api_base"].rstrip("/")
         self.dry_run = dry_run
-        self.ledger = ledger or CreditLedger.load(int(cfg["credit_budget_total"]))
+        self.ledger = ledger or CreditLedger.load(
+            int(cfg["credit_budget_total"]), api_key=api_key)
         self.session = requests.Session()
         self.session.headers.update({
             "x-api-key": api_key,

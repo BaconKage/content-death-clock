@@ -1,0 +1,26 @@
+{
+  "platform": "instagram",
+  "cycle_id": "2026-08-30T17",
+  "started_at": "2026-08-30T17:08:40+00:00",
+  "dry_run": false,
+  "accounts_called": 5,
+  "posts_seen": 60,
+  "snapshots": 55,
+  "new_posts": 55,
+  "skipped_hidden_counts": 0,
+  "errors": [],
+  "cohort_round": 1,
+  "cohort_elapsed_hours": 0.14,
+  "credits": {
+    "key_id": "d4dbf5c1521b",
+    "spent_this_run": 5,
+    "spent_total": 15,
+    "budget_total": 100,
+    "remaining": 85
+  },
+  "files": [
+    "C:\\RVU\\7th Sem\\RM BDA Project\\data\\bronze\\platform=instagram\\dt=2026-08-30\\posts-2026-08-30T17.jsonl",
+    "C:\\RVU\\7th Sem\\RM BDA Project\\data\\bronze\\platform=instagram\\dt=2026-08-30\\snapshots-2026-08-30T17.jsonl"
+  ],
+  "finished_at": "2026-08-30T17:09:02+00:00"
+}

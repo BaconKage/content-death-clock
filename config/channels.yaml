@@ -73,6 +73,33 @@ channels:
   # - handle: "@example"         category: technology   tier: micro
 
 instagram:
-  # Scrape Creators sample. Hard-capped in settings.yaml (instagram.max_posts).
-  # Public accounts only. Populate after the credit smoke test passes.
-  accounts: []
+  # Scrape Creators cohort. Public accounts only.
+  #
+  # SELECTION CRITERION, measured not guessed: posting rate must fall in the
+  # 1-6 posts/day band. The profile endpoint returns only the ~12 most recent
+  # posts, so a post is visible to us only until 12 newer ones push it off the
+  # grid. Too slow and the 48h window catches no fresh posts; too fast and a
+  # post vanishes before it has finished decaying.
+  #
+  # Measured 2026-08-30 (posts/day, hours a post stays visible):
+  #   fcbarcelona       5.3   50h    <- kept
+  #   9gag              5.5   48h    <- kept
+  #   instantbollywood  7.6   35h    <- kept, curves truncate ~35h
+  #   nba               0.6  461h    <- kept, low yield but perfect retention
+  #   sarcastic_us      0.5  532h    <- kept, low yield
+  #   realmadrid      114.0    2.3h  REJECTED: grid turns over between rounds
+  #   republicworld    51.0    5.2h  REJECTED: same
+  #   natgeotravel      0.1 5135h    REJECTED: ~0 new posts in a 48h window
+  #   alia              0.0  4.9yr   REJECTED: dormant account
+  accounts:
+    - {handle: "fcbarcelona",      category: sport,         tier: large}
+    - {handle: "9gag",             category: memes,         tier: large}
+    - {handle: "instantbollywood", category: entertainment, tier: large}
+    - {handle: "nba",              category: sport,         tier: large}
+    - {handle: "sarcastic_us",     category: memes,         tier: large}
+
+  # Cohort B (a second key with its own 100 credits, after these are spent):
+  # target SMALLER accounts in the same 1-6/day band. A replication at a
+  # different time doubles as Instagram's temporal robustness check, and
+  # smaller accounts partly offset the creator-size gap in the YouTube frame.
+  accounts_cohort_b: []

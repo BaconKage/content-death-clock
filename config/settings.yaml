@@ -39,7 +39,7 @@ instagram:
   # it ourselves. This is a hard local cap, tracked in
   # data/bronze/_credits/scrapecreators.json. Set it to what the account
   # actually has; raising it does not buy credits.
-  credit_budget_total: 99   # 1 of the original 100 spent on the schema smoke test
+  credit_budget_total: 100  # per key; the ledger is per-key so a new key starts fresh
   max_calls_per_cycle: 25
 
   # --- cadence: ONE INTENSIVE COHORT, not a continuous panel ---
@@ -49,7 +49,8 @@ instagram:
   # figure. It is NOT a second dataset for hypothesis testing, and the paper
   # must say so. n will be too small for inference.
   #
-  # Budget: 16 rounds x 6 accounts = 96 credits, leaving 3 spare. The window is
+  # Budget: 16 rounds x 5 accounts = 80 credits of the 90 remaining, leaving 10
+  # as retry margin. The window is
   # END-EXCLUSIVE, so rounds land at 0, 3, ... 45h. Counting it as inclusive
   # gives 17 rounds and overspends - a test pins this.
   # Credits buy curve QUALITY here, not account count: a post published during
@@ -57,10 +58,12 @@ instagram:
   # enough to fit a decay curve. Spreading the same credits over more accounts
   # would sample too raggedly to fit anything.
   mode: cohort
-  cohort_start_utc: null      # null = not started. Set to begin. One shot.
+  cohort_start_utc: "2026-08-30T17:00:00+00:00"   # STARTED. Set back to null to abort.
+  # Cohort A. Rounds every 3h at 0..45h, 16 rounds x 5 accounts = 80 credits
+  # of the 90 available. To abort: set cohort_start_utc back to null.
   cohort_interval_hours: 3
   cohort_duration_hours: 48
-  max_accounts: 6
+  max_accounts: 5
   max_posts: 200              # hard cap on panel size
 
 storage:
