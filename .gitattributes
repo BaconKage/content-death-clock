@@ -1,0 +1,7 @@
+# CI (Linux) writes LF; Windows checkouts would rewrite to CRLF and every pull
+# would show whole-file diffs on data nobody edited. Pin LF everywhere.
+* text=auto eol=lf
+
+# Collected data is append-only evidence — never let git rewrite a byte of it.
+*.jsonl -text
+data/** -text
