@@ -80,17 +80,49 @@ def run_cycle(dry_run: bool = False, force: bool = False, client=None,
                              "`instagram.accounts` in config/channels.yaml")
         return report
 
-    # --- cadence gate. Instagram costs money, so it runs on its own slower
-    # --- clock rather than on every hourly YouTube cycle.
-    every = float(cfg["snapshot_every_hours"])
-    last = last_cycle_at(bronze_root)
-    if last and not force:
-        due_at = last + timedelta(hours=every)
-        if now < due_at:
-            report["skipped"] = (f"not due until {due_at.isoformat(timespec='seconds')} "
-                                 f"(cadence {every}h)")
-            report["last_cycle_at"] = last.isoformat(timespec="seconds")
-            return report
+    # --- cohort gate ---------------------------------------------------
+    # Instagram runs as one bounded cohort, not a continuous panel, because
+    # every call costs a real credit. Three separate conditions must hold
+    # before we are allowed to spend anything.
+    start_raw = cfg.get("cohort_start_utc")
+    if not start_raw:
+        report["skipped"] = ("cohort not started — set instagram.cohort_start_utc "
+                             "in settings.yaml. This is a one-shot budget: once "
+                             "started, it runs to completion and the credits are gone.")
+        return report
+
+    start = datetime.fromisoformat(str(start_raw).replace("Z", "+00:00"))
+    if start.tzinfo is None:
+        start = start.replace(tzinfo=timezone.utc)
+    interval = float(cfg["cohort_interval_hours"])
+    duration = float(cfg["cohort_duration_hours"])
+    elapsed = (now - start).total_seconds() / 3600.0
+
+    if elapsed < 0:
+        report["skipped"] = f"cohort starts at {start.isoformat(timespec='seconds')}"
+        return report
+    # End-exclusive. Rounds land at 0, 3, ... 45h for a 48h/3h cohort: that is
+    # 16 rounds, not 17. Inclusive would add a whole extra round and overspend
+    # the budget by one round's worth of credits.
+    if elapsed >= duration:
+        report["skipped"] = (f"cohort complete ({elapsed:.1f}h elapsed of "
+                             f"{duration:.0f}h). Credits preserved.")
+        return report
+
+    if not force:
+        # Only fire on a scheduled round, and only once per round. The hourly
+        # CI job invokes this every hour; most invocations must do nothing.
+        last = last_cycle_at(bronze_root)
+        if last is not None:
+            since_last = (now - last).total_seconds() / 3600.0
+            # Tolerance: CI can be delayed, so accept anything close enough to
+            # the interval rather than drifting a round later every time.
+            if since_last < interval - 0.5:
+                report["skipped"] = (f"only {since_last:.2f}h since last round "
+                                     f"(interval {interval}h)")
+                return report
+        report["cohort_round"] = int(elapsed // interval) + 1
+        report["cohort_elapsed_hours"] = round(elapsed, 2)
 
     if client is None:
         api_key = ("DRY-RUN-NO-KEY" if dry_run
@@ -103,7 +135,14 @@ def run_cycle(dry_run: bool = False, force: bool = False, client=None,
     posts_writer = BronzeWriter("instagram", kind="posts", cid=cid, root=bronze_root)
     snaps_writer = BronzeWriter("instagram", kind="snapshots", cid=cid, root=bronze_root)
 
-    budget = int(cfg["max_calls_per_cycle"])
+    # Never call more accounts than the cohort was sized for, and never more
+    # than the remaining credits can pay for.
+    budget = min(int(cfg["max_accounts"]), int(cfg["max_calls_per_cycle"]),
+                 client.ledger.remaining)
+    if budget <= 0:
+        report["skipped"] = "no credits remaining"
+        report["credits"] = client.ledger.summary()
+        return report
     try:
         for acct in accts[:budget]:
             handle = acct["handle"]
