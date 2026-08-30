@@ -18,7 +18,11 @@ from dotenv import load_dotenv
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG_DIR = ROOT / "config"
 
-load_dotenv(ROOT / ".env")
+# `.env` is the documented name; `.env.local` is the convention many people
+# reach for by habit. Support both, local winning, so a misnamed file is a
+# non-event rather than a confusing "key missing" an hour into debugging.
+for _envfile in (".env", ".env.local"):
+    load_dotenv(ROOT / _envfile, override=True)
 
 
 def _read_yaml(path: Path) -> dict[str, Any]:

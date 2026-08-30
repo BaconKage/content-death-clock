@@ -1,5 +1,8 @@
-# secrets — never commit API keys
-.env
+# secrets — never commit API keys.
+# NOTE: a bare `.env` line does NOT match `.env.local`, `.env.dev` etc.
+# The glob plus the negation is what actually protects you.
+.env*
+!.env.example
 *.key
 
 # python

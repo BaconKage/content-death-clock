@@ -4,10 +4,16 @@ Design notes that matter for the BDA report:
 
 * **Partitioned** as ``platform=<p>/dt=<YYYY-MM-DD>/<kind>-<cycle_id>.jsonl`` so a
   date range can be pruned without opening every file.
-* **Idempotent by construction.** A cycle buffers its records in memory and writes
-  them in one atomic ``os.replace``. The filename is keyed on ``cycle_id`` (the UTC
-  hour), so re-running a cycle overwrites its own file with equivalent content
-  rather than appending duplicates. A crash mid-cycle leaves no partial file.
+* **Idempotent by merge, not by overwrite.** A cycle buffers its records and
+  commits them in one atomic ``os.replace``. The filename is keyed on ``cycle_id``
+  (the UTC hour), so a re-run targets the same file — but it **merges** with what
+  is already there, deduplicating on a natural key, rather than replacing it.
+  Plain overwrite was wrong: two runs within the same hour are not necessarily
+  retries of identical work (the panel moves between them, and a run aborted by
+  quota exhaustion holds strictly less data), so the later write would silently
+  destroy observations the earlier one had captured. Observations cannot be
+  re-collected — the past is gone — so the writer must never be able to lose one.
+  A crash mid-cycle leaves no partial file.
 * **Raw is preserved.** We store the provider payload untouched under ``raw`` next
   to our normalised fields, so a schema mistake in silver is always recoverable
   without re-scraping. Re-scraping is impossible here: the past is gone.
@@ -45,6 +51,12 @@ class BronzeWriter:
             w.add({...})
     """
 
+    # Natural key per record kind, used to merge a re-run with what is on disk.
+    DEDUPE_KEYS = {
+        "snapshots": ("post_id", "snapshot_ts"),
+        "posts": ("post_id",),
+    }
+
     def __init__(self, platform: str, kind: str, cid: str | None = None,
                  root: Path | None = None) -> None:
         self.platform = platform
@@ -70,15 +82,43 @@ class BronzeWriter:
     def __len__(self) -> int:
         return len(self._buf)
 
+    def _existing(self, target: Path) -> list[dict[str, Any]]:
+        """Records a previous run already wrote to this cycle's file."""
+        if not target.exists():
+            return []
+        out = []
+        with target.open(encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if line:
+                    out.append(json.loads(line))
+        return out
+
     def commit(self) -> Path | None:
-        """Atomically write the buffer. Returns the path, or None if empty."""
+        """Atomically write what is on disk MERGED with the buffer.
+
+        Returns the path, or None if there is nothing to write.
+        """
         if not self._buf:
             return None
         target = self.target
+
+        # Merge with whatever a previous run in this same cycle already wrote.
+        # On key collision the later record wins — it is the fresher read — but
+        # no earlier observation is ever dropped.
+        keys = self.DEDUPE_KEYS.get(self.kind)
+        if keys:
+            acc: dict[tuple, dict[str, Any]] = {}
+            for rec in self._existing(target) + self._buf:
+                acc[tuple(rec.get(k) for k in keys)] = rec
+            merged = list(acc.values())
+        else:
+            merged = self._existing(target) + self._buf
+
         fd, tmp = tempfile.mkstemp(dir=str(target.parent), suffix=".tmp")
         try:
             with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as fh:
-                for rec in self._buf:
+                for rec in merged:
                     fh.write(json.dumps(rec, ensure_ascii=False, sort_keys=True) + "\n")
             os.replace(tmp, target)          # atomic on both POSIX and Windows
         except Exception:

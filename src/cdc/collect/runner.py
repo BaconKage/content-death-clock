@@ -28,6 +28,7 @@ from typing import Any
 from cdc.config import ROOT, channels, secrets, settings
 from cdc.collect.panel import Panel, discovery_window
 from cdc.collect.youtube import QuotaExceeded, QuotaMeter, YouTubeClient
+from cdc.collect.youtube import _parse_ts
 from cdc.storage.bronze import BronzeWriter, cycle_id
 
 log = logging.getLogger("cdc.runner")
@@ -85,6 +86,7 @@ def run_cycle(dry_run: bool = False, discover: bool = True,
         "errors": [],
     }
 
+    discovered_ids: set[str] = set()
     chans = chans if chans is not None else _resolved_channels()
     posts_writer = BronzeWriter("youtube", kind="posts", cid=cid, root=bronze_root)
     snaps_writer = BronzeWriter("youtube", kind="snapshots", cid=cid, root=bronze_root)
@@ -117,11 +119,36 @@ def run_cycle(dry_run: bool = False, discover: bool = True,
                     rec["stratum_category"] = ch_meta.get("category")
                     rec["discovered_at"] = now.isoformat(timespec="seconds")
                     posts_writer.add(rec)
+
+                    # The discovery call already returned live statistics. Store
+                    # them as a snapshot too: it costs zero extra quota and it is
+                    # the EARLIEST observation of this post we will ever have.
+                    # Discarding it would throw away the most valuable point on
+                    # the curve, because the panel used for `due` below was built
+                    # before this post existed and will not snapshot it until the
+                    # next cycle, an hour later.
+                    pub = _parse_ts(v.get("published_at"))
+                    if pub is not None:
+                        age = (now - pub).total_seconds() / 3600.0
+                        snaps_writer.add({
+                            "post_id": v["post_id"],
+                            "creator_id": v.get("creator_id"),
+                            "snapshot_ts": now.isoformat(timespec="seconds"),
+                            "published_at": v.get("published_at"),
+                            "age_hours": round(age, 4),
+                            "views": v.get("views"),
+                            "likes": v.get("likes"),
+                            "comments": v.get("comments"),
+                            "at_discovery": True,
+                        })
+                        discovered_ids.add(v["post_id"])
                 report["discovered"] = len(posts_writer)
 
         # ------------------------------------------------------- 2. snapshots
         if snapshot:
-            due = panel.due(now)
+            # A post discovered this cycle was just snapshotted above; do not
+            # pay for it twice.
+            due = [p for p in panel.due(now) if p.post_id not in discovered_ids]
             if due:
                 stats = client.video_stats([p.post_id for p in due])
                 for s in stats:

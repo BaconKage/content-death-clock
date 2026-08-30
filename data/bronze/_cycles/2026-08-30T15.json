@@ -1,0 +1,29 @@
+{
+  "cycle_id": "2026-08-30T15",
+  "started_at": "2026-08-30T15:51:06+00:00",
+  "dry_run": false,
+  "panel_before": {
+    "posts_total": 4,
+    "posts_active": 4,
+    "posts_due": 3,
+    "snapshots_total": 2,
+    "snapshots_per_post_mean": 0.5
+  },
+  "discovered": 0,
+  "snapshotted": 3,
+  "errors": [],
+  "due_count": 3,
+  "quota": {
+    "units_spent": 31,
+    "calls": 31,
+    "budget": 400,
+    "by_endpoint": {
+      "playlistItems": 30,
+      "videos": 1
+    }
+  },
+  "files": [
+    "C:\\RVU\\7th Sem\\RM BDA Project\\data\\bronze\\platform=youtube\\dt=2026-08-30\\snapshots-2026-08-30T15.jsonl"
+  ],
+  "finished_at": "2026-08-30T15:51:19+00:00"
+}
