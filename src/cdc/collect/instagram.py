@@ -123,22 +123,79 @@ class CreditLedger:
 
 
 class InstagramClient:
-    def __init__(self, api_key: str, ledger: CreditLedger | None = None,
-                 dry_run: bool = False) -> None:
+    """Scrape Creators client with multi-key failover.
+
+    Credits are per-key and non-transferable, so several keys are several
+    wallets rather than one big one. Each gets its own ledger; the client spends
+    the first key that still has credit and rolls over to the next the moment it
+    does not. Without this, exhausting a key stops collection dead until someone
+    notices and swaps a secret — and a cohort that stalls mid-window cannot be
+    resumed later, because the posts it was tracking will have aged out.
+    """
+
+    def __init__(self, api_key: str | None = None, ledger: CreditLedger | None = None,
+                 dry_run: bool = False, api_keys: list[str] | None = None) -> None:
         cfg = settings()["instagram"]
-        self.api_key = api_key
+        keys = list(api_keys) if api_keys else ([api_key] if api_key else [])
+        if not keys:
+            raise ValueError("InstagramClient needs at least one API key")
+        self.api_keys = keys
         self.base = cfg["api_base"].rstrip("/")
         self.dry_run = dry_run
-        self.ledger = ledger or CreditLedger.load(
-            int(cfg["credit_budget_total"]), api_key=api_key)
+        budget = int(cfg["credit_budget_total"])
+
+        if ledger is not None:
+            # Explicit ledger (tests) pins a single key.
+            self.ledgers = [ledger]
+        else:
+            self.ledgers = [CreditLedger.load(budget, api_key=k) for k in keys]
+        self._idx = 0
         self.session = requests.Session()
-        self.session.headers.update({
-            "x-api-key": api_key,
-            "User-Agent": "content-death-clock/0.1 (academic research)",
-        })
+        self.session.headers["User-Agent"] = "content-death-clock/0.1 (academic research)"
+
+    # --------------------------------------------------------------- key state
+    @property
+    def ledger(self) -> CreditLedger:
+        """Ledger for the key currently being spent."""
+        return self.ledgers[min(self._idx, len(self.ledgers) - 1)]
+
+    @property
+    def api_key(self) -> str:
+        return self.api_keys[min(self._idx, len(self.api_keys) - 1)]
+
+    @property
+    def total_remaining(self) -> int:
+        return sum(l.remaining for l in self.ledgers)
+
+    def _advance_key(self) -> bool:
+        """Move to the next key with credit. False if there is none."""
+        while self._idx < len(self.ledgers) - 1:
+            self._idx += 1
+            if self.ledgers[self._idx].remaining > 0:
+                log.warning("switched to Scrape Creators key #%d (%d credits)",
+                            self._idx + 1, self.ledgers[self._idx].remaining)
+                return True
+        return False
+
+    def save_ledgers(self) -> None:
+        for l in self.ledgers:
+            l.save()
+
+    def credits_summary(self) -> dict[str, Any]:
+        return {"active_key_index": self._idx,
+                "total_remaining": self.total_remaining,
+                "keys": [l.summary() for l in self.ledgers]}
 
     def _get(self, path: str, params: dict[str, Any], attempts: int = 3) -> dict:
-        self.ledger.charge(1)
+        # Charge the active key, rolling over to a spare if it is spent.
+        while True:
+            try:
+                self.ledger.charge(1)
+                break
+            except CreditsExhausted:
+                if not self._advance_key():
+                    raise
+        self.session.headers["x-api-key"] = self.api_key
         if self.dry_run:
             log.info("[dry-run] GET %s %s", path, params)
             return {}
@@ -156,7 +213,15 @@ class InstagramClient:
                 continue
 
             if r.status_code == 402:
-                raise CreditsExhausted(f"{path}: account out of credits (HTTP 402)")
+                # The account disagrees with our ledger — trust the account.
+                # Mark this key spent so we stop guessing, and try a spare.
+                log.warning("key #%d returned 402; marking it exhausted", self._idx + 1)
+                self.ledger.spent_total = self.ledger.budget_total
+                if self._advance_key():
+                    self.session.headers["x-api-key"] = self.api_key
+                    self.ledger.charge(1)
+                    continue
+                raise CreditsExhausted(f"{path}: all keys out of credits (HTTP 402)")
             if r.status_code in RETRY_STATUS:
                 if attempt == attempts:
                     r.raise_for_status()

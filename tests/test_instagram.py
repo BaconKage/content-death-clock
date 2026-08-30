@@ -115,3 +115,62 @@ def test_ledger_persists_across_runs(tmp_path):
     assert reloaded.spent_total == 4
     assert reloaded.remaining == 6
     assert reloaded.spent_this_run == 0
+
+
+# ------------------------------------------------------- multi-key failover
+def test_rolls_over_to_the_second_key_when_the_first_is_spent(tmp_path, monkeypatch):
+    """Credits are per-key, so two keys are two wallets, not one bigger one.
+    When the first is spent the client must keep going on the second — a cohort
+    that stalls mid-window cannot be resumed, because the posts it was tracking
+    will have aged out by the time anyone swaps a secret."""
+    from cdc.collect.instagram import InstagramClient
+
+    c = InstagramClient(api_keys=["KEY_ONE", "KEY_TWO"])
+    c.ledgers[0].budget_total = 2
+    c.ledgers[0].path = tmp_path / "k1.json"
+    c.ledgers[1].budget_total = 3
+    c.ledgers[1].path = tmp_path / "k2.json"
+    c.dry_run = True
+
+    for _ in range(5):
+        c._get("/v1/instagram/profile", {"handle": "x"})
+
+    assert c.ledgers[0].spent_total == 2
+    assert c.ledgers[1].spent_total == 3
+    assert c._idx == 1
+    assert c.total_remaining == 0
+
+
+def test_raises_only_when_every_key_is_spent(tmp_path):
+    from cdc.collect.instagram import InstagramClient
+
+    c = InstagramClient(api_keys=["A", "B"])
+    for i, led in enumerate(c.ledgers):
+        led.budget_total = 1
+        led.path = tmp_path / f"k{i}.json"
+    c.dry_run = True
+
+    c._get("/x", {})
+    c._get("/x", {})
+    with pytest.raises(CreditsExhausted):
+        c._get("/x", {})
+
+
+def test_each_key_gets_its_own_ledger_file(tmp_path):
+    """Key #2 must start from zero spent. Sharing a ledger would make a fresh
+    100-credit key look already exhausted and refuse to run."""
+    from cdc.collect.instagram import InstagramClient, key_id
+
+    c = InstagramClient(api_keys=["KEY_ONE", "KEY_TWO"])
+    assert c.ledgers[0].key_id == key_id("KEY_ONE")
+    assert c.ledgers[1].key_id == key_id("KEY_TWO")
+    assert c.ledgers[0].key_id != c.ledgers[1].key_id
+    assert c.ledgers[1].spent_total == 0
+
+
+def test_duplicate_keys_are_not_counted_as_extra_budget(monkeypatch):
+    """Pasting the same key into both slots must not look like 200 credits."""
+    from cdc import config as C
+    monkeypatch.setenv("SCRAPECREATORS_API_KEY", "SAME")
+    monkeypatch.setenv("SCRAPECREATORS_API_KEY_2", "SAME")
+    assert C.secrets().scrapecreators_api_keys == ("SAME",)

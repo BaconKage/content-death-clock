@@ -125,9 +125,9 @@ def run_cycle(dry_run: bool = False, force: bool = False, client=None,
         report["cohort_elapsed_hours"] = round(elapsed, 2)
 
     if client is None:
-        api_key = ("DRY-RUN-NO-KEY" if dry_run
-                   else secrets().require_scrapecreators())
-        client = InstagramClient(api_key=api_key, dry_run=dry_run)
+        keys = (["DRY-RUN-NO-KEY"] if dry_run
+                else list(secrets().require_scrapecreators_keys()))
+        client = InstagramClient(api_keys=keys, dry_run=dry_run)
 
     known = {rec.get("post_id") for rec in
              iter_bronze("posts", platform="instagram", root=bronze_root)}
@@ -137,8 +137,10 @@ def run_cycle(dry_run: bool = False, force: bool = False, client=None,
 
     # Never call more accounts than the cohort was sized for, and never more
     # than the remaining credits can pay for.
+    # Across ALL keys, not just the active one: a round may legitimately span a
+    # key rollover partway through.
     budget = min(int(cfg["max_accounts"]), int(cfg["max_calls_per_cycle"]),
-                 client.ledger.remaining)
+                 getattr(client, "total_remaining", client.ledger.remaining))
     if budget <= 0:
         report["skipped"] = "no credits remaining"
         report["credits"] = client.ledger.summary()
@@ -203,8 +205,13 @@ def run_cycle(dry_run: bool = False, force: bool = False, client=None,
         if not dry_run:
             posts_writer.commit()
             snaps_writer.commit()
-            client.ledger.save()
-        report["credits"] = client.ledger.summary()
+            if hasattr(client, "save_ledgers"):
+                client.save_ledgers()
+            else:
+                client.ledger.save()
+        report["credits"] = (client.credits_summary()
+                             if hasattr(client, "credits_summary")
+                             else client.ledger.summary())
         report["files"] = [str(p) for p in (posts_writer.committed_path,
                                             snaps_writer.committed_path) if p]
 

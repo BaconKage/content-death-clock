@@ -70,6 +70,8 @@ jobs:
         continue-on-error: true
         env:
           SCRAPECREATORS_API_KEY: ${{ secrets.SCRAPECREATORS_API_KEY }}
+          SCRAPECREATORS_API_KEY_2: ${{ secrets.SCRAPECREATORS_API_KEY_2 }}
+          SCRAPECREATORS_API_KEY_3: ${{ secrets.SCRAPECREATORS_API_KEY_3 }}
           PYTHONPATH: src
         run: python -m cdc.collect.ig_runner | tee ig-report.json
 
