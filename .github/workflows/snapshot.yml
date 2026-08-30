@@ -1,0 +1,99 @@
+name: collect
+
+# The hourly heartbeat of the whole project.
+#
+# Why CI and not a laptop: this must run unattended for three weeks. A student
+# machine sleeps, loses wifi, and reboots for updates, and a gap in the first
+# six hours of a post's life destroys exactly the early-velocity features the
+# study depends on. Those hours cannot be re-scraped — the past is gone.
+#
+# Known behaviours of GitHub's scheduler, both acceptable here:
+#   * Runs can be delayed under load (typically minutes). Harmless: we record
+#     the ACTUAL observation timestamp and compute velocity from real elapsed
+#     time, never from an assumed grid.
+#   * Scheduled workflows only run on the default branch, and are disabled after
+#     60 days of repository inactivity. We commit data hourly, so the repo is
+#     never inactive.
+
+on:
+  schedule:
+    - cron: "7 * * * *"        # :07 past the hour — off the :00 congestion peak
+  workflow_dispatch:            # manual trigger, for the Day 3 smoke test
+    inputs:
+      dry_run:
+        description: "Plan the cycle without spending quota"
+        type: boolean
+        default: false
+
+# Never let two cycles run at once: they would race on the same bronze file
+# and on the git push. Queue instead of cancelling — a queued cycle is late,
+# a cancelled one is lost.
+concurrency:
+  group: collect
+  cancel-in-progress: false
+
+permissions:
+  contents: write               # required to commit the collected data
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run collection cycle
+        id: collect
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          SCRAPECREATORS_API_KEY: ${{ secrets.SCRAPECREATORS_API_KEY }}
+          PYTHONPATH: src
+        run: |
+          python -m cdc.collect.runner ${{ inputs.dry_run && '--dry-run' || '' }} \
+            | tee cycle-report.json
+
+      - name: Commit collected data
+        if: ${{ !inputs.dry_run }}
+        run: |
+          git config user.name  "cdc-collector[bot]"
+          git config user.email "cdc-collector@users.noreply.github.com"
+          git add data/bronze
+          if git diff --cached --quiet; then
+            echo "nothing new this cycle"
+            exit 0
+          fi
+          git commit -m "data: collection cycle $(date -u +%Y-%m-%dT%H)"
+          # Another cycle may have pushed while we ran. Rebase rather than
+          # force — every cycle's data is wanted, none may be discarded.
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && \
+            git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            echo "push attempt $i failed, retrying"
+            sleep 5
+          done
+          exit 1
+
+      - name: Upload cycle report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cycle-report-${{ github.run_id }}
+          path: cycle-report.json
+          retention-days: 14
+
+      # A red X in the Actions tab is the alarm. Check it daily — a silent
+      # three-day outage is the single most expensive failure this project has.
+      - name: Fail loudly on collection errors
+        if: ${{ !inputs.dry_run }}
+        env:
+          PYTHONPATH: src
+        run: python -m cdc.collect.monitor --fail-on-gap

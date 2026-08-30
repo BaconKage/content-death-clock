@@ -1,0 +1,68 @@
+# --------------------------------------------------------------------------
+# SAMPLE FRAME. This file defines who we observe, and therefore what the RM
+# paper can claim to generalise over. Treat it as a research instrument.
+#
+# `tier` and `subscriber_count` below are PROVISIONAL. Run:
+#     python -m cdc.collect.resolve_channels
+# which verifies every handle against the API, fills in channel_id, uploads
+# playlist id and live subscriber_count, and REWRITES the tier from real data.
+# Never hand-edit a resolved value.
+#
+# Target: 60-100 channels, spread across all three tiers and >= 4 categories.
+# Current starter frame is deliberately incomplete — the micro tier especially
+# needs the team to add channels they actually follow.
+#
+# tier boundaries (assigned by the resolver):
+#   micro  <   10,000 subscribers
+#   mid       10,000 - 500,000
+#   large  >  500,000
+# --------------------------------------------------------------------------
+
+channels:
+  # ---------------- science & education ----------------
+  - {handle: "@veritasium", category: science, tier: large}
+  - {handle: "@3blue1brown", category: education, tier: large}
+  - {handle: "@Numberphile", category: education, tier: large}
+  - {handle: "@Computerphile", category: education, tier: mid}
+  - {handle: "@SmarterEveryDay", category: science, tier: large}
+  - {handle: "@kurzgesagt", category: science, tier: large}
+  - {handle: "@NileRed", category: science, tier: large}
+  - {handle: "@sciencephile", category: science, tier: mid}
+  # ---------------- technology ----------------
+  - {handle: "@mkbhd", category: technology, tier: large}
+  - {handle: "@LinusTechTips", category: technology, tier: large}
+  - {handle: "@Fireship", category: technology, tier: large}
+  - {handle: "@TechnologyConnections", category: technology, tier: large}
+  - {handle: "@ThePrimeagen", category: technology, tier: mid}
+  - {handle: "@CodeAesthetic", category: technology, tier: mid}
+  - {handle: "@b001", category: technology, tier: mid}
+  # ---------------- news & analysis ----------------
+  - {handle: "@Vox", category: news, tier: large}
+  - {handle: "@Bloomberg", category: news, tier: large}
+  - {handle: "@TLDRnewsGlobal", category: news, tier: mid}
+  - {handle: "@PolyMatter", category: news, tier: mid}
+  - {handle: "@WendoverProductions", category: news, tier: large}
+  # ---------------- entertainment ----------------
+  - {handle: "@MrBeast", category: entertainment, tier: large}
+  - {handle: "@markrober", category: entertainment, tier: large}
+  - {handle: "@TomScottGo", category: entertainment, tier: large}
+  - {handle: "@jacksepticeye", category: entertainment, tier: large}
+  - {handle: "@CarryMinati", category: entertainment, tier: large}
+  - {handle: "@AshishChanchlaniVines", category: entertainment, tier: large}
+  - {handle: "@slayypointofficial", category: entertainment, tier: large}
+  - {handle: "@tanmaybhat", category: entertainment, tier: large}
+  # ---------------- india / regional ----------------
+  - {handle: "@BeerBiceps", category: talk, tier: large}
+  - {handle: "@TechnicalGuruji", category: technology, tier: large}
+  - {handle: "@DhruvRatheeVlogs", category: news, tier: large}
+  # ---------------- TODO(team): micro tier ----------------
+  # We need ~20-30 channels under 10k subscribers or the "micro" stratum is
+  # empty and we cannot claim the sample spans creator size. Small channels are
+  # also where decay is fastest and most variable, so this stratum carries a
+  # lot of the signal. Add channels you personally follow.
+  # - handle: "@example"         category: technology   tier: micro
+
+instagram:
+  # Scrape Creators sample. Hard-capped in settings.yaml (instagram.max_posts).
+  # Public accounts only. Populate after the credit smoke test passes.
+  accounts: []

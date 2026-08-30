@@ -1,0 +1,4 @@
+# Installed ONLY for the BDA scalability benchmark.
+# On Windows PySpark needs winutils.exe + HADOOP_HOME — run the benchmark on the
+# GitHub Actions ubuntu runner or WSL2 instead. See src/cdc/bench/README.md
+pyspark==3.5.3

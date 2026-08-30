@@ -1,0 +1,24 @@
+# secrets — never commit API keys
+.env
+*.key
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# data: silver/gold are derived and rebuildable, bronze is committed by CI
+data/silver/
+data/gold/
+data/_bench/
+!data/bronze/
+
+# notebooks
+.ipynb_checkpoints/
+
+# os
+Thumbs.db
+.DS_Store

@@ -1,0 +1,70 @@
+# Content Death Clock — central configuration.
+# Everything that defines the experiment lives here, not scattered in code,
+# so the pre-registered analysis plan can reference exact values.
+
+project:
+  name: content-death-clock
+  timezone: UTC          # all timestamps stored in UTC, always
+
+collection:
+  # A post enters the panel when discovered, and is snapshotted until it exceeds
+  # max_track_hours. Discovery runs every cycle so a post is picked up within ~1h
+  # of publishing.
+  max_track_hours: 336          # 14 days
+  discovery_lookback_hours: 6   # only admit posts published this recently
+  # Target snapshot ages (hours since publish). The scheduler is hourly, so the
+  # runner snapshots a post when its age crosses one of these marks.
+  snapshot_schedule_hours: [1, 3, 6, 12, 24, 36, 48, 72, 96, 120, 168, 240, 336]
+  # Tolerance for "this snapshot satisfies that scheduled mark".
+  snapshot_tolerance_hours: 0.75
+
+youtube:
+  enabled: true
+  api_base: https://www.googleapis.com/youtube/v3
+  # videos.list accepts up to 50 ids per call in practice (docs say 50 for most
+  # resources); we batch at 50 to stay safely inside the contract.
+  ids_per_stats_call: 50
+  playlist_page_size: 50
+  daily_quota_units: 10000
+  # Guard rail: abort a cycle if it would exceed this share of the daily budget.
+  max_quota_per_cycle: 400
+
+instagram:
+  enabled: false          # flip on once Scrape Creators credits are confirmed
+  api_base: https://api.scrapecreators.com/v1
+  max_posts: 200          # hard cap — protects the free-tier credit budget
+  max_calls_per_cycle: 60
+
+storage:
+  bronze_dir: data/bronze
+  silver_dir: data/silver
+  gold_dir: data/gold
+
+labels:
+  # --- The operational definition of "attention death". ---
+  # Primary: velocity falls below `velocity_frac_of_peak` of the post's own peak
+  # velocity and STAYS below for `sustain_intervals` consecutive intervals.
+  velocity_frac_of_peak: 0.05
+  sustain_intervals: 2
+  # A post needs at least this many intervals before we will label it at all.
+  # Below this the peak velocity is too poorly estimated to normalise against.
+  min_intervals_for_label: 4
+  # Whether to exclude the first (0->1h) interval when locating peak velocity.
+  # Default false: for most posts the first hour genuinely IS the peak, and
+  # excluding it would discard real signal. Flip to true only if EDA shows a
+  # platform-side counter artefact, and report the change in the paper.
+  peak_skip_first_interval: false
+  # Robustness label: time to reach this fraction of fitted asymptote A.
+  saturation_target: 0.90
+  # Primary engagement metric for velocity. views is monotonic and available on
+  # both platforms; likes/comments are secondary and can be disabled by creators.
+  primary_metric: views
+
+modelling:
+  feature_cutoff_hours: 6      # LEAKAGE GUARD: no feature may use data after this
+  cohort_a_freeze_utc: null    # set on Day 18, e.g. "2026-09-16T00:00:00Z"
+  cv:
+    strategy: group_kfold      # grouped by creator — never random k-fold
+    n_splits: 5
+  bootstrap_iterations: 2000
+  random_seed: 20260830

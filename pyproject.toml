@@ -1,0 +1,9 @@
+[project]
+name = "content-death-clock"
+version = "0.1.0"
+description = "Predicting when social media content stops getting attention"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
