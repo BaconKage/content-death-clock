@@ -28,8 +28,12 @@ from cdc.config import settings
 
 log = logging.getLogger(__name__)
 
-# Documented base cost of a `list` call. search.list is 100 and we never use it.
+# Documented base cost of a `list` call.
 UNIT_COST_LIST = 1
+# search.list is the one expensive endpoint: 100 units per call. It is never
+# used in the hourly collection loop. It is used ONCE, offline, to build the
+# sampling frame, where spending 2,000 units of a 10,000/day budget is fine.
+UNIT_COST_SEARCH = 100
 RETRY_STATUS = {429, 500, 502, 503, 504}
 
 
@@ -179,6 +183,72 @@ class YouTubeClient:
             page_token = data.get("nextPageToken")
             if stop or not page_token:
                 break
+        return out
+
+    # ----------------------------------------------------------- frame building
+    def search_recent_videos(self, query: str, published_after: datetime,
+                             region_code: str | None = None,
+                             max_results: int = 50) -> list[dict[str, Any]]:
+        """Recent videos matching a query. 100 units — frame building only.
+
+        We search *videos ordered by date* rather than channels, for two reasons.
+        Channel search ranks by relevance, which is a proxy for popularity, so it
+        essentially cannot surface a channel under 10k subscribers — exactly the
+        stratum we need. Recent-video search surfaces creators of every size, and
+        it inherently selects for channels that upload, which is the other thing
+        we require: a channel that posts monthly contributes nothing to a
+        three-week collection window.
+        """
+        params = {
+            "part": "snippet", "type": "video", "order": "date", "q": query,
+            "maxResults": min(max_results, 50),
+            "publishedAfter": published_after.astimezone(timezone.utc)
+                                             .strftime("%Y-%m-%dT%H:%M:%SZ"),
+        }
+        if region_code:
+            params["regionCode"] = region_code
+        self.meter.charge("search", UNIT_COST_SEARCH)
+        if self.dry_run:
+            log.info("[dry-run] SEARCH %s", query)
+            return []
+        # _get charges 1 unit of its own, so refund it: search is billed above.
+        self.meter.spent -= UNIT_COST_LIST
+        self.meter.calls -= 1
+        data = self._get("search", params)
+        out = []
+        for it in data.get("items") or []:
+            sn = it.get("snippet", {})
+            if sn.get("channelId"):
+                out.append({"channel_id": sn["channelId"],
+                            "channel_title": sn.get("channelTitle"),
+                            "video_published_at": sn.get("publishedAt")})
+        return out
+
+    def channels_batch(self, channel_ids: Iterable[str]) -> list[dict[str, Any]]:
+        """Resolve up to 50 channel ids per 1-unit call.
+
+        Batching matters: resolving 250 candidates one at a time costs 250 units,
+        batched it costs 5.
+        """
+        ids = list(dict.fromkeys(channel_ids))
+        out = []
+        for batch in _chunks(ids, 50):
+            data = self._get("channels", {
+                "part": "snippet,statistics,contentDetails",
+                "id": ",".join(batch),
+            })
+            for it in data.get("items") or []:
+                stats = it.get("statistics", {})
+                out.append({
+                    "channel_id": it["id"],
+                    "title": it["snippet"]["title"],
+                    "handle": it["snippet"].get("customUrl"),
+                    "uploads_playlist": it["contentDetails"]["relatedPlaylists"]["uploads"],
+                    "subscriber_count": (None if stats.get("hiddenSubscriberCount")
+                                         else _int(stats.get("subscriberCount"))),
+                    "video_count": _int(stats.get("videoCount")),
+                    "country": it["snippet"].get("country"),
+                })
         return out
 
     # ---------------------------------------------------------------- statistics

@@ -1,29 +1,30 @@
 {
   "cycle_id": "2026-08-30T17",
-  "started_at": "2026-08-30T17:10:22+00:00",
+  "started_at": "2026-08-30T17:22:19+00:00",
   "dry_run": false,
   "panel_before": {
     "posts_total": 4,
     "posts_active": 4,
-    "posts_due": 2,
-    "snapshots_total": 5,
-    "snapshots_per_post_mean": 1.25
+    "posts_due": 0,
+    "snapshots_total": 7,
+    "snapshots_per_post_mean": 1.75
   },
-  "discovered": 0,
-  "snapshotted": 2,
+  "discovered": 120,
+  "snapshotted": 0,
   "errors": [],
-  "due_count": 2,
+  "due_count": 0,
   "quota": {
-    "units_spent": 34,
-    "calls": 34,
+    "units_spent": 67,
+    "calls": 67,
     "budget": 400,
     "by_endpoint": {
-      "playlistItems": 33,
-      "videos": 1
+      "playlistItems": 64,
+      "videos": 3
     }
   },
   "files": [
-    "/home/runner/work/content-death-clock/content-death-clock/data/bronze/platform=youtube/dt=2026-08-30/snapshots-2026-08-30T17.jsonl"
+    "C:\\RVU\\7th Sem\\RM BDA Project\\data\\bronze\\platform=youtube\\dt=2026-08-30\\posts-2026-08-30T17.jsonl",
+    "C:\\RVU\\7th Sem\\RM BDA Project\\data\\bronze\\platform=youtube\\dt=2026-08-30\\snapshots-2026-08-30T17.jsonl"
   ],
-  "finished_at": "2026-08-30T17:10:31+00:00"
+  "finished_at": "2026-08-30T17:22:45+00:00"
 }

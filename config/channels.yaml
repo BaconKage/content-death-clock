@@ -72,6 +72,42 @@ channels:
   # lot of the signal. Add channels you personally follow.
   # - handle: "@example"         category: technology   tier: micro
 
+  # ---------------- discovered via search (see config/channel_candidates.yaml) ----------------
+  # Selected by: recent-video search on recorded queries, then filtered to
+  # micro/mid subscriber tiers AND >= 1 upload/week. Frequency matters more
+  # than size here: a channel that posts monthly contributes nothing to a
+  # three-week window regardless of how well it fits the stratum.
+  - {handle: "@fractalfrontiermaths", category: education, tier: micro}   # 1240 subs, 4.2/wk
+  - {handle: "@abbaslifestylevlogs", category: entertainment, tier: micro}   # 1330 subs, 6.3/wk
+  - {handle: "@lambolivegaming", category: gaming, tier: micro}   # 1460 subs, 1.87/wk
+  - {handle: "@susovansaha5599", category: education, tier: micro}   # 1620 subs, 1.87/wk
+  - {handle: "@bidisha.shaymali", category: entertainment, tier: micro}   # 1910 subs, 2.1/wk
+  - {handle: "@easyclickfix", category: technology, tier: micro}   # 2130 subs, 11.67/wk
+  - {handle: "@novadocsstudio", category: education, tier: micro}   # 2520 subs, 3.27/wk
+  - {handle: "@swatisvibehub", category: entertainment, tier: micro}   # 2880 subs, 5.6/wk
+  - {handle: "@aromateluguflavours", category: entertainment, tier: micro}   # 3360 subs, 6.07/wk
+  - {handle: "@kunchokandkyab", category: entertainment, tier: micro}   # 3670 subs, 1.17/wk
+  - {handle: "@79sandeepdewaana", category: entertainment, tier: micro}   # 4320 subs, 5.6/wk
+  - {handle: "@sanjuramakrishna", category: entertainment, tier: micro}   # 4460 subs, 11.67/wk
+  - {handle: "@cassielayne911", category: gaming, tier: micro}   # 5640 subs, 6.53/wk
+  - {handle: "@fizgigs", category: gaming, tier: micro}   # 6030 subs, 11.67/wk
+  - {handle: "@sarrthiiasoptional", category: education, tier: micro}   # 7250 subs, 11.67/wk
+  - {handle: "@techmayur5", category: technology, tier: mid}   # 10800 subs, 11.2/wk
+  - {handle: "@upscsoch-4u", category: education, tier: mid}   # 12100 subs, 11.67/wk
+  - {handle: "@goldenchopstickkitchen", category: entertainment, tier: mid}   # 13700 subs, 11.67/wk
+  - {handle: "@missionias..", category: education, tier: mid}   # 14800 subs, 11.67/wk
+  - {handle: "@gyantech-02", category: technology, tier: mid}   # 17900 subs, 6.53/wk
+  - {handle: "@hungryboy007", category: entertainment, tier: mid}   # 21700 subs, 6.07/wk
+  - {handle: "@stonetechx607", category: technology, tier: mid}   # 22700 subs, 5.6/wk
+  - {handle: "@rknexplustwokeam", category: science, tier: mid}   # 30800 subs, 11.67/wk
+  - {handle: "@thehiddenplace4u_1", category: education, tier: mid}   # 40700 subs, 4.43/wk
+  - {handle: "@ujjwalsatrangi", category: entertainment, tier: mid}   # 64100 subs, 4.2/wk
+  - {handle: "@thefastschoolfastscienceac9236", category: science, tier: mid}   # 98900 subs, 8.4/wk
+  - {handle: "@lfpgaming", category: gaming, tier: mid}   # 110000 subs, 3.27/wk
+  - {handle: "@margdarshanias", category: education, tier: mid}   # 133000 subs, 11.67/wk
+  - {handle: "@levelupias", category: education, tier: mid}   # 139000 subs, 11.67/wk
+  - {handle: "@meenukitchendelhi", category: entertainment, tier: mid}   # 373000 subs, 1.63/wk
+
 instagram:
   # Scrape Creators cohort. Public accounts only.
   #

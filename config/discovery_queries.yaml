@@ -1,0 +1,45 @@
+# Queries used to build the sampling frame.
+#
+# COMMITTED DELIBERATELY. The frame is not a random sample of YouTube - it is
+# the set of channels reachable by these exact queries. That is a weaker claim
+# than random sampling, but a far stronger and more reproducible one than
+# "channels the authors happened to follow", because anyone can re-run this
+# list. The paper's sampling section cites this file.
+#
+# Queries are chosen to be SPECIFIC rather than broad. A broad query ("tech
+# review") returns the same handful of huge channels every time; a long-tail
+# query surfaces smaller creators, which is the stratum the frame is missing.
+
+search_lookback_days: 7      # only videos published this recently
+
+queries:
+  # --- technology ---
+  - {q: "homelab self hosted setup tutorial",    category: technology}
+  - {q: "mechanical keyboard build guide",       category: technology}
+  - {q: "rust programming tutorial beginner",    category: technology}
+  - {q: "linux ricing customization",            category: technology}
+  - {q: "raspberry pi project build",            category: technology}
+
+  # --- science & education ---
+  - {q: "chemistry experiment explained",        category: science}
+  - {q: "astrophotography beginner guide",       category: science}
+  - {q: "calculus problem walkthrough",          category: education}
+  - {q: "history documentary short explained",   category: education}
+
+  # --- gaming ---
+  - {q: "indie game review first impressions",   category: gaming}
+  - {q: "speedrun world record explained",       category: gaming}
+
+  # --- automotive ---
+  - {q: "car restoration project episode",       category: automotive}
+
+  # --- entertainment / vlog ---
+  - {q: "day in the life student vlog",          category: entertainment}
+  - {q: "home cooking recipe kitchen",           category: entertainment}
+
+  # --- India / regional. RV University is in Bangalore; regional creators
+  # --- widen the frame beyond an anglophone-only sample.
+  - {q: "bangalore vlog",                        category: entertainment, region_code: IN}
+  - {q: "hindi tech review smartphone",          category: technology,    region_code: IN}
+  - {q: "indian street food review",             category: entertainment, region_code: IN}
+  - {q: "upsc preparation strategy",             category: education,     region_code: IN}

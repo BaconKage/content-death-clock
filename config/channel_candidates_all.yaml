@@ -1,0 +1,5212 @@
+resolved_at: '2026-08-30T17:19:04.591137+00:00'
+channels:
+- channel_id: UC99pl7hrQpJws41uslHl5hA
+  title: IoTGyaan
+  handle: '@iotgyaan'
+  uploads_playlist: UU99pl7hrQpJws41uslHl5hA
+  subscriber_count: 931
+  video_count: 49
+  country: IN
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UC_GCvo_dC3joZjL0TlD8xZA
+  title: DIY GUY Chris
+  handle: '@diyguychris'
+  uploads_playlist: UU_GCvo_dC3joZjL0TlD8xZA
+  subscriber_count: 69800
+  video_count: 155
+  country: US
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: mid
+- channel_id: UCNgzbFz41quHhOVDrCYreQA
+  title: Oh-Mah-C
+  handle: '@oh-mah-c'
+  uploads_playlist: UUNgzbFz41quHhOVDrCYreQA
+  subscriber_count: 12
+  video_count: 41
+  country: null
+  category: technology
+  found_by_query: rust programming tutorial beginner
+  tier: micro
+- channel_id: UCQJ6TLmSI26TD4FSqavgZ6A
+  title: Dad, the engineer
+  handle: '@dad-the-engineer'
+  uploads_playlist: UUQJ6TLmSI26TD4FSqavgZ6A
+  subscriber_count: 103000
+  video_count: 92
+  country: US
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: mid
+- channel_id: UCa9nfRFxLKzVaqlJlKNLshg
+  title: AJ's Home Lab!
+  handle: '@homelabnetworks'
+  uploads_playlist: UUa9nfRFxLKzVaqlJlKNLshg
+  subscriber_count: 4650
+  video_count: 1912
+  country: AU
+  category: technology
+  found_by_query: homelab self hosted setup tutorial
+  tier: micro
+- channel_id: UCLKuEqu5MUn7yCrfuXCCfLw
+  title: All technology tips
+  handle: '@alltechnologytips'
+  uploads_playlist: UULKuEqu5MUn7yCrfuXCCfLw
+  subscriber_count: 5270
+  video_count: 1186
+  country: PK
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UC9vmVl9jOnGozglWity8vPw
+  title: LookSale
+  handle: '@looksale'
+  uploads_playlist: UU9vmVl9jOnGozglWity8vPw
+  subscriber_count: 27
+  video_count: 2512
+  country: null
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCu7k1q-pbmZqMtQ7doV_3xA
+  title: 3DVideo19
+  handle: '@3dvideo19'
+  uploads_playlist: UUu7k1q-pbmZqMtQ7doV_3xA
+  subscriber_count: 29
+  video_count: 21
+  country: IN
+  category: technology
+  found_by_query: mechanical keyboard build guide
+  tier: micro
+- channel_id: UClBLO9DS9xTCCI0GaacNb1w
+  title: homelablog
+  handle: '@homelablog'
+  uploads_playlist: UUlBLO9DS9xTCCI0GaacNb1w
+  subscriber_count: 6
+  video_count: 4
+  country: PT
+  category: technology
+  found_by_query: homelab self hosted setup tutorial
+  tier: micro
+- channel_id: UCYv7eLvJ36Ut95g_GSVqADQ
+  title: The Thinking Terminal
+  handle: '@thinking_terminal'
+  uploads_playlist: UUYv7eLvJ36Ut95g_GSVqADQ
+  subscriber_count: 311
+  video_count: 27
+  country: IN
+  category: technology
+  found_by_query: rust programming tutorial beginner
+  tier: micro
+- channel_id: UCr_4Zq4oSU4Y33evCAMNJDw
+  title: Russell Eveleigh
+  handle: '@russelleveleigh'
+  uploads_playlist: UUr_4Zq4oSU4Y33evCAMNJDw
+  subscriber_count: 661
+  video_count: 38
+  country: null
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCO1Jx3lrxCNLQaTfmSnZjag
+  title: Excellent Engineering
+  handle: '@excellentengineer0'
+  uploads_playlist: UUO1Jx3lrxCNLQaTfmSnZjag
+  subscriber_count: 113
+  video_count: 60
+  country: null
+  category: technology
+  found_by_query: mechanical keyboard build guide
+  tier: micro
+- channel_id: UCy5_TQmTD64_MgzUcARLC0A
+  title: The Quantum Maniac
+  handle: '@thequantummaniac-418'
+  uploads_playlist: UUy5_TQmTD64_MgzUcARLC0A
+  subscriber_count: 135
+  video_count: 36
+  country: IN
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCnAdXkr17iQS8YcYl0LhPdw
+  title: Cave of Programming
+  handle: '@caveofprogramming'
+  uploads_playlist: UUnAdXkr17iQS8YcYl0LhPdw
+  subscriber_count: 117000
+  video_count: 605
+  country: null
+  category: technology
+  found_by_query: rust programming tutorial beginner
+  tier: mid
+- channel_id: UCDBXRAiGA1LEMVI6FilmaKw
+  title: Goodwins Place
+  handle: '@goodwinsplace'
+  uploads_playlist: UUDBXRAiGA1LEMVI6FilmaKw
+  subscriber_count: 3490
+  video_count: 178
+  country: GB
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCVfnVtztHqFfDO44Vs27FiQ
+  title: Finley
+  handle: '@finleyardov'
+  uploads_playlist: UUVfnVtztHqFfDO44Vs27FiQ
+  subscriber_count: 4840
+  video_count: 92
+  country: CA
+  category: technology
+  found_by_query: linux ricing customization
+  tier: micro
+- channel_id: UC_zEk8MVGFN6U_ZMInTd4Sg
+  title: InputZen
+  handle: '@inputzen'
+  uploads_playlist: UU_zEk8MVGFN6U_ZMInTd4Sg
+  subscriber_count: 67
+  video_count: 31
+  country: US
+  category: technology
+  found_by_query: mechanical keyboard build guide
+  tier: micro
+- channel_id: UCYGAhWFcMazto1J0rGLZ0sw
+  title: Kip Hakes
+  handle: '@kiphakes'
+  uploads_playlist: UUYGAhWFcMazto1J0rGLZ0sw
+  subscriber_count: 33200
+  video_count: 1033
+  country: GB
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: mid
+- channel_id: UCN32ARBuxS4OyMtLJDJqNig
+  title: AkashWave RF
+  handle: '@akashwaverf'
+  uploads_playlist: UUN32ARBuxS4OyMtLJDJqNig
+  subscriber_count: 2000
+  video_count: 68
+  country: null
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCUIB8Gb99hXO2O6qW7UzcEA
+  title: Broken Builds
+  handle: '@brok3nbuilds'
+  uploads_playlist: UUUIB8Gb99hXO2O6qW7UzcEA
+  subscriber_count: 10
+  video_count: 25
+  country: null
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UChI8PnDmmDRdXzhcGfwsx2Q
+  title: Sonsie Face
+  handle: '@sonsieface'
+  uploads_playlist: UUhI8PnDmmDRdXzhcGfwsx2Q
+  subscriber_count: 990
+  video_count: 357
+  country: US
+  category: technology
+  found_by_query: linux ricing customization
+  tier: micro
+- channel_id: UCyKVCEq5gET5JMX-FRCtPQA
+  title: IronoNSC Tech
+  handle: '@nscx1702'
+  uploads_playlist: UUyKVCEq5gET5JMX-FRCtPQA
+  subscriber_count: 1380
+  video_count: 5
+  country: TH
+  category: technology
+  found_by_query: linux ricing customization
+  tier: micro
+- channel_id: UC0r6ZVVy03g0hSnmZjS8VqQ
+  title: Rahul_Jadhav_Project
+  handle: '@rahul_jadhav_project'
+  uploads_playlist: UU0r6ZVVy03g0hSnmZjS8VqQ
+  subscriber_count: 9090
+  video_count: 185
+  country: IN
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCmMKlSzgBDElnqL6xib6vMg
+  title: Xback
+  handle: '@xbackyt'
+  uploads_playlist: UUmMKlSzgBDElnqL6xib6vMg
+  subscriber_count: 40
+  video_count: 22
+  country: DE
+  category: technology
+  found_by_query: homelab self hosted setup tutorial
+  tier: micro
+- channel_id: UCbGmrD27gU_ugkF6DPSANOA
+  title: EmbeddedCircuitLab
+  handle: '@embeddedcircuitlab'
+  uploads_playlist: UUbGmrD27gU_ugkF6DPSANOA
+  subscriber_count: 6
+  video_count: 26
+  country: null
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCrT9PKkFNZGZzkPDs4U7bIw
+  title: Mr. ROBO
+  handle: '@mr.robo10'
+  uploads_playlist: UUrT9PKkFNZGZzkPDs4U7bIw
+  subscriber_count: 15
+  video_count: 4
+  country: null
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCfyr_w_Lju4veNJlb4TWMvw
+  title: Sundeep Charan Ramkumar
+  handle: '@sundeepcharanramkumar'
+  uploads_playlist: UUfyr_w_Lju4veNJlb4TWMvw
+  subscriber_count: 228
+  video_count: 48
+  country: null
+  category: technology
+  found_by_query: rust programming tutorial beginner
+  tier: micro
+- channel_id: UChckuLxX-lp4NujIk0NQ0zw
+  title: Comparee
+  handle: '@compareeai'
+  uploads_playlist: UUhckuLxX-lp4NujIk0NQ0zw
+  subscriber_count: 116
+  video_count: 242
+  country: US
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCqvp5oza9a14bunxeUXmKlA
+  title: ManiakApps
+  handle: '@maniakapps'
+  uploads_playlist: UUqvp5oza9a14bunxeUXmKlA
+  subscriber_count: 417
+  video_count: 34
+  country: MX
+  category: technology
+  found_by_query: rust programming tutorial beginner
+  tier: micro
+- channel_id: UCzU6EscpDZyihz2X7CwhT2A
+  title: Jason Winfield
+  handle: '@jwnz'
+  uploads_playlist: UUzU6EscpDZyihz2X7CwhT2A
+  subscriber_count: 8860
+  video_count: 305
+  country: NZ
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCJPSVbPIOjmbYQXe7qcL6Nw
+  title: RainDust
+  handle: '@raindusttech'
+  uploads_playlist: UUJPSVbPIOjmbYQXe7qcL6Nw
+  subscriber_count: 172
+  video_count: 75
+  country: null
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCwnATYTE5bT97ksXaYxBoig
+  title: Randroid's Dojo
+  handle: '@randroidsdojo'
+  uploads_playlist: UUwnATYTE5bT97ksXaYxBoig
+  subscriber_count: 404
+  video_count: 229
+  country: US
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UC3dNP5cegBeeIAVGxkWv84g
+  title: AI Factory
+  handle: '@11_chamoli'
+  uploads_playlist: UU3dNP5cegBeeIAVGxkWv84g
+  subscriber_count: 34
+  video_count: 100
+  country: IN
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCgqAL_FQxmzv1nwrAbEBZXw
+  title: CORTECH
+  handle: '@cortech01'
+  uploads_playlist: UUgqAL_FQxmzv1nwrAbEBZXw
+  subscriber_count: 259
+  video_count: 372
+  country: null
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCsnOU6zBwgRsK4il7TcUrKg
+  title: 'Sasha Voskolovych '
+  handle: '@vosikk'
+  uploads_playlist: UUsnOU6zBwgRsK4il7TcUrKg
+  subscriber_count: 0
+  video_count: 4
+  country: null
+  category: technology
+  found_by_query: homelab self hosted setup tutorial
+  tier: micro
+- channel_id: UCLXrqkRXo888AgKNggUEgpQ
+  title: Easy Click Fix
+  handle: '@easyclickfix'
+  uploads_playlist: UULXrqkRXo888AgKNggUEgpQ
+  subscriber_count: 2130
+  video_count: 3783
+  country: US
+  category: technology
+  found_by_query: homelab self hosted setup tutorial
+  tier: micro
+- channel_id: UCgJG5tStiaS6KrtjRxOA70w
+  title: The Pi Stack Lab
+  handle: '@thepistacklab'
+  uploads_playlist: UUgJG5tStiaS6KrtjRxOA70w
+  subscriber_count: 8
+  video_count: 8
+  country: US
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UC8ijTmIm1qG2LilGAwBUPAQ
+  title: Voice Of Tech
+  handle: '@voiceoftechyt'
+  uploads_playlist: UU8ijTmIm1qG2LilGAwBUPAQ
+  subscriber_count: 39
+  video_count: 91
+  country: IN
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCL0ZCvw8-IB6TODvolu0Paw
+  title: Jackson Mayer
+  handle: '@jacksonmayer1'
+  uploads_playlist: UUL0ZCvw8-IB6TODvolu0Paw
+  subscriber_count: 0
+  video_count: 1
+  country: null
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCMCtWkYPfLGQUwJQjusEi8A
+  title: Jeff RRCreativ
+  handle: '@jeffrrcreativ'
+  uploads_playlist: UUMCtWkYPfLGQUwJQjusEi8A
+  subscriber_count: 4
+  video_count: 2
+  country: null
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCbyp9E-m4vYTBRJ2lQCfnhQ
+  title: Elite Tech
+  handle: '@elitetechlabs_44'
+  uploads_playlist: UUbyp9E-m4vYTBRJ2lQCfnhQ
+  subscriber_count: 49
+  video_count: 72
+  country: US
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCrQUVWeH-nvj6eds5qXvHnQ
+  title: Jdaie Lin
+  handle: '@pisugarstudio'
+  uploads_playlist: UUrQUVWeH-nvj6eds5qXvHnQ
+  subscriber_count: 17600
+  video_count: 34
+  country: HK
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: mid
+- channel_id: UCwIaB88jC656vmcu8NANieQ
+  title: Loadout Electronics
+  handle: '@loadout_electronics'
+  uploads_playlist: UUwIaB88jC656vmcu8NANieQ
+  subscriber_count: 44
+  video_count: 400
+  country: UA
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UC76L_3fNzCDqXkfD3dlf9Aw
+  title: 'Mayukh Builds '
+  handle: '@mayukhbuilds'
+  uploads_playlist: UU76L_3fNzCDqXkfD3dlf9Aw
+  subscriber_count: 3000
+  video_count: 25
+  country: CA
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCrIaRl7JxD3zfrV-SostmCA
+  title: amaramamelectronics
+  handle: '@amaramamelectronics'
+  uploads_playlist: UUrIaRl7JxD3zfrV-SostmCA
+  subscriber_count: 111
+  video_count: 88
+  country: null
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCqaIVu0mz7iHppKkKeemgUg
+  title: _IanOfEarth
+  handle: '@_ianofearth'
+  uploads_playlist: UUqaIVu0mz7iHppKkKeemgUg
+  subscriber_count: 1350
+  video_count: 114
+  country: US
+  category: technology
+  found_by_query: mechanical keyboard build guide
+  tier: micro
+- channel_id: UCXwhq6g9twsmn2P7KPLzsew
+  title: MakerIO
+  handle: '@maker_io'
+  uploads_playlist: UUXwhq6g9twsmn2P7KPLzsew
+  subscriber_count: 386
+  video_count: 51
+  country: TR
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UC8vFvfodasWA6GAlo1pp_3w
+  title: noisytech13
+  handle: '@noisytech13'
+  uploads_playlist: UU8vFvfodasWA6GAlo1pp_3w
+  subscriber_count: 2670
+  video_count: 83
+  country: IN
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UClnXlFtsQ_zMdu7XgboUSMw
+  title: TechSimpld
+  handle: '@techsimpld'
+  uploads_playlist: UUlnXlFtsQ_zMdu7XgboUSMw
+  subscriber_count: 114
+  video_count: 14
+  country: US
+  category: technology
+  found_by_query: homelab self hosted setup tutorial
+  tier: micro
+- channel_id: UCl-_yxY7WwmmqgsBblF11nw
+  title: Perpetua_TechEngineering
+  handle: '@perpetua_techengineering'
+  uploads_playlist: UUl-_yxY7WwmmqgsBblF11nw
+  subscriber_count: 12
+  video_count: 6
+  country: null
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: micro
+- channel_id: UCu-1RIM4MUFo75FlnOdrPKA
+  title: SITM Department of Pharmacy
+  handle: '@sitmdppractical'
+  uploads_playlist: UUu-1RIM4MUFo75FlnOdrPKA
+  subscriber_count: 464
+  video_count: 230
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCseN-e6dPRWFBCe8e51HOWA
+  title: 'FunLab: Science at Home'
+  handle: '@funlabscienceathome'
+  uploads_playlist: UUseN-e6dPRWFBCe8e51HOWA
+  subscriber_count: 273
+  video_count: 569
+  country: US
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCu_nXSwjhooGkPkQ7LxglRA
+  title: Hack Lab Telugu
+  handle: '@mrhacker-g4k'
+  uploads_playlist: UUu_nXSwjhooGkPkQ7LxglRA
+  subscriber_count: 130
+  video_count: 52
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCsBFI5gXV7XZ0YzdRMorAzQ
+  title: Education with ai
+  handle: '@educationwithairk'
+  uploads_playlist: UUsBFI5gXV7XZ0YzdRMorAzQ
+  subscriber_count: 28
+  video_count: 22
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UC5PPXnS369RKiN9Z8UPhvQg
+  title: Rikkibella Science
+  handle: '@rikkibellascience'
+  uploads_playlist: UU5PPXnS369RKiN9Z8UPhvQg
+  subscriber_count: 2
+  video_count: 2
+  country: NG
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCB2NHPIShiD9yIZ72XENt4A
+  title: IIUM Astronomy Club
+  handle: '@iiumastronomyclub'
+  uploads_playlist: UUB2NHPIShiD9yIZ72XENt4A
+  subscriber_count: 39
+  video_count: 5
+  country: null
+  category: science
+  found_by_query: astrophotography beginner guide
+  tier: micro
+- channel_id: UC5hEGPlNngzW9SrRER2JUKg
+  title: Chemistron
+  handle: '@chemistron'
+  uploads_playlist: UU5hEGPlNngzW9SrRER2JUKg
+  subscriber_count: 463
+  video_count: 72
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCXlO_j1YPaeDlg417VU65Vg
+  title: successstudy@
+  handle: '@successstudy-1'
+  uploads_playlist: UUXlO_j1YPaeDlg417VU65Vg
+  subscriber_count: 167
+  video_count: 216
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCL1AYvTpa_BkeS7gYIqID8A
+  title: 'The natural Physics concepts '
+  handle: '@thenaturalphysicsconcepts'
+  uploads_playlist: UUL1AYvTpa_BkeS7gYIqID8A
+  subscriber_count: 54
+  video_count: 40
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCj1BqylWzeqHof7YmMlBNeA
+  title: ThinkWithZaheen
+  handle: '@think_with_zaheen'
+  uploads_playlist: UUj1BqylWzeqHof7YmMlBNeA
+  subscriber_count: 36
+  video_count: 55
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UC7DwPaqJSjWI3f81lUSOrbw
+  title: JazbiChemX Studio
+  handle: '@inamjazbi_studio'
+  uploads_playlist: UU7DwPaqJSjWI3f81lUSOrbw
+  subscriber_count: 22400
+  video_count: 1400
+  country: PK
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: mid
+- channel_id: UC2tHNC21X_xLlIzuIKFpfcA
+  title: A.K. TUTORIAL JAGATSINGHPUR , ODISHA
+  handle: '@aktutorial.17'
+  uploads_playlist: UU2tHNC21X_xLlIzuIKFpfcA
+  subscriber_count: 284
+  video_count: 317
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCvi0TEl3cb_lh9H5rNjR7Sg
+  title: AIITA DIGITAL CLASS
+  handle: '@aiitadigitalclass'
+  uploads_playlist: UUvi0TEl3cb_lh9H5rNjR7Sg
+  subscriber_count: 3780
+  video_count: 806
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCxJvVvuCLWC1OxMPEqgBPxw
+  title: SCIENCE WITH JHANSI
+  handle: '@sciencewithjhansi'
+  uploads_playlist: UUxJvVvuCLWC1OxMPEqgBPxw
+  subscriber_count: 62
+  video_count: 33
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCfQBGnv0GhLfQtBjKuTdVWQ
+  title: Sciencewifi
+  handle: '@sciencewifi'
+  uploads_playlist: UUfQBGnv0GhLfQtBjKuTdVWQ
+  subscriber_count: 67
+  video_count: 24
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCZqijHoHkclEFglQafQ-g9w
+  title: 'Riya Tyagi - Your Science Educator '
+  handle: '@riyatyagiscienceeducator'
+  uploads_playlist: UUZqijHoHkclEFglQafQ-g9w
+  subscriber_count: 30
+  video_count: 66
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UC0FYNYswOfS33Ow2PTFdvEA
+  title: StoryVerse AI
+  handle: '@storyverseai-117'
+  uploads_playlist: UU0FYNYswOfS33Ow2PTFdvEA
+  subscriber_count: 20
+  video_count: 60
+  country: GB
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCv-60FTB6ZdCCwWGMwRZgig
+  title: Muhammad AIWala
+  handle: '@muhammadaiwala-b2w'
+  uploads_playlist: UUv-60FTB6ZdCCwWGMwRZgig
+  subscriber_count: 2
+  video_count: 6
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCIwawvHHV0zPqwq1pezS1Hg
+  title: STEM Snap
+  handle: '@aishwaryaagrawal5689'
+  uploads_playlist: UUIwawvHHV0zPqwq1pezS1Hg
+  subscriber_count: 454
+  video_count: 634
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCWoJCivJ2vDxKpMGVddLlyw
+  title: 'Dr. Chimi''s Lab '
+  handle: '@drchimislab'
+  uploads_playlist: UUWoJCivJ2vDxKpMGVddLlyw
+  subscriber_count: 10
+  video_count: 2
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCKUqlsu2JWY29T6dv9Oe0og
+  title: CHEMISTRY BY DR MADHURESH
+  handle: '@chemistrybydrmadhuresh'
+  uploads_playlist: UUKUqlsu2JWY29T6dv9Oe0og
+  subscriber_count: 440
+  video_count: 61
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCoBkufPzYhnopggqZj5cc6A
+  title: Noorulamin Alchemist
+  handle: '@noorulaminalchemist'
+  uploads_playlist: UUoBkufPzYhnopggqZj5cc6A
+  subscriber_count: 4410
+  video_count: 148
+  country: PK
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCmtrKvMI7dZ8w3f9jZMJBOQ
+  title: Last Minute Teacher
+  handle: '@lastminuteteacherofficial'
+  uploads_playlist: UUmtrKvMI7dZ8w3f9jZMJBOQ
+  subscriber_count: 425
+  video_count: 83
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UC7B9-NLTyDeVImrHzTpmcUg
+  title: SGKmistry Lectures
+  handle: '@sgkmistrylectures1'
+  uploads_playlist: UU7B9-NLTyDeVImrHzTpmcUg
+  subscriber_count: 4410
+  video_count: 172
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UC8N_Dtcp3Dx_xPKiVnRWQdQ
+  title: NEXTGEN
+  handle: '@conceptwithmadanjeetsir'
+  uploads_playlist: UU8N_Dtcp3Dx_xPKiVnRWQdQ
+  subscriber_count: 124
+  video_count: 35
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCyqcvkhowYSFfSg7zPXN8qQ
+  title: Dr. Hashmi
+  handle: '@dr.hashmi999'
+  uploads_playlist: UUyqcvkhowYSFfSg7zPXN8qQ
+  subscriber_count: 71
+  video_count: 59
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCzml9bXoEM0itbcE96CB03w
+  title: DroneBot Workshop
+  handle: '@dronebotworkshop'
+  uploads_playlist: UUzml9bXoEM0itbcE96CB03w
+  subscriber_count: 682000
+  video_count: 189
+  country: CA
+  category: technology
+  found_by_query: raspberry pi project build
+  tier: large
+- channel_id: UCsktVabcZiGg-OdVWMPlJvQ
+  title: Scrollish
+  handle: '@scrollish'
+  uploads_playlist: UUsktVabcZiGg-OdVWMPlJvQ
+  subscriber_count: 3
+  video_count: 2
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCr4-0rqNoa6X2fYRCEIdhDg
+  title: 'PixelRush ⭐ '
+  handle: '@pixelrush-t2p'
+  uploads_playlist: UUr4-0rqNoa6X2fYRCEIdhDg
+  subscriber_count: 116
+  video_count: 34
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCfT5aQjzJIIVu2YBttu5deA
+  title: Kumar’s Science & GS Centre
+  handle: '@kumarssciencegscentre'
+  uploads_playlist: UUfT5aQjzJIIVu2YBttu5deA
+  subscriber_count: 42
+  video_count: 10
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCkZRqqnae0Z4LRNwgXWfGmQ
+  title: 'It''sscihub '
+  handle: '@itsscihub'
+  uploads_playlist: UUkZRqqnae0Z4LRNwgXWfGmQ
+  subscriber_count: 16
+  video_count: 103
+  country: PK
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCdZ0ojiILCL9TaGw-AJiylw
+  title: Curiosity Spotting World Wide
+  handle: '@curiosityspottingworldwide'
+  uploads_playlist: UUdZ0ojiILCL9TaGw-AJiylw
+  subscriber_count: 6
+  video_count: 252
+  country: IT
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCZrzoZDq_Tt4ddFxKl65CQw
+  title: Rohilab
+  handle: '@therohilab'
+  uploads_playlist: UUZrzoZDq_Tt4ddFxKl65CQw
+  subscriber_count: 124
+  video_count: 20
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCdQQLaSVQvZP1GmhLfY19Sw
+  title: 'GIBLI EDUCATIONAL TOON STORY'' '
+  handle: '@giblieducationaltoonstory'
+  uploads_playlist: UUdQQLaSVQvZP1GmhLfY19Sw
+  subscriber_count: 89
+  video_count: 11
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCigmlyKfthbLiNvgzm_yM8A
+  title: Prateek Vaishnav
+  handle: '@prateekvaishnav01'
+  uploads_playlist: UUigmlyKfthbLiNvgzm_yM8A
+  subscriber_count: 958
+  video_count: 32
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCxDpYsPVUY61s6rGFsZHEXg
+  title: Cosgrove's Cosmos
+  handle: '@cosgrovescosmos'
+  uploads_playlist: UUxDpYsPVUY61s6rGFsZHEXg
+  subscriber_count: 3290
+  video_count: 134
+  country: US
+  category: science
+  found_by_query: astrophotography beginner guide
+  tier: micro
+- channel_id: UCP2G_tOOSlIbt2_4KAmYMvg
+  title: Chemi boy
+  handle: '@chemiboy-e5c'
+  uploads_playlist: UUP2G_tOOSlIbt2_4KAmYMvg
+  subscriber_count: 55
+  video_count: 55
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCDso8YNGt24Dilw84w0Wz6A
+  title: EIB FOR YOU
+  handle: '@mr.eslam20'
+  uploads_playlist: UUDso8YNGt24Dilw84w0Wz6A
+  subscriber_count: 89
+  video_count: 8
+  country: AE
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCtR5zNltMwZQhtKVaGReM-Q
+  title: Decoded Science
+  handle: '@decodedscience0800'
+  uploads_playlist: UUtR5zNltMwZQhtKVaGReM-Q
+  subscriber_count: 121
+  video_count: 240
+  country: PK
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCiS63R7tLFmmfhgNCjre-EA
+  title: Abstract Tutorials
+  handle: '@abstracttutorials-d5e'
+  uploads_playlist: UUiS63R7tLFmmfhgNCjre-EA
+  subscriber_count: 12
+  video_count: 17
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCgGSGz5QmqpyM0k35xWRYYQ
+  title: 'SM Sir Chemistry '
+  handle: '@smsirchemistry'
+  uploads_playlist: UUgGSGz5QmqpyM0k35xWRYYQ
+  subscriber_count: 4010
+  video_count: 2396
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UC5JsTE-bzAx3GbclJzEZkng
+  title: Catalyst Academy Deoria
+  handle: '@catalystacademydeoria8450'
+  uploads_playlist: UU5JsTE-bzAx3GbclJzEZkng
+  subscriber_count: 1330
+  video_count: 654
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCtUFhAlpl8hddRu7Sc2pKhA
+  title: RK Nex Plus Two & KEAM
+  handle: '@rknexplustwokeam'
+  uploads_playlist: UUtUFhAlpl8hddRu7Sc2pKhA
+  subscriber_count: 30800
+  video_count: 1526
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: mid
+- channel_id: UC1bVVGnmcIx8sXS9Dg2KxsQ
+  title: Pawan’s Science & Math Lab
+  handle: '@ps_classesofficial'
+  uploads_playlist: UU1bVVGnmcIx8sXS9Dg2KxsQ
+  subscriber_count: 138
+  video_count: 44
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCq8EtVl47nSMiWp4tZHi0Gg
+  title: Exam Forge India
+  handle: '@examforgeindia2'
+  uploads_playlist: UUq8EtVl47nSMiWp4tZHi0Gg
+  subscriber_count: 10
+  video_count: 19
+  country: null
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCif5c2j2LtWCCSTdXmOQGQw
+  title: USMPTV Canal 12.1 - Canal 39 de Movistar TV
+  handle: '@usmptvcanal12.1'
+  uploads_playlist: UUif5c2j2LtWCCSTdXmOQGQw
+  subscriber_count: 12400
+  video_count: 2803
+  country: PE
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: mid
+- channel_id: UCZVF68sQKwoPQWrt1eo6Qxg
+  title: Tiny Tunes and Rhymes
+  handle: '@tinyrhymes-tunes'
+  uploads_playlist: UUZVF68sQKwoPQWrt1eo6Qxg
+  subscriber_count: 21
+  video_count: 36
+  country: US
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCDHvvhdDTg8d3m_YrFncqUw
+  title: 'KNOWLEDGE HUB WITH JOHN LORIU '
+  handle: '@johnloriuke5'
+  uploads_playlist: UUDHvvhdDTg8d3m_YrFncqUw
+  subscriber_count: 313
+  video_count: 43
+  country: KE
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCmpwEfJdveonwhXyqSdw65Q
+  title: The Fast School
+  handle: '@thefastschoolfastscienceac9236'
+  uploads_playlist: UUmpwEfJdveonwhXyqSdw65Q
+  subscriber_count: 98900
+  video_count: 4887
+  country: PK
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: mid
+- channel_id: UC-u3JW-4Ff47mH5aoEU11iQ
+  title: LabToons
+  handle: '@thelabtoons'
+  uploads_playlist: UU-u3JW-4Ff47mH5aoEU11iQ
+  subscriber_count: 47
+  video_count: 39
+  country: US
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: micro
+- channel_id: UCJCXZpyS8rSRey_vdXbCINA
+  title: IgweMatics
+  handle: '@igwematics'
+  uploads_playlist: UUJCXZpyS8rSRey_vdXbCINA
+  subscriber_count: 113
+  video_count: 189
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UChBLE7vhdnmrPI6NJrjPFrw
+  title: Fractal Frontier Maths
+  handle: '@fractalfrontiermaths'
+  uploads_playlist: UUhBLE7vhdnmrPI6NJrjPFrw
+  subscriber_count: 1240
+  video_count: 439
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCWskUTi4eJb3EvpLatMrDzg
+  title: RidMath Academy - WBCHSE [11 & 12]
+  handle: '@ridmathwbchse'
+  uploads_playlist: UUWskUTi4eJb3EvpLatMrDzg
+  subscriber_count: 814
+  video_count: 65
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCyf9SVkg46_qGW9-xOsZNFg
+  title: GURUBACHAN MAKKAR
+  handle: '@gurubachan_makkar'
+  uploads_playlist: UUyf9SVkg46_qGW9-xOsZNFg
+  subscriber_count: 136
+  video_count: 40
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCDxpPBFzxAhRy7JVdEqd05g
+  title: Mina Hany
+  handle: '@lion.m.h'
+  uploads_playlist: UUDxpPBFzxAhRy7JVdEqd05g
+  subscriber_count: 8
+  video_count: 141
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UC2x2m_91ofnE--IoKLWgFdw
+  title: Explain Bhai 499
+  handle: '@explainbhai-499'
+  uploads_playlist: UU2x2m_91ofnE--IoKLWgFdw
+  subscriber_count: 5
+  video_count: 3
+  country: IN
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCGI9_7gv7eP6XgnGwSOyp5Q
+  title: Math teaching with Madhuri
+  handle: '@mathteachingwithmadhuri'
+  uploads_playlist: UUGI9_7gv7eP6XgnGwSOyp5Q
+  subscriber_count: 695
+  video_count: 260
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCqyFFW1cgbrZv8x3AdJwEeA
+  title: 'FacttoCore '
+  handle: '@facttocore'
+  uploads_playlist: UUqyFFW1cgbrZv8x3AdJwEeA
+  subscriber_count: 117
+  video_count: 85
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCphcEmp3cu78v30QBRXHFoA
+  title: 'ISHA tuition center '
+  handle: '@isha_tuition_center'
+  uploads_playlist: UUphcEmp3cu78v30QBRXHFoA
+  subscriber_count: 20
+  video_count: 119
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCf-pc9mS6bYJykvdyDXCkGA
+  title: Maths with Jc Jora Sir
+  handle: '@mathswithjcjora'
+  uploads_playlist: UUf-pc9mS6bYJykvdyDXCkGA
+  subscriber_count: 150
+  video_count: 494
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCA9HtNs3N5LFHPmp-rPgcjg
+  title: 'Tosdam   academy '
+  handle: '@tosdamacademy'
+  uploads_playlist: UUA9HtNs3N5LFHPmp-rPgcjg
+  subscriber_count: 15
+  video_count: 40
+  country: NG
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UC6Yg8Fh6Fx6YDfvxBzoYV3g
+  title: EMI-BRAIN TUTOR
+  handle: '@emibrain'
+  uploads_playlist: UU6Yg8Fh6Fx6YDfvxBzoYV3g
+  subscriber_count: 885
+  video_count: 108
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UC9RThWWtgb2IbWx-vmEhb7Q
+  title: Educational House
+  handle: '@educationalhouse2002'
+  uploads_playlist: UU9RThWWtgb2IbWx-vmEhb7Q
+  subscriber_count: 251
+  video_count: 200
+  country: PK
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCkhRnN5tA47tJ05_RGlDzfw
+  title: 'Susovan Saha Classes '
+  handle: '@susovansaha5599'
+  uploads_playlist: UUkhRnN5tA47tJ05_RGlDzfw
+  subscriber_count: 1620
+  video_count: 158
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCmKJkOQhtd72lN-Bs4pBu0A
+  title: Truc Tran
+  handle: '@tructran9966'
+  uploads_playlist: UUmKJkOQhtd72lN-Bs4pBu0A
+  subscriber_count: 13
+  video_count: 39
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCc1WU928pJnWv11l-l9ScNA
+  title: ExamDojo AP
+  handle: '@examdojoap'
+  uploads_playlist: UUc1WU928pJnWv11l-l9ScNA
+  subscriber_count: 2
+  video_count: 11
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCAiMMm9jMMmW9wwBAFsMApg
+  title: Ishan Sarda
+  handle: '@ishansarda10'
+  uploads_playlist: UUAiMMm9jMMmW9wwBAFsMApg
+  subscriber_count: 11
+  video_count: 11
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCpPS7EBcRW831zmB4KFoSXw
+  title: Professor Calculus
+  handle: '@quarkstar-s3m'
+  uploads_playlist: UUpPS7EBcRW831zmB4KFoSXw
+  subscriber_count: 456
+  video_count: 229
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UC6jgRylCtv94dwwu2fABWiw
+  title: Atlas of Mathematics
+  handle: '@jaytheintegralguy'
+  uploads_playlist: UU6jgRylCtv94dwwu2fABWiw
+  subscriber_count: 46
+  video_count: 166
+  country: US
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCJG3WmULyY_bZftxF00mXsA
+  title: Math Queen
+  handle: '@mathqueensusanne'
+  uploads_playlist: UUJG3WmULyY_bZftxF00mXsA
+  subscriber_count: 256000
+  video_count: 201
+  country: US
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: mid
+- channel_id: UCBLvqRed6Z41xR76AZhHtow
+  title: Josh Does Math
+  handle: '@josh_does_math'
+  uploads_playlist: UUBLvqRed6Z41xR76AZhHtow
+  subscriber_count: 15
+  video_count: 105
+  country: US
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCwlcBTO464sXyQTYGtg7hpg
+  title: Woody Calculus
+  handle: '@woodycalculus'
+  uploads_playlist: UUwlcBTO464sXyQTYGtg7hpg
+  subscriber_count: 33
+  video_count: 11
+  country: US
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCBzYCpPdTSJB-J9uA-1YZyA
+  title: 'ONLY ONE JOB '
+  handle: '@only_one_job'
+  uploads_playlist: UUBzYCpPdTSJB-J9uA-1YZyA
+  subscriber_count: 45
+  video_count: 19
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCMJEJg2Bt0kMZTaLUDxF6Vw
+  title: LET'S IMPROVE
+  handle: '@letsimprove98'
+  uploads_playlist: UUMJEJg2Bt0kMZTaLUDxF6Vw
+  subscriber_count: 123000
+  video_count: 2141
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: mid
+- channel_id: UC49Pvn6rxcLToLNkYM7y43Q
+  title: Prashant Calculus
+  handle: '@prashantcalculus'
+  uploads_playlist: UU49Pvn6rxcLToLNkYM7y43Q
+  subscriber_count: 11
+  video_count: 50
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCklF28yGrYsMOBBKjaKZXkw
+  title: love 💖 nepal
+  handle: '@lovenepal-q4f30'
+  uploads_playlist: UUklF28yGrYsMOBBKjaKZXkw
+  subscriber_count: 43
+  video_count: 23
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCFVSoJrW6tlhXieQyOBeGkw
+  title: thecollegegateway
+  handle: '@thecollegegateway'
+  uploads_playlist: UUFVSoJrW6tlhXieQyOBeGkw
+  subscriber_count: 10900
+  video_count: 488
+  country: US
+  category: science
+  found_by_query: astrophotography beginner guide
+  tier: mid
+- channel_id: UCC6TM5q5YFQVflVDOcRz9QA
+  title: Unknown Engineer
+  handle: '@unknownengineerofficial'
+  uploads_playlist: UUC6TM5q5YFQVflVDOcRz9QA
+  subscriber_count: 131
+  video_count: 173
+  country: US
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCLFhwnkQscBBCLubsLU0CTw
+  title: Fact Nove09
+  handle: '@factnove09'
+  uploads_playlist: UULFhwnkQscBBCLubsLU0CTw
+  subscriber_count: 11
+  video_count: 29
+  country: US
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCE5mwr7u4uEvgi06G6mJcCg
+  title: Math Talks
+  handle: '@mathtalks-k1t'
+  uploads_playlist: UUE5mwr7u4uEvgi06G6mJcCg
+  subscriber_count: 22
+  video_count: 41
+  country: CY
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCTg39yixtk80m1yIodru-yw
+  title: Prof Brainbox
+  handle: '@profbrainbox247'
+  uploads_playlist: UUTg39yixtk80m1yIodru-yw
+  subscriber_count: 944
+  video_count: 451
+  country: NG
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UC94QIu3yxTp6AsnhVSTuNxA
+  title: Dekhi Shuni O Shikhi
+  handle: '@dekhishunioshikhi'
+  uploads_playlist: UU94QIu3yxTp6AsnhVSTuNxA
+  subscriber_count: 22300
+  video_count: 3484
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: mid
+- channel_id: UCQUyHizl7hXwqEMtCG_J7sQ
+  title: Its Geometry Time
+  handle: '@itsgeometrytime-u7i'
+  uploads_playlist: UUQUyHizl7hXwqEMtCG_J7sQ
+  subscriber_count: 2970
+  video_count: 139
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCBMcHwANj6wtZbeXHyLNoUA
+  title: Math Guy Steve
+  handle: '@mathguysteve'
+  uploads_playlist: UUBMcHwANj6wtZbeXHyLNoUA
+  subscriber_count: 1260
+  video_count: 770
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UC-jbq-zk00GMboBDX4llnlw
+  title: Infinity Maths
+  handle: '@infinitemaths-l5d'
+  uploads_playlist: UU-jbq-zk00GMboBDX4llnlw
+  subscriber_count: 91
+  video_count: 84
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCofJqY-APmf-plQVGvWk8vQ
+  title: Calculusbek
+  handle: '@calculus_bek'
+  uploads_playlist: UUofJqY-APmf-plQVGvWk8vQ
+  subscriber_count: 142
+  video_count: 5
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCOi_vbjWx42pbwcwpq5S9Sg
+  title: Dear Vicky sir
+  handle: '@dearvickysir'
+  uploads_playlist: UUOi_vbjWx42pbwcwpq5S9Sg
+  subscriber_count: 489
+  video_count: 1707
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCJsnuwFc_w1pqJHthe-ftTA
+  title: Zariga Tongy
+  handle: '@zarigatongy'
+  uploads_playlist: UUJsnuwFc_w1pqJHthe-ftTA
+  subscriber_count: 7890
+  video_count: 1726
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCAC2zJv_aH0FdV8KbxREQAw
+  title: Forest Chaput de Saintonge
+  handle: '@forestchaput'
+  uploads_playlist: UUAC2zJv_aH0FdV8KbxREQAw
+  subscriber_count: 129000
+  video_count: 333
+  country: US
+  category: science
+  found_by_query: astrophotography beginner guide
+  tier: mid
+- channel_id: UCGP5eLKI8dSqe3ZXCSQRwHA
+  title: Degamma Maths
+  handle: '@degammamaths'
+  uploads_playlist: UUGP5eLKI8dSqe3ZXCSQRwHA
+  subscriber_count: 6580
+  video_count: 588
+  country: US
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCPJJAot2jdp_p8UVE8HQ94A
+  title: Aftab Alam
+  handle: '@calculuswithaftab'
+  uploads_playlist: UUPJJAot2jdp_p8UVE8HQ94A
+  subscriber_count: 39
+  video_count: 52
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCG_1r5Nla9yXsAgFBzENdqw
+  title: Maths Tonic
+  handle: '@mathstonic'
+  uploads_playlist: UUG_1r5Nla9yXsAgFBzENdqw
+  subscriber_count: 57
+  video_count: 80
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCTppM_E6w409I1LEIZETGPw
+  title: Shawnzx
+  handle: '@sean6793'
+  uploads_playlist: UUTppM_E6w409I1LEIZETGPw
+  subscriber_count: 80
+  video_count: 225
+  country: US
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCYHZgmaEzc3k8gM9k0KtnOQ
+  title: TSF
+  handle: '@tsfstory'
+  uploads_playlist: UUYHZgmaEzc3k8gM9k0KtnOQ
+  subscriber_count: 1810
+  video_count: 24
+  country: IN
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UC898HrsVn26RlNsRyoZ_CAA
+  title: 'Info from Santhosh '
+  handle: '@infofromsanthosh'
+  uploads_playlist: UU898HrsVn26RlNsRyoZ_CAA
+  subscriber_count: 25
+  video_count: 4
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCna9WIOQsum5xLglhD1LRFA
+  title: FreeSATMath
+  handle: '@freesatmath1'
+  uploads_playlist: UUna9WIOQsum5xLglhD1LRFA
+  subscriber_count: 137
+  video_count: 87
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCk1yfkzhrifSVQsAinsavUg
+  title: Apna Tutor
+  handle: '@apnatutorindia'
+  uploads_playlist: UUk1yfkzhrifSVQsAinsavUg
+  subscriber_count: 379
+  video_count: 292
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UCheEuAapGhhpozgo_PXuMwg
+  title: Smileysmaths
+  handle: '@smileysmaths'
+  uploads_playlist: UUheEuAapGhhpozgo_PXuMwg
+  subscriber_count: 0
+  video_count: 29
+  country: null
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+- channel_id: UC2VuCzJx_9luS0y-WDfL3Tg
+  title: Beard Meets Calculus
+  handle: '@beardmeetscalculus'
+  uploads_playlist: UU2VuCzJx_9luS0y-WDfL3Tg
+  subscriber_count: 16300
+  video_count: 1145
+  country: US
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: mid
+- channel_id: UCwMYeViBRtk5t1LPWUw6aDA
+  title: Brief Theory
+  handle: '@ailiyf'
+  uploads_playlist: UUwMYeViBRtk5t1LPWUw6aDA
+  subscriber_count: 3
+  video_count: 33
+  country: US
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCJ1KhrBBE41bG0h_znj-LXg
+  title: daniellek01
+  handle: '@daniellek2001'
+  uploads_playlist: UUJ1KhrBBE41bG0h_znj-LXg
+  subscriber_count: 12
+  video_count: 92
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCx9bPFqdfLbKhRexESNBtIg
+  title: Golden Archive
+  handle: '@goldenarchivetv'
+  uploads_playlist: UUx9bPFqdfLbKhRexESNBtIg
+  subscriber_count: 23
+  video_count: 11
+  country: US
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UC8YWJbMJyijonzI0cb9D6jA
+  title: The Hidden Place 4U
+  handle: '@thehiddenplace4u_1'
+  uploads_playlist: UU8YWJbMJyijonzI0cb9D6jA
+  subscriber_count: 40700
+  video_count: 247
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: mid
+- channel_id: UC_wHCfcl-ye4cdkPt8ngWmA
+  title: EmF!rez03
+  handle: '@empuntld03'
+  uploads_playlist: UU_wHCfcl-ye4cdkPt8ngWmA
+  subscriber_count: 5
+  video_count: 3
+  country: AE
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCdGazsOuCkQ5YCRjiqbfK1A
+  title: Ak myst
+  handle: '@akmystfacts'
+  uploads_playlist: UUdGazsOuCkQ5YCRjiqbfK1A
+  subscriber_count: 106
+  video_count: 29
+  country: IN
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UC-xKmdrZ15eoPm8kbPfzcOw
+  title: Trenches & History
+  handle: '@trencheshistory'
+  uploads_playlist: UU-xKmdrZ15eoPm8kbPfzcOw
+  subscriber_count: 20
+  video_count: 6
+  country: PK
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCybNaJc7nA3j0BA4oTRnP_w
+  title: Documentaries  . 1M views . 3days ago
+  handle: '@documentary_page'
+  uploads_playlist: UUybNaJc7nA3j0BA4oTRnP_w
+  subscriber_count: 1
+  video_count: 11
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCAuBFR2IUjZHEr8gDAgXqCg
+  title: 'Nova Docs Studio '
+  handle: '@novadocsstudio'
+  uploads_playlist: UUAuBFR2IUjZHEr8gDAgXqCg
+  subscriber_count: 2520
+  video_count: 23
+  country: IN
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCAlifukqynUerZIWw_ExGNg
+  title: Anik Deb
+  handle: '@theanikdeb'
+  uploads_playlist: UUAlifukqynUerZIWw_ExGNg
+  subscriber_count: 15
+  video_count: 12
+  country: IN
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCuHgdhtR7ai_xIYmjnyMCOQ
+  title: 'GS Perspective 360 '
+  handle: '@gsperperspactive360'
+  uploads_playlist: UUuHgdhtR7ai_xIYmjnyMCOQ
+  subscriber_count: 26
+  video_count: 12
+  country: IN
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UC481bAuFc7LIGp9U_1G4u4A
+  title: Willyhoon
+  handle: '@willyhoon'
+  uploads_playlist: UU481bAuFc7LIGp9U_1G4u4A
+  subscriber_count: 4210
+  video_count: 1263
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UClwvijVS8f63f5pHLrZ7LYg
+  title: Pratik Shukla
+  handle: '@pratikshukla74'
+  uploads_playlist: UUlwvijVS8f63f5pHLrZ7LYg
+  subscriber_count: 1
+  video_count: 1
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCP2b3n1F65CmdJPSeFjo2tA
+  title: ChronicleX
+  handle: '@chroniclex_files'
+  uploads_playlist: UUP2b3n1F65CmdJPSeFjo2tA
+  subscriber_count: 12
+  video_count: 3
+  country: IN
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCwpE5ZidDsyE8ll2fdMQL8Q
+  title: Fizgig
+  handle: '@fizgigs'
+  uploads_playlist: UUwpE5ZidDsyE8ll2fdMQL8Q
+  subscriber_count: 6030
+  video_count: 1153
+  country: null
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCBqWGgcd-VGEBQVj74Plr8A
+  title: Net Ai
+  handle: '@echoesofhistory-r8u'
+  uploads_playlist: UUBqWGgcd-VGEBQVj74Plr8A
+  subscriber_count: 74
+  video_count: 19
+  country: IN
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCZo6_utlzEc6PRFaBkv7clA
+  title: Passion Pass On Podcast
+  handle: '@passionpassonpodcast'
+  uploads_playlist: UUZo6_utlzEc6PRFaBkv7clA
+  subscriber_count: 423
+  video_count: 406
+  country: CA
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCBfB-V5DaNzYbjckuDXgEcg
+  title: Vaultora
+  handle: '@vaultora2'
+  uploads_playlist: UUBfB-V5DaNzYbjckuDXgEcg
+  subscriber_count: 3
+  video_count: 9
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCIsp57CkuqoPQyHP2B2Y5NA
+  title: Millbeeful
+  handle: '@millbee'
+  uploads_playlist: UUIsp57CkuqoPQyHP2B2Y5NA
+  subscriber_count: 108000
+  video_count: 6934
+  country: GB
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: mid
+- channel_id: UCg_XJJuYGbwiev4YOH_yMFA
+  title: history& religion with emmyrichard
+  handle: '@emmyrichard07'
+  uploads_playlist: UUg_XJJuYGbwiev4YOH_yMFA
+  subscriber_count: 13
+  video_count: 60
+  country: NG
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCbOeJXo5thb30xq8hFXnKpw
+  title: ATLASEVERYTHING7
+  handle: '@atlaseverything7'
+  uploads_playlist: UUbOeJXo5thb30xq8hFXnKpw
+  subscriber_count: 21
+  video_count: 61
+  country: GB
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCxvZw46YmtICrUgJblUXsHA
+  title: Indie Scout
+  handle: '@indiescoutgames'
+  uploads_playlist: UUxvZw46YmtICrUgJblUXsHA
+  subscriber_count: 7
+  video_count: 71
+  country: null
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCy6wqNw4i_OLXbyEPGv_8jA
+  title: Midnight Whispers
+  handle: '@midnightwhispers-z3k'
+  uploads_playlist: UUy6wqNw4i_OLXbyEPGv_8jA
+  subscriber_count: 193
+  video_count: 37
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCoLRsdv-tZdXJbnvR4b4kJg
+  title: FactTheory
+  handle: '@facttheory-s4'
+  uploads_playlist: UUoLRsdv-tZdXJbnvR4b4kJg
+  subscriber_count: 12
+  video_count: 6
+  country: US
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCwxyb_lZAjM0BJ1zEYx3nfw
+  title: Schizophrenic Gamer
+  handle: '@schizophrenicgamer'
+  uploads_playlist: UUwxyb_lZAjM0BJ1zEYx3nfw
+  subscriber_count: 287000
+  video_count: 5159
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: mid
+- channel_id: UCthDEzibjPtgJZWovdQTnNA
+  title: After Dark Gaming
+  handle: '@afterdarkgaming-q7u'
+  uploads_playlist: UUthDEzibjPtgJZWovdQTnNA
+  subscriber_count: 332
+  video_count: 138
+  country: null
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCHASeuv27B3Jq51jHKFjxQw
+  title: ​The Hidden Frames of History
+  handle: '@thehiddenframesofhistory'
+  uploads_playlist: UUHASeuv27B3Jq51jHKFjxQw
+  subscriber_count: 99
+  video_count: 22
+  country: US
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UC0lF44s45xmeXLpqULrEV5g
+  title: The Redacted Epoch
+  handle: '@redactedepoch'
+  uploads_playlist: UU0lF44s45xmeXLpqULrEV5g
+  subscriber_count: 49
+  video_count: 27
+  country: PK
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UC8smDosUgLldNBg8WPyM5UA
+  title: DEFENCE DECODED_0501
+  handle: '@defencedecoded-r8i'
+  uploads_playlist: UU8smDosUgLldNBg8WPyM5UA
+  subscriber_count: 420
+  video_count: 111
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCGRFPgsYlZlHgcZdCKd2flA
+  title: Story vault
+  handle: '@thestoryvault-s2d'
+  uploads_playlist: UUGRFPgsYlZlHgcZdCKd2flA
+  subscriber_count: 91
+  video_count: 45
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCOKMTPiJIzxe3Ul7dFAc0lQ
+  title: Shawn K The King
+  handle: '@shawnktheking'
+  uploads_playlist: UUOKMTPiJIzxe3Ul7dFAc0lQ
+  subscriber_count: 125000
+  video_count: 6902
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: mid
+- channel_id: UCRjWYHfWaRJqlkDruVBeWMA
+  title: Lambo
+  handle: '@lambolivegaming'
+  uploads_playlist: UURjWYHfWaRJqlkDruVBeWMA
+  subscriber_count: 1460
+  video_count: 376
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCeuuUjno10-vk0HSjnOkwpg
+  title: Runny Eggs Gaming
+  handle: '@runnyeggsgaming'
+  uploads_playlist: UUeuuUjno10-vk0HSjnOkwpg
+  subscriber_count: 1660
+  video_count: 196
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCwhwXQTFQ6ztLxG9SzIFdvw
+  title: 'The Wider view '
+  handle: '@thewiderview-aq'
+  uploads_playlist: UUwhwXQTFQ6ztLxG9SzIFdvw
+  subscriber_count: 121
+  video_count: 196
+  country: US
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCBiEBkIzBvveyx7Uo_Odksw
+  title: Grow With Time 007
+  handle: '@growwithtime007'
+  uploads_playlist: UUBiEBkIzBvveyx7Uo_Odksw
+  subscriber_count: 0
+  video_count: 3
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCqG60mH15jqpsTMNcAE3slw
+  title: DarkLab Games
+  handle: '@darklabgames'
+  uploads_playlist: UUqG60mH15jqpsTMNcAE3slw
+  subscriber_count: 1030
+  video_count: 58
+  country: IN
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCDyfDuGrl5Rbwus_VCzka1A
+  title: Aware with Us
+  handle: '@awarewithus'
+  uploads_playlist: UUDyfDuGrl5Rbwus_VCzka1A
+  subscriber_count: 9070
+  video_count: 151
+  country: IN
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCafKBAkRnQ8-7La1NQXQZhA
+  title: WORLD WAR II LEGENDS
+  handle: '@wwlegends'
+  uploads_playlist: UUafKBAkRnQ8-7La1NQXQZhA
+  subscriber_count: 268
+  video_count: 71
+  country: US
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UC3nu-10jWe46G7zSCxoHiXw
+  title: 'THE  EVIDENCE RECORD '
+  handle: '@therecordhq18'
+  uploads_playlist: UU3nu-10jWe46G7zSCxoHiXw
+  subscriber_count: 34
+  video_count: 8
+  country: IN
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCUbipQpR_EN99qDfN2aVGew
+  title: Thamior Woodblade
+  handle: '@thamiorwoodblade'
+  uploads_playlist: UUUbipQpR_EN99qDfN2aVGew
+  subscriber_count: 2
+  video_count: 13
+  country: GR
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCI8iLXe5iRw3LA6nJ6omrIw
+  title: Minute Mysteries
+  handle: '@minute_mysteries_yt'
+  uploads_playlist: UUI8iLXe5iRw3LA6nJ6omrIw
+  subscriber_count: 40
+  video_count: 33
+  country: US
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UC4Fs26dI9r7ezNXkI31LpDA
+  title: Dark Atlas
+  handle: '@the.darkatlass'
+  uploads_playlist: UU4Fs26dI9r7ezNXkI31LpDA
+  subscriber_count: 16
+  video_count: 10
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCCNN9KLYKMBDGK2GUUva6_Q
+  title: MattyGorm
+  handle: '@mattygorm'
+  uploads_playlist: UUCNN9KLYKMBDGK2GUUva6_Q
+  subscriber_count: 19600
+  video_count: 858
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: mid
+- channel_id: UCZ0BgHka6oLrLEYpEMwr4Iw
+  title: Konkonmocha
+  handle: '@konkonmocha'
+  uploads_playlist: UUZ0BgHka6oLrLEYpEMwr4Iw
+  subscriber_count: 822
+  video_count: 87
+  country: GB
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCgkCFDfCfM4BB_yHTj5c5hA
+  title: Hidden Timeline
+  handle: '@erahide'
+  uploads_playlist: UUgkCFDfCfM4BB_yHTj5c5hA
+  subscriber_count: 1
+  video_count: 2
+  country: US
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCVy1TRlyH-KwCkb9E33BGGA
+  title: korvely
+  handle: '@korvely'
+  uploads_playlist: UUVy1TRlyH-KwCkb9E33BGGA
+  subscriber_count: 15
+  video_count: 14
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCbeIIPEMeBH_YiUVZ0VQqzQ
+  title: 'My Dear Mystery '
+  handle: '@mydearmystery'
+  uploads_playlist: UUbeIIPEMeBH_YiUVZ0VQqzQ
+  subscriber_count: 29
+  video_count: 13
+  country: US
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCvakngZoicXBAM508WCxXOA
+  title: Simply Explained
+  handle: '@simplyexplained56'
+  uploads_playlist: UUvakngZoicXBAM508WCxXOA
+  subscriber_count: 476
+  video_count: 35
+  country: US
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCiK32DVMZfE_MMirv6CXpQw
+  title: Echoes of History
+  handle: '@echoesofhistory-g7n'
+  uploads_playlist: UUiK32DVMZfE_MMirv6CXpQw
+  subscriber_count: 12200
+  video_count: 42
+  country: CA
+  category: education
+  found_by_query: history documentary short explained
+  tier: mid
+- channel_id: UCYqKEZxBnS6wfoqjWtsTJhg
+  title: Mr Explainerr Usa
+  handle: '@mrexplainerusa7'
+  uploads_playlist: UUYqKEZxBnS6wfoqjWtsTJhg
+  subscriber_count: 5
+  video_count: 10
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UCPWelKQV95aBOgfiSTQLNHw
+  title: Systematic
+  handle: '@systematicfiles'
+  uploads_playlist: UUPWelKQV95aBOgfiSTQLNHw
+  subscriber_count: 23
+  video_count: 33
+  country: IQ
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+- channel_id: UChSa2aA6hOoGE8UdWJ7ioqw
+  title: JBRT No1Driver
+  handle: '@jbrtno1driver'
+  uploads_playlist: UUhSa2aA6hOoGE8UdWJ7ioqw
+  subscriber_count: 9050
+  video_count: 512
+  country: KR
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UCxYTkjHnCNWHVfaWEHT4sxw
+  title: Games Power House
+  handle: '@gamespowerhouse-xp2vn'
+  uploads_playlist: UUxYTkjHnCNWHVfaWEHT4sxw
+  subscriber_count: 40
+  video_count: 167
+  country: IN
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCFXc5nAao6554AIXlN9KgwQ
+  title: Ceave Gaming
+  handle: '@ceavegaming'
+  uploads_playlist: UUFXc5nAao6554AIXlN9KgwQ
+  subscriber_count: 506000
+  video_count: 256
+  country: AT
+  category: gaming
+  found_by_query: speedrun world record explained
+  tier: large
+- channel_id: UCpj8VWeOYKb4hlQM5Cl0y3Q
+  title: QueenCityQ
+  handle: '@queen_city_q'
+  uploads_playlist: UUpj8VWeOYKb4hlQM5Cl0y3Q
+  subscriber_count: 25
+  video_count: 33
+  country: CA
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCAY1Lkgph5anD6eff6wM9iA
+  title: Arthax Unleashed
+  handle: '@arthaxunleashed'
+  uploads_playlist: UUAY1Lkgph5anD6eff6wM9iA
+  subscriber_count: 2240
+  video_count: 481
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCieG3LXNIJT3ms3kKDjGMGA
+  title: AUTO ORIGINS HQ
+  handle: '@autooriginshq'
+  uploads_playlist: UUieG3LXNIJT3ms3kKDjGMGA
+  subscriber_count: 34
+  video_count: 69
+  country: US
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UC_41B7zza5suP02Ow8XokgA
+  title: restoration_OG
+  handle: '@restoration_og'
+  uploads_playlist: UU_41B7zza5suP02Ow8XokgA
+  subscriber_count: 0
+  video_count: 2
+  country: null
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UCp6tRF6AjOTyeCZvcyfk4MQ
+  title: Canal Batota
+  handle: '@canalbatota'
+  uploads_playlist: UUp6tRF6AjOTyeCZvcyfk4MQ
+  subscriber_count: 2120
+  video_count: 353
+  country: BR
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UC-qSqx3kkHwN2ddHQDf3iIw
+  title: OSWguild
+  handle: '@oswguild'
+  uploads_playlist: UU-qSqx3kkHwN2ddHQDf3iIw
+  subscriber_count: 22500
+  video_count: 5758
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: mid
+- channel_id: UCMY_FXp7X9G5uJIAIE7tJDQ
+  title: Second Life Garage
+  handle: '@secondlife.garage'
+  uploads_playlist: UUMY_FXp7X9G5uJIAIE7tJDQ
+  subscriber_count: 1
+  video_count: 4
+  country: null
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UCfCyI-9CygFJ4ljRSGZCdTQ
+  title: Slow Mo
+  handle: '@slowmoinc'
+  uploads_playlist: UUfCyI-9CygFJ4ljRSGZCdTQ
+  subscriber_count: 453
+  video_count: 81
+  country: TR
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCML82WMKNI3tLHwSDfOy3Kw
+  title: Coatconut
+  handle: '@coatconut'
+  uploads_playlist: UUML82WMKNI3tLHwSDfOy3Kw
+  subscriber_count: 137
+  video_count: 34
+  country: SG
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UCy8CQ18NZTx3OzsPMNwuCXQ
+  title: Motor Modifiers
+  handle: '@motormodifiers'
+  uploads_playlist: UUy8CQ18NZTx3OzsPMNwuCXQ
+  subscriber_count: 45
+  video_count: 25
+  country: null
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UC1ccyki_IxzMlEd8b_mESEA
+  title: Revive Motors
+  handle: '@revive_motors_yt'
+  uploads_playlist: UU1ccyki_IxzMlEd8b_mESEA
+  subscriber_count: 6
+  video_count: 4
+  country: PK
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UCPWLUYkjBfTQJ9zdUkJSKjw
+  title: TreFresh garage
+  handle: '@trefreshgarage21'
+  uploads_playlist: UUPWLUYkjBfTQJ9zdUkJSKjw
+  subscriber_count: 9
+  video_count: 3
+  country: null
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UC9SkwJvdDob4lkjdAQ7_qDA
+  title: Kraanwater
+  handle: '@kraanwater08'
+  uploads_playlist: UU9SkwJvdDob4lkjdAQ7_qDA
+  subscriber_count: 5780
+  video_count: 34
+  country: NL
+  category: gaming
+  found_by_query: speedrun world record explained
+  tier: micro
+- channel_id: UCsrax31ReJ5BOkl9Ui2-7HA
+  title: Hot Bench
+  handle: '@hotbench'
+  uploads_playlist: UUsrax31ReJ5BOkl9Ui2-7HA
+  subscriber_count: 137000
+  video_count: 2700
+  country: US
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: mid
+- channel_id: UCt7f4L6bqHwF2G_M1MCkcjQ
+  title: SBDWolf
+  handle: '@sbdwolf'
+  uploads_playlist: UUt7f4L6bqHwF2G_M1MCkcjQ
+  subscriber_count: 17200
+  video_count: 215
+  country: IT
+  category: gaming
+  found_by_query: speedrun world record explained
+  tier: mid
+- channel_id: UCMJ9au9ItnCD7v5GboMIcqA
+  title: Matt Play
+  handle: '@mattgameplaysw'
+  uploads_playlist: UUMJ9au9ItnCD7v5GboMIcqA
+  subscriber_count: 1260
+  video_count: 351
+  country: BR
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCz5qJlH7hdxrg83UmDc4Luw
+  title: AI Bronco Build
+  handle: '@aibroncobuild'
+  uploads_playlist: UUz5qJlH7hdxrg83UmDc4Luw
+  subscriber_count: 23
+  video_count: 8
+  country: null
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UCIRXhlzJFiMzh581PI4H1CQ
+  title: Mech Maniac
+  handle: '@mechmaniac29'
+  uploads_playlist: UUIRXhlzJFiMzh581PI4H1CQ
+  subscriber_count: 3180
+  video_count: 145
+  country: PK
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UC19SSeixdnG09HkuYBVSXvQ
+  title: Azi Pixel
+  handle: '@azipixel'
+  uploads_playlist: UU19SSeixdnG09HkuYBVSXvQ
+  subscriber_count: 91
+  video_count: 124
+  country: null
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCbgcSYaujECoPgIt5kJ7ufQ
+  title: HIDDEN BUNKER Ai
+  handle: '@hidden_bunker_ai'
+  uploads_playlist: UUbgcSYaujECoPgIt5kJ7ufQ
+  subscriber_count: 0
+  video_count: 4
+  country: null
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UCx1ITC9BKDR8CyOllvQNghw
+  title: Chrisp44s
+  handle: '@thechrisp44s'
+  uploads_playlist: UUx1ITC9BKDR8CyOllvQNghw
+  subscriber_count: 2510
+  video_count: 618
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCptrHOwS-zyDURZ5wn6oSBg
+  title: Cassie Layne
+  handle: '@cassielayne911'
+  uploads_playlist: UUptrHOwS-zyDURZ5wn6oSBg
+  subscriber_count: 5640
+  video_count: 465
+  country: null
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UC6noc1xCZ-o7WN0TLHlzW6g
+  title: Roland's Mini Reviews
+  handle: '@rolandsminireviews'
+  uploads_playlist: UU6noc1xCZ-o7WN0TLHlzW6g
+  subscriber_count: 72
+  video_count: 114
+  country: GB
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UC1GVNQ5n5dLq1pn9EFKdSLg
+  title: Split Bear
+  handle: '@splitbear'
+  uploads_playlist: UU1GVNQ5n5dLq1pn9EFKdSLg
+  subscriber_count: 616
+  video_count: 100
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCwsF1rY_b6ijZwjnNkmxIbg
+  title: Vanessa Magalhães⚙️
+  handle: '@vanessamagalhaes2025'
+  uploads_playlist: UUwsF1rY_b6ijZwjnNkmxIbg
+  subscriber_count: 12200
+  video_count: 73
+  country: BR
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: mid
+- channel_id: UChuqGNrxmCXHrxpP5D2x7YA
+  title: GAMER
+  handle: '@gamer8k-p6b'
+  uploads_playlist: UUhuqGNrxmCXHrxpP5D2x7YA
+  subscriber_count: 4
+  video_count: 374
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCdL2CQH9aQFSFiqd2kWGgfw
+  title: Dracolich
+  handle: '@dracolich5522'
+  uploads_playlist: UUdL2CQH9aQFSFiqd2kWGgfw
+  subscriber_count: 96
+  video_count: 148
+  country: CA
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCte0EQIJhFbStci25_TeCZw
+  title: IndieWelt
+  handle: '@_indiewelt'
+  uploads_playlist: UUte0EQIJhFbStci25_TeCZw
+  subscriber_count: 1440
+  video_count: 1059
+  country: DE
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCA5oituKsijVZCuut_WJGJQ
+  title: empty:mecha
+  handle: '@empty-mecha'
+  uploads_playlist: UUA5oituKsijVZCuut_WJGJQ
+  subscriber_count: 6480
+  video_count: 100
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCuwgR4c8LSVahth45Ge61Kw
+  title: DVJS
+  handle: '@dvjsoni'
+  uploads_playlist: UUuwgR4c8LSVahth45Ge61Kw
+  subscriber_count: 116
+  video_count: 222
+  country: IN
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCK79KkzpFhr3MntmZFGN6-g
+  title: MabiVsGames
+  handle: '@mabivsgames'
+  uploads_playlist: UUK79KkzpFhr3MntmZFGN6-g
+  subscriber_count: 40200
+  video_count: 8073
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: mid
+- channel_id: UC2AXmBzL37WbFA1fBD60Kcg
+  title: solorun
+  handle: '@soloruns7'
+  uploads_playlist: UU2AXmBzL37WbFA1fBD60Kcg
+  subscriber_count: 2
+  video_count: 1
+  country: null
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UC9s4rNWZZ6Nh1YhPNltttGQ
+  title: LFP Gaming
+  handle: '@lfpgaming'
+  uploads_playlist: UU9s4rNWZZ6Nh1YhPNltttGQ
+  subscriber_count: 110000
+  video_count: 2416
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: mid
+- channel_id: UCexVDMur27TvEK7cFhcRyIw
+  title: Beyond Rebuild
+  handle: '@beyondrebuild'
+  uploads_playlist: UUexVDMur27TvEK7cFhcRyIw
+  subscriber_count: 72
+  video_count: 79
+  country: US
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UC3zJukqEV7krigC5Pc4MfsQ
+  title: Car & Bike Modifications AI | AI Buzz
+  handle: '@ai_buzztm'
+  uploads_playlist: UU3zJukqEV7krigC5Pc4MfsQ
+  subscriber_count: 212
+  video_count: 13
+  country: PK
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UCswlpZmeEM56pOxrFNReazg
+  title: The old Fixers
+  handle: '@theoldfixeres'
+  uploads_playlist: UUswlpZmeEM56pOxrFNReazg
+  subscriber_count: 28400
+  video_count: 56
+  country: BD
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: mid
+- channel_id: UCbHGMcYuDpF3B1tN0yjD-Iw
+  title: Banijay Engine
+  handle: '@banijayengine'
+  uploads_playlist: UUbHGMcYuDpF3B1tN0yjD-Iw
+  subscriber_count: 151000
+  video_count: 1389
+  country: GB
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: mid
+- channel_id: UCZWvoxv4fis_AgoixnghXNQ
+  title: The Average Rook
+  handle: '@theaveragerook'
+  uploads_playlist: UUZWvoxv4fis_AgoixnghXNQ
+  subscriber_count: 623
+  video_count: 986
+  country: AU
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UC0xFmH3Dx_pQlR6AqMYIuFA
+  title: Shifted Opinions
+  handle: '@shiftedopinions'
+  uploads_playlist: UU0xFmH3Dx_pQlR6AqMYIuFA
+  subscriber_count: 330
+  video_count: 64
+  country: null
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UCLw8-S7Ylz1hCZw8x4LIPbA
+  title: MabiVsGames2
+  handle: '@mabivsgames2'
+  uploads_playlist: UULw8-S7Ylz1hCZw8x4LIPbA
+  subscriber_count: 3330
+  video_count: 3467
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCDtxLwwgYmdPbSu98xNnO_g
+  title: Trixed Out Garage
+  handle: '@trixedoutgarage'
+  uploads_playlist: UUDtxLwwgYmdPbSu98xNnO_g
+  subscriber_count: 1230
+  video_count: 51
+  country: US
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UCLg7G4InBjxOVKGZJZGe5FQ
+  title: Madassassin
+  handle: '@madnrt'
+  uploads_playlist: UULg7G4InBjxOVKGZJZGe5FQ
+  subscriber_count: 425
+  video_count: 209
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCzrkjCg2-Ccu05Zo-71Jf4g
+  title: Eyes of Od
+  handle: '@eyesofod'
+  uploads_playlist: UUzrkjCg2-Ccu05Zo-71Jf4g
+  subscriber_count: 4420
+  video_count: 483
+  country: null
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UCwcZdH2Pb1DU0_UBQjem-Uw
+  title: cavecavecave
+  handle: '@cavecavecave_'
+  uploads_playlist: UUwcZdH2Pb1DU0_UBQjem-Uw
+  subscriber_count: 760
+  video_count: 135
+  country: US
+  category: gaming
+  found_by_query: speedrun world record explained
+  tier: micro
+- channel_id: UCmcVBxi4rhb3sOQz8LIjXzw
+  title: RellyRell Gaming
+  handle: '@rellyrellgaming'
+  uploads_playlist: UUmcVBxi4rhb3sOQz8LIjXzw
+  subscriber_count: 506
+  video_count: 1283
+  country: null
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+- channel_id: UC9BWkQI_NGQ1roUllqYvO5A
+  title: officialnex
+  handle: '@zirkplayz1689'
+  uploads_playlist: UU9BWkQI_NGQ1roUllqYvO5A
+  subscriber_count: 183
+  video_count: 44
+  country: null
+  category: gaming
+  found_by_query: speedrun world record explained
+  tier: micro
+- channel_id: UCuecNia4DPKqR99lOXYb1-w
+  title: NOHURY Restos
+  handle: '@nohuryrestos'
+  uploads_playlist: UUuecNia4DPKqR99lOXYb1-w
+  subscriber_count: 1590
+  video_count: 50
+  country: null
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UC0LflZ58orh-KdEe85_JMOA
+  title: 'Chiiiyours '
+  handle: '@chiiiyours'
+  uploads_playlist: UU0LflZ58orh-KdEe85_JMOA
+  subscriber_count: 21400
+  video_count: 120
+  country: PH
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: mid
+- channel_id: UCqrVJ9cHgQCAxDvdxeN6FWA
+  title: Swati's Vibe Hub
+  handle: '@swatisvibehub'
+  uploads_playlist: UUqrVJ9cHgQCAxDvdxeN6FWA
+  subscriber_count: 2880
+  video_count: 517
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCvdOZl9eNKd1Tp30xfeAZkQ
+  title: Thandolwethu Ncongwane
+  handle: '@teedowunfiltered'
+  uploads_playlist: UUvdOZl9eNKd1Tp30xfeAZkQ
+  subscriber_count: 94
+  video_count: 12
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCIskxFvkChzeIW7cht8P3zA
+  title: Anushka this side 🧿
+  handle: '@anushkathiside'
+  uploads_playlist: UUIskxFvkChzeIW7cht8P3zA
+  subscriber_count: 430
+  video_count: 170
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCdqyN9vgo0szCfvfc2CMYvQ
+  title: vlog by divya
+  handle: '@vlogbydivya-k1q'
+  uploads_playlist: UUdqyN9vgo0szCfvfc2CMYvQ
+  subscriber_count: 120
+  video_count: 109
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCSkFu24_mcdSGwkGh_Gk03A
+  title: retropowercars
+  handle: '@retropowercars'
+  uploads_playlist: UUSkFu24_mcdSGwkGh_Gk03A
+  subscriber_count: 84600
+  video_count: 608
+  country: GB
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: mid
+- channel_id: UCl_6-U4t8r-xqC4Zr8CNgVQ
+  title: Shilpa Mahanty Vlogs
+  handle: '@shilpamahantyreal'
+  uploads_playlist: UUl_6-U4t8r-xqC4Zr8CNgVQ
+  subscriber_count: 916
+  video_count: 185
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCP1qbjP9H5krzF7RLK9GCjg
+  title: Reema Panda 🙈🙈
+  handle: '@reema_panda'
+  uploads_playlist: UUP1qbjP9H5krzF7RLK9GCjg
+  subscriber_count: 549
+  video_count: 367
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCylve0UMhDE-WzGT_nAcxew
+  title: Apna Student Life
+  handle: '@apnastudentlife'
+  uploads_playlist: UUylve0UMhDE-WzGT_nAcxew
+  subscriber_count: 1
+  video_count: 6
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCNEivDpQhAGX6nbzpqPvLIg
+  title: Yorkshire Car Restoration
+  handle: '@yorkshirecarrestoration'
+  uploads_playlist: UUNEivDpQhAGX6nbzpqPvLIg
+  subscriber_count: 219000
+  video_count: 684
+  country: GB
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: mid
+- channel_id: UCxRTmdh-6NS6dpoOS96qcxg
+  title: Shrutika Dubey
+  handle: '@shrutikadubey-283'
+  uploads_playlist: UUxRTmdh-6NS6dpoOS96qcxg
+  subscriber_count: 111
+  video_count: 31
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UC7OZQ2zjHf8Cbek2KOCGt3g
+  title: hazelha
+  handle: '@hazelha2'
+  uploads_playlist: UU7OZQ2zjHf8Cbek2KOCGt3g
+  subscriber_count: 3650
+  video_count: 76
+  country: KR
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCoVP9j-ysHkgeSyQXp_3LBg
+  title: Khushi Agrawal
+  handle: '@khushiagrawal_31'
+  uploads_playlist: UUoVP9j-ysHkgeSyQXp_3LBg
+  subscriber_count: 35
+  video_count: 13
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCVeOdpaI3jbwu1FrCAeECIg
+  title: Viiddhhhiiiii
+  handle: '@viiddhhhiiiii'
+  uploads_playlist: UUVeOdpaI3jbwu1FrCAeECIg
+  subscriber_count: 124
+  video_count: 83
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCn0MK9vcIxinP4033UEHiUw
+  title: 스튜디오 샤
+  handle: '@snu_studiosha'
+  uploads_playlist: UUn0MK9vcIxinP4033UEHiUw
+  subscriber_count: 224000
+  video_count: 1173
+  country: KR
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: mid
+- channel_id: UCoKny1b0v47yA4CCdvag6Dg
+  title: 'subh family vlogs '
+  handle: '@subhfamilyvlogs'
+  uploads_playlist: UUoKny1b0v47yA4CCdvag6Dg
+  subscriber_count: 41
+  video_count: 15
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UC-Cgmcxc4R3gKqTQkEUtYZg
+  title: itz me yusii
+  handle: '@itzmeyusii'
+  uploads_playlist: UU-Cgmcxc4R3gKqTQkEUtYZg
+  subscriber_count: 1
+  video_count: 3
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCGQeucWeJK8P48oPxofAS4Q
+  title: Ujjwal Satrangi
+  handle: '@ujjwalsatrangi'
+  uploads_playlist: UUGQeucWeJK8P48oPxofAS4Q
+  subscriber_count: 64100
+  video_count: 1769
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: mid
+- channel_id: UCeiZcGsG1kiNhm3BkgR-iXA
+  title: shalinilogs
+  handle: '@simplyshaliniiii'
+  uploads_playlist: UUeiZcGsG1kiNhm3BkgR-iXA
+  subscriber_count: 36
+  video_count: 14
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UC_9sqeXtsm1WiwJmCFvOYLQ
+  title: drema
+  handle: '@emslatelyy'
+  uploads_playlist: UU_9sqeXtsm1WiwJmCFvOYLQ
+  subscriber_count: 115
+  video_count: 13
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UC-l_I21wXdojQ7tXeJg9YZQ
+  title: 'Samiul Gains '
+  handle: '@samiulgains'
+  uploads_playlist: UU-l_I21wXdojQ7tXeJg9YZQ
+  subscriber_count: 58
+  video_count: 31
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCRHYudxBK-nYSloemh4ZIUQ
+  title: Chiki Daily Diaries 🌷
+  handle: '@chikidailydiaries'
+  uploads_playlist: UURHYudxBK-nYSloemh4ZIUQ
+  subscriber_count: 47
+  video_count: 37
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCbSHHVqf8knbajHlMozcs3g
+  title: _chefessydiary
+  handle: '@gloryan16'
+  uploads_playlist: UUbSHHVqf8knbajHlMozcs3g
+  subscriber_count: 3
+  video_count: 3
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCVT5Clx4gAM6LIPdHD_fArw
+  title: cookbytes with chummi
+  handle: '@cookbyteswithchummi'
+  uploads_playlist: UUVT5Clx4gAM6LIPdHD_fArw
+  subscriber_count: 5290
+  video_count: 550
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCKoPe_osksCsWgCIHrc3jbA
+  title: 'Cartoon galaxy '
+  handle: '@cartoongalaxy_011'
+  uploads_playlist: UUKoPe_osksCsWgCIHrc3jbA
+  subscriber_count: 159
+  video_count: 160
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCrxOkjcX3Ld4k0KSU6H7VBQ
+  title: Aadu's Journey
+  handle: '@aadusjourney'
+  uploads_playlist: UUrxOkjcX3Ld4k0KSU6H7VBQ
+  subscriber_count: 6
+  video_count: 4
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UC2XKWcBAhstwp7YyoxN0GMg
+  title: Tejas Pal VLOGS
+  handle: '@tejaspalvlogs'
+  uploads_playlist: UU2XKWcBAhstwp7YyoxN0GMg
+  subscriber_count: 5
+  video_count: 18
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCVrjB9HQse08b64bRmLrwyg
+  title: It's Pritam
+  handle: '@itspritam00'
+  uploads_playlist: UUVrjB9HQse08b64bRmLrwyg
+  subscriber_count: 1690
+  video_count: 128
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCDzTJ9wDoBV6rQ4boNpVrGw
+  title: Ritika Dey
+  handle: '@iamritikadey'
+  uploads_playlist: UUDzTJ9wDoBV6rQ4boNpVrGw
+  subscriber_count: 362
+  video_count: 374
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCBpGq7zzm0JO9cqMY_W4mEg
+  title: Banjaran Diaries
+  handle: '@banjaran.diaries'
+  uploads_playlist: UUBpGq7zzm0JO9cqMY_W4mEg
+  subscriber_count: 10
+  video_count: 10
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCiI3Hod39KoC3z-06gqrePw
+  title: Guto Garage
+  handle: '@guto_garage_tv'
+  uploads_playlist: UUiI3Hod39KoC3z-06gqrePw
+  subscriber_count: 1390
+  video_count: 26
+  country: null
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UCoBMS2q_sJC9hTQV3HfJ9Dw
+  title: Panchali Kashyap
+  handle: '@panchalikashyap1463'
+  uploads_playlist: UUoBMS2q_sJC9hTQV3HfJ9Dw
+  subscriber_count: 1650
+  video_count: 360
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCRjAGT8pnNA6lqk9vNe7cNw
+  title: juhi ghosh
+  handle: '@juhighsh'
+  uploads_playlist: UURjAGT8pnNA6lqk9vNe7cNw
+  subscriber_count: 2180
+  video_count: 30
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCDSuxICGHloYAG7f2ZR7_Qg
+  title: 'Amber '
+  handle: '@novemberwinterss'
+  uploads_playlist: UUDSuxICGHloYAG7f2ZR7_Qg
+  subscriber_count: 18
+  video_count: 19
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCPnophC63yPPyRUH_NlFMuA
+  title: 'mini vlog sandy '
+  handle: '@minivlogsandy-007'
+  uploads_playlist: UUPnophC63yPPyRUH_NlFMuA
+  subscriber_count: 4150
+  video_count: 208
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCdkz-6mB6UTt3uf5URNlzSg
+  title: 'AyurLife with Sakshi '
+  handle: '@ayurlifewithsakshi'
+  uploads_playlist: UUdkz-6mB6UTt3uf5URNlzSg
+  subscriber_count: 74
+  video_count: 45
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCt3nE--I-na3IIV-UpsIzxw
+  title: ichigomi
+  handle: '@ichigomiii'
+  uploads_playlist: UUt3nE--I-na3IIV-UpsIzxw
+  subscriber_count: 1780
+  video_count: 12
+  country: ID
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCqEakKBoXNrKujniDdcRRvQ
+  title: Dear Rielle
+  handle: '@dearrielle'
+  uploads_playlist: UUqEakKBoXNrKujniDdcRRvQ
+  subscriber_count: 3
+  video_count: 1
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UC_vNUIBGlgY72jPVF7hMS8w
+  title: JJ Swan
+  handle: '@joshuajswan'
+  uploads_playlist: UU_vNUIBGlgY72jPVF7hMS8w
+  subscriber_count: 149
+  video_count: 26
+  country: null
+  category: automotive
+  found_by_query: car restoration project episode
+  tier: micro
+- channel_id: UCO5A0XIWT70wQtCB4jaX9PQ
+  title: Doctor or Wot
+  handle: '@doctororwot'
+  uploads_playlist: UUO5A0XIWT70wQtCB4jaX9PQ
+  subscriber_count: 138
+  video_count: 64
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCVUOvXRtZprdQUc1Mb_t3lw
+  title: 'Teacher Vlogger Official '
+  handle: '@teachervloggerofficial'
+  uploads_playlist: UUVUOvXRtZprdQUc1Mb_t3lw
+  subscriber_count: 1460
+  video_count: 75
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCHNrY6qxax20Fj-8S8kQLkQ
+  title: Bunga Physio
+  handle: '@bungaphysio'
+  uploads_playlist: UUHNrY6qxax20Fj-8S8kQLkQ
+  subscriber_count: 12
+  video_count: 1
+  country: ID
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCN3zFmyCLBEEXPpwC2nay8w
+  title: APB ( All PARAMILITARY BHARTI )
+  handle: '@nikeshvarma91'
+  uploads_playlist: UUN3zFmyCLBEEXPpwC2nay8w
+  subscriber_count: 19
+  video_count: 26
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UC0fdH6Cx3UxNtKJsr9sd1_A
+  title: vlogs by mahira
+  handle: '@mahiracoree'
+  uploads_playlist: UU0fdH6Cx3UxNtKJsr9sd1_A
+  subscriber_count: 6
+  video_count: 12
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCWj-akAVHRYZymByhTSfuow
+  title: by jehoia
+  handle: '@byjehoia'
+  uploads_playlist: UUWj-akAVHRYZymByhTSfuow
+  subscriber_count: 740
+  video_count: 35
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCnuYRpi_do-0dnk1yBsTbuA
+  title: Bnk Nayan
+  handle: '@bnknayan0'
+  uploads_playlist: UUnuYRpi_do-0dnk1yBsTbuA
+  subscriber_count: 14
+  video_count: 9
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UC0OyqK58Y_5ZWfdoMOg4z2w
+  title: kkr_vlogs_14
+  handle: '@kkr_vlogs_14'
+  uploads_playlist: UU0OyqK58Y_5ZWfdoMOg4z2w
+  subscriber_count: 228
+  video_count: 24
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCVOB6EXOKhywZDaXq4dbXrg
+  title: 'Gauri Ranavat '
+  handle: '@gauri_ranavat20'
+  uploads_playlist: UUVOB6EXOKhywZDaXq4dbXrg
+  subscriber_count: 2200
+  video_count: 40
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UC7jVnDb7XglHTLOkJ1hgBfQ
+  title: Bishop LK(බිශොප්LK)
+  handle: '@bishoplk_බශෙපlk'
+  uploads_playlist: UU7jVnDb7XglHTLOkJ1hgBfQ
+  subscriber_count: 1720
+  video_count: 74
+  country: LK
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCW5voGpeRyeQEvKoRMWbKkA
+  title: MR_ADIIL_07
+  handle: '@addy_vlogger'
+  uploads_playlist: UUW5voGpeRyeQEvKoRMWbKkA
+  subscriber_count: 1110
+  video_count: 75
+  country: null
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UC45NLH_M71183TrIzN9mvXw
+  title: Drx.Puspanjali
+  handle: '@drx.puspanjali'
+  uploads_playlist: UU45NLH_M71183TrIzN9mvXw
+  subscriber_count: 1670
+  video_count: 250
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UCC4XyYlrORMlABRlySWC35w
+  title: Raunak Fact
+  handle: '@raunakfact8'
+  uploads_playlist: UUC4XyYlrORMlABRlySWC35w
+  subscriber_count: 8
+  video_count: 2
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCtOq18SjsvniJdjygnoTwDg
+  title: Aroma Telugu Flavours
+  handle: '@aromateluguflavours'
+  uploads_playlist: UUtOq18SjsvniJdjygnoTwDg
+  subscriber_count: 3360
+  video_count: 510
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UC0UKhmyDVTHzQcccSgDZq9A
+  title: Golden Chopstick Kitchen
+  handle: '@goldenchopstickkitchen'
+  uploads_playlist: UU0UKhmyDVTHzQcccSgDZq9A
+  subscriber_count: 13700
+  video_count: 177
+  country: KR
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: mid
+- channel_id: UCwsE2zipUVQHFg2nYu3vSow
+  title: Anastasiia Plate
+  handle: '@anastasiiaplate'
+  uploads_playlist: UUwsE2zipUVQHFg2nYu3vSow
+  subscriber_count: 2
+  video_count: 64
+  country: US
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCgqNLLXO-pTHVC9xxgKH9KQ
+  title: Taste of Bengal
+  handle: '@tasteofbengal-s8m'
+  uploads_playlist: UUgqNLLXO-pTHVC9xxgKH9KQ
+  subscriber_count: 100
+  video_count: 95
+  country: BD
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCX2_xVatkliydEy0O1Ii1JA
+  title: The Kmedex
+  handle: '@thekmedex'
+  uploads_playlist: UUX2_xVatkliydEy0O1Ii1JA
+  subscriber_count: 20100
+  video_count: 3040
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: mid
+- channel_id: UCl18GMz85qzO2iizA-LqWmw
+  title: Odia Swada
+  handle: '@realodiaswada'
+  uploads_playlist: UUl18GMz85qzO2iizA-LqWmw
+  subscriber_count: 35
+  video_count: 18
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UC6CZajfqTA8jkxLoq5ZLpew
+  title: Best home gadget 5699
+  handle: '@besthomegadget5699'
+  uploads_playlist: UU6CZajfqTA8jkxLoq5ZLpew
+  subscriber_count: 9890
+  video_count: 110
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCLlAg250ydtmbIHHUCyO9Hg
+  title: Electric Cooker-
+  handle: '@electric-cooker-d5x'
+  uploads_playlist: UULlAg250ydtmbIHHUCyO9Hg
+  subscriber_count: 13200
+  video_count: 90
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: mid
+- channel_id: UCnLEk0k6FmyTwyMjd25wItQ
+  title: 'Kitchen life '
+  handle: '@kitchenlife09'
+  uploads_playlist: UUnLEk0k6FmyTwyMjd25wItQ
+  subscriber_count: 307
+  video_count: 45
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCmKashb0ePutRra9n3xXZ5A
+  title: Best home gadget 5699
+  handle: '@arjun_kumar_5699'
+  uploads_playlist: UUmKashb0ePutRra9n3xXZ5A
+  subscriber_count: 65700
+  video_count: 154
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: mid
+- channel_id: UC4CWXAC64ybP6WdC_bg5TVg
+  title: Aai Mata foundation 🤝Team
+  handle: '@aaimatafoundationteam1179'
+  uploads_playlist: UU4CWXAC64ybP6WdC_bg5TVg
+  subscriber_count: 409
+  video_count: 247
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UC0slCrLhnU9I1SvYFcHDX9g
+  title: Life Of Kichen
+  handle: '@lifeofkichen'
+  uploads_playlist: UU0slCrLhnU9I1SvYFcHDX9g
+  subscriber_count: 40
+  video_count: 14
+  country: US
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCxQJXX2qdJtxQWtrC-EXPCA
+  title: The Whiskful Kitchen
+  handle: '@thewhiskfulkitchenn'
+  uploads_playlist: UUxQJXX2qdJtxQWtrC-EXPCA
+  subscriber_count: 72
+  video_count: 27
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCFN27V_kw5CZsHUKhU5KF3Q
+  title: Food Meets AI.". Alternates
+  handle: '@rajkumarinishad-p9g9s'
+  uploads_playlist: UUFN27V_kw5CZsHUKhU5KF3Q
+  subscriber_count: 11
+  video_count: 28
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCDLNGAAuSp3tmoF5CGgdjNQ
+  title: 'Kunnu Karan Vlogs '
+  handle: '@kunnu_karan_vlogs'
+  uploads_playlist: UUDLNGAAuSp3tmoF5CGgdjNQ
+  subscriber_count: 13
+  video_count: 28
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCoOOPjutkVbzoolJEYfpF6Q
+  title: 'Chef Frank Eats '
+  handle: '@throwbackgames4you868'
+  uploads_playlist: UUoOOPjutkVbzoolJEYfpF6Q
+  subscriber_count: 5980
+  video_count: 2968
+  country: US
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCNT8V12TZM1A5RUofzN-ROQ
+  title: 'Magic AI Kitchen '
+  handle: '@daddybiz-k1p'
+  uploads_playlist: UUNT8V12TZM1A5RUofzN-ROQ
+  subscriber_count: 10
+  video_count: 8
+  country: US
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCQQtrKJO9Qr65nz9_UFeObA
+  title: 'Nilu . home. kitchen '
+  handle: '@nilu.home.kitchen'
+  uploads_playlist: UUQQtrKJO9Qr65nz9_UFeObA
+  subscriber_count: 850
+  video_count: 1600
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCCGRue6HJWyhh6EAdhJLUBg
+  title: KITCHEN TOUR OFFICIAL
+  handle: '@kitchentour-2005'
+  uploads_playlist: UUCGRue6HJWyhh6EAdhJLUBg
+  subscriber_count: 133
+  video_count: 164
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCX0MIztLO4Ushv_wFXz-ATg
+  title: IVN Group of Companies
+  handle: '@ivngroupofcompanies'
+  uploads_playlist: UUX0MIztLO4Ushv_wFXz-ATg
+  subscriber_count: 219
+  video_count: 101
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCf57962pwgYvIYvDxnZPTyw
+  title: 'NHING''S Life '
+  handle: '@maealmario'
+  uploads_playlist: UUf57962pwgYvIYvDxnZPTyw
+  subscriber_count: 502
+  video_count: 82
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCKMlJWcI4yA-jBrhULDDvvQ
+  title: Josue ulloa
+  handle: '@josueulloa1131'
+  uploads_playlist: UUKMlJWcI4yA-jBrhULDDvvQ
+  subscriber_count: 687
+  video_count: 30
+  country: US
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCoUcrsR9r3Bq7ZavwpKwkhQ
+  title: GLANCY PAPA VLOGS
+  handle: '@glancypapavlogs'
+  uploads_playlist: UUoUcrsR9r3Bq7ZavwpKwkhQ
+  subscriber_count: 923
+  video_count: 910
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCEycZLwUXhygzDqKgc9XOQA
+  title: Chef Joanna
+  handle: '@chefjoanna0'
+  uploads_playlist: UUEycZLwUXhygzDqKgc9XOQA
+  subscriber_count: 156
+  video_count: 222
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UC3JOl6T4wsSZDrXftrd1okA
+  title: Mandy Maiorano
+  handle: '@madeby_mandy'
+  uploads_playlist: UU3JOl6T4wsSZDrXftrd1okA
+  subscriber_count: 1360
+  video_count: 60
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UC-butsNJLkf_eJxjSUgsiag
+  title: House of padmasana
+  handle: '@houseofpadmasana'
+  uploads_playlist: UU-butsNJLkf_eJxjSUgsiag
+  subscriber_count: 780
+  video_count: 114
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCiLOFbs0QdLJ4nqC_nFOHIA
+  title: ai editor video
+  handle: '@muhammadibrahim-0200'
+  uploads_playlist: UUiLOFbs0QdLJ4nqC_nFOHIA
+  subscriber_count: 4
+  video_count: 6
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UC0VKkwZxLO9Y_FQNMZvT8Mw
+  title: Chef Anam
+  handle: '@chefanam1978'
+  uploads_playlist: UU0VKkwZxLO9Y_FQNMZvT8Mw
+  subscriber_count: 152
+  video_count: 83
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCvvJm2rmRVPlW9UN60I-UuA
+  title: 'Meharkitchen_official '
+  handle: '@meharkitchen4647'
+  uploads_playlist: UUvvJm2rmRVPlW9UN60I-UuA
+  subscriber_count: 95
+  video_count: 128
+  country: GB
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCSDpq5cQNvGSSe4XM_SgMjQ
+  title: The Tiny Table
+  handle: '@thetinytable-i7u'
+  uploads_playlist: UUSDpq5cQNvGSSe4XM_SgMjQ
+  subscriber_count: 71
+  video_count: 36
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCO81ce9XxLjG2LeXf_EncUA
+  title: 'Coco facts '
+  handle: '@cocofactslx'
+  uploads_playlist: UUO81ce9XxLjG2LeXf_EncUA
+  subscriber_count: 14700
+  video_count: 70
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: mid
+- channel_id: UCOSjS1FGqmPPgRLmv3EhnUA
+  title: Monsoon Dayz
+  handle: '@monsoondayz-p2y'
+  uploads_playlist: UUOSjS1FGqmPPgRLmv3EhnUA
+  subscriber_count: 1270
+  video_count: 29
+  country: PK
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCFjvDaMOttrCoVVinrdM_tQ
+  title: Sweety Pinky HANDISHALA
+  handle: '@sweetpinkyhandishala'
+  uploads_playlist: UUFjvDaMOttrCoVVinrdM_tQ
+  subscriber_count: 132
+  video_count: 25
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCdGLY4j8JwcEEyLZYHHSjeQ
+  title: AI Dream World
+  handle: '@manishshah-r8i'
+  uploads_playlist: UUdGLY4j8JwcEEyLZYHHSjeQ
+  subscriber_count: 25
+  video_count: 10
+  country: ES
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCJDlqFVI_eVUjOxdYche87g
+  title: Kiran Kitchen👨‍🍳
+  handle: '@kirankitchen-x2h'
+  uploads_playlist: UUJDlqFVI_eVUjOxdYche87g
+  subscriber_count: 120
+  video_count: 214
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCmxbBuCJXPpWTiWqcCbxWXw
+  title: Mashallah Kitchens
+  handle: '@mashallahkitchens'
+  uploads_playlist: UUmxbBuCJXPpWTiWqcCbxWXw
+  subscriber_count: 66700
+  video_count: 700
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: mid
+- channel_id: UCx2387UT0iMnUzdf4SP2PmA
+  title: Food Maker
+  handle: '@shrifoodmaker16'
+  uploads_playlist: UUx2387UT0iMnUzdf4SP2PmA
+  subscriber_count: 39
+  video_count: 33
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UC1opae6JBdotISGeLySBubA
+  title: Cook with Mamta
+  handle: '@cookwithmamta555'
+  uploads_playlist: UU1opae6JBdotISGeLySBubA
+  subscriber_count: 339
+  video_count: 83
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCrT9xHgEV-IdMzWUHArC6cQ
+  title: Viral Kitchen India
+  handle: '@viralkitchenindia-r6y'
+  uploads_playlist: UUrT9xHgEV-IdMzWUHArC6cQ
+  subscriber_count: 38
+  video_count: 68
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCqOd4XqeL81kqm4OLLq8DiA
+  title: BaoYuela
+  handle: '@baoyuelaofficial'
+  uploads_playlist: UUqOd4XqeL81kqm4OLLq8DiA
+  subscriber_count: 742
+  video_count: 682
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UC4_GzlcpW9tcaZQcXWGAL0g
+  title: Surekha Food Corner
+  handle: '@surekhafoodcorner'
+  uploads_playlist: UU4_GzlcpW9tcaZQcXWGAL0g
+  subscriber_count: 653
+  video_count: 264
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UC91He66walKL9ZazL7tih9g
+  title: 'Kitchen CureAI '
+  handle: '@kitchen_cureai'
+  uploads_playlist: UU91He66walKL9ZazL7tih9g
+  subscriber_count: 85000
+  video_count: 93
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: mid
+- channel_id: UCeMtZSpIgzfaMm4d3tGDzeA
+  title: 'Paneer recipe '
+  handle: '@cooking-i7'
+  uploads_playlist: UUeMtZSpIgzfaMm4d3tGDzeA
+  subscriber_count: 23
+  video_count: 47
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UC81JGSTIFzmx0akF3mlVrSQ
+  title: Cooking Adda With Priyanka
+  handle: '@cookingaddawithpriyanka-h6m'
+  uploads_playlist: UU81JGSTIFzmx0akF3mlVrSQ
+  subscriber_count: 127
+  video_count: 47
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCFGI2GQb2dgjHtcPoXq3OKg
+  title: Anushapawan
+  handle: '@we-anushapawan'
+  uploads_playlist: UUFGI2GQb2dgjHtcPoXq3OKg
+  subscriber_count: 239
+  video_count: 72
+  country: null
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCbEfuiVrXlgNx1QZXfDXvyw
+  title: Cooking Making King
+  handle: '@cookingmakingking'
+  uploads_playlist: UUbEfuiVrXlgNx1QZXfDXvyw
+  subscriber_count: 80
+  video_count: 74
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+- channel_id: UCH5yF6qcg3j61TilgJQ8gFA
+  title: Meenu kitchen
+  handle: '@meenukitchendelhi'
+  uploads_playlist: UUH5yF6qcg3j61TilgJQ8gFA
+  subscriber_count: 373000
+  video_count: 816
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: mid
+- channel_id: UCkWa4b5PIVeLXkfi8RXF8Ig
+  title: 'Ashish Lahrey Vlogs '
+  handle: '@ashish_lahrey_vlogs'
+  uploads_playlist: UUkWa4b5PIVeLXkfi8RXF8Ig
+  subscriber_count: 34
+  video_count: 66
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+- channel_id: UClQM6402YPqstE9WXGx2Q5Q
+  title: Sabir HVAC Ducting 638
+  handle: '@sabirtechduct'
+  uploads_playlist: UUlQM6402YPqstE9WXGx2Q5Q
+  subscriber_count: 429
+  video_count: 338
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCMUUvDpphbVJELWzSlX_hVw
+  title: We Love Islam
+  handle: '@weloveislam'
+  uploads_playlist: UUMUUvDpphbVJELWzSlX_hVw
+  subscriber_count: 1740000
+  video_count: 970
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: large
+- channel_id: UCzStmLtgduauTZgd6mqwz6Q
+  title: Saurav tech
+  handle: '@sauravdas1001'
+  uploads_playlist: UUzStmLtgduauTZgd6mqwz6Q
+  subscriber_count: 21900
+  video_count: 781
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: mid
+- channel_id: UCEQ90LPgW9FozVPT0B44ghw
+  title: KIRAN CHAPLIN
+  handle: '@kiranchaplin'
+  uploads_playlist: UUEQ90LPgW9FozVPT0B44ghw
+  subscriber_count: 1070
+  video_count: 604
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UC3n5lMag6qJMUi-6_1m9VwA
+  title: Nikita Verma
+  handle: '@runwithus-trackwarriors'
+  uploads_playlist: UU3n5lMag6qJMUi-6_1m9VwA
+  subscriber_count: 96
+  video_count: 17
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCT3dKNM1Z0n4lAhuXOms4ag
+  title: odisha ledki Bangalore basi
+  handle: '@odishaledkibangalorebasi'
+  uploads_playlist: UUT3dKNM1Z0n4lAhuXOms4ag
+  subscriber_count: 97
+  video_count: 304
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCmF7kfKdQEo_4QGoQxJx7JQ
+  title: 'Tech Mayur '
+  handle: '@techmayur5'
+  uploads_playlist: UUmF7kfKdQEo_4QGoQxJx7JQ
+  subscriber_count: 10800
+  video_count: 176
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: mid
+- channel_id: UCSstgsoxYXeJdKLHdTfztaQ
+  title: 'Chaswitha Garage '
+  handle: '@chaswithagarage'
+  uploads_playlist: UUSstgsoxYXeJdKLHdTfztaQ
+  subscriber_count: 463
+  video_count: 184
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UC-1DlyGKvX0V5PHbti2XK1Q
+  title: Navgeet's Vlog
+  handle: '@navgeet-l1h'
+  uploads_playlist: UU-1DlyGKvX0V5PHbti2XK1Q
+  subscriber_count: 5
+  video_count: 16
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UC1ma1rsNNZJQO0_SF7bmJsg
+  title: VIP SABIR VLOG
+  handle: '@vipsabir34990'
+  uploads_playlist: UU1ma1rsNNZJQO0_SF7bmJsg
+  subscriber_count: 225
+  video_count: 122
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCwKUlIMIjSp8F9XeRv1G5nQ
+  title: 'Tech Haveli '
+  handle: '@techhaveli01'
+  uploads_playlist: UUwKUlIMIjSp8F9XeRv1G5nQ
+  subscriber_count: 48
+  video_count: 33
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCYoPL8gaw1SJ_eAENOOrPgA
+  title: Abbas Lifestyle Vlogs
+  handle: '@abbaslifestylevlogs'
+  uploads_playlist: UUYoPL8gaw1SJ_eAENOOrPgA
+  subscriber_count: 1330
+  video_count: 122
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCfOjpYoomR18h1-hPUovvEQ
+  title: Krrish Vlogs up
+  handle: '@krrishvlogsup'
+  uploads_playlist: UUfOjpYoomR18h1-hPUovvEQ
+  subscriber_count: 329
+  video_count: 255
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCc0nZSsxXCjEfwtlJJF2fZg
+  title: 'Nora Sebastian '
+  handle: '@norasebastian9495'
+  uploads_playlist: UUc0nZSsxXCjEfwtlJJF2fZg
+  subscriber_count: 64
+  video_count: 22
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UClliZPFbgUbjzU40J8TqvJA
+  title: Gyanii chai
+  handle: '@gyaniichai'
+  uploads_playlist: UUlliZPFbgUbjzU40J8TqvJA
+  subscriber_count: 174
+  video_count: 2
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCIbadY1PtVfw5qY1JPTYe2A
+  title: FRAMES & MILES
+  handle: '@framesmiles'
+  uploads_playlist: UUIbadY1PtVfw5qY1JPTYe2A
+  subscriber_count: 23
+  video_count: 20
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCQgnBeII2Y0In-IEQka7YqQ
+  title: Ajayguptavlog
+  handle: '@ajayasha7046'
+  uploads_playlist: UUQgnBeII2Y0In-IEQka7YqQ
+  subscriber_count: 5
+  video_count: 17
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCCqAm033Oc1G9joEcG1ZYMA
+  title: Kunchok and Kyab
+  handle: '@kunchokandkyab'
+  uploads_playlist: UUCqAm033Oc1G9joEcG1ZYMA
+  subscriber_count: 3670
+  video_count: 148
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCYTkVK70NyZTvrVrkJnukPQ
+  title: Random Travel Short's
+  handle: '@randomshortsreelss'
+  uploads_playlist: UUYTkVK70NyZTvrVrkJnukPQ
+  subscriber_count: 12800
+  video_count: 2613
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: mid
+- channel_id: UCJLIDKKz4NHOb_n6O7pRqCw
+  title: 'Tech Nexvo '
+  handle: '@technexvo'
+  uploads_playlist: UUJLIDKKz4NHOb_n6O7pRqCw
+  subscriber_count: 160
+  video_count: 28
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCjYcm2ddMXzYPcG6HemrfTQ
+  title: Bangalore Diaries
+  handle: '@banglore423'
+  uploads_playlist: UUjYcm2ddMXzYPcG6HemrfTQ
+  subscriber_count: 48
+  video_count: 1
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCsNy6NoJ3dh5NxLDqwjdhpg
+  title: Majhar Vlogs
+  handle: '@majhar_vlogs_1'
+  uploads_playlist: UUsNy6NoJ3dh5NxLDqwjdhpg
+  subscriber_count: 35
+  video_count: 36
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCMFvxH8Xmx7vn7aTAkdIiFw
+  title: Ammuh
+  handle: '@foodtaste_with_ammuh'
+  uploads_playlist: UUMFvxH8Xmx7vn7aTAkdIiFw
+  subscriber_count: 104
+  video_count: 28
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCm8vs9hdG0UfN1Mixkrwl1g
+  title: manishvloginig
+  handle: '@manishvloginig'
+  uploads_playlist: UUm8vs9hdG0UfN1Mixkrwl1g
+  subscriber_count: 410
+  video_count: 457
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCdbQ6LGPtihi1MGCWncaN7g
+  title: Mini Singh
+  handle: '@minisinghh'
+  uploads_playlist: UUdbQ6LGPtihi1MGCWncaN7g
+  subscriber_count: 17500
+  video_count: 9339
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: mid
+- channel_id: UCD3IdDABHeChHX7N6lthEWg
+  title: Akshat Adhikari
+  handle: '@akshat_adhikaari'
+  uploads_playlist: UUD3IdDABHeChHX7N6lthEWg
+  subscriber_count: 1120
+  video_count: 40
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCvZ6EAgXHtt_CmjMNxIWpqQ
+  title: Bachelor's Food Factory
+  handle: '@bachelorsfoodfactory890'
+  uploads_playlist: UUvZ6EAgXHtt_CmjMNxIWpqQ
+  subscriber_count: 6060
+  video_count: 315
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UC4_mby22nGhm7Y5uK8W3Ttw
+  title: Rahul Life Vlogs
+  handle: '@rahulvlogslife.34'
+  uploads_playlist: UU4_mby22nGhm7Y5uK8W3Ttw
+  subscriber_count: 23
+  video_count: 3
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UC_oshMX3wmdx8W_xYPki5TQ
+  title: Prem on Wheels
+  handle: '@premonwheels'
+  uploads_playlist: UU_oshMX3wmdx8W_xYPki5TQ
+  subscriber_count: 6400
+  video_count: 114
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCT73KISFq6RNZlUnBBEZ1gg
+  title: On Journey Tab
+  handle: '@onjourneytab'
+  uploads_playlist: UUT73KISFq6RNZlUnBBEZ1gg
+  subscriber_count: 60
+  video_count: 159
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCp5TP2MKW1PDccHOt6y6kxQ
+  title: NamNamTv2.o
+  handle: '@namnamtv2.o'
+  uploads_playlist: UUp5TP2MKW1PDccHOt6y6kxQ
+  subscriber_count: 40
+  video_count: 46
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCis17S7UXAOXa7smLJBo3iA
+  title: Sanju Ramakrishna
+  handle: '@sanjuramakrishna'
+  uploads_playlist: UUis17S7UXAOXa7smLJBo3iA
+  subscriber_count: 4460
+  video_count: 1219
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCpH5kz70XAUNJeQz8CW2I_A
+  title: 'Pretty piuuuu '
+  handle: '@prettypiuu'
+  uploads_playlist: UUpH5kz70XAUNJeQz8CW2I_A
+  subscriber_count: 189
+  video_count: 25
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCJCsfgJV3z4fAmfbxNi06Eg
+  title: 'lupa '
+  handle: '@nanglupanamchoom'
+  uploads_playlist: UUJCsfgJV3z4fAmfbxNi06Eg
+  subscriber_count: 31
+  video_count: 29
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCmf3ArTUbM5J1-QEijVfF5A
+  title: DearBee
+  handle: '@dearbeeee'
+  uploads_playlist: UUmf3ArTUbM5J1-QEijVfF5A
+  subscriber_count: 172
+  video_count: 81
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCvXzf-D17xumQs7vi8BYqAw
+  title: 'DLR DEWASI VLOG '
+  handle: '@dlrdewasivlog'
+  uploads_playlist: UUvXzf-D17xumQs7vi8BYqAw
+  subscriber_count: 27000
+  video_count: 2797
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: mid
+- channel_id: UCVP94EK-yppM5U_dakwmtSQ
+  title: VlogwithPreethi
+  handle: '@preethiramdass_01'
+  uploads_playlist: UUVP94EK-yppM5U_dakwmtSQ
+  subscriber_count: 263
+  video_count: 26
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCYxGol2LuWGGSxUmWb1qkFw
+  title: I am Koustav Village Vlogger
+  handle: '@iamkoustavvillagevlogger'
+  uploads_playlist: UUYxGol2LuWGGSxUmWb1qkFw
+  subscriber_count: 86
+  video_count: 237
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCz85_Uyj6uC6tycMUx6TjNg
+  title: Tastymoments2
+  handle: '@tastymoments2'
+  uploads_playlist: UUz85_Uyj6uC6tycMUx6TjNg
+  subscriber_count: 320
+  video_count: 107
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCELJDq6yKuJnKI8fLpGsHPw
+  title: 'Jash Daily '
+  handle: '@jashdaily'
+  uploads_playlist: UUELJDq6yKuJnKI8fLpGsHPw
+  subscriber_count: 99
+  video_count: 76
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCwkht0UKV6ObtGkEUGPB4EA
+  title: MoniSandyVlogs
+  handle: '@saamotales'
+  uploads_playlist: UUwkht0UKV6ObtGkEUGPB4EA
+  subscriber_count: 9
+  video_count: 2
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCg6VXzTfxsfsEKbUSqDAupw
+  title: Rithu Merin
+  handle: '@rithumerin'
+  uploads_playlist: UUg6VXzTfxsfsEKbUSqDAupw
+  subscriber_count: 790
+  video_count: 189
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UC4a08VKDr0waFLEdBYqvRmg
+  title: Nilima
+  handle: '@nilima.createss'
+  uploads_playlist: UU4a08VKDr0waFLEdBYqvRmg
+  subscriber_count: 0
+  video_count: 3
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCLs25WIMVpIMhpVPNtKsc7Q
+  title: Yaseen Official Foundry
+  handle: '@yaseenofficialfoundry5056'
+  uploads_playlist: UULs25WIMVpIMhpVPNtKsc7Q
+  subscriber_count: 8
+  video_count: 2
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UC_NCuKCA9pbuDSQ3tPNm1DA
+  title: Loveleen Kakkar
+  handle: '@lovleen.kakkar'
+  uploads_playlist: UU_NCuKCA9pbuDSQ3tPNm1DA
+  subscriber_count: 404
+  video_count: 333
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UC45b4mJByq-UflkuP8mMFbg
+  title: 'Metilda Lifestyle '
+  handle: '@metildalifestyle'
+  uploads_playlist: UU45b4mJByq-UflkuP8mMFbg
+  subscriber_count: 4100
+  video_count: 366
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCjzuWNpEoS3OqV_qXxrhWYw
+  title: Ruhan Nanda
+  handle: '@ruhannanda09'
+  uploads_playlist: UUjzuWNpEoS3OqV_qXxrhWYw
+  subscriber_count: 50
+  video_count: 30
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCoYlbPo1i0q-pRScgtjx0Bg
+  title: Rahit Kumar
+  handle: '@rahitkumar-m7k'
+  uploads_playlist: UUoYlbPo1i0q-pRScgtjx0Bg
+  subscriber_count: 7
+  video_count: 23
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCjAtU0n5uub2t_JzmiMzZfg
+  title: Tech Tadka
+  handle: '@techtadka-c2y'
+  uploads_playlist: UUjAtU0n5uub2t_JzmiMzZfg
+  subscriber_count: 0
+  video_count: 6
+  country: null
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCHQnS8Ssp5XbLW6s3IoHYIA
+  title: Pulsating_Pixels
+  handle: '@pulsatingpixels'
+  uploads_playlist: UUHQnS8Ssp5XbLW6s3IoHYIA
+  subscriber_count: 77
+  video_count: 48
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+- channel_id: UCaJ6cgAmiTCzLw2ha7LqFpg
+  title: 'UMTIGRA 🔥 '
+  handle: '@umtigra'
+  uploads_playlist: UUaJ6cgAmiTCzLw2ha7LqFpg
+  subscriber_count: 386
+  video_count: 42
+  country: null
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCmkGd-6Wrg_RITEBe3t22Rw
+  title: 'Vlog With Sam '
+  handle: '@vlogwithsam-p'
+  uploads_playlist: UUmkGd-6Wrg_RITEBe3t22Rw
+  subscriber_count: 772
+  video_count: 268
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCq30pSBD9tX6d5_xT5aNPoA
+  title: Next Univerz
+  handle: '@nextuniverz'
+  uploads_playlist: UUq30pSBD9tX6d5_xT5aNPoA
+  subscriber_count: 5550000
+  video_count: 1363
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: large
+- channel_id: UCFREfgTXEdzG9SLhyAKuFXg
+  title: Ulrtalk
+  handle: '@ulrtalk'
+  uploads_playlist: UUFREfgTXEdzG9SLhyAKuFXg
+  subscriber_count: 1080
+  video_count: 359
+  country: null
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCvq6F5LQmwr3GgGFD_RRZrw
+  title: ClipsOfLegends
+  handle: '@clipsoflegends-n4e'
+  uploads_playlist: UUvq6F5LQmwr3GgGFD_RRZrw
+  subscriber_count: 0
+  video_count: 7
+  country: null
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCZo1GLb4X_5mCcVRJvaobFQ
+  title: Nexora Network
+  handle: '@nexoranetwork9'
+  uploads_playlist: UUZo1GLb4X_5mCcVRJvaobFQ
+  subscriber_count: 269
+  video_count: 36
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UC_RmFXhBv1bqnTNEJeYm5Vw
+  title: biriyani friends
+  handle: '@biriyanifriends-b8n'
+  uploads_playlist: UU_RmFXhBv1bqnTNEJeYm5Vw
+  subscriber_count: 340
+  video_count: 46
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UC11ViFM6k88xSFPA54Zj1mQ
+  title: Gyan ki Gagar
+  handle: '@gyankigagar'
+  uploads_playlist: UU11ViFM6k88xSFPA54Zj1mQ
+  subscriber_count: 0
+  video_count: 3
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCBbtFh7z5_pQIQAlrkRu9yw
+  title: ByteysGadgetLab
+  handle: '@byteysgadgetlab0'
+  uploads_playlist: UUBbtFh7z5_pQIQAlrkRu9yw
+  subscriber_count: 9
+  video_count: 8
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCF7u4l52sILV8NbXIwZcOoQ
+  title: Epic Food Stories
+  handle: '@epicfoodstory47'
+  uploads_playlist: UUF7u4l52sILV8NbXIwZcOoQ
+  subscriber_count: 103
+  video_count: 27
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCu6_LIGZmkAnUVu0cnYPKQQ
+  title: TecH NooK
+  handle: '@technook03'
+  uploads_playlist: UUu6_LIGZmkAnUVu0cnYPKQQ
+  subscriber_count: 210
+  video_count: 161
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCda1ps7Jq5yFHH82YDxf8Hw
+  title: Tech with VR
+  handle: '@100pm-h8w'
+  uploads_playlist: UUda1ps7Jq5yFHH82YDxf8Hw
+  subscriber_count: 7
+  video_count: 14
+  country: null
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCTw1l1HQt7cFl0Wk9SGCUHA
+  title: Hayati Creation
+  handle: '@hayati-786'
+  uploads_playlist: UUTw1l1HQt7cFl0Wk9SGCUHA
+  subscriber_count: 31
+  video_count: 44
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCNoQF-4-ZzHZS6EBSHI-fqQ
+  title: Technical Ranjeet
+  handle: '@technicalranjeet-2025'
+  uploads_playlist: UUNoQF-4-ZzHZS6EBSHI-fqQ
+  subscriber_count: 1620
+  video_count: 462
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCBjIjxzgS91g2Ezu8-UViaw
+  title: Gyan Tech
+  handle: '@gyantech-02'
+  uploads_playlist: UUBjIjxzgS91g2Ezu8-UViaw
+  subscriber_count: 17900
+  video_count: 78
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: mid
+- channel_id: UCCD2UNMu9nvcTa-VXNlrdQg
+  title: AmiT Technology
+  handle: '@amittechnology'
+  uploads_playlist: UUCD2UNMu9nvcTa-VXNlrdQg
+  subscriber_count: 397000
+  video_count: 3231
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: mid
+- channel_id: UCG6_fvgzO93i2Yduq1QN1_g
+  title: Snehal Hude
+  handle: '@snehalhude7806'
+  uploads_playlist: UUG6_fvgzO93i2Yduq1QN1_g
+  subscriber_count: 17300
+  video_count: 735
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: mid
+- channel_id: UC487vwPeeRCcWjkkiEz614A
+  title: Sangita Cooking Vlogs
+  handle: '@sangitacookingvlogs'
+  uploads_playlist: UU487vwPeeRCcWjkkiEz614A
+  subscriber_count: 77
+  video_count: 148
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCnvEYGElxNcogdZcerwrCGA
+  title: 'Mera Tech Guru '
+  handle: '@meratechguru'
+  uploads_playlist: UUnvEYGElxNcogdZcerwrCGA
+  subscriber_count: 11
+  video_count: 13
+  country: null
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCNcWlfPhVpewM6i3zBECuww
+  title: TECH WITH SAGAR
+  handle: '@techwithsagar92'
+  uploads_playlist: UUNcWlfPhVpewM6i3zBECuww
+  subscriber_count: 47
+  video_count: 16
+  country: null
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UC0r62Two7DY1i-TGaEzlOCw
+  title: 'Nik '
+  handle: '@nik21sharma'
+  uploads_playlist: UU0r62Two7DY1i-TGaEzlOCw
+  subscriber_count: 497
+  video_count: 14
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UC9IsSU263ORRKdSktrdn8Pg
+  title: 'MANISH SINGH '
+  handle: '@techmanishsingh07'
+  uploads_playlist: UU9IsSU263ORRKdSktrdn8Pg
+  subscriber_count: 5
+  video_count: 25
+  country: null
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCYQxo9NvkKM279ZiBV588Kg
+  title: 'APR  VERSION '
+  handle: '@aprversion'
+  uploads_playlist: UUYQxo9NvkKM279ZiBV588Kg
+  subscriber_count: 13
+  video_count: 52
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UC2lr-MZy_nX-ppo8Dm1Y-8g
+  title: Tech Sutra
+  handle: '@techsutra_01'
+  uploads_playlist: UU2lr-MZy_nX-ppo8Dm1Y-8g
+  subscriber_count: 1
+  video_count: 4
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCcDfWkZ-NjaNnijBAZ7Azqw
+  title: POYA AI review
+  handle: '@poyaaireview'
+  uploads_playlist: UUcDfWkZ-NjaNnijBAZ7Azqw
+  subscriber_count: 9
+  video_count: 17
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UC6_Fkclr-t4orEnDsNFDPlw
+  title: Vishal Vlogs IN
+  handle: '@vishalvlogsin'
+  uploads_playlist: UU6_Fkclr-t4orEnDsNFDPlw
+  subscriber_count: 3770
+  video_count: 407
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCTfkCXC92R3vDJnHznk-5Ag
+  title: Bong Boy Risi
+  handle: '@bongboyrisi'
+  uploads_playlist: UUTfkCXC92R3vDJnHznk-5Ag
+  subscriber_count: 5250
+  video_count: 142
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCObd74cVmKoNnKGJnVbnOXw
+  title: Tech ASD29
+  handle: '@asd29-asd'
+  uploads_playlist: UUObd74cVmKoNnKGJnVbnOXw
+  subscriber_count: 11
+  video_count: 64
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCzINPvRxRKs9R8Q4i1G3ZVg
+  title: Stone Techx
+  handle: '@stonetechx607'
+  uploads_playlist: UUzINPvRxRKs9R8Q4i1G3ZVg
+  subscriber_count: 22700
+  video_count: 5220
+  country: null
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: mid
+- channel_id: UCsFYGFBL8mqgqfQKePvpRVw
+  title: Aakali Sanchaari
+  handle: '@aakalisanchaari'
+  uploads_playlist: UUsFYGFBL8mqgqfQKePvpRVw
+  subscriber_count: 1230
+  video_count: 230
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCRh14n0N9MzHZlTYMprAqDQ
+  title: UNBOXORA
+  handle: '@unboxora-z9t'
+  uploads_playlist: UURh14n0N9MzHZlTYMprAqDQ
+  subscriber_count: 0
+  video_count: 2
+  country: null
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCrvcuagRFc5BVjEARsaoZAQ
+  title: Tech Ki Mynk
+  handle: '@techkimyk'
+  uploads_playlist: UUrvcuagRFc5BVjEARsaoZAQ
+  subscriber_count: 265
+  video_count: 4
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UClbf2ZsMGUtw0GpIoV0iJ-g
+  title: TECHNICAL MAHATMA JI
+  handle: '@technicalmahatmaji108'
+  uploads_playlist: UUlbf2ZsMGUtw0GpIoV0iJ-g
+  subscriber_count: 3160
+  video_count: 182
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCkvzT5L48XltaeWVhr4-FbQ
+  title: Flavors Of India
+  handle: '@flavorssofindia108'
+  uploads_playlist: UUkvzT5L48XltaeWVhr4-FbQ
+  subscriber_count: 177
+  video_count: 102
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCP4ydmSF381KSh35V8OvzYw
+  title: indian unboxerphone
+  handle: '@indianunboxerphone'
+  uploads_playlist: UUP4ydmSF381KSh35V8OvzYw
+  subscriber_count: 43
+  video_count: 30
+  country: null
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCqi0UNaurytOxIpEU_MHgqQ
+  title: RayBroz
+  handle: '@raybroz2'
+  uploads_playlist: UUqi0UNaurytOxIpEU_MHgqQ
+  subscriber_count: 242
+  video_count: 85
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCeyx9HB6vBMOgLOaRxWuUOg
+  title: streetswaadIndia
+  handle: '@streetswaadindia'
+  uploads_playlist: UUeyx9HB6vBMOgLOaRxWuUOg
+  subscriber_count: 23
+  video_count: 10
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCJHF6NxSunFEsPITQikP5yQ
+  title: 'San Karan Yadav '
+  handle: '@yadavsankaran'
+  uploads_playlist: UUJHF6NxSunFEsPITQikP5yQ
+  subscriber_count: 281
+  video_count: 167
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCyrqfjn0XKX307MvzID0Dmg
+  title: Unbox Technolozia
+  handle: '@unbox-i7o'
+  uploads_playlist: UUyrqfjn0XKX307MvzID0Dmg
+  subscriber_count: 5
+  video_count: 3
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCtt9qc28Efs8nGza8E00Vdw
+  title: foodieashish_06
+  handle: '@foodieashish_06'
+  uploads_playlist: UUtt9qc28Efs8nGza8E00Vdw
+  subscriber_count: 24
+  video_count: 24
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCsX8FdtkgsQPiK_BtLHZ9kQ
+  title: Tech with Tahreem
+  handle: '@techwithtahreem'
+  uploads_playlist: UUsX8FdtkgsQPiK_BtLHZ9kQ
+  subscriber_count: 4
+  video_count: 3
+  country: null
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCYzGkzXOsvNBOIFVmuvh_uA
+  title: 'fukan ke vlog '
+  handle: '@fukankevlog'
+  uploads_playlist: UUYzGkzXOsvNBOIFVmuvh_uA
+  subscriber_count: 308
+  video_count: 102
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCDWFL9v3qYppDBZJ30V7x7g
+  title: Trend Venom
+  handle: '@trendvenom-review'
+  uploads_playlist: UUDWFL9v3qYppDBZJ30V7x7g
+  subscriber_count: 36
+  video_count: 66
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCPHuVzF0CG-XLXMjU2pyhsw
+  title: Smart Deals Hub (Lalit)
+  handle: '@smartdealshub.lalit97'
+  uploads_playlist: UUPHuVzF0CG-XLXMjU2pyhsw
+  subscriber_count: 16
+  video_count: 1
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCFDGqiLK0qxF_O9__hFjCuA
+  title: 'JSS TECH '
+  handle: '@yogendrasingh-o4o3p'
+  uploads_playlist: UUFDGqiLK0qxF_O9__hFjCuA
+  subscriber_count: 2080
+  video_count: 305
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCV63Ii9YAuFDOYyL-DV34Mg
+  title: Sushil Tech07
+  handle: '@sushiltech077'
+  uploads_playlist: UUV63Ii9YAuFDOYyL-DV34Mg
+  subscriber_count: 14200
+  video_count: 942
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: mid
+- channel_id: UCBkN-k26GT1I4PIdAkk8pMQ
+  title: Akash Tach Official
+  handle: '@akashtachofficial'
+  uploads_playlist: UUBkN-k26GT1I4PIdAkk8pMQ
+  subscriber_count: 46
+  video_count: 59
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCZkwIzJ94xWzT8FRKYJ41Ew
+  title: KartiK Xonn
+  handle: '@kartikxonn'
+  uploads_playlist: UUZkwIzJ94xWzT8FRKYJ41Ew
+  subscriber_count: 3050
+  video_count: 1184
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCCEXhgg601_a1TQ9JWEJiqg
+  title: Technologiya
+  handle: '@technologiya-fui'
+  uploads_playlist: UUCEXhgg601_a1TQ9JWEJiqg
+  subscriber_count: 13
+  video_count: 6
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UC198caavgfPATjfqUpEp4_A
+  title: Pro Tech 001
+  handle: '@protech001'
+  uploads_playlist: UU198caavgfPATjfqUpEp4_A
+  subscriber_count: 506
+  video_count: 450
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: micro
+- channel_id: UCKYJ-g4VowXtu8w66CEpp_g
+  title: life with SB
+  handle: '@bidisha.shaymali'
+  uploads_playlist: UUKYJ-g4VowXtu8w66CEpp_g
+  subscriber_count: 1910
+  video_count: 852
+  country: null
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCnIsVxs6GMOZ5pHxPq22F2w
+  title: Sarrthi IAS - Optional
+  handle: '@sarrthiiasoptional'
+  uploads_playlist: UUnIsVxs6GMOZ5pHxPq22F2w
+  subscriber_count: 7250
+  video_count: 307
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCrC8mOqJQpoB7NuIMKIS6rQ
+  title: StudyIQ IAS
+  handle: '@studyiqeducationltd'
+  uploads_playlist: UUrC8mOqJQpoB7NuIMKIS6rQ
+  subscriber_count: 20500000
+  video_count: 66576
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: large
+- channel_id: UCDU2n2Ny_v3W20AxQXqG62w
+  title: 'Kash butt food vlogs '
+  handle: '@kashbuttfoodvlogs'
+  uploads_playlist: UUDU2n2Ny_v3W20AxQXqG62w
+  subscriber_count: 2570
+  video_count: 2565
+  country: AE
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCewjZCnoIkCg4drNZTeMH4g
+  title: Ooril_Oruvan
+  handle: '@ooril_oruvan'
+  uploads_playlist: UUewjZCnoIkCg4drNZTeMH4g
+  subscriber_count: 1590
+  video_count: 227
+  country: null
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCn7AloIFuD29K4eTSWp6hGQ
+  title: THE LAKSHYA ACADEMY
+  handle: '@thelakshyaacademy'
+  uploads_playlist: UUn7AloIFuD29K4eTSWp6hGQ
+  subscriber_count: 53600
+  video_count: 739
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UCrAc5q5W_-w35Y4gG3MUOiA
+  title: jatashankar Dj
+  handle: '@jatashankardj'
+  uploads_playlist: UUrAc5q5W_-w35Y4gG3MUOiA
+  subscriber_count: 0
+  video_count: 1
+  country: null
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCmGfqa8dBBDWX2rJ2gUADXw
+  title: Mentora IAS
+  handle: '@mentora_ias'
+  uploads_playlist: UUmGfqa8dBBDWX2rJ2gUADXw
+  subscriber_count: 2820
+  video_count: 240
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCexM6oIvqPCe8qDwTbZBywA
+  title: THINKUPSC
+  handle: '@thinkupsc-o5m'
+  uploads_playlist: UUexM6oIvqPCe8qDwTbZBywA
+  subscriber_count: 623
+  video_count: 155
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCmHfPX_kmE4qTSt9txl7tFA
+  title: Tasty Dares
+  handle: '@tasty-dares'
+  uploads_playlist: UUmHfPX_kmE4qTSt9txl7tFA
+  subscriber_count: 51100
+  video_count: 137
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: mid
+- channel_id: UCpsvODT1w0ZfQZfzeKuAXBg
+  title: RIDE WITH SARAN
+  handle: '@ridewithsaran'
+  uploads_playlist: UUpsvODT1w0ZfQZfzeKuAXBg
+  subscriber_count: 370000
+  video_count: 809
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: mid
+- channel_id: UCxWTzR3SImm8_Gxx02K5FHA
+  title: IAS World
+  handle: '@iasworld-e9n'
+  uploads_playlist: UUxWTzR3SImm8_Gxx02K5FHA
+  subscriber_count: 6720
+  video_count: 930
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCPBIg3PrR9unTuzBKQCd39w
+  title: Sociology with Ravi Shekhar
+  handle: '@sociologywithravishekhar'
+  uploads_playlist: UUPBIg3PrR9unTuzBKQCd39w
+  subscriber_count: 1440
+  video_count: 51
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UC1Q2X8zIO5tBhjsQgmIx51g
+  title: UPSC Hustlers Zone
+  handle: '@upschustlerszone'
+  uploads_playlist: UU1Q2X8zIO5tBhjsQgmIx51g
+  subscriber_count: 3250
+  video_count: 480
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCPoaSbh51I_Tc_1I7bXcLvQ
+  title: SwadVerse
+  handle: '@swadverse-yt1l'
+  uploads_playlist: UUPoaSbh51I_Tc_1I7bXcLvQ
+  subscriber_count: 14
+  video_count: 28
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCjEFZWus89WeCdyq7M0uG_w
+  title: viewshowshop99
+  handle: '@viewshowshop99'
+  uploads_playlist: UUjEFZWus89WeCdyq7M0uG_w
+  subscriber_count: 590
+  video_count: 428
+  country: US
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UC0bnSVJGxXdq-1r4Nd7z7Ig
+  title: A Tour Of Foodie
+  handle: '@atouroffoodie'
+  uploads_playlist: UU0bnSVJGxXdq-1r4Nd7z7Ig
+  subscriber_count: 1150
+  video_count: 333
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCMr5NaasX5l3iwOxadFaqYA
+  title: Team Sumit Sir
+  handle: '@teamsumitsir'
+  uploads_playlist: UUMr5NaasX5l3iwOxadFaqYA
+  subscriber_count: 35800
+  video_count: 51
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UCfK07E90OzqP-VafR4kJ0iQ
+  title: UPSCprep․com
+  handle: '@upscprepias'
+  uploads_playlist: UUfK07E90OzqP-VafR4kJ0iQ
+  subscriber_count: 577000
+  video_count: 1447
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: large
+- channel_id: UCTs4Pd84Z2Zf4hFC6GAjv5w
+  title: WanderNbites
+  handle: '@wandernbites'
+  uploads_playlist: UUTs4Pd84Z2Zf4hFC6GAjv5w
+  subscriber_count: 260
+  video_count: 88
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCJY94HoLxfIUIjm0stzgyjQ
+  title: Giri Vlog 2.0
+  handle: '@girivlog2.0-od01'
+  uploads_playlist: UUJY94HoLxfIUIjm0stzgyjQ
+  subscriber_count: 167
+  video_count: 31
+  country: null
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCj9OKld8KaSi4uO_4Bbw08w
+  title: Warrior Squad
+  handle: '@warriorsquad-iq'
+  uploads_playlist: UUj9OKld8KaSi4uO_4Bbw08w
+  subscriber_count: 2260
+  video_count: 750
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCGHz5c7gAtqxoCq9isZACqw
+  title: 'C2 ki rasoi '
+  handle: '@c2kirasoi'
+  uploads_playlist: UUGHz5c7gAtqxoCq9isZACqw
+  subscriber_count: 18
+  video_count: 69
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCBGvCV7ZqMJuBbYLwYiuG2Q
+  title: 'UPSC  Safar '
+  handle: '@upcssafar7'
+  uploads_playlist: UUBGvCV7ZqMJuBbYLwYiuG2Q
+  subscriber_count: 410
+  video_count: 55
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCQWHfwk5dnI-8QHyEqm-BoQ
+  title: FoodieChannel
+  handle: '@foodiechannelds'
+  uploads_playlist: UUQWHfwk5dnI-8QHyEqm-BoQ
+  subscriber_count: 922
+  video_count: 33
+  country: null
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCpwxpTmEQ65OMwN4v2qpl1Q
+  title: UPSC Soch
+  handle: '@upscsoch-4u'
+  uploads_playlist: UUpwxpTmEQ65OMwN4v2qpl1Q
+  subscriber_count: 12100
+  video_count: 752
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UCz3vniusS9H-hTir0QRySpA
+  title: CHATKARA
+  handle: '@chatkara2026'
+  uploads_playlist: UUz3vniusS9H-hTir0QRySpA
+  subscriber_count: 1
+  video_count: 3
+  country: null
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UC4IAYr8gEl65k4PTqQwayCQ
+  title: Mission IAS
+  handle: '@missionias..'
+  uploads_playlist: UU4IAYr8gEl65k4PTqQwayCQ
+  subscriber_count: 14800
+  video_count: 1772
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UCz195GbeSgXtOUMvFCw6xhQ
+  title: Chanakya Mandal Pariwar
+  handle: '@chanakyamandalpariwar'
+  uploads_playlist: UUz195GbeSgXtOUMvFCw6xhQ
+  subscriber_count: 516000
+  video_count: 2534
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: large
+- channel_id: UCgRf62bnK3uX4N-YEhG4Jog
+  title: Sleepy Classes IAS
+  handle: '@sleepyclassesias'
+  uploads_playlist: UUgRf62bnK3uX4N-YEhG4Jog
+  subscriber_count: 1270000
+  video_count: 16499
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: large
+- channel_id: UCwKNlkmTIiqhzKP6ppXxmlQ
+  title: RajaMotivate45
+  handle: '@rajamotivate45'
+  uploads_playlist: UUwKNlkmTIiqhzKP6ppXxmlQ
+  subscriber_count: 11200
+  video_count: 520
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UCWORpSz6kniSbEvGXqkGA7A
+  title: JMD SSCian
+  handle: '@jmdsscian'
+  uploads_playlist: UUWORpSz6kniSbEvGXqkGA7A
+  subscriber_count: 109
+  video_count: 98
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCdjSz--FqS597mbzwLWMP4A
+  title: Sufi Vlogs
+  handle: '@sufivlogs27'
+  uploads_playlist: UUdjSz--FqS597mbzwLWMP4A
+  subscriber_count: 5780
+  video_count: 499
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCc_HAumAWNB2kA5CY-oCihw
+  title: Sudarshan Sir Fanpage
+  handle: '@sudarshansirfanpage'
+  uploads_playlist: UUc_HAumAWNB2kA5CY-oCihw
+  subscriber_count: 242
+  video_count: 214
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UC4YLjKLcjW79HYrwFS4KQEA
+  title: Margdarshan IAS by Siddharth Singh
+  handle: '@margdarshanias'
+  uploads_playlist: UU4YLjKLcjW79HYrwFS4KQEA
+  subscriber_count: 133000
+  video_count: 1230
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UCH4orLt2Aiko-GEPypcM-6Q
+  title: Foodies Lab
+  handle: '@fodieslab'
+  uploads_playlist: UUH4orLt2Aiko-GEPypcM-6Q
+  subscriber_count: 89400
+  video_count: 565
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: mid
+- channel_id: UCCyrmANvi2SkXx_YQcC8Q-g
+  title: KN Travel Stories
+  handle: '@kntravelstories3906'
+  uploads_playlist: UUCyrmANvi2SkXx_YQcC8Q-g
+  subscriber_count: 8310
+  video_count: 2786
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCfxzeCtLCvzaq4SNbOh17jw
+  title: 'Ajay Exam King '
+  handle: '@ajayexamking'
+  uploads_playlist: UUfxzeCtLCvzaq4SNbOh17jw
+  subscriber_count: 0
+  video_count: 7
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UC6k146E_58i44sBexya--NQ
+  title: 'UPSC Prep With Rajeev Chauhan  '
+  handle: '@rajeevchauhan'
+  uploads_playlist: UU6k146E_58i44sBexya--NQ
+  subscriber_count: 6160
+  video_count: 229
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCdLZ2XMFjGLTI_56TQ3QWzA
+  title: BINGE WITH MEDICO 🗺️🍔
+  handle: '@bingewithmedico'
+  uploads_playlist: UUdLZ2XMFjGLTI_56TQ3QWzA
+  subscriber_count: 8900
+  video_count: 125
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCByoEPQbSxyB7PGFDmqtHwQ
+  title: Foodka Series
+  handle: '@foodkaseries'
+  uploads_playlist: UUByoEPQbSxyB7PGFDmqtHwQ
+  subscriber_count: 493000
+  video_count: 809
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: mid
+- channel_id: UCsVMSh-nX8NHJCGuqjc4B-w
+  title: 79 sandeep deewana
+  handle: '@79sandeepdewaana'
+  uploads_playlist: UUsVMSh-nX8NHJCGuqjc4B-w
+  subscriber_count: 4320
+  video_count: 496
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UC5irmwqbMSs1NpHD3zNXzVA
+  title: Girivant official
+  handle: '@girivantofficial'
+  uploads_playlist: UU5irmwqbMSs1NpHD3zNXzVA
+  subscriber_count: 109
+  video_count: 4
+  country: null
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCn-UycBJee_PqSbHkHqacUA
+  title: UPSC Editz
+  handle: '@upsceditz-iq'
+  uploads_playlist: UUn-UycBJee_PqSbHkHqacUA
+  subscriber_count: 3560
+  video_count: 927
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCpf7Mzz5AaXPUaNtoofxHUw
+  title: ' renovat India  '
+  handle: '@renovatindia'
+  uploads_playlist: UUpf7Mzz5AaXPUaNtoofxHUw
+  subscriber_count: 678
+  video_count: 75
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCywSRab9BnRu9Y_f3guRRoQ
+  title: 'Trichykaran '
+  handle: '@trichykaran'
+  uploads_playlist: UUywSRab9BnRu9Y_f3guRRoQ
+  subscriber_count: 5110
+  video_count: 391
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+- channel_id: UCLWQtHzeZ-g0YX9EHempq0Q
+  title: RBB Creates
+  handle: '@rbbcreates'
+  uploads_playlist: UULWQtHzeZ-g0YX9EHempq0Q
+  subscriber_count: 15
+  video_count: 29
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UC8Q1d_odeRQo3iCrgcck1_w
+  title: Sparkk3y
+  handle: '@sparkliv3'
+  uploads_playlist: UU8Q1d_odeRQo3iCrgcck1_w
+  subscriber_count: 17500
+  video_count: 70
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: mid
+- channel_id: UCnXuwcws8diCAfo7FhpQkRA
+  title: 'Hungry Boy '
+  handle: '@hungryboy007'
+  uploads_playlist: UUnXuwcws8diCAfo7FhpQkRA
+  subscriber_count: 21700
+  video_count: 227
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: mid
+- channel_id: UCOJ48n9p1posBKz0VfMJgDA
+  title: 'Saurashtra Foodie '
+  handle: '@saurashtrafoodie'
+  uploads_playlist: UUOJ48n9p1posBKz0VfMJgDA
+  subscriber_count: 18700
+  video_count: 520
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: mid
+- channel_id: UChSCiJusPIcDpzP0FcRdhrw
+  title: Mehnat ke Alfaaz0123
+  handle: '@mehnatalfaaz0123'
+  uploads_playlist: UUhSCiJusPIcDpzP0FcRdhrw
+  subscriber_count: 12
+  video_count: 11
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCEClAAaXn3DfN8YrUj4F27w
+  title: LevelUp IAS
+  handle: '@levelupias'
+  uploads_playlist: UUEClAAaXn3DfN8YrUj4F27w
+  subscriber_count: 139000
+  video_count: 4023
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UCpbtiyvoVANX1CbZ80cliNQ
+  title: Shaz  upsc world
+  handle: '@saziya78'
+  uploads_playlist: UUpbtiyvoVANX1CbZ80cliNQ
+  subscriber_count: 173
+  video_count: 210
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCzmQyJKbdAeMBTs9Tpr8DDQ
+  title: 'Miss Akanksha '
+  handle: '@miss_akanksha_ak47'
+  uploads_playlist: UUzmQyJKbdAeMBTs9Tpr8DDQ
+  subscriber_count: 296
+  video_count: 193
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCoRNNYTxw0qsApeXBtmlDZw
+  title: Premnagar1youtuber
+  handle: '@premnagar1youtuberblogs'
+  uploads_playlist: UUoRNNYTxw0qsApeXBtmlDZw
+  subscriber_count: 16900
+  video_count: 468
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UC_vUGLiW38WBnLYWPGaOFvg
+  title: UPSC With Saurav
+  handle: '@upscwithsaurav-v7f'
+  uploads_playlist: UU_vUGLiW38WBnLYWPGaOFvg
+  subscriber_count: 160
+  video_count: 60
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCnXCWo81lLCm4uIRIp6AYtA
+  title: Alfaaz-DiaryCR
+  handle: '@alfaaz_diaryofficial'
+  uploads_playlist: UUnXCWo81lLCm4uIRIp6AYtA
+  subscriber_count: 108
+  video_count: 55
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCxynUZfU3LSRXUbTSf64xmg
+  title: 'Indian Aspirant Show by Ashish: MPPSC Podcast'
+  handle: '@indianaspirantshow'
+  uploads_playlist: UUxynUZfU3LSRXUbTSf64xmg
+  subscriber_count: 33900
+  video_count: 1449
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UCTCrU_9x3hcocpxjC1wUz-A
+  title: Motivational Girl
+  handle: '@motivationalgirl-s6e'
+  uploads_playlist: UUTCrU_9x3hcocpxjC1wUz-A
+  subscriber_count: 428
+  video_count: 231
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCP8p7W_ZF7gHJq4vx4Fpe-g
+  title: Haryana HCS Launchpad
+  handle: '@haryanahcslaunchpad'
+  uploads_playlist: UUP8p7W_ZF7gHJq4vx4Fpe-g
+  subscriber_count: 2120
+  video_count: 1133
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UCbF8FxQfk6JIjvtr_ETYR4Q
+  title: EduTap - UPSC
+  handle: '@edutapupsc'
+  uploads_playlist: UUbF8FxQfk6JIjvtr_ETYR4Q
+  subscriber_count: 291000
+  video_count: 3919
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UClRf-bnCab2YgT2EJr-RZ3A
+  title: 'Exam अखबार '
+  handle: '@examअखबार12'
+  uploads_playlist: UUlRf-bnCab2YgT2EJr-RZ3A
+  subscriber_count: 995
+  video_count: 180
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+- channel_id: UC1nASKa2LbRSfG-v8Ohcg0w
+  title: Edu_sara
+  handle: '@edu_sara'
+  uploads_playlist: UU1nASKa2LbRSfG-v8Ohcg0w
+  subscriber_count: 12100
+  video_count: 399
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UCizCPxaSpFEsBuyDIxKIR-Q
+  title: EduTap - Regulatory Bodies Examinations
+  handle: '@edutap'
+  uploads_playlist: UUizCPxaSpFEsBuyDIxKIR-Q
+  subscriber_count: 632000
+  video_count: 17760
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: large
+- channel_id: UCoYZAlYDEos3on8kJa_E4dw
+  title: Ascent OnlyIAS
+  handle: '@ascentonlyias'
+  uploads_playlist: UUoYZAlYDEos3on8kJa_E4dw
+  subscriber_count: 137000
+  video_count: 1667
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UCXXoD2auEYMQWXjwHrcNzRg
+  title: GURUKUL GRAM
+  handle: '@gurukulgramlive'
+  uploads_playlist: UUXXoD2auEYMQWXjwHrcNzRg
+  subscriber_count: 29300
+  video_count: 953
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UChO18r_h8-K_Lf4Hb-bYGDQ
+  title: 'Sarrthi IAS '
+  handle: '@sarrthiias'
+  uploads_playlist: UUhO18r_h8-K_Lf4Hb-bYGDQ
+  subscriber_count: 482000
+  video_count: 2592
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UC4KHa2nJO9MwsWnqXGyfSlg
+  title: Student prep
+  handle: '@studentsprep'
+  uploads_playlist: UU4KHa2nJO9MwsWnqXGyfSlg
+  subscriber_count: 357000
+  video_count: 5525
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UC0SJBmWh6vD1xwrqFaLBW3w
+  title: UPSC हिंदी
+  handle: '@upschindi4cs'
+  uploads_playlist: UU0SJBmWh6vD1xwrqFaLBW3w
+  subscriber_count: 391000
+  video_count: 5043
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+- channel_id: UCVOyyXupdtEblFbno_4ibLQ
+  title: UPSC Unstoppables by Unacademy
+  handle: '@upscunstoppables'
+  uploads_playlist: UUVOyyXupdtEblFbno_4ibLQ
+  subscriber_count: 741000
+  video_count: 6502
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: large
+- channel_id: UCFl2NDmv6OVgv2ESrwIzFpw
+  title: 'Dr. Rahul Raj Aryan '
+  handle: '@rahul_raj_aryan'
+  uploads_playlist: UUFl2NDmv6OVgv2ESrwIzFpw
+  subscriber_count: 776
+  video_count: 138
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro

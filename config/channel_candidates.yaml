@@ -1,0 +1,396 @@
+generated_at: '2026-08-30T17:21:14+00:00'
+method: search.list on recent videos ordered by date, over the queries in config/discovery_queries.yaml;
+  then filtered to target subscriber tiers with a quality floor and a minimum upload
+  rate, then sampled evenly across each tier
+queries_used:
+- homelab self hosted setup tutorial
+- mechanical keyboard build guide
+- rust programming tutorial beginner
+- linux ricing customization
+- raspberry pi project build
+- chemistry experiment explained
+- astrophotography beginner guide
+- calculus problem walkthrough
+- history documentary short explained
+- indie game review first impressions
+- speedrun world record explained
+- car restoration project episode
+- day in the life student vlog
+- home cooking recipe kitchen
+- bangalore vlog
+- hindi tech review smartphone
+- indian street food review
+- upsc preparation strategy
+min_uploads_per_week: 1.0
+channels_seen: 521
+channels_resolved: 521
+quota_spent:
+  units_spent: 90
+  calls: 90
+  budget: 6000
+  by_endpoint:
+    playlistItems: 90
+by_tier:
+  micro: 15
+  mid: 15
+channels:
+- channel_id: UChBLE7vhdnmrPI6NJrjPFrw
+  title: Fractal Frontier Maths
+  handle: '@fractalfrontiermaths'
+  uploads_playlist: UUhBLE7vhdnmrPI6NJrjPFrw
+  subscriber_count: 1240
+  video_count: 439
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+  uploads_per_week: 4.2
+  uploads_last_30d: 18
+- channel_id: UCYoPL8gaw1SJ_eAENOOrPgA
+  title: Abbas Lifestyle Vlogs
+  handle: '@abbaslifestylevlogs'
+  uploads_playlist: UUYoPL8gaw1SJ_eAENOOrPgA
+  subscriber_count: 1330
+  video_count: 122
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+  uploads_per_week: 6.3
+  uploads_last_30d: 27
+- channel_id: UCRjWYHfWaRJqlkDruVBeWMA
+  title: Lambo
+  handle: '@lambolivegaming'
+  uploads_playlist: UURjWYHfWaRJqlkDruVBeWMA
+  subscriber_count: 1460
+  video_count: 376
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+  uploads_per_week: 1.87
+  uploads_last_30d: 8
+- channel_id: UCkhRnN5tA47tJ05_RGlDzfw
+  title: 'Susovan Saha Classes '
+  handle: '@susovansaha5599'
+  uploads_playlist: UUkhRnN5tA47tJ05_RGlDzfw
+  subscriber_count: 1620
+  video_count: 158
+  country: IN
+  category: education
+  found_by_query: calculus problem walkthrough
+  tier: micro
+  uploads_per_week: 1.87
+  uploads_last_30d: 8
+- channel_id: UCKYJ-g4VowXtu8w66CEpp_g
+  title: life with SB
+  handle: '@bidisha.shaymali'
+  uploads_playlist: UUKYJ-g4VowXtu8w66CEpp_g
+  subscriber_count: 1910
+  video_count: 852
+  country: null
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+  uploads_per_week: 2.1
+  uploads_last_30d: 9
+- channel_id: UCLXrqkRXo888AgKNggUEgpQ
+  title: Easy Click Fix
+  handle: '@easyclickfix'
+  uploads_playlist: UULXrqkRXo888AgKNggUEgpQ
+  subscriber_count: 2130
+  video_count: 3783
+  country: US
+  category: technology
+  found_by_query: homelab self hosted setup tutorial
+  tier: micro
+  uploads_per_week: 11.67
+  uploads_last_30d: 50
+- channel_id: UCAuBFR2IUjZHEr8gDAgXqCg
+  title: 'Nova Docs Studio '
+  handle: '@novadocsstudio'
+  uploads_playlist: UUAuBFR2IUjZHEr8gDAgXqCg
+  subscriber_count: 2520
+  video_count: 23
+  country: IN
+  category: education
+  found_by_query: history documentary short explained
+  tier: micro
+  uploads_per_week: 3.27
+  uploads_last_30d: 14
+- channel_id: UCqrVJ9cHgQCAxDvdxeN6FWA
+  title: Swati's Vibe Hub
+  handle: '@swatisvibehub'
+  uploads_playlist: UUqrVJ9cHgQCAxDvdxeN6FWA
+  subscriber_count: 2880
+  video_count: 517
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: micro
+  uploads_per_week: 5.6
+  uploads_last_30d: 24
+- channel_id: UCtOq18SjsvniJdjygnoTwDg
+  title: Aroma Telugu Flavours
+  handle: '@aromateluguflavours'
+  uploads_playlist: UUtOq18SjsvniJdjygnoTwDg
+  subscriber_count: 3360
+  video_count: 510
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: micro
+  uploads_per_week: 6.07
+  uploads_last_30d: 26
+- channel_id: UCCqAm033Oc1G9joEcG1ZYMA
+  title: Kunchok and Kyab
+  handle: '@kunchokandkyab'
+  uploads_playlist: UUCqAm033Oc1G9joEcG1ZYMA
+  subscriber_count: 3670
+  video_count: 148
+  country: null
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+  uploads_per_week: 1.17
+  uploads_last_30d: 5
+- channel_id: UCsVMSh-nX8NHJCGuqjc4B-w
+  title: 79 sandeep deewana
+  handle: '@79sandeepdewaana'
+  uploads_playlist: UUsVMSh-nX8NHJCGuqjc4B-w
+  subscriber_count: 4320
+  video_count: 496
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: micro
+  uploads_per_week: 5.6
+  uploads_last_30d: 24
+- channel_id: UCis17S7UXAOXa7smLJBo3iA
+  title: Sanju Ramakrishna
+  handle: '@sanjuramakrishna'
+  uploads_playlist: UUis17S7UXAOXa7smLJBo3iA
+  subscriber_count: 4460
+  video_count: 1219
+  country: IN
+  category: entertainment
+  found_by_query: bangalore vlog
+  tier: micro
+  uploads_per_week: 11.67
+  uploads_last_30d: 50
+- channel_id: UCptrHOwS-zyDURZ5wn6oSBg
+  title: Cassie Layne
+  handle: '@cassielayne911'
+  uploads_playlist: UUptrHOwS-zyDURZ5wn6oSBg
+  subscriber_count: 5640
+  video_count: 465
+  country: null
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+  uploads_per_week: 6.53
+  uploads_last_30d: 28
+- channel_id: UCwpE5ZidDsyE8ll2fdMQL8Q
+  title: Fizgig
+  handle: '@fizgigs'
+  uploads_playlist: UUwpE5ZidDsyE8ll2fdMQL8Q
+  subscriber_count: 6030
+  video_count: 1153
+  country: null
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: micro
+  uploads_per_week: 11.67
+  uploads_last_30d: 50
+- channel_id: UCnIsVxs6GMOZ5pHxPq22F2w
+  title: Sarrthi IAS - Optional
+  handle: '@sarrthiiasoptional'
+  uploads_playlist: UUnIsVxs6GMOZ5pHxPq22F2w
+  subscriber_count: 7250
+  video_count: 307
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: micro
+  uploads_per_week: 11.67
+  uploads_last_30d: 50
+- channel_id: UCmF7kfKdQEo_4QGoQxJx7JQ
+  title: 'Tech Mayur '
+  handle: '@techmayur5'
+  uploads_playlist: UUmF7kfKdQEo_4QGoQxJx7JQ
+  subscriber_count: 10800
+  video_count: 176
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: mid
+  uploads_per_week: 11.2
+  uploads_last_30d: 48
+- channel_id: UCpwxpTmEQ65OMwN4v2qpl1Q
+  title: UPSC Soch
+  handle: '@upscsoch-4u'
+  uploads_playlist: UUpwxpTmEQ65OMwN4v2qpl1Q
+  subscriber_count: 12100
+  video_count: 752
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+  uploads_per_week: 11.67
+  uploads_last_30d: 50
+- channel_id: UC0UKhmyDVTHzQcccSgDZq9A
+  title: Golden Chopstick Kitchen
+  handle: '@goldenchopstickkitchen'
+  uploads_playlist: UU0UKhmyDVTHzQcccSgDZq9A
+  subscriber_count: 13700
+  video_count: 177
+  country: KR
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: mid
+  uploads_per_week: 11.67
+  uploads_last_30d: 50
+- channel_id: UC4IAYr8gEl65k4PTqQwayCQ
+  title: Mission IAS
+  handle: '@missionias..'
+  uploads_playlist: UU4IAYr8gEl65k4PTqQwayCQ
+  subscriber_count: 14800
+  video_count: 1772
+  country: null
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+  uploads_per_week: 11.67
+  uploads_last_30d: 50
+- channel_id: UCBjIjxzgS91g2Ezu8-UViaw
+  title: Gyan Tech
+  handle: '@gyantech-02'
+  uploads_playlist: UUBjIjxzgS91g2Ezu8-UViaw
+  subscriber_count: 17900
+  video_count: 78
+  country: IN
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: mid
+  uploads_per_week: 6.53
+  uploads_last_30d: 28
+- channel_id: UCnXuwcws8diCAfo7FhpQkRA
+  title: 'Hungry Boy '
+  handle: '@hungryboy007'
+  uploads_playlist: UUnXuwcws8diCAfo7FhpQkRA
+  subscriber_count: 21700
+  video_count: 227
+  country: IN
+  category: entertainment
+  found_by_query: indian street food review
+  tier: mid
+  uploads_per_week: 6.07
+  uploads_last_30d: 26
+- channel_id: UCzINPvRxRKs9R8Q4i1G3ZVg
+  title: Stone Techx
+  handle: '@stonetechx607'
+  uploads_playlist: UUzINPvRxRKs9R8Q4i1G3ZVg
+  subscriber_count: 22700
+  video_count: 5220
+  country: null
+  category: technology
+  found_by_query: hindi tech review smartphone
+  tier: mid
+  uploads_per_week: 5.6
+  uploads_last_30d: 24
+- channel_id: UCtUFhAlpl8hddRu7Sc2pKhA
+  title: RK Nex Plus Two & KEAM
+  handle: '@rknexplustwokeam'
+  uploads_playlist: UUtUFhAlpl8hddRu7Sc2pKhA
+  subscriber_count: 30800
+  video_count: 1526
+  country: IN
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: mid
+  uploads_per_week: 11.67
+  uploads_last_30d: 50
+- channel_id: UC8YWJbMJyijonzI0cb9D6jA
+  title: The Hidden Place 4U
+  handle: '@thehiddenplace4u_1'
+  uploads_playlist: UU8YWJbMJyijonzI0cb9D6jA
+  subscriber_count: 40700
+  video_count: 247
+  country: null
+  category: education
+  found_by_query: history documentary short explained
+  tier: mid
+  uploads_per_week: 4.43
+  uploads_last_30d: 19
+- channel_id: UCGQeucWeJK8P48oPxofAS4Q
+  title: Ujjwal Satrangi
+  handle: '@ujjwalsatrangi'
+  uploads_playlist: UUGQeucWeJK8P48oPxofAS4Q
+  subscriber_count: 64100
+  video_count: 1769
+  country: IN
+  category: entertainment
+  found_by_query: day in the life student vlog
+  tier: mid
+  uploads_per_week: 4.2
+  uploads_last_30d: 18
+- channel_id: UCmpwEfJdveonwhXyqSdw65Q
+  title: The Fast School
+  handle: '@thefastschoolfastscienceac9236'
+  uploads_playlist: UUmpwEfJdveonwhXyqSdw65Q
+  subscriber_count: 98900
+  video_count: 4887
+  country: PK
+  category: science
+  found_by_query: chemistry experiment explained
+  tier: mid
+  uploads_per_week: 8.4
+  uploads_last_30d: 36
+- channel_id: UC9s4rNWZZ6Nh1YhPNltttGQ
+  title: LFP Gaming
+  handle: '@lfpgaming'
+  uploads_playlist: UU9s4rNWZZ6Nh1YhPNltttGQ
+  subscriber_count: 110000
+  video_count: 2416
+  country: US
+  category: gaming
+  found_by_query: indie game review first impressions
+  tier: mid
+  uploads_per_week: 3.27
+  uploads_last_30d: 14
+- channel_id: UC4YLjKLcjW79HYrwFS4KQEA
+  title: Margdarshan IAS by Siddharth Singh
+  handle: '@margdarshanias'
+  uploads_playlist: UU4YLjKLcjW79HYrwFS4KQEA
+  subscriber_count: 133000
+  video_count: 1230
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+  uploads_per_week: 11.67
+  uploads_last_30d: 50
+- channel_id: UCEClAAaXn3DfN8YrUj4F27w
+  title: LevelUp IAS
+  handle: '@levelupias'
+  uploads_playlist: UUEClAAaXn3DfN8YrUj4F27w
+  subscriber_count: 139000
+  video_count: 4023
+  country: IN
+  category: education
+  found_by_query: upsc preparation strategy
+  tier: mid
+  uploads_per_week: 11.67
+  uploads_last_30d: 50
+- channel_id: UCH5yF6qcg3j61TilgJQ8gFA
+  title: Meenu kitchen
+  handle: '@meenukitchendelhi'
+  uploads_playlist: UUH5yF6qcg3j61TilgJQ8gFA
+  subscriber_count: 373000
+  video_count: 816
+  country: IN
+  category: entertainment
+  found_by_query: home cooking recipe kitchen
+  tier: mid
+  uploads_per_week: 1.63
+  uploads_last_30d: 7

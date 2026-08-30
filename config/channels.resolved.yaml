@@ -1,4 +1,4 @@
-resolved_at: '2026-08-30T15:54:41+00:00'
+resolved_at: '2026-08-30T17:21:29+00:00'
 source: config/channels.yaml
 tier_bounds:
   micro: <10000
@@ -12,7 +12,7 @@ channels:
   subscriber_count: 21200000
   video_count: 530
   channel_view_count: 4503238436
-  resolved_at: '2026-08-30T15:54:39+00:00'
+  resolved_at: '2026-08-30T17:21:25+00:00'
   category: science
   tier: large
   tier_declared: large
@@ -23,7 +23,7 @@ channels:
   subscriber_count: 8570000
   video_count: 242
   channel_view_count: 766811021
-  resolved_at: '2026-08-30T15:54:39+00:00'
+  resolved_at: '2026-08-30T17:21:25+00:00'
   category: education
   tier: large
   tier_declared: large
@@ -34,7 +34,7 @@ channels:
   subscriber_count: 4770000
   video_count: 815
   channel_view_count: 728008353
-  resolved_at: '2026-08-30T15:54:39+00:00'
+  resolved_at: '2026-08-30T17:21:25+00:00'
   category: education
   tier: large
   tier_declared: large
@@ -45,7 +45,7 @@ channels:
   subscriber_count: 2630000
   video_count: 919
   channel_view_count: 239158155
-  resolved_at: '2026-08-30T15:54:39+00:00'
+  resolved_at: '2026-08-30T17:21:25+00:00'
   category: education
   tier: large
   tier_declared: mid
@@ -55,8 +55,8 @@ channels:
   uploads_playlist: UU6107grRI4m0o2-emgoDnAA
   subscriber_count: 11900000
   video_count: 397
-  channel_view_count: 1279773025
-  resolved_at: '2026-08-30T15:54:39+00:00'
+  channel_view_count: 1279838313
+  resolved_at: '2026-08-30T17:21:25+00:00'
   category: science
   tier: large
   tier_declared: large
@@ -67,7 +67,7 @@ channels:
   subscriber_count: 25500000
   video_count: 383
   channel_view_count: 3820472235
-  resolved_at: '2026-08-30T15:54:39+00:00'
+  resolved_at: '2026-08-30T17:21:25+00:00'
   category: science
   tier: large
   tier_declared: large
@@ -78,7 +78,7 @@ channels:
   subscriber_count: 10900000
   video_count: 401
   channel_view_count: 4665378741
-  resolved_at: '2026-08-30T15:54:39+00:00'
+  resolved_at: '2026-08-30T17:21:25+00:00'
   category: science
   tier: large
   tier_declared: large
@@ -89,7 +89,7 @@ channels:
   subscriber_count: 1
   video_count: 1
   channel_view_count: 23
-  resolved_at: '2026-08-30T15:54:39+00:00'
+  resolved_at: '2026-08-30T17:21:25+00:00'
   category: science
   tier: micro
   tier_declared: mid
@@ -100,7 +100,7 @@ channels:
   subscriber_count: 21200000
   video_count: 1844
   channel_view_count: 5555865671
-  resolved_at: '2026-08-30T15:54:39+00:00'
+  resolved_at: '2026-08-30T17:21:25+00:00'
   category: technology
   tier: large
   tier_declared: large
@@ -109,9 +109,9 @@ channels:
   title: Linus Tech Tips
   uploads_playlist: UUXuqSBlHAE6Xw-yeJA0Tunw
   subscriber_count: 16900000
-  video_count: 7899
+  video_count: 7900
   channel_view_count: 9755425384
-  resolved_at: '2026-08-30T15:54:39+00:00'
+  resolved_at: '2026-08-30T17:21:25+00:00'
   category: technology
   tier: large
   tier_declared: large
@@ -122,7 +122,7 @@ channels:
   subscriber_count: 4250000
   video_count: 835
   channel_view_count: 729246838
-  resolved_at: '2026-08-30T15:54:39+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: technology
   tier: large
   tier_declared: large
@@ -133,7 +133,7 @@ channels:
   subscriber_count: 3200000
   video_count: 232
   channel_view_count: 451961086
-  resolved_at: '2026-08-30T15:54:40+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: technology
   tier: large
   tier_declared: large
@@ -144,7 +144,7 @@ channels:
   subscriber_count: 549000
   video_count: 109
   channel_view_count: 57469418
-  resolved_at: '2026-08-30T15:54:40+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: technology
   tier: large
   tier_declared: mid
@@ -155,7 +155,7 @@ channels:
   subscriber_count: 439000
   video_count: 8
   channel_view_count: 12333723
-  resolved_at: '2026-08-30T15:54:40+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: technology
   tier: mid
   tier_declared: mid
@@ -166,7 +166,7 @@ channels:
   subscriber_count: 327000
   video_count: 127
   channel_view_count: 51328635
-  resolved_at: '2026-08-30T15:54:40+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: technology
   tier: mid
   tier_declared: mid
@@ -177,7 +177,7 @@ channels:
   subscriber_count: 12700000
   video_count: 2369
   channel_view_count: 3841325749
-  resolved_at: '2026-08-30T15:54:40+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: news
   tier: large
   tier_declared: large
@@ -188,7 +188,7 @@ channels:
   subscriber_count: 1160000
   video_count: 971
   channel_view_count: 257852315
-  resolved_at: '2026-08-30T15:54:40+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: news
   tier: large
   tier_declared: mid
@@ -199,7 +199,7 @@ channels:
   subscriber_count: 1930000
   video_count: 188
   channel_view_count: 239970133
-  resolved_at: '2026-08-30T15:54:40+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: news
   tier: large
   tier_declared: mid
@@ -210,7 +210,7 @@ channels:
   subscriber_count: 4910000
   video_count: 287
   channel_view_count: 832053616
-  resolved_at: '2026-08-30T15:54:40+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: news
   tier: large
   tier_declared: large
@@ -221,7 +221,7 @@ channels:
   subscriber_count: 515000000
   video_count: 999
   channel_view_count: 138536017550
-  resolved_at: '2026-08-30T15:54:40+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -232,7 +232,7 @@ channels:
   subscriber_count: 81700000
   video_count: 268
   channel_view_count: 18678784448
-  resolved_at: '2026-08-30T15:54:40+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -243,7 +243,7 @@ channels:
   subscriber_count: 6740000
   video_count: 754
   channel_view_count: 1941821752
-  resolved_at: '2026-08-30T15:54:40+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -254,7 +254,7 @@ channels:
   subscriber_count: 31200000
   video_count: 5336
   channel_view_count: 17715588673
-  resolved_at: '2026-08-30T15:54:40+00:00'
+  resolved_at: '2026-08-30T17:21:26+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -265,7 +265,7 @@ channels:
   subscriber_count: 45700000
   video_count: 210
   channel_view_count: 4489478891
-  resolved_at: '2026-08-30T15:54:41+00:00'
+  resolved_at: '2026-08-30T17:21:27+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -276,7 +276,7 @@ channels:
   subscriber_count: 32800000
   video_count: 210
   channel_view_count: 5720006567
-  resolved_at: '2026-08-30T15:54:41+00:00'
+  resolved_at: '2026-08-30T17:21:27+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -287,7 +287,7 @@ channels:
   subscriber_count: 10600000
   video_count: 200
   channel_view_count: 3243707562
-  resolved_at: '2026-08-30T15:54:41+00:00'
+  resolved_at: '2026-08-30T17:21:27+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -298,7 +298,7 @@ channels:
   subscriber_count: 5450000
   video_count: 1891
   channel_view_count: 2696105725
-  resolved_at: '2026-08-30T15:54:41+00:00'
+  resolved_at: '2026-08-30T17:21:27+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -309,7 +309,7 @@ channels:
   subscriber_count: 59600000
   video_count: 180
   channel_view_count: 11619966139
-  resolved_at: '2026-08-30T15:54:41+00:00'
+  resolved_at: '2026-08-30T17:21:27+00:00'
   category: gaming
   tier: large
   tier_declared: large
@@ -320,7 +320,7 @@ channels:
   subscriber_count: 1400000
   video_count: 200
   channel_view_count: 226029138
-  resolved_at: '2026-08-30T15:54:41+00:00'
+  resolved_at: '2026-08-30T17:21:27+00:00'
   category: automotive
   tier: large
   tier_declared: large
@@ -331,7 +331,7 @@ channels:
   subscriber_count: 1610000
   video_count: 1461
   channel_view_count: 457259462
-  resolved_at: '2026-08-30T15:54:41+00:00'
+  resolved_at: '2026-08-30T17:21:27+00:00'
   category: technology
   tier: large
   tier_declared: large
@@ -342,7 +342,7 @@ channels:
   subscriber_count: 8230000
   video_count: 4713
   channel_view_count: 2850265680
-  resolved_at: '2026-08-30T15:54:41+00:00'
+  resolved_at: '2026-08-30T17:21:27+00:00'
   category: talk
   tier: large
   tier_declared: large
@@ -353,7 +353,7 @@ channels:
   subscriber_count: 23700000
   video_count: 6322
   channel_view_count: 4071814185
-  resolved_at: '2026-08-30T15:54:41+00:00'
+  resolved_at: '2026-08-30T17:21:27+00:00'
   category: technology
   tier: large
   tier_declared: large
@@ -363,11 +363,341 @@ channels:
   uploads_playlist: UUjNgqJ_FMLntYVzq7daw1TQ
   subscriber_count: 3530000
   video_count: 227
-  channel_view_count: 635397707
-  resolved_at: '2026-08-30T15:54:41+00:00'
+  channel_view_count: 635438682
+  resolved_at: '2026-08-30T17:21:27+00:00'
   category: news
   tier: large
   tier_declared: large
+- handle: '@fractalfrontiermaths'
+  channel_id: UChBLE7vhdnmrPI6NJrjPFrw
+  title: Fractal Frontier Maths
+  uploads_playlist: UUhBLE7vhdnmrPI6NJrjPFrw
+  subscriber_count: 1240
+  video_count: 439
+  channel_view_count: 68269
+  resolved_at: '2026-08-30T17:21:27+00:00'
+  category: education
+  tier: micro
+  tier_declared: micro
+- handle: '@abbaslifestylevlogs'
+  channel_id: UCYoPL8gaw1SJ_eAENOOrPgA
+  title: Abbas Lifestyle Vlogs
+  uploads_playlist: UUYoPL8gaw1SJ_eAENOOrPgA
+  subscriber_count: 1330
+  video_count: 122
+  channel_view_count: 375051
+  resolved_at: '2026-08-30T17:21:27+00:00'
+  category: entertainment
+  tier: micro
+  tier_declared: micro
+- handle: '@lambolivegaming'
+  channel_id: UCRjWYHfWaRJqlkDruVBeWMA
+  title: Lambo
+  uploads_playlist: UURjWYHfWaRJqlkDruVBeWMA
+  subscriber_count: 1460
+  video_count: 376
+  channel_view_count: 772108
+  resolved_at: '2026-08-30T17:21:27+00:00'
+  category: gaming
+  tier: micro
+  tier_declared: micro
+- handle: '@susovansaha5599'
+  channel_id: UCkhRnN5tA47tJ05_RGlDzfw
+  title: 'Susovan Saha Classes '
+  uploads_playlist: UUkhRnN5tA47tJ05_RGlDzfw
+  subscriber_count: 1620
+  video_count: 158
+  channel_view_count: 64033
+  resolved_at: '2026-08-30T17:21:27+00:00'
+  category: education
+  tier: micro
+  tier_declared: micro
+- handle: '@bidisha.shaymali'
+  channel_id: UCKYJ-g4VowXtu8w66CEpp_g
+  title: life with SB
+  uploads_playlist: UUKYJ-g4VowXtu8w66CEpp_g
+  subscriber_count: 1910
+  video_count: 852
+  channel_view_count: 1094711
+  resolved_at: '2026-08-30T17:21:27+00:00'
+  category: entertainment
+  tier: micro
+  tier_declared: micro
+- handle: '@easyclickfix'
+  channel_id: UCLXrqkRXo888AgKNggUEgpQ
+  title: Easy Click Fix
+  uploads_playlist: UULXrqkRXo888AgKNggUEgpQ
+  subscriber_count: 2130
+  video_count: 3783
+  channel_view_count: 1124227
+  resolved_at: '2026-08-30T17:21:27+00:00'
+  category: technology
+  tier: micro
+  tier_declared: micro
+- handle: '@novadocsstudio'
+  channel_id: UCAuBFR2IUjZHEr8gDAgXqCg
+  title: 'Nova Docs Studio '
+  uploads_playlist: UUAuBFR2IUjZHEr8gDAgXqCg
+  subscriber_count: 2520
+  video_count: 23
+  channel_view_count: 20009
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: education
+  tier: micro
+  tier_declared: micro
+- handle: '@swatisvibehub'
+  channel_id: UCqrVJ9cHgQCAxDvdxeN6FWA
+  title: Swati's Vibe Hub
+  uploads_playlist: UUqrVJ9cHgQCAxDvdxeN6FWA
+  subscriber_count: 2880
+  video_count: 517
+  channel_view_count: 2502725
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: entertainment
+  tier: micro
+  tier_declared: micro
+- handle: '@aromateluguflavours'
+  channel_id: UCtOq18SjsvniJdjygnoTwDg
+  title: Aroma Telugu Flavours
+  uploads_playlist: UUtOq18SjsvniJdjygnoTwDg
+  subscriber_count: 3360
+  video_count: 510
+  channel_view_count: 3830270
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: entertainment
+  tier: micro
+  tier_declared: micro
+- handle: '@kunchokandkyab'
+  channel_id: UCCqAm033Oc1G9joEcG1ZYMA
+  title: Kunchok and Kyab
+  uploads_playlist: UUCqAm033Oc1G9joEcG1ZYMA
+  subscriber_count: 3670
+  video_count: 148
+  channel_view_count: 583064
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: entertainment
+  tier: micro
+  tier_declared: micro
+- handle: '@79sandeepdewaana'
+  channel_id: UCsVMSh-nX8NHJCGuqjc4B-w
+  title: 79 sandeep deewana
+  uploads_playlist: UUsVMSh-nX8NHJCGuqjc4B-w
+  subscriber_count: 4320
+  video_count: 496
+  channel_view_count: 1308629
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: entertainment
+  tier: micro
+  tier_declared: micro
+- handle: '@sanjuramakrishna'
+  channel_id: UCis17S7UXAOXa7smLJBo3iA
+  title: Sanju Ramakrishna
+  uploads_playlist: UUis17S7UXAOXa7smLJBo3iA
+  subscriber_count: 4460
+  video_count: 1219
+  channel_view_count: 1073261
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: entertainment
+  tier: micro
+  tier_declared: micro
+- handle: '@cassielayne911'
+  channel_id: UCptrHOwS-zyDURZ5wn6oSBg
+  title: Cassie Layne
+  uploads_playlist: UUptrHOwS-zyDURZ5wn6oSBg
+  subscriber_count: 5640
+  video_count: 465
+  channel_view_count: 821658
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: gaming
+  tier: micro
+  tier_declared: micro
+- handle: '@fizgigs'
+  channel_id: UCwpE5ZidDsyE8ll2fdMQL8Q
+  title: Fizgig
+  uploads_playlist: UUwpE5ZidDsyE8ll2fdMQL8Q
+  subscriber_count: 6030
+  video_count: 1153
+  channel_view_count: 1969545
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: gaming
+  tier: micro
+  tier_declared: micro
+- handle: '@sarrthiiasoptional'
+  channel_id: UCnIsVxs6GMOZ5pHxPq22F2w
+  title: Sarrthi IAS - Optional
+  uploads_playlist: UUnIsVxs6GMOZ5pHxPq22F2w
+  subscriber_count: 7250
+  video_count: 307
+  channel_view_count: 751068
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: education
+  tier: micro
+  tier_declared: micro
+- handle: '@techmayur5'
+  channel_id: UCmF7kfKdQEo_4QGoQxJx7JQ
+  title: 'Tech Mayur '
+  uploads_playlist: UUmF7kfKdQEo_4QGoQxJx7JQ
+  subscriber_count: 10800
+  video_count: 176
+  channel_view_count: 249465
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: technology
+  tier: mid
+  tier_declared: mid
+- handle: '@upscsoch-4u'
+  channel_id: UCpwxpTmEQ65OMwN4v2qpl1Q
+  title: UPSC Soch
+  uploads_playlist: UUpwxpTmEQ65OMwN4v2qpl1Q
+  subscriber_count: 12100
+  video_count: 752
+  channel_view_count: 37041549
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: education
+  tier: mid
+  tier_declared: mid
+- handle: '@goldenchopstickkitchen'
+  channel_id: UC0UKhmyDVTHzQcccSgDZq9A
+  title: Golden Chopstick Kitchen
+  uploads_playlist: UU0UKhmyDVTHzQcccSgDZq9A
+  subscriber_count: 13700
+  video_count: 177
+  channel_view_count: 4190906
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: entertainment
+  tier: mid
+  tier_declared: mid
+- handle: '@missionias..'
+  channel_id: UC4IAYr8gEl65k4PTqQwayCQ
+  title: Mission IAS
+  uploads_playlist: UU4IAYr8gEl65k4PTqQwayCQ
+  subscriber_count: 14800
+  video_count: 1772
+  channel_view_count: 21709330
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: education
+  tier: mid
+  tier_declared: mid
+- handle: '@gyantech-02'
+  channel_id: UCBjIjxzgS91g2Ezu8-UViaw
+  title: Gyan Tech
+  uploads_playlist: UUBjIjxzgS91g2Ezu8-UViaw
+  subscriber_count: 17900
+  video_count: 78
+  channel_view_count: 14711315
+  resolved_at: '2026-08-30T17:21:28+00:00'
+  category: technology
+  tier: mid
+  tier_declared: mid
+- handle: '@hungryboy007'
+  channel_id: UCnXuwcws8diCAfo7FhpQkRA
+  title: 'Hungry Boy '
+  uploads_playlist: UUnXuwcws8diCAfo7FhpQkRA
+  subscriber_count: 21700
+  video_count: 227
+  channel_view_count: 25918062
+  resolved_at: '2026-08-30T17:21:29+00:00'
+  category: entertainment
+  tier: mid
+  tier_declared: mid
+- handle: '@stonetechx607'
+  channel_id: UCzINPvRxRKs9R8Q4i1G3ZVg
+  title: Stone Techx
+  uploads_playlist: UUzINPvRxRKs9R8Q4i1G3ZVg
+  subscriber_count: 22700
+  video_count: 5220
+  channel_view_count: 62836987
+  resolved_at: '2026-08-30T17:21:29+00:00'
+  category: technology
+  tier: mid
+  tier_declared: mid
+- handle: '@rknexplustwokeam'
+  channel_id: UCtUFhAlpl8hddRu7Sc2pKhA
+  title: RK Nex Plus Two & KEAM
+  uploads_playlist: UUtUFhAlpl8hddRu7Sc2pKhA
+  subscriber_count: 30800
+  video_count: 1526
+  channel_view_count: 5733415
+  resolved_at: '2026-08-30T17:21:29+00:00'
+  category: science
+  tier: mid
+  tier_declared: mid
+- handle: '@thehiddenplace4u_1'
+  channel_id: UC8YWJbMJyijonzI0cb9D6jA
+  title: The Hidden Place 4U
+  uploads_playlist: UU8YWJbMJyijonzI0cb9D6jA
+  subscriber_count: 40700
+  video_count: 247
+  channel_view_count: 50801577
+  resolved_at: '2026-08-30T17:21:29+00:00'
+  category: education
+  tier: mid
+  tier_declared: mid
+- handle: '@ujjwalsatrangi'
+  channel_id: UCGQeucWeJK8P48oPxofAS4Q
+  title: Ujjwal Satrangi
+  uploads_playlist: UUGQeucWeJK8P48oPxofAS4Q
+  subscriber_count: 64100
+  video_count: 1769
+  channel_view_count: 4274083
+  resolved_at: '2026-08-30T17:21:29+00:00'
+  category: entertainment
+  tier: mid
+  tier_declared: mid
+- handle: '@thefastschoolfastscienceac9236'
+  channel_id: UCmpwEfJdveonwhXyqSdw65Q
+  title: The Fast School
+  uploads_playlist: UUmpwEfJdveonwhXyqSdw65Q
+  subscriber_count: 98900
+  video_count: 4887
+  channel_view_count: 16466354
+  resolved_at: '2026-08-30T17:21:29+00:00'
+  category: science
+  tier: mid
+  tier_declared: mid
+- handle: '@lfpgaming'
+  channel_id: UC9s4rNWZZ6Nh1YhPNltttGQ
+  title: LFP Gaming
+  uploads_playlist: UU9s4rNWZZ6Nh1YhPNltttGQ
+  subscriber_count: 110000
+  video_count: 2416
+  channel_view_count: 61051563
+  resolved_at: '2026-08-30T17:21:29+00:00'
+  category: gaming
+  tier: mid
+  tier_declared: mid
+- handle: '@margdarshanias'
+  channel_id: UC4YLjKLcjW79HYrwFS4KQEA
+  title: Margdarshan IAS by Siddharth Singh
+  uploads_playlist: UU4YLjKLcjW79HYrwFS4KQEA
+  subscriber_count: 133000
+  video_count: 1230
+  channel_view_count: 27599902
+  resolved_at: '2026-08-30T17:21:29+00:00'
+  category: education
+  tier: mid
+  tier_declared: mid
+- handle: '@levelupias'
+  channel_id: UCEClAAaXn3DfN8YrUj4F27w
+  title: LevelUp IAS
+  uploads_playlist: UUEClAAaXn3DfN8YrUj4F27w
+  subscriber_count: 139000
+  video_count: 4023
+  channel_view_count: 35284681
+  resolved_at: '2026-08-30T17:21:29+00:00'
+  category: education
+  tier: mid
+  tier_declared: mid
+- handle: '@meenukitchendelhi'
+  channel_id: UCH5yF6qcg3j61TilgJQ8gFA
+  title: Meenu kitchen
+  uploads_playlist: UUH5yF6qcg3j61TilgJQ8gFA
+  subscriber_count: 373000
+  video_count: 816
+  channel_view_count: 66510870
+  resolved_at: '2026-08-30T17:21:29+00:00'
+  category: entertainment
+  tier: mid
+  tier_declared: mid
 failed:
 - handle: '@Bloomberg'
   error: not found
