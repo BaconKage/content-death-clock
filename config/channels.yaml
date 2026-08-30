@@ -51,6 +51,16 @@ channels:
   - {handle: "@AshishChanchlaniVines", category: entertainment, tier: large}
   - {handle: "@slayypointofficial", category: entertainment, tier: large}
   - {handle: "@tanmaybhat", category: entertainment, tier: large}
+  # ---------------- gaming / automotive ----------------
+  # Handles verified against the live API before being added here. The
+  # near-misses are instructive: @BeastGaming is a 211-sub channel called
+  # "Exodus", @matwatson is an empty 0-sub account, and @VenomTech is a
+  # different 940-sub channel. Any of them would have sat in the frame
+  # looking plausible and contributing nothing.
+  - {handle: "@MrBeastGaming", category: gaming, tier: large}
+  - {handle: "@MatWatsonCars", category: automotive, tier: large}
+  - {handle: "@VenomsTech", category: technology, tier: large}
+
   # ---------------- india / regional ----------------
   - {handle: "@BeerBiceps", category: talk, tier: large}
   - {handle: "@TechnicalGuruji", category: technology, tier: large}

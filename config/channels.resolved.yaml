@@ -1,4 +1,4 @@
-resolved_at: '2026-08-30T15:45:37+00:00'
+resolved_at: '2026-08-30T15:54:41+00:00'
 source: config/channels.yaml
 tier_bounds:
   micro: <10000
@@ -12,7 +12,7 @@ channels:
   subscriber_count: 21200000
   video_count: 530
   channel_view_count: 4503238436
-  resolved_at: '2026-08-30T15:45:35+00:00'
+  resolved_at: '2026-08-30T15:54:39+00:00'
   category: science
   tier: large
   tier_declared: large
@@ -23,7 +23,7 @@ channels:
   subscriber_count: 8570000
   video_count: 242
   channel_view_count: 766811021
-  resolved_at: '2026-08-30T15:45:35+00:00'
+  resolved_at: '2026-08-30T15:54:39+00:00'
   category: education
   tier: large
   tier_declared: large
@@ -34,7 +34,7 @@ channels:
   subscriber_count: 4770000
   video_count: 815
   channel_view_count: 728008353
-  resolved_at: '2026-08-30T15:45:35+00:00'
+  resolved_at: '2026-08-30T15:54:39+00:00'
   category: education
   tier: large
   tier_declared: large
@@ -45,7 +45,7 @@ channels:
   subscriber_count: 2630000
   video_count: 919
   channel_view_count: 239158155
-  resolved_at: '2026-08-30T15:45:35+00:00'
+  resolved_at: '2026-08-30T15:54:39+00:00'
   category: education
   tier: large
   tier_declared: mid
@@ -56,7 +56,7 @@ channels:
   subscriber_count: 11900000
   video_count: 397
   channel_view_count: 1279773025
-  resolved_at: '2026-08-30T15:45:35+00:00'
+  resolved_at: '2026-08-30T15:54:39+00:00'
   category: science
   tier: large
   tier_declared: large
@@ -67,7 +67,7 @@ channels:
   subscriber_count: 25500000
   video_count: 383
   channel_view_count: 3820472235
-  resolved_at: '2026-08-30T15:45:35+00:00'
+  resolved_at: '2026-08-30T15:54:39+00:00'
   category: science
   tier: large
   tier_declared: large
@@ -78,7 +78,7 @@ channels:
   subscriber_count: 10900000
   video_count: 401
   channel_view_count: 4665378741
-  resolved_at: '2026-08-30T15:45:36+00:00'
+  resolved_at: '2026-08-30T15:54:39+00:00'
   category: science
   tier: large
   tier_declared: large
@@ -89,7 +89,7 @@ channels:
   subscriber_count: 1
   video_count: 1
   channel_view_count: 23
-  resolved_at: '2026-08-30T15:45:36+00:00'
+  resolved_at: '2026-08-30T15:54:39+00:00'
   category: science
   tier: micro
   tier_declared: mid
@@ -100,7 +100,7 @@ channels:
   subscriber_count: 21200000
   video_count: 1844
   channel_view_count: 5555865671
-  resolved_at: '2026-08-30T15:45:36+00:00'
+  resolved_at: '2026-08-30T15:54:39+00:00'
   category: technology
   tier: large
   tier_declared: large
@@ -111,7 +111,7 @@ channels:
   subscriber_count: 16900000
   video_count: 7899
   channel_view_count: 9755425384
-  resolved_at: '2026-08-30T15:45:36+00:00'
+  resolved_at: '2026-08-30T15:54:39+00:00'
   category: technology
   tier: large
   tier_declared: large
@@ -122,7 +122,7 @@ channels:
   subscriber_count: 4250000
   video_count: 835
   channel_view_count: 729246838
-  resolved_at: '2026-08-30T15:45:36+00:00'
+  resolved_at: '2026-08-30T15:54:39+00:00'
   category: technology
   tier: large
   tier_declared: large
@@ -133,7 +133,7 @@ channels:
   subscriber_count: 3200000
   video_count: 232
   channel_view_count: 451961086
-  resolved_at: '2026-08-30T15:45:36+00:00'
+  resolved_at: '2026-08-30T15:54:40+00:00'
   category: technology
   tier: large
   tier_declared: large
@@ -144,7 +144,7 @@ channels:
   subscriber_count: 549000
   video_count: 109
   channel_view_count: 57469418
-  resolved_at: '2026-08-30T15:45:36+00:00'
+  resolved_at: '2026-08-30T15:54:40+00:00'
   category: technology
   tier: large
   tier_declared: mid
@@ -155,7 +155,7 @@ channels:
   subscriber_count: 439000
   video_count: 8
   channel_view_count: 12333723
-  resolved_at: '2026-08-30T15:45:36+00:00'
+  resolved_at: '2026-08-30T15:54:40+00:00'
   category: technology
   tier: mid
   tier_declared: mid
@@ -166,7 +166,7 @@ channels:
   subscriber_count: 327000
   video_count: 127
   channel_view_count: 51328635
-  resolved_at: '2026-08-30T15:45:36+00:00'
+  resolved_at: '2026-08-30T15:54:40+00:00'
   category: technology
   tier: mid
   tier_declared: mid
@@ -177,7 +177,7 @@ channels:
   subscriber_count: 12700000
   video_count: 2369
   channel_view_count: 3841325749
-  resolved_at: '2026-08-30T15:45:36+00:00'
+  resolved_at: '2026-08-30T15:54:40+00:00'
   category: news
   tier: large
   tier_declared: large
@@ -188,7 +188,7 @@ channels:
   subscriber_count: 1160000
   video_count: 971
   channel_view_count: 257852315
-  resolved_at: '2026-08-30T15:45:36+00:00'
+  resolved_at: '2026-08-30T15:54:40+00:00'
   category: news
   tier: large
   tier_declared: mid
@@ -199,7 +199,7 @@ channels:
   subscriber_count: 1930000
   video_count: 188
   channel_view_count: 239970133
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  resolved_at: '2026-08-30T15:54:40+00:00'
   category: news
   tier: large
   tier_declared: mid
@@ -210,7 +210,7 @@ channels:
   subscriber_count: 4910000
   video_count: 287
   channel_view_count: 832053616
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  resolved_at: '2026-08-30T15:54:40+00:00'
   category: news
   tier: large
   tier_declared: large
@@ -221,7 +221,7 @@ channels:
   subscriber_count: 515000000
   video_count: 999
   channel_view_count: 138536017550
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  resolved_at: '2026-08-30T15:54:40+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -232,7 +232,7 @@ channels:
   subscriber_count: 81700000
   video_count: 268
   channel_view_count: 18678784448
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  resolved_at: '2026-08-30T15:54:40+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -243,7 +243,7 @@ channels:
   subscriber_count: 6740000
   video_count: 754
   channel_view_count: 1941821752
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  resolved_at: '2026-08-30T15:54:40+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -254,7 +254,7 @@ channels:
   subscriber_count: 31200000
   video_count: 5336
   channel_view_count: 17715588673
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  resolved_at: '2026-08-30T15:54:40+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -265,7 +265,7 @@ channels:
   subscriber_count: 45700000
   video_count: 210
   channel_view_count: 4489478891
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  resolved_at: '2026-08-30T15:54:41+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -275,8 +275,8 @@ channels:
   uploads_playlist: UU7eHZXheF8nVOfwB2PEslMw
   subscriber_count: 32800000
   video_count: 210
-  channel_view_count: 5719812532
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  channel_view_count: 5720006567
+  resolved_at: '2026-08-30T15:54:41+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -287,7 +287,7 @@ channels:
   subscriber_count: 10600000
   video_count: 200
   channel_view_count: 3243707562
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  resolved_at: '2026-08-30T15:54:41+00:00'
   category: entertainment
   tier: large
   tier_declared: large
@@ -298,8 +298,41 @@ channels:
   subscriber_count: 5450000
   video_count: 1891
   channel_view_count: 2696105725
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  resolved_at: '2026-08-30T15:54:41+00:00'
   category: entertainment
+  tier: large
+  tier_declared: large
+- handle: '@MrBeastGaming'
+  channel_id: UCIPPMRA040LQr5QPyJEbmXA
+  title: MrBeast Gaming
+  uploads_playlist: UUIPPMRA040LQr5QPyJEbmXA
+  subscriber_count: 59600000
+  video_count: 180
+  channel_view_count: 11619966139
+  resolved_at: '2026-08-30T15:54:41+00:00'
+  category: gaming
+  tier: large
+  tier_declared: large
+- handle: '@MatWatsonCars'
+  channel_id: UCulu1KUYJ_2OBDouc_d-cUA
+  title: Mat Watson Cars
+  uploads_playlist: UUulu1KUYJ_2OBDouc_d-cUA
+  subscriber_count: 1400000
+  video_count: 200
+  channel_view_count: 226029138
+  resolved_at: '2026-08-30T15:54:41+00:00'
+  category: automotive
+  tier: large
+  tier_declared: large
+- handle: '@VenomsTech'
+  channel_id: UCltuKUCkE82ojAtPJy9rFQA
+  title: Venom's Tech
+  uploads_playlist: UUltuKUCkE82ojAtPJy9rFQA
+  subscriber_count: 1610000
+  video_count: 1461
+  channel_view_count: 457259462
+  resolved_at: '2026-08-30T15:54:41+00:00'
+  category: technology
   tier: large
   tier_declared: large
 - handle: '@BeerBiceps'
@@ -309,7 +342,7 @@ channels:
   subscriber_count: 8230000
   video_count: 4713
   channel_view_count: 2850265680
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  resolved_at: '2026-08-30T15:54:41+00:00'
   category: talk
   tier: large
   tier_declared: large
@@ -320,7 +353,7 @@ channels:
   subscriber_count: 23700000
   video_count: 6322
   channel_view_count: 4071814185
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  resolved_at: '2026-08-30T15:54:41+00:00'
   category: technology
   tier: large
   tier_declared: large
@@ -331,7 +364,7 @@ channels:
   subscriber_count: 3530000
   video_count: 227
   channel_view_count: 635397707
-  resolved_at: '2026-08-30T15:45:37+00:00'
+  resolved_at: '2026-08-30T15:54:41+00:00'
   category: news
   tier: large
   tier_declared: large
