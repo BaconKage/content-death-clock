@@ -13,10 +13,15 @@ Research Methodology + Big Data Analytics
 
 | | |
 |---|---|
-| **Status** | ⬜ DRAFT — not yet frozen |
-| **Frozen at commit** | _(fill in: `git rev-parse HEAD` on the freezing commit)_ |
-| **Frozen on** | _(date)_ |
-| **Authors** | _(names)_ |
+| **Status** | ✅ **FROZEN** |
+| **Frozen on** | **2026-08-30** |
+| **Frozen at commit** | the commit that set this status — `git log --diff-filter=A --follow ANALYSIS_PLAN.md` |
+| **Authors** | Amogha V Prasad · S Anannya · Sanidhya Tiwari · Shubhang Srinivas Varda |
+
+**State of the data at freezing**, so the claim is auditable rather than asserted:
+179 posts collected (124 YouTube, 55 Instagram), 182 snapshots, **0 posts with a computed
+death label**, 0 models fitted, 0 results examined. Collection began 2026-08-30 ~15:45 UTC,
+roughly two hours before this freeze.
 
 ---
 
@@ -51,13 +56,40 @@ manipulate anything, and no causal claim is made.
 
 ## 4. Sample
 
-- **Frame**: public YouTube channels listed in `config/channels.resolved.yaml`, stratified
-  by subscriber tier (micro <10k / mid 10k–500k / large >500k) and content category;
-  plus public Instagram accounts if Scrape Creators credits permit.
-- **Target**: ~800–1500 YouTube posts across 60–100 channels; ~200 Instagram posts.
+- **Frame**: 63 public YouTube channels in `config/channels.resolved.yaml`, stratified by
+  subscriber tier (micro <10k / mid 10k–500k / large >500k) and content category.
+  As frozen: **30 large, 17 mid, 16 micro** across 8 categories.
+- **How the frame was built** (2026-08-30). An initial convenience sample of channels the
+  authors follow produced 30 large / 2 mid / 1 micro, which could not support H3. The
+  frame was therefore rebuilt by API search: for each query in
+  `config/discovery_queries.yaml` we searched *recent videos ordered by date*, resolved
+  the channels behind them, and kept those in the under-represented tiers with ≥1
+  upload/week. Recent-video search was used rather than channel search because channel
+  search ranks by relevance — a proxy for popularity — and so cannot surface sub-10k
+  channels, the stratum we lacked.
+- **Sampling claim, stated plainly.** This is **not** a random sample of YouTube. It is
+  the set of channels reachable by a fixed, committed query list, filtered by size and
+  upload frequency. Generalisation beyond that frame is not claimed. The queries are
+  committed so the frame is reproducible by a third party — a weaker claim than random
+  sampling, a stronger one than an unrecorded convenience sample.
+- **Known frame biases**: the query list leans toward Indian and long-tail creators;
+  channels uploading less than weekly are excluded by construction, so the frame
+  over-represents frequent uploaders; micro-tier picks span 1,240–7,250 subscribers and
+  mid-tier 10,800–373,000, so neither tier covers its full nominal range.
+- **Target**: ~800–1500 YouTube posts across the 63 channels.
 - **Admission**: any post published by a frame channel during the collection window and
   discovered within `discovery_lookback_hours` of publication.
 - **Observation**: snapshots at t+1, 3, 6, 12, 24, 36, 48, 72, 96, 120, 168, 240, 336h.
+
+**Instagram is a feasibility demonstration, not a second test set.** The Scrape Creators
+credit budget (100 credits per key) cannot fund a continuous panel at a useful size, so
+Instagram is collected as bounded 48h cohorts of 5–6 accounts. Its purpose is to
+demonstrate that the pipeline generalises across platforms and to supply one
+cross-platform figure. **n will be too small to support inference, and no hypothesis
+above is tested on Instagram data.** Instagram accounts were selected on a measured
+criterion: the profile endpoint returns only ~12 recent posts, so accounts posting more
+than ~6 times/day push their own posts off the observable grid before decay completes,
+and accounts posting less than ~once/day yield no fresh posts inside a 48h window.
 
 **Exclusions**, all pre-specified, all counted and reported in a sample-attrition table:
 
@@ -71,9 +103,17 @@ manipulate anything, and no causal claim is made.
 
 **Dependent.** `t_death` — first time engagement velocity falls below 5% of that post's
 own peak velocity and remains below for 2 consecutive intervals. Right-censored at last
-observation if never reached. Velocity uses **views** as the primary metric (monotonic,
-available on both platforms, cannot be disabled by the creator) and is computed on
-**actual observed timestamps**.
+observation if never reached. Velocity is computed on **actual observed timestamps**,
+never an assumed schedule.
+
+**The primary metric differs by platform, and this is a substantive choice.**
+YouTube uses **views**; Instagram uses **likes**. Instagram reports no view count at all
+for image posts (`video_view_count` is null when `is_video` is false), so views cannot
+serve there. Likes saturate faster than views, so **death times are not directly
+comparable across platforms**: per-platform results are reported separately and never
+pooled. Posts whose creator has hidden like/view counts are excluded — the API reports 0,
+which is indistinguishable from genuine non-engagement and would register as instant
+death.
 
 **Robustness DV.** `t_saturation` — time to reach 90% of the asymptote A from a fitted
 C(t) = A(1 − e^(−kt)). Reported alongside. Systematic disagreement between the two is a
@@ -115,8 +155,14 @@ exploratory in the paper.
 
 ## 7. Pre-specified stopping rule
 
-Collection ends at the Cohort A freeze date, set in advance in `settings.yaml`
-(`modelling.cohort_a_freeze_utc`) — **not** when results look good.
+**Cohort A closes 2026-09-16T00:00:00Z**, fixed in `settings.yaml`
+(`modelling.cohort_a_freeze_utc`) on 2026-08-30, before any outcome data was examined —
+**not** when results look good. Posts published before that instant, with ≥4 usable
+intervals, constitute the analysis set.
+
+Collection continues after that date. Posts published between 2026-09-16 and the end of
+collection form **Cohort B**, the temporal holdout, which is evaluated **exactly once**
+after all model selection is complete.
 
 ## 8. What we will report regardless of outcome
 

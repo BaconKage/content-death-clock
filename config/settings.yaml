@@ -103,7 +103,8 @@ labels:
 
 modelling:
   feature_cutoff_hours: 6      # LEAKAGE GUARD: no feature may use data after this
-  cohort_a_freeze_utc: null    # set on Day 18, e.g. "2026-09-16T00:00:00Z"
+  # Pre-specified 2026-08-30, before any outcome data was examined.
+  cohort_a_freeze_utc: "2026-09-16T00:00:00Z"
   cv:
     strategy: group_kfold      # grouped by creator — never random k-fold
     n_splits: 5
