@@ -30,10 +30,25 @@ youtube:
   max_quota_per_cycle: 400
 
 instagram:
-  enabled: false          # flip on once Scrape Creators credits are confirmed
-  api_base: https://api.scrapecreators.com/v1
-  max_posts: 200          # hard cap — protects the free-tier credit budget
-  max_calls_per_cycle: 60
+  enabled: true
+  # NOTE: base has no version segment; endpoints carry their own (/v1/..., /v2/...)
+  api_base: https://api.scrapecreators.com
+
+  # --- credit budget ---
+  # The API returns NO balance header, so spending is invisible unless we count
+  # it ourselves. This is a hard local cap, tracked in
+  # data/bronze/_credits/scrapecreators.json. Set it to what the account
+  # actually has; raising it does not buy credits.
+  credit_budget_total: 100
+  max_calls_per_cycle: 25
+
+  # --- cadence ---
+  # Instagram is snapshotted far less often than YouTube because every call
+  # costs real money rather than a free quota unit. One profile call returns
+  # ~12 recent posts WITH their counts, so the unit of work is the account,
+  # not the post.
+  snapshot_every_hours: 6
+  max_posts: 200          # hard cap on panel size
 
 storage:
   bronze_dir: data/bronze
@@ -56,9 +71,19 @@ labels:
   peak_skip_first_interval: false
   # Robustness label: time to reach this fraction of fitted asymptote A.
   saturation_target: 0.90
-  # Primary engagement metric for velocity. views is monotonic and available on
-  # both platforms; likes/comments are secondary and can be disabled by creators.
-  primary_metric: views
+  # --- primary engagement metric, PER PLATFORM ---
+  # This is a methodological choice, not a config detail. Instagram reports no
+  # view count for image posts (video_view_count is null when is_video=false),
+  # so views cannot be the metric there. Likes saturate faster than views, which
+  # means death times are NOT directly comparable across the two platforms. The
+  # paper must report per-platform results separately and say why.
+  primary_metric:
+    youtube: views
+    instagram: likes
+  # Posts whose counts the creator has hidden are excluded: the API reports 0,
+  # which is indistinguishable from genuine non-engagement and would read as
+  # instant death.
+  exclude_hidden_counts: true
 
 modelling:
   feature_cutoff_hours: 6      # LEAKAGE GUARD: no feature may use data after this
