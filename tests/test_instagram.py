@@ -171,6 +171,21 @@ def test_each_key_gets_its_own_ledger_file(tmp_path):
 def test_duplicate_keys_are_not_counted_as_extra_budget(monkeypatch):
     """Pasting the same key into both slots must not look like 200 credits."""
     from cdc import config as C
+    # Clear every slot first: the developer's real .env.local is loaded at
+    # import time, and a leftover key #3 would leak into the assertion.
+    for n in range(2, 10):
+        monkeypatch.delenv(f"SCRAPECREATORS_API_KEY_{n}", raising=False)
     monkeypatch.setenv("SCRAPECREATORS_API_KEY", "SAME")
     monkeypatch.setenv("SCRAPECREATORS_API_KEY_2", "SAME")
     assert C.secrets().scrapecreators_api_keys == ("SAME",)
+
+
+def test_key_priority_order_is_preserved(monkeypatch):
+    """Spares must be spent in order, so the primary drains first."""
+    from cdc import config as C
+    for n in range(2, 10):
+        monkeypatch.delenv(f"SCRAPECREATORS_API_KEY_{n}", raising=False)
+    monkeypatch.setenv("SCRAPECREATORS_API_KEY", "FIRST")
+    monkeypatch.setenv("SCRAPECREATORS_API_KEY_2", "SECOND")
+    monkeypatch.setenv("SCRAPECREATORS_API_KEY_3", "THIRD")
+    assert C.secrets().scrapecreators_api_keys == ("FIRST", "SECOND", "THIRD")
