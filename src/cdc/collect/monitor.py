@@ -39,8 +39,17 @@ def _parse(ts):
     return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
 
 
-def report(now: datetime | None = None) -> dict:
+def report(now: datetime | None = None, recent_hours: float | None = None) -> dict:
+    """Collection health.
+
+    `recent_hours` scopes the *alarm* to a trailing window. Without it, a single
+    historical outage fails every subsequent CI run forever, and a permanently
+    red alarm is worse than no alarm because people stop reading it. The
+    full-history figures are still reported for the paper; only the pass/fail
+    judgement is windowed.
+    """
     now = now or datetime.now(timezone.utc)
+    horizon = (now - timedelta(hours=recent_hours)) if recent_hours else None
     cfg = settings()["collection"]
     schedule = [float(h) for h in cfg["snapshot_schedule_hours"]]
     tol = float(cfg["snapshot_tolerance_hours"])
@@ -64,6 +73,10 @@ def report(now: datetime | None = None) -> dict:
     per_post_completeness: list[float] = []
 
     for pid, post in panel.posts.items():
+        # Posts that lived through an outage carry its damage permanently. Judge
+        # current health on posts published inside the window.
+        if horizon is not None and post.published_at < horizon:
+            continue
         age_now = post.age_hours(now)
         expected = [m for m in schedule if m <= age_now]
         if not expected:
@@ -86,6 +99,9 @@ def report(now: datetime | None = None) -> dict:
         per_post_completeness.append(hits / len(expected))
 
     # --- cycle continuity: consecutive hours with no snapshot written at all
+    if horizon is not None:
+        cutoff = horizon.strftime("%Y-%m-%dT%H")
+        cycle_hours = {h for h in cycle_hours if h >= cutoff}
     hours_sorted = sorted(cycle_hours)
     gaps: list[tuple[str, int]] = []
     if hours_sorted:
@@ -119,22 +135,32 @@ def report(now: datetime | None = None) -> dict:
         "hit_counts_by_mark": {str(k): v for k, v in sorted(hit_counts.items())},
         "cycle_hours_observed": len(cycle_hours),
         "gaps": gaps,
+        "recent_hours": recent_hours,
     }
 
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Report collection completeness.")
     ap.add_argument("--fail-on-gap", action="store_true",
-                    help="exit non-zero if an outage or low completeness is detected")
+                    help="exit non-zero if a RECENT outage or low completeness is found")
+    ap.add_argument("--recent-hours", type=float, default=None,
+                    help="scope the pass/fail judgement to a trailing window "
+                         "(CI uses this so an old outage does not fail runs forever)")
     args = ap.parse_args(argv)
 
-    r = report()
+    # In CI, judge recent health by default; a human running it wants everything.
+    recent = args.recent_hours if args.recent_hours is not None else (
+        12.0 if args.fail_on_gap else None)
+    r = report(recent_hours=recent)
     p = r["panel"]
 
     print("=" * 66)
     print("  CONTENT DEATH CLOCK - collection health")
     print("=" * 66)
     print(f"  as of                {r['now']}")
+    if r.get("recent_hours"):
+        print(f"  judging window       last {r['recent_hours']:.0f}h "
+              f"(older outages reported, not alarmed on)")
     print(f"  posts tracked        {p['posts_total']}  (active {p['posts_active']})")
     print(f"  snapshots collected  {p['snapshots_total']}"
           f"  (mean {p['snapshots_per_post_mean']:.1f}/post)")
