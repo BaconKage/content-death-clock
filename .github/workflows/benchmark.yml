@@ -1,0 +1,83 @@
+name: benchmark
+
+# The scalability benchmark for the Big Data Analytics report.
+#
+# Runs here rather than locally for one practical reason: PySpark on Windows
+# needs winutils.exe and HADOOP_HOME, which is a half-day of yak-shaving that
+# teaches nothing. The Ubuntu runner has a working JVM and Spark runs out of the
+# box, and the timings land in a downloadable artifact ready for the report.
+#
+# Manual trigger only. It is not part of collection, it costs real minutes, and
+# nothing about it needs to happen on a schedule.
+
+on:
+  workflow_dispatch:
+    inputs:
+      factors:
+        description: "Amplification factors, space separated"
+        type: string
+        default: "1 10 100 1000"
+      repeats:
+        description: "Timed repeats per configuration (median is reported)"
+        type: string
+        default: "3"
+
+permissions:
+  contents: read
+
+jobs:
+  scaling:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+
+      # Spark needs a JVM. The runner ships one, but pin it so a runner image
+      # change cannot silently alter the numbers we report in a paper.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-bench.txt
+
+      - name: Report environment
+        run: |
+          echo "cores:  $(nproc)"
+          echo "memory: $(free -g | awk '/^Mem:/{print $2}') GB"
+          java -version
+        # The hardware is part of the result. A crossover point is meaningless
+        # without saying what it was measured on.
+
+      - name: Rebuild silver from committed bronze
+        env:
+          PYTHONPATH: src
+        run: python -m cdc.transform.silver
+
+      - name: Run scaling benchmark
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m cdc.bench.spark_bench \
+            --factors ${{ inputs.factors }} \
+            --repeats ${{ inputs.repeats }} \
+            | tee benchmark-output.txt
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scaling-benchmark
+          path: |
+            benchmark-output.txt
+            data/bench/scaling.json
+          retention-days: 90

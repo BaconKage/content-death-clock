@@ -25,3 +25,4 @@ data/_bench/
 # os
 Thumbs.db
 .DS_Store
+data/bench/
