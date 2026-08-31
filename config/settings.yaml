@@ -11,7 +11,11 @@ collection:
   # max_track_hours. Discovery runs every cycle so a post is picked up within ~1h
   # of publishing.
   max_track_hours: 336          # 14 days
-  discovery_lookback_hours: 6   # only admit posts published this recently
+  # Admit posts up to this old. Kept generous deliberately: when the scheduler
+  # skips slots, a post can be hours old before we first see it, and admitting
+  # it late with an honest age beats not admitting it at all. Its early marks
+  # are simply recorded as missing rather than guessed.
+  discovery_lookback_hours: 6
   # Target snapshot ages (hours since publish). The scheduler is hourly, so the
   # runner snapshots a post when its age crosses one of these marks.
   snapshot_schedule_hours: [1, 3, 6, 12, 24, 36, 48, 72, 96, 120, 168, 240, 336]
