@@ -29,18 +29,19 @@ name: collect
 
 on:
   schedule:
-    # FALLBACK ONLY. The primary trigger is an external scheduler (cron-job.org)
-    # calling workflow_dispatch every 30 minutes, because GitHub's own scheduler
-    # proved unusable here: measured 2026-08-31, an hourly cron produced runs
-    # 3.03h apart, roughly one slot in three, and a 7-hour gap overnight.
+    # FALLBACK. The primary trigger is external: cron-job.org calls the
+    # workflow_dispatch API every 30 minutes, because GitHub's own scheduler
+    # proved unusable here — measured 2026-08-31, an hourly cron produced runs
+    # 3.03h apart (about one slot in three) plus a 7-hour overnight gap. That
+    # pushed 97.7% of posts past their t+1h mark before first observation.
     #
-    # This is kept at hourly, not */15, for budget reasons. Both schedulers at
-    # their earlier rates projected to 2,000 Actions minutes over the collection
-    # window - the entire free allowance for a private repo, with no margin, and
-    # collection stopping dead if GitHub ever started honouring every slot.
-    # Hourly costs ~222 minutes and keeps some data flowing if the external
-    # scheduler fails, which the health monitor would then surface.
-    - cron: "7 * * * *"
+    # Requested every 15 minutes even though we only need hourly: GitHub honours
+    # roughly a third of slots, so over-requesting converts its unreliability
+    # into acceptable jitter. This repository is public, so Actions minutes are
+    # unlimited and the density costs nothing. (While it was private the same
+    # setting projected to 2,000 minutes — the entire free allowance — and had
+    # to be dialled back to hourly.)
+    - cron: "*/15 * * * *"
   workflow_dispatch:            # manual trigger, for the Day 3 smoke test
     inputs:
       dry_run:
