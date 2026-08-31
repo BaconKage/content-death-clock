@@ -165,9 +165,70 @@ the quota cost matches the model documented above.
 
 ---
 
+## The data in this repository
+
+This repository is public and the collected data is committed to it, under `data/bronze/`.
+That is deliberate: the measurements cannot be reproduced by anyone re-running the code
+later, because they are observations of specific posts at specific moments that have now
+passed. Publishing them is what makes the study checkable.
+
+### What is collected
+
+For each tracked post, repeatedly over 14 days:
+
+| Field | Source |
+|---|---|
+| post id, creator id, publish timestamp | platform API |
+| view count, like count, comment count | platform API, at each observation |
+| observation timestamp and post age | recorded by the collector |
+| title/caption length, tag and hashtag counts, duration | derived from the API response |
+| creator subscriber or follower count | platform API |
+
+Plus the sampling frame itself: `config/channels.resolved.yaml` (the channels observed and
+their measured subscriber counts) and `config/discovery_queries.yaml` (the search queries
+that produced the frame).
+
+### What is not collected
+
+No personal data, no private accounts, no comment text, no viewer or user-level data of any
+kind. Nothing is collected that a logged-out visitor could not see on the page. We do not
+attempt to identify individuals, and the study has no user-level unit of analysis — the
+unit is the post.
+
+### Naming
+
+Creators and posts appear by their public identifiers in the raw data, because a decay
+curve is meaningless detached from the post it describes and because reproducibility
+requires it. In the papers, results are reported in aggregate and no creator is singled
+out or evaluated by name.
+
+### Rebuilding
+
+Only `data/bronze/` is committed. The silver and gold layers are derived and are
+regenerated from bronze:
+
+```bash
+python -m cdc.transform.silver
+```
+
+```bash
+python -m cdc.transform.features
+```
+
+### If you are a creator in this dataset
+
+Open an issue and we will remove your channel from the frame and delete its collected rows.
+No justification needed.
+
+---
+
 ## Ethics
 
 Public content and public accounts only. No personal data is collected. Results are
 reported in aggregate and creators are not individually identified. Scrape Creators is an
 unofficial third-party API; its use is disclosed as a stated limitation rather than
 buried. The design is observational: it predicts decay, it does not establish its causes.
+
+The analysis plan was pre-registered and frozen before any result existed — see
+[`ANALYSIS_PLAN.md`](ANALYSIS_PLAN.md) and the commit that set its status. Amendments are
+made as new dated commits with stated reasons, never by editing that file's history.
