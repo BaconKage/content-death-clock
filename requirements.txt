@@ -10,7 +10,7 @@ duckdb==1.1.3
 
 # --- modelling ---
 scikit-learn==1.5.2
-lifelines==0.29.0
+lifelines==0.30.0
 scipy==1.14.1
 numpy==1.26.4
 
