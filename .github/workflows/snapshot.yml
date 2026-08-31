@@ -1,18 +1,24 @@
 name: collect
 
-# The heartbeat of the whole project. Requested every 15 minutes; GitHub
-# honours roughly one slot in three, which is the point — see the cron note.
+# The heartbeat of the whole project.
+#
+# PRIMARY TRIGGER is external: cron-job.org calls the workflow_dispatch API every
+# 30 minutes. GitHub's own scheduler is kept only as a fallback — see the cron
+# block below for the measurements that forced that decision.
 #
 # Why CI and not a laptop: this must run unattended for three weeks. A student
 # machine sleeps, loses wifi, and reboots for updates, and a gap in the first
 # six hours of a post's life destroys exactly the early-velocity features the
 # study depends on. Those hours cannot be re-scraped — the past is gone.
 #
-# Known behaviours of GitHub's scheduler, both acceptable here:
-#   * Runs are delayed AND skipped under load — measured at ~1 slot in 3, not
-#     the "few minutes" the docs imply. We record the ACTUAL observation
-#     timestamp and compute velocity from real elapsed time, never an assumed
-#     grid, so a late snapshot is late-but-honest rather than mislabelled.
+# Timing is never assumed. We record the ACTUAL observation timestamp and compute
+# velocity from real elapsed time, so a late snapshot is late-but-honest rather
+# than silently mislabelled as on-time. That property is what made the scheduler
+# shortfall measurable rather than invisible.
+#
+# Known GitHub scheduler behaviour:
+#   * Runs are delayed AND skipped under load — measured here at ~1 slot in 3,
+#     not the "few minutes" the docs imply.
 #   * Scheduled workflows only run on the default branch, and are disabled after
 #     60 days of repository inactivity. We commit data continuously, so the repo
 #     is never inactive.
@@ -23,17 +29,18 @@ name: collect
 
 on:
   schedule:
-    # Asks for every 15 minutes, NOT because we want 15-minute resolution, but
-    # because GitHub only honours a fraction of scheduled slots. Measured on
-    # 2026-08-31: an hourly cron produced runs 3.03h apart on average — roughly
-    # one slot in three. That pushed the age of a post at FIRST observation to
-    # 1-3h for 87% of posts, which destroys the t+1h feature outright, since we
-    # refuse to extrapolate a value we never observed.
+    # FALLBACK ONLY. The primary trigger is an external scheduler (cron-job.org)
+    # calling workflow_dispatch every 30 minutes, because GitHub's own scheduler
+    # proved unusable here: measured 2026-08-31, an hourly cron produced runs
+    # 3.03h apart, roughly one slot in three, and a 7-hour gap overnight.
     #
-    # Over-requesting converts GitHub's unreliability into an acceptable jitter:
-    # one slot in three of every-15-minutes is ~45-minute effective resolution.
-    # The runner is cheap when there is nothing due, and idempotent when there is.
-    - cron: "*/15 * * * *"
+    # This is kept at hourly, not */15, for budget reasons. Both schedulers at
+    # their earlier rates projected to 2,000 Actions minutes over the collection
+    # window - the entire free allowance for a private repo, with no margin, and
+    # collection stopping dead if GitHub ever started honouring every slot.
+    # Hourly costs ~222 minutes and keeps some data flowing if the external
+    # scheduler fails, which the health monitor would then surface.
+    - cron: "7 * * * *"
   workflow_dispatch:            # manual trigger, for the Day 3 smoke test
     inputs:
       dry_run:
