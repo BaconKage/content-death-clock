@@ -75,19 +75,39 @@ def _existing_channel_ids() -> set[str]:
 
 
 def upload_frequency(client: YouTubeClient, uploads_playlist: str,
-                     lookback_days: int = 30) -> tuple[float, int]:
-    """(uploads per week, uploads seen) over the recent past. 1 unit."""
+                     lookback_days: int = 30,
+                     max_pages: int = 4) -> tuple[float, int, bool]:
+    """(uploads per week, uploads seen, saturated) over the recent past.
+
+    Returns a **saturated** flag, and that flag is the point of this function.
+
+    The first version paged once — 50 videos — and divided by the lookback
+    window. Any channel uploading faster than ~7/day filled those 50 slots and
+    reported exactly 11.67/week no matter its true rate. Ten of thirty
+    discovered channels reported precisely 11.67, and one of them turned out to
+    publish 100 videos in 25 seconds, going on to supply 59% of the panel with
+    near-zero-engagement content.
+
+    Rather than page forever chasing a rate we do not need precisely, we page a
+    few times and report honestly that the estimate is a **lower bound** when the
+    window is full. A saturated channel is not "active", it is a firehose, and
+    the caller should treat it with suspicion rather than admit it.
+    """
     since = datetime.now(timezone.utc) - timedelta(days=lookback_days)
     try:
-        uploads = client.recent_uploads(uploads_playlist, since=since, max_pages=1)
+        uploads = client.recent_uploads(uploads_playlist, since=since,
+                                        max_pages=max_pages)
     except QuotaExceeded:
         raise
     except Exception as exc:
         log.debug("frequency check failed: %s", exc)
-        return 0.0, 0
+        return 0.0, 0, False
     if not uploads:
-        return 0.0, 0
-    return len(uploads) / (lookback_days / 7.0), len(uploads)
+        return 0.0, 0, False
+    # recent_uploads stops early once it sees something older than `since`, so a
+    # full page budget means we never reached the window's edge.
+    saturated = len(uploads) >= 50 * max_pages
+    return len(uploads) / (lookback_days / 7.0), len(uploads), saturated
 
 
 def select_candidates(resolved: list[dict[str, Any]], want_tiers: tuple[str, ...],
@@ -223,12 +243,19 @@ def _select_and_check(client, resolved, want_tiers, min_subscribers,
         passers = []
         for c in _spread(pool, per_tier_target * 3):
             try:
-                per_week, n = upload_frequency(client, c["uploads_playlist"])
+                per_week, n, saturated = upload_frequency(client, c["uploads_playlist"])
             except QuotaExceeded:
                 log.warning("frequency checks stopped: quota")
                 break
             c["uploads_per_week"] = round(per_week, 2)
             c["uploads_last_30d"] = n
+            c["rate_saturated"] = saturated
+            if saturated:
+                # A firehose, not a creator. Excluding these is what stops one
+                # bulk uploader from dominating the panel.
+                log.info("  SKIP %-28s upload rate saturated (>= %d in window)",
+                         (c.get("handle") or c["title"])[:28], n)
+                continue
             if per_week >= min_uploads_per_week:
                 passers.append(c)
         passers.sort(key=lambda c: c["subscriber_count"] or 0)

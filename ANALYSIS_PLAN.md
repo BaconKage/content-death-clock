@@ -98,6 +98,7 @@ and accounts posting less than ~once/day yield no fresh posts inside a 48h windo
 | Fewer than 4 usable inter-snapshot intervals | `insufficient_observations` |
 | Never achieved positive view velocity | `no_positive_velocity` |
 | Post deleted or made private during observation | recorded as censored at last observation |
+| Beyond 5 posts from one creator on one UTC day (YouTube only) | `creator_daily_cap` — **added by amendment 2026-08-31, see log** |
 
 ## 5. Variables
 
@@ -186,6 +187,34 @@ there to bound.
 
 ## Amendment log
 
+**2026-08-31 — per-creator daily admission cap (YouTube only).**
+
+*Change.* At most 5 posts from one creator per UTC day enter the YouTube
+analysis sample; the earliest published are kept, and the remainder are excluded
+under reason code `creator_daily_cap` and counted in the attrition table. No cap
+is applied to Instagram.
+
+*Reason.* One channel published **100 videos within 25 seconds** and came to
+supply 59% of the YouTube panel. Those posts carried a median of 4 views against
+1,152 for every other post in the panel. They are not 100 independent
+observations — one creator, one moment, one action — and leaving them in would
+have made the creator-size stratification meaningless and dominated every fold
+of the cross-validation. The contamination reached us through a measurement bug:
+our upload-rate check paged only the 50 most recent videos, so any channel
+uploading faster than ~7/day reported exactly 11.67/week regardless of its true
+rate, and the "at least weekly" filter admitted firehoses along with active
+creators. That bug is fixed separately; the cap protects the design from the
+general case rather than this one channel.
+
+*Instagram exempt.* Its accounts were selected deliberately for frequent posting,
+no hypothesis is tested on Instagram data (section 4), and its collection cost
+non-renewable credits. Capping it would discard paid-for data to solve a problem
+it does not have.
+
+*Status of the outcome data at amendment.* No death label had been computed and
+no model had been fitted. The amendment is a sampling decision made before any
+result existed, not after seeing one.
+
 | Date | Commit | Change | Reason |
 |---|---|---|---|
-| | | | |
+| 2026-08-31 | *this commit* | Per-creator daily admission cap, YouTube only | Bulk uploader supplied 59% of the panel; see above |

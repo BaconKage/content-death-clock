@@ -29,7 +29,7 @@ from cdc.config import ROOT, channels, secrets, settings
 from cdc.collect.panel import Panel, discovery_window
 from cdc.collect.youtube import QuotaExceeded, QuotaMeter, YouTubeClient
 from cdc.collect.youtube import _parse_ts
-from cdc.storage.bronze import BronzeWriter, cycle_id
+from cdc.storage.bronze import BronzeWriter, cycle_id, iter_bronze
 
 log = logging.getLogger("cdc.runner")
 
@@ -109,9 +109,30 @@ def run_cycle(dry_run: bool = False, discover: bool = True,
                     if u["video_id"] not in panel.posts:
                         new_ids.append(u["video_id"])
 
-            # Fetch full metadata for genuinely new videos, then admit them.
+            # Fetch full metadata for genuinely new videos, then admit them,
+            # subject to the per-creator daily cap.
+            _caps = cfg["collection"].get("max_posts_per_creator_per_day", 0)
+            if isinstance(_caps, int):
+                _caps = {"youtube": _caps}
+            cap = int(_caps.get("youtube", 0)) or None
+            admitted_today: dict[tuple, int] = {}
+            if cap:
+                for rec in iter_bronze("posts", platform="youtube", root=bronze_root):
+                    pub = _parse_ts(rec.get("published_at"))
+                    if pub is not None:
+                        k = (rec.get("creator_id"), pub.date().isoformat())
+                        admitted_today[k] = admitted_today.get(k, 0) + 1
+
             if new_ids:
                 for v in client.video_stats(new_ids):
+                    if cap:
+                        pub_v = _parse_ts(v.get("published_at"))
+                        key = (v.get("creator_id"),
+                               pub_v.date().isoformat() if pub_v else "?")
+                        if admitted_today.get(key, 0) >= cap:
+                            report["skipped_creator_cap"] =                                 report.get("skipped_creator_cap", 0) + 1
+                            continue
+                        admitted_today[key] = admitted_today.get(key, 0) + 1
                     rec = dict(v)
                     ch_meta = next((c for c in chans
                                     if c.get("channel_id") == v.get("creator_id")), {})

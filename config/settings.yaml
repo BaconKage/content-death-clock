@@ -22,6 +22,25 @@ collection:
   # Tolerance for "this snapshot satisfies that scheduled mark".
   snapshot_tolerance_hours: 0.75
 
+  # --- per-creator admission cap (plan amendment, 2026-08-31) ---
+  # At most this many posts from one creator per UTC day. Added after a single
+  # channel published 100 videos within 25 seconds and supplied 59% of the
+  # YouTube panel with near-zero-engagement content (median 4 views, against
+  # 1,152 for every other post). Those 100 are not 100 independent observations:
+  # one channel, one moment, one action. Without a cap, any bulk uploader can
+  # dominate the sample and the creator-size stratification becomes meaningless.
+  # Enforced at admission AND at analysis, so posts already collected are
+  # excluded consistently and counted in the attrition table.
+  # Applied PER PLATFORM. YouTube carries every hypothesis, so its independence
+  # assumption must be protected. Instagram is a bounded demonstration on which
+  # no hypothesis is tested (see ANALYSIS_PLAN section 4), its accounts were
+  # deliberately selected for posting often, and its data cost real credits -
+  # so capping it would discard paid-for data to solve a problem it does not
+  # have. 0 means no cap.
+  max_posts_per_creator_per_day:
+    youtube: 5
+    instagram: 0
+
 youtube:
   enabled: true
   api_base: https://www.googleapis.com/youtube/v3

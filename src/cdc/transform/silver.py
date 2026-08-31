@@ -83,7 +83,35 @@ def build_posts(platforms: tuple[str, ...] = ("youtube", "instagram")) -> pd.Dat
     if df.empty:
         return df
     df = df.dropna(subset=["post_id", "published_at"])
-    return df.drop_duplicates("post_id").reset_index(drop=True)
+    df = df.drop_duplicates("post_id").reset_index(drop=True)
+    return _mark_creator_cap(df)
+
+
+def _mark_creator_cap(posts: pd.DataFrame) -> pd.DataFrame:
+    """Flag posts beyond the per-creator daily cap. Plan amendment 2026-08-31.
+
+    Applied here as well as at admission, because posts collected *before* the
+    amendment are already in bronze and bronze is append-only evidence that must
+    not be rewritten. Marking them at analysis time excludes them consistently
+    while leaving the raw record intact and the exclusion countable.
+
+    Deterministic: within a creator-day, the earliest published are kept. For the
+    case that motivated this — 100 videos in 25 seconds — any rule is arbitrary,
+    so a reproducible one beats a random one.
+    """
+    caps = settings()["collection"].get("max_posts_per_creator_per_day", 0)
+    if isinstance(caps, int):                       # legacy scalar form
+        caps = {"youtube": caps, "instagram": caps}
+    if posts.empty:
+        posts["over_creator_daily_cap"] = False
+        return posts
+
+    d = posts.sort_values(["creator_id", "published_at"]).copy()
+    d["_day"] = d["published_at"].dt.date
+    rank = d.groupby(["creator_id", "_day"]).cumcount()
+    limit = d["platform"].map(lambda p: caps.get(p, 0) or 10**9)
+    d["over_creator_daily_cap"] = rank >= limit
+    return d.drop(columns="_day").reset_index(drop=True)
 
 
 def build_snapshots(platforms: tuple[str, ...] = ("youtube", "instagram")) -> pd.DataFrame:
@@ -155,8 +183,11 @@ def build(write: bool = True) -> dict[str, Any]:
     orphans = (0 if snaps.empty or posts.empty
                else int((~snaps["post_id"].isin(posts["post_id"])).sum()))
 
+    capped = int(posts["over_creator_daily_cap"].sum()) if not posts.empty else 0
     return {
         "posts": len(posts),
+        "posts_over_creator_cap": capped,
+        "posts_analysable": len(posts) - capped,
         "snapshots": len(snaps),
         "orphan_snapshots": orphans,
         "by_platform": (snaps.groupby("platform").size().to_dict()
@@ -179,7 +210,8 @@ def main(argv: list[str] | None = None) -> int:
     print("=" * 60)
     print("  SILVER")
     print("=" * 60)
-    for k in ("posts", "snapshots", "posts_with_3plus_snapshots", "orphan_snapshots"):
+    for k in ("posts", "posts_over_creator_cap", "posts_analysable",
+              "snapshots", "posts_with_3plus_snapshots", "orphan_snapshots"):
         print(f"  {k:<28} {r[k]}")
     print(f"  by platform                  {r['by_platform']}")
     print("=" * 60)
