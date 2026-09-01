@@ -61,6 +61,11 @@ def build_posts(platforms: tuple[str, ...] = ("youtube", "instagram")) -> pd.Dat
                 "platform": plat,
                 "creator_id": r.get("creator_id"),
                 "creator_handle": r.get("creator_handle") or r.get("creator_title"),
+                # Instagram only: the grid this post was found on, which is not
+                # always its owner (collab posts). Older records predate the
+                # field and fall back to what they have.
+                "queried_handle": r.get("queried_handle") or r.get("creator_handle"),
+                "owned_by_queried_account": r.get("owned_by_queried_account"),
                 "published_at": _parse_ts(r.get("published_at")),
                 "discovered_at": _parse_ts(r.get("discovered_at")),
                 "stratum_tier": r.get("stratum_tier"),

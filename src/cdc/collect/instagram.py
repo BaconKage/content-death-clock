@@ -286,11 +286,31 @@ def _normalise_post(node: dict[str, Any], handle: str,
     caption = (caption_edges[0].get("node", {}).get("text", "")
                if caption_edges else "")
 
+    # A grid contains posts this account does not own. Instagram collab posts
+    # ("coauthor_producers") appear on every co-author's profile, so polling
+    # @nba returns posts owned by, for example, FIBA Basketball World Cup.
+    #
+    # `creator_id` was already correct — it reads the post's true owner, which
+    # is what GroupKFold groups on, so no result was ever contaminated. But
+    # `creator_handle` recorded the handle we *queried*, which made four
+    # distinct owners all appear as "nba" and produced nonsense in any
+    # per-account report. The two are now recorded separately.
+    owner = node.get("owner") or {}
+    coauthors = node.get("coauthor_producers") or []
     return {
         "post_id": f"ig_{shortcode}",
         "shortcode": shortcode,
-        "creator_id": (node.get("owner") or {}).get("id") or user.get("id"),
-        "creator_handle": handle,
+        "creator_id": owner.get("id") or user.get("id"),
+        # The grid we polled. One API call, one grid — this is the unit that
+        # costs a credit, so it is the unit posting-rate is measured in.
+        "queried_handle": handle,
+        # The post's actual owner. Instagram's node.owner carries no username
+        # here, so the display name is the best identifier available.
+        "creator_handle": owner.get("username"),
+        "creator_name": owner.get("full_name"),
+        "owned_by_queried_account": bool(
+            owner.get("id") is None or owner.get("id") == user.get("id")),
+        "coauthor_count": len(coauthors),
         "published_at": datetime.fromtimestamp(int(ts), tz=timezone.utc)
                                 .isoformat(timespec="seconds"),
         "is_video": bool(node.get("is_video")),
