@@ -118,12 +118,26 @@ def test_every_fixture_video_is_discovered_exactly_once(collected):
 
 
 def test_snapshots_follow_the_configured_schedule(collected):
+    """Every scheduled mark is hit, and the discovery snapshot is extra.
+
+    This test previously asserted 13 snapshots in total, which quietly encoded
+    a bug: the at-discovery snapshot was consuming the t+1h slot, so a post
+    reached only 12 of its 13 scheduled marks and the missing one was always
+    the earliest and most valuable. The correct expectation is 13 *scheduled*
+    observations plus the discovery one that precedes them.
+    """
     bronze, _, _, clock = collected
     panel = Panel.from_bronze("youtube", root=bronze)
     for post in panel.posts.values():
         # 13 scheduled marks, all of which fall inside a 21-day run
-        assert post.snapshot_count == 13, (
-            f"{post.post_id} got {post.snapshot_count} snapshots, expected 13"
+        assert post.scheduled_snapshot_count == 13, (
+            f"{post.post_id} hit {post.scheduled_snapshot_count} scheduled "
+            f"marks, expected 13"
+        )
+        # Plus at most one earlier observation, written free at discovery.
+        assert post.snapshot_count in (13, 14), (
+            f"{post.post_id} has {post.snapshot_count} snapshots; expected the "
+            f"13 scheduled ones plus at most one at-discovery observation"
         )
 
 

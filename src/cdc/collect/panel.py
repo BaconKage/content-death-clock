@@ -16,6 +16,14 @@ from cdc.config import settings
 from cdc.storage.bronze import iter_bronze
 
 
+def _first_mark_opens() -> float:
+    """Age at which the earliest scheduled mark's tolerance window opens."""
+    cfg = settings()["collection"]
+    schedule = cfg["snapshot_schedule_hours"]
+    tol = float(cfg.get("snapshot_tolerance_hours", 0.0))
+    return float(min(schedule)) - tol if schedule else 0.0
+
+
 def _parse(ts: str | None) -> datetime | None:
     if not ts:
         return None
@@ -33,6 +41,10 @@ class TrackedPost:
     creator_id: str | None
     published_at: datetime
     snapshot_count: int = 0
+    # Snapshots old enough to satisfy a scheduled mark. The at-discovery
+    # snapshot is usually taken minutes after publication, before the first
+    # mark's window even opens, so it can satisfy nothing - see `due`.
+    scheduled_snapshot_count: int = 0
     last_snapshot_at: datetime | None = None
 
     def age_hours(self, now: datetime) -> float:
@@ -66,6 +78,12 @@ class Panel:
             if p is None:
                 continue
             p.snapshot_count += 1
+            age = rec.get("age_hours")
+            try:
+                if age is not None and float(age) >= _first_mark_opens():
+                    p.scheduled_snapshot_count += 1
+            except (TypeError, ValueError):
+                pass
             ts = _parse(rec.get("snapshot_ts"))
             if ts and (p.last_snapshot_at is None or ts > p.last_snapshot_at):
                 p.last_snapshot_at = ts
@@ -76,11 +94,25 @@ class Panel:
         """Posts owed a snapshot this cycle.
 
         Rule: count how many scheduled marks the post's age has passed; if it
-        has fewer snapshots than marks passed, it is due. This is self-healing —
-        after downtime a post is simply behind and gets caught up on the next
-        cycle, rather than the missed marks being lost forever. The actual
-        observation timestamp is what gets recorded, so a late snapshot is
+        has fewer *scheduled* snapshots than marks passed, it is due. This is
+        self-healing — after downtime a post is simply behind and gets caught up
+        on the next cycle, rather than the missed marks being lost forever. The
+        actual observation timestamp is what gets recorded, so a late snapshot is
         late-but-honest rather than silently mislabelled as on-time.
+
+        **Why "scheduled" and not simply "all".** Discovery writes a snapshot the
+        moment a post is found, typically within minutes of publication. Counting
+        that against the marks made every post permanently one behind, and the
+        mark it swallowed was always the first — t+1h, the most valuable and
+        least recoverable point on a decay curve. Measured effect before the fix:
+        posts published after the scheduler was repaired still reached the t+1h
+        window only 45% of the time, while t+3h and later ran at 92-97%.
+
+        A snapshot therefore counts toward the schedule only if it is old enough
+        to fall inside the first mark's tolerance window. One taken before that
+        is real data and is kept — it is the earliest observation we will ever
+        have — but it satisfies no mark, because it answers a question no mark
+        asked.
         """
         now = now or datetime.now(timezone.utc)
         cfg = settings()["collection"]
@@ -93,7 +125,7 @@ class Panel:
             if age < 0 or age > max_age:
                 continue
             marks_passed = sum(1 for m in schedule if age >= float(m))
-            if p.snapshot_count < marks_passed:
+            if p.scheduled_snapshot_count < marks_passed:
                 out.append(p)
         # Oldest-first: a post about to age out of a mark window matters more
         # than one that will still be there next cycle.
