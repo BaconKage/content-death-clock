@@ -430,7 +430,7 @@ Two instrument checks are worth reporting in a methods paper, because both found
   analytically known death times. It is the one component where a silent bug invalidates
   every downstream number.
 
-The suite contains 137 tests and runs in CI on every push.
+The suite contains 146 tests and runs in CI on every push.
 
 ---
 

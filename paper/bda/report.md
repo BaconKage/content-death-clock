@@ -197,10 +197,53 @@ An **external scheduler** (cron-job.org) now triggers the workflow via `workflow
 through a fine-grained personal access token scoped to a single repository with
 Actions: read-and-write. The GitHub `cron` is retained as a fallback.
 
-**Capture rate for the t+1h observation went from 2.1% to 100%.**
-
 The `workflow_dispatch` entries in the run history are not manual runs; they are the external
 scheduler firing.
+
+**The fix helped, and an earlier version of this report overstated by how much.** We initially
+recorded that t+1h capture went "from 2.1% to 100%". A later audit, measuring coverage strictly
+— an observation counts for a mark only if it falls inside that mark's own tolerance window —
+gave a very different picture:
+
+| Posts published | t+1h | t+3h | t+6h | t+12h |
+|---|---:|---:|---:|---:|
+| Before the scheduler fix | 13% | 84% | 33% | 31% |
+| After the scheduler fix | 45% | 97% | 93% | 92% |
+
+The scheduler fix repaired t+3h, t+6h and t+12h completely. **t+1h stayed broken at 45%,** for
+an entirely unrelated reason (§5.4), and two separate reporting weaknesses hid that: the
+monitor was crediting late observations too generously (§4.4), and nothing was comparing
+coverage against *eligibility*. The corrected figure is reported here rather than the flattering
+one, and the post-repair rate is `[PENDING]` — it must be re-measured on posts published after
+2026-09-01T20:45Z, when the second fix landed.
+
+### 4.4 The monitoring lesson, part two: a metric that flatters is worse than none
+
+The monitor credited a scheduled mark as covered by *any* observation up to six tolerance
+widths later. For the t+1h mark that meant an observation taken at 3h counted as covering it.
+
+So the monitor reported **96% coverage of a mark that was genuinely being hit 45% of the
+time**, and the data-loss bug in §5.4 stayed invisible for days behind a green dashboard.
+
+A late reading is real data, but it is not the measurement the schedule asked for, and for the
+early marks it cannot substitute at all: velocity at 1h cannot be computed from an observation
+taken at 3h. Coverage is now reported in two columns, on-time and late, and late credit can no
+longer be claimed by an observation that falls inside the *next* mark's window.
+
+The honest numbers over the full history, replacing a previously reported 90.9%:
+
+| Metric | Reported before | Actual |
+|---|---:|---:|
+| Mean completeness | 90.9% | **76.9%** |
+| On-time only | — | **68.0%** |
+
+At t+6h the split is 93 on-time against 113 late — the same effect that forced the landmark to
+move from 6h to 7h in the analysis plan.
+
+**The general lesson, which belongs in the report because it cost us real data twice:** both
+monitoring failures were failures of *generosity*. An alarm tuned to avoid false positives
+stopped reporting true ones. A coverage metric tuned to be forgiving stopped measuring the
+thing it was named after.
 
 ### 4.3 The monitoring lesson: an alarm that cries wolf is worse than none
 
@@ -245,7 +288,37 @@ That discarded observation was the **earliest measurement of the post we would e
 analysis can distinguish it. The snapshot step then skips posts already snapshotted this
 cycle, so nothing is paid for twice.
 
-### 5.3 Known open defect
+### 5.4 The at-discovery snapshot was swallowing the t+1h mark
+
+The most expensive bug in the project, and a direct consequence of fixing §5.2.
+
+`Panel.due` decided whether a post was owed an observation by comparing a **count** of
+snapshots taken against a **count** of scheduled marks passed. Discovery writes a snapshot the
+moment a post is found — median 14 minutes after publication, well before the t+1h window
+opens — so that snapshot made every post look as though it had already satisfied its first
+mark.
+
+Every post was therefore permanently one observation behind, and **the mark it lost was always
+t+1h**: the earliest, most valuable and least recoverable point on a decay curve, and the basis
+of every early-velocity feature in the study.
+
+It was found by auditing coverage against *eligibility* rather than reading the monitor: for
+posts published after the scheduler was repaired, t+3h ran at 97%, t+6h at 93% and t+12h at
+92% — while t+1h sat at 45%. A uniform scheduling problem cannot produce that shape. Only the
+first mark was affected, which pointed straight at the thing that happens once, at the start.
+
+**Fix.** A snapshot counts toward the schedule only if it is old enough to fall inside the
+first mark's tolerance window. Earlier observations are still stored — they remain the earliest
+data we will ever have — they simply satisfy no mark, because they answer a question no mark
+asked.
+
+**How it hid for so long.** The offline integration test asserted that each post received
+exactly 13 snapshots, matching the 13 scheduled marks. That assertion passed throughout,
+because the post was receiving one discovery snapshot plus twelve scheduled ones. The test was
+encoding the bug as the specification. It now asserts 13 *scheduled* marks plus the discovery
+observation.
+
+### 5.5 Known open defect
 
 `data/bronze/_cycles/<cycle_id>.json` shares the hour-granular id, so at 30-minute cadence the
 **second cycle log of each hour overwrites the first**. This affects monitoring and reporting
@@ -383,7 +456,7 @@ confident number teaches its audience the wrong thing about the system.
 
 ## 10. Testing and CI
 
-- **137 tests**, run on every push.
+- **146 tests**, run on every push.
 - Label functions tested against synthetic curves with analytically known death times.
 - Idempotency test: the same cycle run twice must not change the silver row count.
 - Leakage test with the discriminative power documented in §6.
@@ -444,5 +517,8 @@ python -m pytest
    caused a silent data-loss bug and still causes a monitoring one.
 3. **Write the null-cohort test before the real one.** A test that cannot fail is not a test,
    and ours could not until it was rebuilt.
+5. **Measure coverage against eligibility, not against itself.** Three of the defects above
+   were invisible in a dashboard that only ever compared the data to itself. The question that
+   found them was "how many posts *could* have this observation, and how many *do*?"
 4. **Treat the earliest available observation as the most valuable one** and never discard a
    measurement already paid for (§5.2).
