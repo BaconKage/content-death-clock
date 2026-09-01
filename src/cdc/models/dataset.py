@@ -124,7 +124,9 @@ def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None
             "peak_velocity": lab.peak_velocity,
             "monotonicity_repairs": lab.monotonicity_repairs,
             "stratum_tier": meta.get("stratum_tier"),
+            "last_observed_hours": lab.last_observed_hours,
         })
+        feats.update(_saturation_fields(lab, landmark))
         rows.append(feats)
 
     for r, n in reasons.items():
@@ -141,6 +143,55 @@ def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None
             att["FINAL analysis set"] = len(df)
 
     return AnalysisFrame(frame=df, attrition=att, platform=platform)
+
+
+def _saturation_fields(lab, landmark: float) -> dict[str, Any]:
+    """Carry the robustness label through to the analysis frame.
+
+    The frozen plan specifies a second, mechanically different outcome —
+    ``t_saturation``, the time to reach 90% of a fitted asymptote — and requires
+    it to be reported alongside the primary one. The label function computed it
+    from the beginning; it was simply never carried past this point, so the
+    robustness check the plan promises could not be run at all.
+
+    Three things are recorded rather than one, because the raw number alone
+    would be misleading:
+
+    ``t_saturation_from_publish``
+        The fitted quantity as it comes out of the curve fit, measured from
+        publication.
+    ``t_saturation``
+        The same quantity on the landmark clock, so it is directly comparable
+        with the primary outcome. Negative values are kept as-is rather than
+        clipped: a post that saturated before the landmark is a real
+        disagreement between the two definitions, and hiding it would defeat
+        the purpose of having a second definition.
+    ``saturation_beyond_window``
+        True when the fitted saturation time lies past the post's last actual
+        observation. Such a value is an extrapolation of the fitted curve, not
+        an observation. The plan pre-specifies this label, so we keep it — but
+        the count is reported, because a robustness check resting mostly on
+        extrapolated values is weak evidence and the reader should be told.
+
+    **These columns are outcomes, never features.** They are computed from the
+    post's whole history, so using one as a predictor would be gross leakage.
+    The feature whitelist in ``synthetic.FEATURE_COLUMNS`` is what keeps them
+    out, and a test pins that.
+    """
+    ts = lab.t_saturation
+    if ts is None or not np.isfinite(ts):
+        return {"t_saturation": float("nan"),
+                "t_saturation_from_publish": float("nan"),
+                "saturation_beyond_window": False,
+                "fitted_A": float("nan"), "fitted_k": float("nan")}
+    last = lab.last_observed_hours
+    return {
+        "t_saturation": float(ts - landmark) if landmark else float(ts),
+        "t_saturation_from_publish": float(ts),
+        "saturation_beyond_window": bool(last is not None and ts > last),
+        "fitted_A": float(lab.fitted_A) if lab.fitted_A is not None else float("nan"),
+        "fitted_k": float(lab.fitted_k) if lab.fitted_k is not None else float("nan"),
+    }
 
 
 def usable_features(df: pd.DataFrame, min_coverage: float = 0.5) -> list[str]:

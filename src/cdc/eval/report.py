@@ -33,6 +33,7 @@ from cdc.eval.validate import (
     mae_log10,
     paired_wilcoxon,
 )
+from cdc.eval.robustness import label_agreement, print_agreement, saturation_frame
 from cdc.models import dataset
 from cdc.models.baselines import (
     ConstantLifetime,
@@ -49,12 +50,13 @@ MIN_CREATORS = 10
 
 
 def run(platform: str = "youtube", n_splits: int | None = None,
-        n_boot: int = 500, write: bool = True) -> dict:
+        n_boot: int = 500, write: bool = True, outcome: str = "death") -> dict:
     af = dataset.build(platform=platform)
     df = af.frame
 
     print("=" * 68)
-    print(f"  EVALUATION — {platform}")
+    print(f"  EVALUATION — {platform}"
+          + ("" if outcome == "death" else f"  [outcome: {outcome}]"))
     print("=" * 68)
     print("  sample attrition:")
     for stage, n in af.attrition.items():
@@ -66,20 +68,54 @@ def run(platform: str = "youtube", n_splits: int | None = None,
         print("  no analysable posts yet.")
         return {"platform": platform, "status": "no data"}
 
-    deaths, creators = af.n_deaths, af.n_creators
+    # Robustness label: reported alongside on every run, per the frozen plan.
+    agreement = label_agreement(df)
+    print_agreement(agreement)
+
+    # A robustness check cannot be better powered than the study it is checking.
+    # Without this, the saturation run reports 54 "deaths" - every successful
+    # curve fit counts as an event - sails past the power guard, and prints
+    # "these are reportable results" while the primary analysis still has 7.
+    primary_deaths = int(pd.Series(af.frame["event_observed"]).astype(bool).sum())
+
+    if outcome == "saturation":
+        df = saturation_frame(df)
+        print(f"\n  switched outcome to t_saturation: {len(df)} posts retained")
+        if df.empty:
+            print("  no post has a usable saturation outcome yet.")
+            return {"platform": platform, "outcome": outcome,
+                    "status": "no saturation outcomes", "agreement": agreement}
+
+    # Counted from the frame in play, not from the AnalysisFrame, so the
+    # saturation run reports its own sample rather than the primary one's.
+    deaths = int(pd.Series(df["event_observed"]).astype(bool).sum())
+    creators = int(df["creator_id"].nunique())
+    print("\n" + "-" * 68)
     print(f"  posts               {len(df)}")
     print(f"  observed deaths     {deaths}")
-    print(f"  censored (alive)    {len(df) - deaths}   ({af.censoring_rate:.0%})")
+    cens = (1.0 - deaths / len(df)) if len(df) else float("nan")
+    print(f"  censored (alive)    {len(df) - deaths}   ({cens:.0%})")
     print(f"  creators            {creators}")
 
-    underpowered = deaths < MIN_DEATHS or creators < MIN_CREATORS
+    underpowered = (deaths < MIN_DEATHS or creators < MIN_CREATORS
+                    or primary_deaths < MIN_DEATHS)
     if underpowered:
         print()
         print("  *** UNDERPOWERED — this is a DRESS REHEARSAL, not a result. ***")
         print(f"      {deaths} deaths (want >={MIN_DEATHS}), "
               f"{creators} creators (want >={MIN_CREATORS}).")
+        if outcome != "death" and deaths >= MIN_DEATHS:
+            print(f"      Gated on the PRIMARY analysis, which has "
+                  f"{primary_deaths} observed deaths.")
         print("      Numbers below verify the pipeline runs end to end.")
         print("      They must not be reported as findings.")
+
+    if outcome != "death" and deaths and cens == 0.0:
+        print()
+        print("  NOTE: 0% censoring. Every post with a successful curve fit is")
+        print("  counted as an event, so this outcome has no survivors by")
+        print("  construction. Censoring-aware models cannot show their")
+        print("  advantage here, and the comparison is correspondingly weaker.")
 
     feats = dataset.usable_features(df)
     print(f"\n  features used ({len(feats)}): {', '.join(feats) if feats else 'NONE'}")
@@ -153,7 +189,8 @@ def run(platform: str = "youtube", n_splits: int | None = None,
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "platform": platform, "underpowered": underpowered,
         "n_posts": len(df), "n_deaths": deaths, "n_creators": creators,
-        "censoring_rate": af.censoring_rate, "n_splits": splits,
+        "outcome": outcome, "censoring_rate": cens, "n_splits": splits,
+        "agreement": agreement,
         "features": feats, "attrition": af.attrition,
         "results": results, "wilcoxon": tests,
     }
@@ -166,7 +203,8 @@ def run(platform: str = "youtube", n_splits: int | None = None,
     print("=" * 68)
 
     if write:
-        p = path_for("gold_dir") / f"evaluation_{platform}.json"
+        suffix = "" if outcome == "death" else f"_{outcome}"
+        p = path_for("gold_dir") / f"evaluation_{platform}{suffix}.json"
         p.write_text(json.dumps(out, indent=2, default=str), encoding="utf-8")
         print(f"  wrote {p.relative_to(ROOT)}")
     return out
@@ -178,8 +216,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--splits", type=int, default=None)
     ap.add_argument("--boot", type=int, default=500)
     ap.add_argument("--no-write", action="store_true")
+    ap.add_argument("--outcome", default="death", choices=["death", "saturation"],
+                    help="which pre-registered outcome to model "
+                         "(saturation is the plan's robustness label)")
     args = ap.parse_args(argv)
-    run(args.platform, args.splits, args.boot, write=not args.no_write)
+    run(args.platform, args.splits, args.boot, write=not args.no_write,
+        outcome=args.outcome)
     return 0
 
 

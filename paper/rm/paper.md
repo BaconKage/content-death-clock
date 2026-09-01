@@ -430,7 +430,7 @@ Two instrument checks are worth reporting in a methods paper, because both found
   analytically known death times. It is the one component where a silent bug invalidates
   every downstream number.
 
-The suite contains 127 tests and runs in CI on every push.
+The suite contains 137 tests and runs in CI on every push.
 
 ---
 
@@ -501,7 +501,41 @@ not cover the full range of either. `[PENDING]`
 
 ### 4.6 Robustness
 
-- Primary label against `t_saturation`: agreement `[PENDING]`.
+#### 4.6.1 The second outcome definition
+
+The plan commits to a second, mechanically different outcome: `t_saturation`, the time to
+reach 90% of a fitted asymptote. The two labels fail differently on purpose — the velocity
+label is non-parametric and local, sensitive to one noisy interval; the saturation label is
+parametric and global, sensitive to the assumed functional form being wrong. Agreement
+between them means a finding is not an artefact of either.
+
+Reported for both labels: coverage of the curve fit, rank correlation between the two
+durations, the typical ratio between them, and the whole evaluation re-run with saturation
+as the outcome (`python -m cdc.eval.report --outcome saturation`).
+
+| Quantity | Value |
+|---|---|
+| Saturation fit succeeded | `[PENDING]` |
+| Fitted saturation beyond last observation (extrapolated) | `[PENDING]` |
+| Saturated before the landmark | `[PENDING]` |
+| Posts with both labels | `[PENDING]` |
+| Spearman ρ between `t_death` and `t_saturation` | `[PENDING]` |
+| Median `t_saturation` / `t_death` | `[PENDING]` |
+| H1 verdict under the saturation outcome | `[PENDING]` |
+| H2 verdict under the saturation outcome | `[PENDING]` |
+
+Two caveats must accompany this table whatever it says, because both are structural rather
+than sample-dependent:
+
+- **Some fitted saturation times lie beyond the post's last actual observation.** Those are
+  extrapolations of the fitted curve, not measurements. The count is reported so the reader
+  can judge how much of the robustness check rests on them.
+- **The saturation outcome has no censoring by construction** — every successful fit is an
+  event. Censoring-aware models therefore cannot show their advantage under this label, so
+  it is a weaker comparison than the primary one, not an equal second opinion.
+
+#### 4.6.2 Other robustness checks
+
 - Landmark sensitivity: results recomputed at landmarks of 3h and 12h. `[PENDING]`
 - Threshold sensitivity: velocity fraction at 0.02, 0.05, 0.10. `[PENDING]`
 - Feature coverage: which of the offered features actually survived the 50% coverage
