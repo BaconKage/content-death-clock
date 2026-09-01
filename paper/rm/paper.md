@@ -380,8 +380,21 @@ strata and content categories.
 the same creator in train and test, leaking creator identity and inflating every score. This
 is pre-specified precisely so it cannot be quietly relaxed later.
 
-**Temporal holdout.** Posts published after 2026-09-16T00:00:00Z form **Cohort B** and are
-evaluated **exactly once**, after all model selection is complete.
+**Temporal holdout.** Posts published on or after 2026-09-16T00:00:00Z form **Cohort B** and
+are evaluated **exactly once**, after all model selection is complete. The instant was fixed in
+`settings.yaml` on 2026-08-30, before any outcome data was examined.
+
+**The "exactly once" commitment is enforced, not merely stated.** A holdout that can be
+inspected casually stops being one: each look leaks into the choices made next, and after
+several looks it has quietly become a second validation set. Cohort B therefore cannot be
+evaluated by the ordinary command — it requires an explicit unlock flag, and every evaluation
+is appended to a committed ledger recording the timestamp, the git commit, the sample size and
+a digest of the results. A repeat evaluation prints a warning naming the date of the first.
+
+The ledger is a record, not a lock; anyone determined can run it twice. That is the intent. The
+purpose is to make a second look **visible**, including to ourselves, which is the same
+reasoning that motivates pre-registration in the first place. If Cohort B is evaluated more
+than once, the paper reports every evaluation, not the preferred one.
 
 **Metrics.** Harrell's C-index (primary, censoring-aware); MAE and RMSE on log₁₀
 time-to-death on the uncensored subset; a calibration plot of predicted against observed.
@@ -430,7 +443,7 @@ Two instrument checks are worth reporting in a methods paper, because both found
   analytically known death times. It is the one component where a silent bug invalidates
   every downstream number.
 
-The suite contains 146 tests and runs in CI on every push.
+The suite contains 157 tests and runs in CI on every push.
 
 ---
 
@@ -544,6 +557,16 @@ than sample-dependent:
 ### 4.7 Cohort B — temporal holdout
 
 Evaluated once, after all model selection is complete. `[PENDING]`
+
+The holdout ledger (`data/gold/holdout_evaluations.jsonl`) is reproduced here in full,
+whatever it contains — number of evaluations, dates, and the code commit each ran against.
+As of drafting it is **empty**: the freeze instant has not passed and Cohort B contains
+0 posts. `[PENDING]`
+
+A temporal generalisation gap, if one appears, is reported rather than explained away. Cohort B
+posts are collected under the same instrument as Cohort A but at a later date, so a drop
+between the two is evidence about stability over time — which is more informative than another
+cross-validation fold.
 
 ### 4.8 Instagram — feasibility only
 

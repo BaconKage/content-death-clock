@@ -27,6 +27,7 @@ class AnalysisFrame:
     frame: pd.DataFrame
     attrition: dict[str, int] = field(default_factory=dict)
     platform: str = "youtube"
+    cohort: str = "all"
 
     @property
     def n_deaths(self) -> int:
@@ -47,8 +48,19 @@ class AnalysisFrame:
                              "posts": list(self.attrition.values())})
 
 
-def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None
-          ) -> AnalysisFrame:
+def freeze_instant() -> pd.Timestamp:
+    """The pre-specified Cohort A boundary, from settings.
+
+    Fixed on 2026-08-30, before any outcome data was examined. It lives in
+    config rather than in code so the frozen plan can quote an exact value and
+    a reader can check that the two agree.
+    """
+    raw = str(settings()["modelling"]["cohort_a_freeze_utc"])
+    return pd.Timestamp(raw.replace("Z", "+00:00")).tz_convert("UTC")
+
+
+def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None,
+          cohort: str = "all") -> AnalysisFrame:
     """Features joined to labels, with the pre-specified exclusions applied.
 
     Landmarked: only posts still alive at ``modelling.landmark_hours`` are
@@ -65,6 +77,14 @@ def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None
     landmark = float(cfg.get("landmark_hours", 0) or 0)
     att: dict[str, int] = {}
 
+    # `cohort` is the ordinary way to select; `cohort_end` stays as a raw
+    # override for sensitivity analyses that need a different boundary.
+    cohort = (cohort or "all").upper()
+    if cohort not in ("A", "B", "ALL"):
+        raise ValueError(f"cohort must be A, B or all — got {cohort!r}")
+    if cohort in ("A", "B") and cohort_end is None:
+        cohort_end = freeze_instant()
+
     snaps = snaps[snaps["platform"] == platform]
     ids = set(snaps["post_id"].unique())
     att["observed on this platform"] = len(ids)
@@ -74,11 +94,22 @@ def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None
     ids -= capped
     att["after creator_daily_cap"] = len(ids)
 
-    # --- exclusion: Cohort A boundary, if a freeze date is being applied
-    if cohort_end is not None:
-        keep = {p for p in ids if p in posts.index
-                and posts.loc[p, "published_at"] < cohort_end}
-        att["after cohort A cutoff"] = len(keep)
+    # --- Cohort split at the pre-specified freeze instant.
+    # Cohort A is the analysis set. Cohort B is the temporal holdout: posts
+    # published after the boundary, evaluated exactly once, at the end, after
+    # all model selection is complete.
+    if cohort_end is not None and cohort != "ALL":
+        after = cohort == "B"
+        keep = set()
+        for p in ids:
+            if p not in posts.index:
+                continue
+            pub = posts.loc[p, "published_at"]
+            if (pub >= cohort_end) if after else (pub < cohort_end):
+                keep.add(p)
+        att[f"cohort {cohort} "
+            f"({'on/after' if after else 'before'} "
+            f"{cohort_end.isoformat()})"] = len(keep)
         ids = keep
 
     rows: list[dict[str, Any]] = []
@@ -142,7 +173,8 @@ def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None
             att["excluded: no early observation"] = -(before - len(df))
             att["FINAL analysis set"] = len(df)
 
-    return AnalysisFrame(frame=df, attrition=att, platform=platform)
+    return AnalysisFrame(frame=df, attrition=att, platform=platform,
+                         cohort=cohort.lower())
 
 
 def _saturation_fields(lab, landmark: float) -> dict[str, Any]:

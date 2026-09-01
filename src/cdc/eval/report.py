@@ -33,6 +33,7 @@ from cdc.eval.validate import (
     mae_log10,
     paired_wilcoxon,
 )
+from cdc.eval import holdout
 from cdc.eval.robustness import label_agreement, print_agreement, saturation_frame
 from cdc.models import dataset
 from cdc.models.baselines import (
@@ -50,14 +51,23 @@ MIN_CREATORS = 10
 
 
 def run(platform: str = "youtube", n_splits: int | None = None,
-        n_boot: int = 500, write: bool = True, outcome: str = "death") -> dict:
-    af = dataset.build(platform=platform)
+        n_boot: int = 500, write: bool = True, outcome: str = "death",
+        cohort: str = "A", unlock_holdout: bool = False) -> dict:
+    prior_holdout: list = []
+    if cohort.upper() == "B":
+        # Refuses unless deliberately unlocked; see cdc.eval.holdout.
+        prior_holdout = holdout.check_unlocked(unlock_holdout, platform)
+
+    af = dataset.build(platform=platform, cohort=cohort)
     df = af.frame
 
     print("=" * 68)
-    print(f"  EVALUATION — {platform}"
+    print(f"  EVALUATION — {platform}  [cohort {cohort.upper()}]"
           + ("" if outcome == "death" else f"  [outcome: {outcome}]"))
+    print(f"  freeze instant: {dataset.freeze_instant().isoformat()}")
     print("=" * 68)
+    if cohort.upper() == "B":
+        holdout.warn_if_repeated(prior_holdout)
     print("  sample attrition:")
     for stage, n in af.attrition.items():
         arrow = "  " if n >= 0 else "  -"
@@ -65,8 +75,13 @@ def run(platform: str = "youtube", n_splits: int | None = None,
     print("-" * 68)
 
     if df.empty:
-        print("  no analysable posts yet.")
-        return {"platform": platform, "status": "no data"}
+        if cohort.upper() == "B":
+            print("  Cohort B is empty — the freeze instant has not passed, or")
+            print("  no post published after it has enough observations yet.")
+            print("  Nothing was recorded in the holdout ledger.")
+        else:
+            print("  no analysable posts yet.")
+        return {"platform": platform, "cohort": cohort, "status": "no data"}
 
     # Robustness label: reported alongside on every run, per the frozen plan.
     agreement = label_agreement(df)
@@ -189,7 +204,9 @@ def run(platform: str = "youtube", n_splits: int | None = None,
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "platform": platform, "underpowered": underpowered,
         "n_posts": len(df), "n_deaths": deaths, "n_creators": creators,
-        "outcome": outcome, "censoring_rate": cens, "n_splits": splits,
+        "outcome": outcome, "cohort": cohort.upper(),
+        "freeze_instant": dataset.freeze_instant().isoformat(),
+        "censoring_rate": cens, "n_splits": splits,
         "agreement": agreement,
         "features": feats, "attrition": af.attrition,
         "results": results, "wilcoxon": tests,
@@ -202,8 +219,15 @@ def run(platform: str = "youtube", n_splits: int | None = None,
         print("  STATUS: powered. These are reportable results.")
     print("=" * 68)
 
+    if cohort.upper() == "B":
+        entry = holdout.record(platform, len(df), deaths, creators, results)
+        print()
+        print(f"  recorded in the holdout ledger "
+              f"(digest {entry['results_digest']}). Commit it.")
+
     if write:
         suffix = "" if outcome == "death" else f"_{outcome}"
+        suffix += "" if cohort.upper() == "A" else f"_cohort{cohort.upper()}"
         p = path_for("gold_dir") / f"evaluation_{platform}{suffix}.json"
         p.write_text(json.dumps(out, indent=2, default=str), encoding="utf-8")
         print(f"  wrote {p.relative_to(ROOT)}")
@@ -216,12 +240,19 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--splits", type=int, default=None)
     ap.add_argument("--boot", type=int, default=500)
     ap.add_argument("--no-write", action="store_true")
+    ap.add_argument("--cohort", default="A", choices=["A", "B", "all"],
+                    help="A = the analysis set (default). B = the temporal "
+                         "holdout, evaluated exactly once and only with "
+                         "--unlock-holdout.")
+    ap.add_argument("--unlock-holdout", action="store_true",
+                    help="required to evaluate Cohort B; the run is recorded")
     ap.add_argument("--outcome", default="death", choices=["death", "saturation"],
                     help="which pre-registered outcome to model "
                          "(saturation is the plan's robustness label)")
     args = ap.parse_args(argv)
     run(args.platform, args.splits, args.boot, write=not args.no_write,
-        outcome=args.outcome)
+        outcome=args.outcome, cohort=args.cohort,
+        unlock_holdout=args.unlock_holdout)
     return 0
 
 

@@ -456,13 +456,17 @@ confident number teaches its audience the wrong thing about the system.
 
 ## 10. Testing and CI
 
-- **146 tests**, run on every push.
+- **157 tests**, run on every push.
 - Label functions tested against synthetic curves with analytically known death times.
 - Idempotency test: the same cycle run twice must not change the silver row count.
 - Leakage test with the discriminative power documented in §6.
 - Benchmark equivalence check as a gate, not a report.
 - `--dry-run` plans a full collection cycle and prints its exact quota cost **without spending
   a unit**, so a schedule change can be reviewed before it is paid for.
+- **The temporal holdout is enforced in code.** Cohort B refuses to evaluate without an explicit
+  unlock flag and appends every run to a committed ledger — timestamp, git commit, sample size,
+  results digest. Making a methodological commitment executable is cheaper than remembering it,
+  and unlike a note in a document it cannot be quietly forgotten under deadline.
 
 ---
 
@@ -500,6 +504,10 @@ python -m cdc.eval.report --platform youtube
 
 ```bash
 python -m cdc.eval.report --platform youtube --outcome saturation
+```
+
+```bash
+python -m cdc.eval.report --platform youtube --cohort B --unlock-holdout
 ```
 
 ```bash
