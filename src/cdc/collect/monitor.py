@@ -29,6 +29,12 @@ from cdc.storage.bronze import iter_bronze
 MAX_TOLERATED_CONSECUTIVE_MISSES = 2
 
 
+def _next_mark(schedule, m):
+    """The next scheduled mark after `m`, or None if `m` is the last."""
+    later = [float(x) for x in schedule if float(x) > float(m)]
+    return min(later) if later else None
+
+
 def _parse(ts):
     if not ts:
         return None
@@ -68,9 +74,12 @@ def report(now: datetime | None = None, recent_hours: float | None = None) -> di
         if ts:
             cycle_hours.add(ts.strftime("%Y-%m-%dT%H"))
 
-    hit_counts = Counter()
+    hit_counts = Counter()          # strict + late, the headline number
+    strict_counts = Counter()       # inside the mark's own tolerance window
+    late_counts = Counter()         # covered, but not by the reading asked for
     lateness: list[float] = []
     per_post_completeness: list[float] = []
+    per_post_strict: list[float] = []
 
     for pid, post in panel.posts.items():
         # Posts that lived through an outage carry its damage permanently. Judge
@@ -82,21 +91,34 @@ def report(now: datetime | None = None, recent_hours: float | None = None) -> di
         if not expected:
             continue
         observed = sorted(ages_by_post.get(pid, []))
-        hits = 0
+        hits = strict = 0
         for m in expected:
             near = [a for a in observed if abs(a - m) <= tol]
             if near:
                 hits += 1
+                strict += 1
                 hit_counts[m] += 1
+                strict_counts[m] += 1
                 lateness.append(min(near, key=lambda a: abs(a - m)) - m)
-            else:
-                # A mark can still be covered late — count it, but as late.
-                late = [a for a in observed if m < a <= m + 6 * tol]
-                if late:
-                    hits += 1
-                    hit_counts[m] += 1
-                    lateness.append(min(late) - m)
+                continue
+            # A mark can still be covered late — but only by an observation
+            # that is not itself a legitimate reading of the NEXT mark.
+            # Without that guard the 3h snapshot was credited as covering
+            # t+1h, and the monitor reported 96% coverage of a mark that was
+            # actually being hit 45% of the time. A late reading is real data,
+            # but it is not the measurement the schedule asked for, and for the
+            # early marks it cannot substitute: velocity at 1h cannot be
+            # computed from an observation taken at 3h.
+            nxt = _next_mark(schedule, m)
+            ceiling = min(m + 6 * tol, (nxt - tol) if nxt else float("inf"))
+            late = [a for a in observed if m < a < ceiling]
+            if late:
+                hits += 1
+                hit_counts[m] += 1
+                late_counts[m] += 1
+                lateness.append(min(late) - m)
         per_post_completeness.append(hits / len(expected))
+        per_post_strict.append(strict / len(expected))
 
     # --- cycle continuity: consecutive hours with no snapshot written at all
     if horizon is not None:
@@ -129,10 +151,14 @@ def report(now: datetime | None = None, recent_hours: float | None = None) -> di
         "panel": panel.stats(now),
         "posts_evaluated": len(per_post_completeness),
         "mean_completeness": mean_completeness,
+        "mean_strict_completeness": (
+            sum(per_post_strict) / len(per_post_strict)) if per_post_strict else 0.0,
         "posts_below_80pct": below_80,
         "mean_lateness_hours": (sum(lateness) / len(lateness)) if lateness else 0.0,
         "max_lateness_hours": max(lateness) if lateness else 0.0,
         "hit_counts_by_mark": {str(k): v for k, v in sorted(hit_counts.items())},
+        "strict_counts_by_mark": {str(k): v for k, v in sorted(strict_counts.items())},
+        "late_counts_by_mark": {str(k): v for k, v in sorted(late_counts.items())},
         "cycle_hours_observed": len(cycle_hours),
         "gaps": gaps,
         "recent_hours": recent_hours,
@@ -168,15 +194,21 @@ def main(argv: list[str] | None = None) -> int:
     print("-" * 66)
     print(f"  mean completeness    {r['mean_completeness']:.1%}"
           f"   ({r['posts_evaluated']} posts evaluated)")
+    if "mean_strict_completeness" in r:
+        print(f"  ...on-time only      {r['mean_strict_completeness']:.1%}"
+              "   (inside the mark's own window)")
     print(f"  posts below 80%      {r['posts_below_80pct']}"
           "   (reported, not alarmed on)")
     print(f"  mean lateness        {r['mean_lateness_hours']:+.2f} h"
           f"   (worst {r['max_lateness_hours']:+.2f} h)")
     print("-" * 66)
     print("  coverage by scheduled mark (hours since publish):")
+    print(f"    {'mark':>10}  {'on-time':>8} {'late':>6} {'total':>6}")
     for mark, n in r["hit_counts_by_mark"].items():
-        bar = "#" * min(40, n)
-        print(f"    t+{float(mark):>6.1f}h  {n:>5}  {bar}")
+        st = r.get("strict_counts_by_mark", {}).get(mark, 0)
+        lt = r.get("late_counts_by_mark", {}).get(mark, 0)
+        flag = "  <-- mostly late" if lt > st else ""
+        print(f"    t+{float(mark):>6.1f}h  {st:>8} {lt:>6} {n:>6}{flag}")
 
     # --- What is allowed to turn the build red.
     #

@@ -21,9 +21,11 @@ def base(**over):
         "now": "2026-08-31T15:00:00+00:00",
         "panel": {"posts_total": 200, "posts_active": 200, "snapshots_total": 900,
                   "snapshots_per_post_mean": 4.5},
-        "posts_evaluated": 150, "mean_completeness": 0.81, "posts_below_80pct": 20,
+        "posts_evaluated": 150, "mean_completeness": 0.81,
+        "mean_strict_completeness": 0.74, "posts_below_80pct": 20,
         "mean_lateness_hours": 0.9, "max_lateness_hours": 4.0,
-        "hit_counts_by_mark": {}, "cycle_hours_observed": 12, "gaps": [],
+        "hit_counts_by_mark": {}, "strict_counts_by_mark": {},
+        "late_counts_by_mark": {}, "cycle_hours_observed": 12, "gaps": [],
         "recent_hours": 12.0,
     }
     r.update(over)
