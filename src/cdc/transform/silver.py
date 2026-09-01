@@ -33,7 +33,7 @@ from typing import Any
 
 import pandas as pd
 
-from cdc.config import path_for, settings
+from cdc.config import ROOT, path_for, settings
 from cdc.storage.bronze import dedupe, iter_bronze
 
 log = logging.getLogger("cdc.silver")
@@ -84,7 +84,38 @@ def build_posts(platforms: tuple[str, ...] = ("youtube", "instagram")) -> pd.Dat
         return df
     df = df.dropna(subset=["post_id", "published_at"])
     df = df.drop_duplicates("post_id").reset_index(drop=True)
+    df = _attach_creator_size(df)
     return _mark_creator_cap(df)
+
+
+def _attach_creator_size(posts: pd.DataFrame) -> pd.DataFrame:
+    """Fill follower_count for YouTube from the resolved sampling frame.
+
+    Instagram carries it on every post because the profile call returns it.
+    YouTube does not: videos.list says nothing about the channel's subscriber
+    count, so it was silently 0% populated — and it is the covariate the H2
+    baseline is built on. Without it the "creator size alone" comparison, the
+    single most important test in the study, degenerated into a constant.
+
+    Taken from config/channels.resolved.yaml, which records each channel's
+    subscriber count at frame-resolution time. Using the frozen frame value
+    rather than a live one is deliberate: subscriber counts drift, and the
+    stratification the paper reports is the one measured when the frame was
+    built.
+    """
+    import yaml
+    path = ROOT / "config" / "channels.resolved.yaml"
+    if not path.exists():
+        return posts
+    doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    subs = {c["channel_id"]: c.get("subscriber_count")
+            for c in (doc.get("channels") or []) if c.get("channel_id")}
+    if not subs:
+        return posts
+    yt = posts["platform"] == "youtube"
+    filled = posts.loc[yt, "creator_id"].map(subs)
+    posts.loc[yt, "follower_count"] = posts.loc[yt, "follower_count"].fillna(filled)
+    return posts
 
 
 def _mark_creator_cap(posts: pd.DataFrame) -> pd.DataFrame:

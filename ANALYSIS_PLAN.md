@@ -187,6 +187,38 @@ there to bound.
 
 ## Amendment log
 
+**2026-09-01 — landmark design; outcome becomes remaining lifetime.**
+
+*Change.* Predictions are made **at a landmark of t = 7 hours**. Only posts still
+alive and observed at the landmark are eligible, and the outcome is the time
+**remaining** from the landmark until attention death, not the time from
+publication. Both quantities are retained in the analysis frame so a sensitivity
+analysis needs no re-derivation.
+
+*Reason.* With the outcome measured from publication, **53% of observed deaths
+occurred inside the 6-hour feature window**. A post dying at 3.1h has its death
+determined by the very observations its features are built from, so predicting
+it is circular rather than predictive. Landmarking is the standard survival
+remedy: a subject must be at risk at the moment prediction is made. Ten posts
+were excluded on this ground, and they were never genuinely predictable.
+
+*Why 7 hours and not 6.* The collector runs every 30 minutes, so the nominal
+6-hour measurement lands at a median of **6.08h**. A strict 6.00h cutoff
+discarded it for 72 of 86 posts, which is why every 6-hour-derived feature was
+0% available. The snapshot schedule contains nothing between 6h and 12h, so any
+observation at or before 7h *is* one of the scheduled 1/3/6-hour measurements
+arriving late. Feature coverage went from 4 usable columns to 8.
+
+*Related defect fixed the same day.* `follower_count` was never recorded for
+YouTube posts — `videos.list` does not return channel subscriber counts — so it
+was 0% populated and the subscriber-only baseline, which H2 is defined against,
+had degenerated into a constant. It is now joined from the frozen resolved frame.
+
+*Status of the outcome data at amendment.* Seven observed deaths in the
+landmarked set, no model selection performed, no result reported or interpreted.
+The change was made because the previous design was incoherent, not because a
+result was unwelcome.
+
 **2026-08-31 — per-creator daily admission cap (YouTube only).**
 
 *Change.* At most 5 posts from one creator per UTC day enter the YouTube
@@ -218,3 +250,4 @@ result existed, not after seeing one.
 | Date | Commit | Change | Reason |
 |---|---|---|---|
 | 2026-08-31 | *this commit* | Per-creator daily admission cap, YouTube only | Bulk uploader supplied 59% of the panel; see above |
+| 2026-09-01 | *this commit* | Landmark design: predict remaining lifetime from t=7h | 53% of deaths fell inside the feature window, making prediction circular; see below |

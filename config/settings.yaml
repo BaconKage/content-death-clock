@@ -125,7 +125,24 @@ labels:
   exclude_hidden_counts: true
 
 modelling:
-  feature_cutoff_hours: 6      # LEAKAGE GUARD: no feature may use data after this
+  # --- landmark design (plan amendment 2026-09-01) ---
+  # Predictions are made AT the landmark, using only observations up to it, and
+  # the outcome is the time REMAINING from the landmark until attention death.
+  #
+  # Why: with the outcome measured from publication, 53% of observed deaths fell
+  # INSIDE the 6-hour feature window. A post dying at 3.1h has its death
+  # determined by the same observations its features are built from, so
+  # "predicting" it is circular. Landmarking is the standard survival remedy:
+  # a subject must be at risk at the moment of prediction.
+  #
+  # 7.0 rather than 6.0 because the scheduler runs every 30 minutes, so the
+  # nominal 6-hour measurement actually lands at a median of 6.08h. A strict
+  # 6.00 cutoff discarded it for 72 of 86 posts, which is why every 6-hour
+  # feature was 0% available. The snapshot schedule has nothing between 6h and
+  # 12h, so any observation at or before 7h IS one of the scheduled 1/3/6-hour
+  # measurements, arriving late.
+  feature_cutoff_hours: 7.0
+  landmark_hours: 7.0
   # Pre-specified 2026-08-30, before any outcome data was examined.
   cohort_a_freeze_utc: "2026-09-16T00:00:00Z"
   cv:
