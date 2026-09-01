@@ -383,7 +383,7 @@ confident number teaches its audience the wrong thing about the system.
 
 ## 10. Testing and CI
 
-- **118 tests**, run on every push.
+- **127 tests**, run on every push.
 - Label functions tested against synthetic curves with analytically known death times.
 - Idempotency test: the same cycle run twice must not change the silver row count.
 - Leakage test with the discriminative power documented in §6.

@@ -335,7 +335,25 @@ creator, one moment, one action.
 
 **Models.** Weibull accelerated failure time and Random Survival Forest (primary, both
 censoring-aware); log-time linear regression and gradient boosting as comparators on the
-uncensored subset.
+uncensored subset. The two primary models are chosen to fail differently: AFT buys
+interpretable coefficients at the price of a rigid parametric shape, the forest buys
+flexibility and interactions at the price of interpretability.
+
+**How the forest's prediction is summarised, and one consequence for the metrics.** A
+forest predicts a survival *curve* per post, but the evaluation requires a scalar time. The
+conventional summary — the median, i.e. where the curve crosses 0.5 — is undefined for most
+of our sample, because with high censoring most predicted curves never reach 0.5 inside the
+observation window. We therefore summarise by **restricted mean survival time**: the area
+under the predicted curve up to the last time observed in the training fold.
+
+RMST is always defined and orders posts correctly, so the C-index — the plan's primary
+metric — is unaffected. But RMST is *restricted*: it is truncated at the training horizon
+and so systematically under-states long lifetimes. **The forest's MAE is therefore not
+directly comparable with the AFT model's, which extrapolates freely, and the paper reports
+the two MAEs with that caveat attached rather than ranking them against each other.** We
+could remove the truncation by fitting a tail beyond the horizon; we deliberately do not,
+because extrapolating past the data here would contradict the no-extrapolation rule the
+feature layer already enforces (§3.4).
 
 **Baselines, all four reported:**
 
@@ -412,7 +430,7 @@ Two instrument checks are worth reporting in a methods paper, because both found
   analytically known death times. It is the one component where a silent bug invalidates
   every downstream number.
 
-The suite contains 118 tests and runs in CI on every push.
+The suite contains 127 tests and runs in CI on every push.
 
 ---
 
@@ -655,11 +673,21 @@ end to end and that the power guard works. **7 observed deaths. Do not cite.**
     log_growth_3_6h, log_follower_count, log_duration_sec,
     publish_hour_utc, title_len
 
-  weibull_aft       0.713  [0.445, 0.951]   MAE 1.683
-  constant_48h      0.500  [0.500, 0.500]   MAE 1.203
-  km_median         0.561  [0.337, 0.781]   MAE 1.140
-  subscriber_only   0.817  [0.620, 0.953]   MAE 2.308
-  peak_velocity     0.604  [0.309, 0.872]   MAE 2.292
+  model                    C-index          95% CI     MAE log10
+  weibull_aft                0.713  [0.445, 0.951]         1.683
+  random_survival_forest     0.731  [0.514, 0.889]         1.005
+  constant_48h               0.500  [0.500, 0.500]         1.203
+  km_median                  0.561  [0.337, 0.781]         1.140
+  subscriber_only            0.817  [0.620, 0.953]         2.308
+  peak_velocity              0.604  [0.309, 0.872]         2.292
 
-  Wilcoxon: n/a for every comparison (7 pairs, below the minimum of 10)
+  Wilcoxon: n/a for all 8 comparisons (7 pairs, below the minimum of 10)
 ```
+
+Two things not to read into the above, beyond the sample size:
+
+- The forest's **MAE of 1.005 is the lowest in the table, and that is not evidence that it
+  is the most accurate model.** RMST truncation biases its predictions downward (§3.7), and
+  most durations in this rehearsal are short, so the bias happens to point the right way
+  here. The C-index is the metric that is comparable across these rows.
+- `subscriber_only` still leads on C-index. See the note in §4.4.

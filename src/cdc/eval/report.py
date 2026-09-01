@@ -40,7 +40,7 @@ from cdc.models.baselines import (
     PeakVelocityHeuristic,
     SubscriberOnly,
 )
-from cdc.models.survival import WeibullAFT
+from cdc.models.survival import RandomSurvivalForest, WeibullAFT
 
 # Below these, the run is a rehearsal rather than a result. The thresholds are
 # deliberately generous: even at 50 deaths a C-index is wobbly.
@@ -97,47 +97,57 @@ def run(platform: str = "youtube", n_splits: int | None = None,
     if splits < (n_splits or 5):
         print(f"  NOTE: folds reduced to {splits} (one per creator available)")
 
-    models = {
+    # The plan names two primary models, both censoring-aware, and four
+    # baselines. Keeping the two groups separate here is what lets the
+    # hypothesis tests below pair every model against every baseline without
+    # accidentally testing a baseline against another baseline.
+    primary = {
         "weibull_aft": lambda: WeibullAFT(feats),
+        "random_survival_forest": lambda: RandomSurvivalForest(feats),
+    }
+    baselines = {
         "constant_48h": lambda: ConstantLifetime(48.0),
         "km_median": lambda: KaplanMeierMedian(),
         "subscriber_only": lambda: SubscriberOnly(),
         "peak_velocity": lambda: PeakVelocityHeuristic(),
     }
+    models = {**primary, **baselines}
 
     stacked, results = {}, {}
     print("\n" + "-" * 68)
-    print(f"  {'model':<18} {'C-index':>9} {'95% CI':>18} {'MAE log10':>11}")
+    print(f"  {'model':<24} {'C-index':>9} {'95% CI':>18} {'MAE log10':>11}")
     print("-" * 68)
     for name, factory in models.items():
         try:
             s = grouped_cv(factory, df, n_splits=splits).stacked()
         except Exception as exc:
-            print(f"  {name:<18}  failed: {exc}")
+            print(f"  {name:<24}  failed: {exc}")
             continue
         stacked[name] = s
         c = concordance(s["duration"], s["event"], s["predicted"])
         mae = mae_log10(s["duration"], s["event"], s["predicted"])
         _, lo, hi = bootstrap_ci_by_creator(s, "concordance", n_boot=n_boot)
         results[name] = {"c_index": c, "ci_low": lo, "ci_high": hi, "mae_log10": mae}
-        print(f"  {name:<18} {c:>9.3f} {f'[{lo:.3f}, {hi:.3f}]':>18} {mae:>11.3f}")
+        print(f"  {name:<24} {c:>9.3f} {f'[{lo:.3f}, {hi:.3f}]':>18} {mae:>11.3f}")
 
-    # --- hypothesis tests, model vs each baseline
-    tests = {}
-    if "weibull_aft" in stacked:
+    # --- hypothesis tests, every primary model vs every baseline
+    tests: dict[str, dict] = {}
+    fitted_primary = [m for m in primary if m in stacked]
+    if fitted_primary:
         print("\n" + "-" * 68)
         print("  paired Wilcoxon — model vs baseline (negative favours model)")
         print("-" * 68)
-        for name in models:
-            if name == "weibull_aft" or name not in stacked:
-                continue
-            t = paired_wilcoxon(stacked["weibull_aft"], stacked[name])
-            tests[name] = t
-            p = t["p_value"]
-            ps = "n/a" if np.isnan(p) else f"{p:.4f}"
-            md = t["median_diff"]
-            mds = "n/a" if np.isnan(md) else f"{md:+.4f}"
-            print(f"  vs {name:<18} n={t['n_pairs']:<4} median diff {mds:<10} p={ps}")
+        for mname in fitted_primary:
+            for bname in baselines:
+                if bname not in stacked:
+                    continue
+                t = paired_wilcoxon(stacked[mname], stacked[bname])
+                tests[f"{mname} vs {bname}"] = t
+                p, md = t["p_value"], t["median_diff"]
+                ps = "n/a" if np.isnan(p) else f"{p:.4f}"
+                mds = "n/a" if np.isnan(md) else f"{md:+.4f}"
+                print(f"  {mname:<24} vs {bname:<16} "
+                      f"n={t['n_pairs']:<4} med {mds:<10} p={ps}")
 
     out = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
