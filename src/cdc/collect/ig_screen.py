@@ -36,6 +36,7 @@ import argparse
 import json
 import logging
 import sys
+import time
 from datetime import datetime, timezone
 from typing import Any
 
@@ -69,6 +70,11 @@ OPTIMISM_FACTOR = 0.5
 # A post needs 4 usable intervals to be labelled at all, so 5 snapshots is the
 # floor and anything under it is a wasted credit.
 MIN_USEFUL_SNAPSHOTS = 5
+
+# Seconds between profile calls. Ten back-to-back requests produced nine HTTP
+# 500s from handles that had worked during Cohort A; spacing them costs nothing
+# but wall-clock time and credits are the scarce resource here, not seconds.
+PAUSE_BETWEEN_CALLS_S = 6.0
 
 
 def screen_one(client: InstagramClient, handle: str, interval_h: float,
@@ -159,13 +165,30 @@ def run(handles: list[str], dry_run: bool = False,
     client = InstagramClient(api_keys=keys)
 
     rows = []
-    for h in handles:
-        try:
-            r = screen_one(client, h, interval_h, duration_h)
-        except Exception as exc:                      # one bad handle
-            r = {"handle": h, "status": f"error: {exc}"}
-        rows.append(r)
-        log.info("screened %s: %s", h, r.get("status"))
+    try:
+        for i, h in enumerate(handles):
+            # Pace the calls. The first screening run fired ten profile
+            # requests back to back and nine returned HTTP 500 while the same
+            # handles had worked fine during Cohort A, which is the signature
+            # of upstream rate limiting rather than bad handles.
+            if i:
+                time.sleep(PAUSE_BETWEEN_CALLS_S)
+            try:
+                # attempts=1: a retry may cost another credit upstream, and a
+                # screening result is not worth paying twice for. A handle that
+                # errors is simply re-screened later.
+                r = screen_one(client, h, interval_h, duration_h)
+            except Exception as exc:                  # one bad handle
+                r = {"handle": h, "status": f"error: {exc}"}
+            rows.append(r)
+            log.info("screened %s: %s", h, r.get("status"))
+    finally:
+        # ALWAYS persist what was charged, including on an exception. The first
+        # version of this tool never called this at all, so ten charges were
+        # counted in memory and none reached disk - the ledger claimed a
+        # balance that had already been spent.
+        client.save_ledgers()
+        log.info("credits after screening: %s", client.total_remaining)
 
     print(f"  {'account':<20} {'/day':>6} {'grid h':>7} {'snaps':>6} "
           f"{'new':>5}  verdict")

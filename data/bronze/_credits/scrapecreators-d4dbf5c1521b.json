@@ -1,11 +1,12 @@
 {
   "key_id": "d4dbf5c1521b",
-  "spent_total": 85,
+  "spent_total": 95,
   "budget_total": 100,
   "by_day": {
     "2026-08-30": 20,
     "2026-08-31": 35,
-    "2026-09-01": 30
+    "2026-09-01": 40
   },
-  "updated_at": "2026-09-01T16:02:22+00:00"
+  "updated_at": "2026-09-01T21:13:03+00:00",
+  "note": "+10 reconciled by hand on 2026-09-01: the first ig_screen run charged 10 profile calls in memory but never persisted them (the tool did not call save_ledgers). 9 of the 10 returned HTTP 500 after retries; whether the provider bills failed calls is unknown, so the true spend may be higher than this. Verify against the Scrape Creators dashboard before trusting the remaining balance."
 }
