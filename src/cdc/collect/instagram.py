@@ -104,6 +104,23 @@ class CreditLedger:
         day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         self.by_day[day] = self.by_day.get(day, 0) + n
 
+    def refund(self, n: int = 1) -> None:
+        """Give back a credit the provider did not actually bill.
+
+        We charge *before* the request, so a runaway loop cannot outrun the
+        guard. The cost of that ordering is that a failed call leaves a charge
+        behind that was never spent. Measured on 2026-09-01: ten profile calls,
+        nine of them HTTP 500, moved the provider's own balance by exactly one.
+        Failures are not billed, so they are refunded here and the local ledger
+        tracks the account instead of drifting pessimistically away from it.
+        """
+        n = min(n, self.spent_total)
+        self.spent_total -= n
+        self.spent_this_run -= n
+        day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        if day in self.by_day:
+            self.by_day[day] = max(0, self.by_day[day] - n)
+
     def save(self) -> None:
         if self.path is None:
             return
@@ -195,6 +212,7 @@ class InstagramClient:
             except CreditsExhausted:
                 if not self._advance_key():
                     raise
+        charged = self.ledger      # whoever paid; refunded if nothing came back
         self.session.headers["x-api-key"] = self.api_key
         if self.dry_run:
             log.info("[dry-run] GET %s %s", path, params)
@@ -207,6 +225,7 @@ class InstagramClient:
                 r = self.session.get(url, params=params, timeout=45)
             except requests.RequestException as exc:
                 if attempt == attempts:
+                    charged.refund(1)      # never completed; nothing was billed
                     raise
                 log.warning("%s network error (%s), retry %d/%d", path, exc, attempt, attempts)
                 time.sleep(backoff); backoff *= 2
@@ -220,10 +239,13 @@ class InstagramClient:
                 if self._advance_key():
                     self.session.headers["x-api-key"] = self.api_key
                     self.ledger.charge(1)
+                    charged = self.ledger
                     continue
                 raise CreditsExhausted(f"{path}: all keys out of credits (HTTP 402)")
             if r.status_code in RETRY_STATUS:
                 if attempt == attempts:
+                    # 5xx and 429 return no data and are not billed.
+                    charged.refund(1)
                     r.raise_for_status()
                 log.warning("%s HTTP %d, retry %d/%d", path, r.status_code, attempt, attempts)
                 time.sleep(backoff); backoff *= 2
