@@ -139,7 +139,8 @@ def _verdict(r: dict[str, Any]) -> tuple[str, str]:
 
 def run(handles: list[str], dry_run: bool = False,
         interval_h: float | None = None,
-        duration_h: float | None = None) -> dict[str, Any]:
+        duration_h: float | None = None,
+        key_index: int | None = None) -> dict[str, Any]:
     cfg = settings()["instagram"]
     interval_h = interval_h or float(cfg["cohort_interval_hours"])
     duration_h = duration_h or float(cfg["cohort_duration_hours"])
@@ -162,7 +163,23 @@ def run(handles: list[str], dry_run: bool = False,
         return {"dry_run": True, "handles": handles, "would_cost": len(handles)}
 
     keys = list(secrets().require_scrapecreators_keys())
+    if key_index is not None:
+        # The client spends keys strictly in order and only rolls over when one
+        # is empty, so without this a screening run always draws down key 1.
+        # Screening is worth isolating on a chosen key: it is exploratory
+        # spending, and mixing it into the key a cohort is about to run on
+        # makes the remaining budget hard to reason about.
+        if not 1 <= key_index <= len(keys):
+            raise SystemExit(f"--key {key_index} out of range (1..{len(keys)})")
+        keys = [keys[key_index - 1]]
+        print(f"  using key #{key_index} only")
     client = InstagramClient(api_keys=keys)
+    print(f"  credits on that key  {client.total_remaining}")
+    if client.total_remaining < len(handles):
+        raise SystemExit(
+            f"  REFUSED: {len(handles)} candidates but only "
+            f"{client.total_remaining} credits on this key.")
+    print("-" * 78)
 
     rows = []
     try:
@@ -230,12 +247,17 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--handles", nargs="+", required=True)
     ap.add_argument("--dry-run", action="store_true",
                     help="show the plan and the cost without spending anything")
+    ap.add_argument("--key", type=int, default=None,
+                    help="spend a specific key (1-based) instead of the "
+                         "first with credit; keeps exploratory screening off "
+                         "the key a cohort will run on")
     ap.add_argument("--interval", type=float, default=None)
     ap.add_argument("--duration", type=float, default=None)
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)-7s | %(message)s")
     run(args.handles, dry_run=args.dry_run,
-        interval_h=args.interval, duration_h=args.duration)
+        interval_h=args.interval, duration_h=args.duration,
+        key_index=args.key)
     return 0
 
 
