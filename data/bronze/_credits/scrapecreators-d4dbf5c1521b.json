@@ -1,12 +1,12 @@
 {
   "key_id": "d4dbf5c1521b",
-  "spent_total": 86,
+  "spent_total": 89,
   "budget_total": 100,
   "by_day": {
     "2026-08-30": 20,
     "2026-08-31": 35,
-    "2026-09-01": 31
+    "2026-09-01": 31,
+    "2026-09-02": 3
   },
-  "updated_at": "2026-09-01T21:17:44+00:00",
-  "note": "Reconciled against the provider dashboard on 2026-09-01: 14 credits remaining, so 86 spent. Cohort A accounted for 85 and the screening run added exactly 1 - the single successful call. The nine HTTP 500s cost nothing, which establishes that failed requests are not billed. The client now refunds them locally instead of over-counting."
+  "updated_at": "2026-09-02T11:02:06+00:00"
 }
