@@ -1,29 +1,30 @@
 {
   "cycle_id": "2026-09-02T18",
-  "started_at": "2026-09-02T18:01:38+00:00",
+  "started_at": "2026-09-02T18:31:32+00:00",
   "dry_run": false,
   "panel_before": {
     "posts_total": 254,
     "posts_active": 254,
-    "posts_due": 3,
-    "snapshots_total": 1705,
-    "snapshots_per_post_mean": 6.71259842519685
+    "posts_due": 9,
+    "snapshots_total": 1708,
+    "snapshots_per_post_mean": 6.724409448818897
   },
   "discovered": 0,
-  "snapshotted": 3,
+  "snapshotted": 9,
   "errors": [],
-  "due_count": 3,
+  "skipped_creator_cap": 5,
+  "due_count": 9,
   "quota": {
-    "units_spent": 64,
-    "calls": 64,
+    "units_spent": 65,
+    "calls": 65,
     "budget": 400,
     "by_endpoint": {
       "playlistItems": 63,
-      "videos": 1
+      "videos": 2
     }
   },
   "files": [
     "/home/runner/work/content-death-clock/content-death-clock/data/bronze/platform=youtube/dt=2026-09-02/snapshots-2026-09-02T18.jsonl"
   ],
-  "finished_at": "2026-09-02T18:01:59+00:00"
+  "finished_at": "2026-09-02T18:31:54+00:00"
 }
