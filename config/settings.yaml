@@ -65,28 +65,33 @@ instagram:
   credit_budget_total: 100  # per key; the ledger is per-key so a new key starts fresh
   max_calls_per_cycle: 25
 
-  # --- cadence: ONE INTENSIVE COHORT, not a continuous panel ---
-  # 99 credits cannot fund three weeks of Instagram collection at any useful
-  # sample size, so Instagram is scoped as a feasibility demonstration: proof
-  # the pipeline generalises across platforms, plus one real cross-platform
-  # figure. It is NOT a second dataset for hypothesis testing, and the paper
-  # must say so. n will be too small for inference.
+  # --- cadence: BOUNDED COHORTS, not a continuous panel ---
+  # Credits cannot fund three weeks of Instagram at any useful sample size, so
+  # Instagram is a feasibility demonstration: proof the pipeline generalises
+  # across platforms, plus one cross-platform figure. It is NOT a second
+  # dataset for hypothesis testing, and the paper says so.
   #
-  # Budget: 16 rounds x 5 accounts = 80 credits of the 90 remaining, leaving 10
-  # as retry margin. The window is
-  # END-EXCLUSIVE, so rounds land at 0, 3, ... 45h. Counting it as inclusive
-  # gives 17 rounds and overspends - a test pins this.
-  # Credits buy curve QUALITY here, not account count: a post published during
-  # the window is caught within 3h and then tracked every 3h, which is dense
-  # enough to fit a decay curve. Spreading the same credits over more accounts
-  # would sample too raggedly to fit anything.
+  # --- COHORT B (started 2026-09-01) ---
+  # 24 rounds x 3 accounts = 72 credits.
+  #
+  # Cohort A ran 16 rounds x 5 accounts over 48h and failed: 326 posts at a
+  # median of ONE snapshot each, 43 analysable, one observed death. The lesson
+  # is that credits buy curve QUALITY, not panel width. Three accounts over 72h
+  # is the same money spent on depth:
+  #
+  #             Cohort A (actual)      Cohort B (projected)
+  #   accounts            5                     3
+  #   window            48h                   72h
+  #   posts             326                  ~27
+  #   snaps/post        2.5                   8-12
+  #
+  # Fewer posts is the POINT. A post needs 4 usable intervals to be labelled at
+  # all, so 27 posts with 10 snapshots each beats 326 with one.
   mode: cohort
-  cohort_start_utc: "2026-08-30T17:00:00+00:00"   # STARTED. Set back to null to abort.
-  # Cohort A. Rounds every 3h at 0..45h, 16 rounds x 5 accounts = 80 credits
-  # of the 90 available. To abort: set cohort_start_utc back to null.
+  cohort_start_utc: "2026-09-02T11:00:00+00:00"   # Cohort B. null to abort.
   cohort_interval_hours: 3
-  cohort_duration_hours: 48
-  max_accounts: 5
+  cohort_duration_hours: 72
+  max_accounts: 3
   max_posts: 200              # hard cap on panel size
 
 storage:

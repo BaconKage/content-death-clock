@@ -91,7 +91,25 @@ def screen_one(client: InstagramClient, handle: str, interval_h: float,
     if len(posts) < 2:
         return out | {"status": "too few posts to measure a rate"}
 
-    times = sorted(datetime.fromisoformat(p["published_at"]) for p in posts)
+    # EXCLUDE PINNED POSTS. A pinned post is held at the top of the grid
+    # indefinitely, so it is not evidence about how fast the account publishes —
+    # but it stretches the observed span enormously and makes a fast account
+    # look slow.
+    #
+    # This is not hypothetical. Cohort A screened @sarcastic_us at 0.5 posts/day
+    # and admitted it. One pinned post from eight days earlier was sitting in
+    # its grid: including it the span read 197h (1.1/day), excluding it the span
+    # was 5.1h (37.6/day). The account actually turns its grid over twice a day.
+    # It went on to produce the worst curves in the cohort — 1.9 snapshots per
+    # post across 79 posts — and the credits are unrecoverable.
+    pinned = [p for p in posts if p.get("is_pinned")]
+    unpinned = [p for p in posts if not p.get("is_pinned")]
+    out["pinned_excluded"] = len(pinned)
+    if len(unpinned) < 2:
+        return out | {"status": f"only {len(unpinned)} unpinned post(s) — "
+                                f"cannot measure a rate"}
+
+    times = sorted(datetime.fromisoformat(p["published_at"]) for p in unpinned)
     span_h = (times[-1] - times[0]).total_seconds() / 3600.0
     if span_h <= 0:
         return out | {"status": "all posts share a timestamp — bulk upload"}
@@ -114,6 +132,15 @@ def screen_one(client: InstagramClient, handle: str, interval_h: float,
     out["pct_video"] = round(
         100.0 * sum(1 for p in posts if p.get("is_video")) / len(posts))
 
+    # Keep the underlying timestamps. The pinned-post defect above could only
+    # be diagnosed by going back to Cohort A's raw records; a screening result
+    # that throws away its own evidence makes the next such question cost
+    # credits to answer.
+    out["observations"] = [
+        {"published_at": p["published_at"], "is_pinned": bool(p.get("is_pinned")),
+         "likes": p.get("likes"), "is_video": bool(p.get("is_video"))}
+        for p in posts
+    ]
     out["status"] = "ok"
     out["verdict"], out["why"] = _verdict(out)
     return out

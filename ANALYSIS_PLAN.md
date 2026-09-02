@@ -187,6 +187,40 @@ there to bound.
 
 ## Amendment log
 
+**2026-09-02 — Instagram Cohort B: three accounts over 72h, not five over 48h.**
+
+*Change.* Section 4 describes Instagram as "bounded 48h cohorts of 5–6
+accounts". Cohort B instead runs **three accounts at 3h intervals for 72
+hours** (24 rounds, 72 credits). The account-selection criterion is
+restated as a measured one: posting rate estimated from the profile grid
+**excluding pinned posts**.
+
+*Reason.* Cohort A executed the plan as written and produced almost
+nothing usable: 326 posts at a median of **one** snapshot each, 43
+analysable, **one** observed death. The cause is structural rather than
+bad luck. The profile endpoint returns only ~12 posts, so a post is
+observable only until twelve newer ones displace it; five fast-posting
+accounts therefore generate a wide, shallow panel in which almost no post
+accumulates the four intervals a death label requires. Spending the same
+credits on fewer accounts over a longer window buys depth instead of
+width, which is the quantity the label actually needs.
+
+*The selection defect.* Cohort A's accounts **were** screened, and the
+screening was wrong. Posting rate was measured from the span of the
+returned grid without excluding pinned posts, and a pinned post sits at
+the top of the grid indefinitely. `@sarcastic_us` screened at 0.5
+posts/day; excluding its single pinned post from eight days earlier, the
+true rate was **37.6 posts/day**. It went on to contribute 79 posts at 1.9
+snapshots each. The screening tool now excludes pinned posts and retains
+its raw measurements so the same class of error is detectable without
+spending credits again.
+
+*Status of the outcome data at amendment.* No hypothesis is tested on
+Instagram data (section 4), so no confirmatory result is affected. The
+YouTube analysis is untouched. Cohort A's data is retained and reported,
+including its failure, and its account list is preserved in
+`config/channels.yaml` so the earlier records stay interpretable.
+
 **2026-09-01 — landmark design; outcome becomes remaining lifetime.**
 
 *Change.* Predictions are made **at a landmark of t = 7 hours**. Only posts still
@@ -251,3 +285,4 @@ result existed, not after seeing one.
 |---|---|---|---|
 | 2026-08-31 | *this commit* | Per-creator daily admission cap, YouTube only | Bulk uploader supplied 59% of the panel; see above |
 | 2026-09-01 | *this commit* | Landmark design: predict remaining lifetime from t=7h | 53% of deaths fell inside the feature window, making prediction circular; see below |
+| 2026-09-02 | *this commit* | Instagram Cohort B: 3 accounts x 72h, pinned-aware screening | Cohort A yielded 1 death; its screening was distorted by pinned posts; see above |
