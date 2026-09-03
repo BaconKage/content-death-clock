@@ -1,0 +1,26 @@
+{
+  "cycle_id": "2026-09-03T05",
+  "started_at": "2026-09-03T05:01:27+00:00",
+  "dry_run": false,
+  "panel_before": {
+    "posts_total": 261,
+    "posts_active": 261,
+    "posts_due": 0,
+    "snapshots_total": 1838,
+    "snapshots_per_post_mean": 7.042145593869732
+  },
+  "discovered": 0,
+  "snapshotted": 0,
+  "errors": [],
+  "due_count": 0,
+  "quota": {
+    "units_spent": 63,
+    "calls": 63,
+    "budget": 400,
+    "by_endpoint": {
+      "playlistItems": 63
+    }
+  },
+  "files": [],
+  "finished_at": "2026-09-03T05:01:46+00:00"
+}
