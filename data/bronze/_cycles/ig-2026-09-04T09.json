@@ -1,7 +1,7 @@
 {
   "platform": "instagram",
   "cycle_id": "2026-09-04T09",
-  "started_at": "2026-09-04T09:01:56+00:00",
+  "started_at": "2026-09-04T09:31:34+00:00",
   "dry_run": false,
   "accounts_called": 3,
   "posts_seen": 0,
@@ -10,10 +10,10 @@
   "skipped_hidden_counts": 0,
   "errors": [],
   "cohort_round": 16,
-  "cohort_elapsed_hours": 46.03,
+  "cohort_elapsed_hours": 46.53,
   "credits": {
     "active_key_index": 2,
-    "total_remaining": 98,
+    "total_remaining": 95,
     "keys": [
       {
         "key_id": "d4dbf5c1521b",
@@ -24,20 +24,20 @@
       },
       {
         "key_id": "0b1b0116857a",
-        "spent_this_run": 2,
+        "spent_this_run": 0,
         "spent_total": 100,
         "budget_total": 100,
         "remaining": 0
       },
       {
         "key_id": "146ecc509ee6",
-        "spent_this_run": 1,
-        "spent_total": 2,
+        "spent_this_run": 3,
+        "spent_total": 5,
         "budget_total": 100,
-        "remaining": 98
+        "remaining": 95
       }
     ]
   },
   "files": [],
-  "finished_at": "2026-09-04T09:02:06+00:00"
+  "finished_at": "2026-09-04T09:31:46+00:00"
 }
