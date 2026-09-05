@@ -167,3 +167,101 @@ def test_post_admitted_once_across_rounds(tmp_path, monkeypatch):
     assert r1["new_posts"] == 6
     assert r2["new_posts"] == 0, "re-admitted posts already in the panel"
     assert r2["snapshots"] == 6, "but must still snapshot them"
+
+
+# ------------------------------------------------- rounds that buy nothing
+#
+# Every test above uses a client that always returns a post, so snapshots are
+# always written. That is the happy path, and it is the only path the gate was
+# ever tested on. Measured 2026-09-04: the profile endpoint returned HTTP 200
+# with an empty payload for 18 hours. `profile()` returns None for that, which
+# is not an exception, so the round looked clean — and because the gate keyed
+# off snapshots written rather than rounds attempted, it stopped rate-limiting
+# entirely. Spend tripled to ~6 credits/hour at exactly the moment the data
+# stopped, and ~90 credits bought nothing.
+
+class FakeEmptyIG(FakeIG):
+    """Charges a credit and returns nothing — an HTTP 200 with no `data.user`."""
+
+    def profile(self, handle):
+        self.ledger.charge(1)
+        self.calls.append(handle)
+        return None
+
+
+def test_empty_round_is_recorded_as_an_error(tmp_path, monkeypatch):
+    """A paid round that returns nothing must not report itself as clean."""
+    c = FakeEmptyIG(tmp_path=tmp_path)
+    r = run(tmp_path, START, c, monkeypatch)
+    assert r["posts_seen"] == 0
+    assert r["empty_profiles"] == 6
+    assert len(r["errors"]) == 6, "six credits spent, zero errors reported"
+    assert all(e.startswith("empty_profile:") for e in r["errors"])
+
+
+def test_empty_round_still_advances_the_gate(tmp_path, monkeypatch):
+    """The regression that cost ~90 credits.
+
+    A round that yields nothing is still a round. If the gate cannot see it, the
+    next invocation an hour later fires again, and so does the one after that.
+    """
+    bronze = tmp_path / "bronze"
+    c = FakeEmptyIG(tmp_path=tmp_path)
+    cfg_patch(monkeypatch)
+
+    ig_runner.run_cycle(client=c, accounts=ACCOUNTS, bronze_root=bronze, now=START)
+    spent = len(c.calls)
+    assert spent == 6
+
+    for h in (1, 2):
+        r = ig_runner.run_cycle(client=c, accounts=ACCOUNTS, bronze_root=bronze,
+                                now=START + timedelta(hours=h))
+        assert "since last round" in r.get("skipped", ""), \
+            f"+{h}h fired after a zero-yield round - the gate is yield-based again"
+    assert len(c.calls) == spent, "spent credits between rounds after an empty round"
+
+
+def test_breaker_stops_paying_after_three_empty_rounds(tmp_path, monkeypatch):
+    """Bounded loss. Three empty rounds, then nothing until a human intervenes."""
+    bronze = tmp_path / "bronze"
+    c = FakeEmptyIG(tmp_path=tmp_path)
+    cfg_patch(monkeypatch)
+
+    for i in range(ig_runner.MAX_CONSECUTIVE_EMPTY_ROUNDS):
+        r = ig_runner.run_cycle(client=c, accounts=ACCOUNTS, bronze_root=bronze,
+                                now=START + timedelta(hours=3 * i))
+        assert not r.get("skipped"), f"round {i} should have run"
+    spent = len(c.calls)
+
+    r = ig_runner.run_cycle(client=c, accounts=ACCOUNTS, bronze_root=bronze,
+                            now=START + timedelta(hours=3 * ig_runner.MAX_CONSECUTIVE_EMPTY_ROUNDS))
+    assert "circuit breaker" in r.get("skipped", "")
+    assert len(c.calls) == spent, "breaker tripped but credits were still spent"
+
+
+def test_breaker_does_not_trip_while_data_is_arriving(tmp_path, monkeypatch):
+    """It must not fire on a healthy cohort, however long it runs."""
+    bronze = tmp_path / "bronze"
+    c = FakeIG(tmp_path=tmp_path)
+    cfg_patch(monkeypatch)
+    for i in range(6):
+        r = ig_runner.run_cycle(client=c, accounts=ACCOUNTS, bronze_root=bronze,
+                                now=START + timedelta(hours=3 * i))
+        assert not r.get("skipped"), f"healthy round {i} was skipped: {r.get('skipped')}"
+
+
+def test_one_good_round_resets_the_breaker(tmp_path, monkeypatch):
+    """Recovery is automatic: the endpoint coming back clears the count."""
+    bronze = tmp_path / "bronze"
+    cfg_patch(monkeypatch)
+    empty = FakeEmptyIG(tmp_path=tmp_path)
+    good = FakeIG(tmp_path=tmp_path)
+
+    for i in range(2):
+        ig_runner.run_cycle(client=empty, accounts=ACCOUNTS, bronze_root=bronze,
+                            now=START + timedelta(hours=3 * i))
+    assert ig_runner.consecutive_empty_rounds(bronze) == 2
+
+    ig_runner.run_cycle(client=good, accounts=ACCOUNTS, bronze_root=bronze,
+                        now=START + timedelta(hours=6))
+    assert ig_runner.consecutive_empty_rounds(bronze) == 0
