@@ -15,7 +15,14 @@ venv/
 
 # data: silver/gold are derived and rebuildable, bronze is committed by CI
 data/silver/
-data/gold/
+# NOTE: `data/gold/` (with the slash) would exclude the directory itself, and
+# git never descends into an excluded directory — so a negation inside it can
+# never match. Ignoring the *contents* is what makes the one exception below
+# possible. cdc.eval.holdout promises the Cohort B evaluation ledger is a
+# committed public record; under the old rule it could never leave the laptop
+# that produced it, which quietly voided the guarantee.
+data/gold/*
+!data/gold/holdout_evaluations.jsonl
 data/_bench/
 !data/bronze/
 

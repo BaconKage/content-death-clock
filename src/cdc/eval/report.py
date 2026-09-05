@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 from datetime import datetime, timezone
 
@@ -48,6 +49,40 @@ from cdc.models.survival import RandomSurvivalForest, WeibullAFT
 # deliberately generous: even at 50 deaths a C-index is wobbly.
 MIN_DEATHS = 50
 MIN_CREATORS = 10
+
+
+def _json_safe(o):
+    """Replace non-finite floats with null, recursively.
+
+    A Wilcoxon test on too few pairs returns NaN, which is a legitimate result
+    and is printed as "n/a". But `json.dumps` writes it as a bare `NaN` literal,
+    which is not JSON: Python reads it back, and JSON.parse, R's jsonlite and
+    most other tooling reject the file outright. This is the machine-readable
+    output of the whole study, so it has to be readable by machines that are not
+    Python.
+    """
+    if isinstance(o, float):
+        return o if math.isfinite(o) else None
+    if isinstance(o, dict):
+        return {k: _json_safe(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_json_safe(v) for v in o]
+    if isinstance(o, np.floating):
+        return _json_safe(float(o))
+    if isinstance(o, np.integer):
+        return int(o)
+    return o
+
+
+def dumps_strict(obj) -> str:
+    """Serialise to strict RFC 8259 JSON.
+
+    `allow_nan=False` is the guard, not the mechanism: `_json_safe` has already
+    removed the non-finite values, so if this still raises then something new
+    has appeared that we have not thought about, and failing loudly beats
+    writing another file that only Python can read.
+    """
+    return json.dumps(_json_safe(obj), indent=2, default=str, allow_nan=False)
 
 
 def run(platform: str = "youtube", n_splits: int | None = None,
@@ -229,7 +264,7 @@ def run(platform: str = "youtube", n_splits: int | None = None,
         suffix = "" if outcome == "death" else f"_{outcome}"
         suffix += "" if cohort.upper() == "A" else f"_cohort{cohort.upper()}"
         p = path_for("gold_dir") / f"evaluation_{platform}{suffix}.json"
-        p.write_text(json.dumps(out, indent=2, default=str), encoding="utf-8")
+        p.write_text(dumps_strict(out), encoding="utf-8")
         print(f"  wrote {p.relative_to(ROOT)}")
     return out
 
