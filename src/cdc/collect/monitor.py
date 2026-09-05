@@ -28,6 +28,12 @@ from cdc.storage.bronze import iter_bronze
 # least one post was due. Two consecutive misses is a real outage.
 MAX_TOLERATED_CONSECUTIVE_MISSES = 2
 
+# How long collection may be silent before that is an alarm rather than jitter.
+# The collector runs every 30 minutes and snapshot marks are at least an hour
+# apart, so 3h is comfortably past normal lateness (worst observed: +3.97h on a
+# single post, but cycle-hours themselves are far denser than that).
+MAX_HOURS_SINCE_DATA = 3.0
+
 
 def _next_mark(schedule, m):
     """The next scheduled mark after `m`, or None if `m` is the last."""
@@ -45,7 +51,8 @@ def _parse(ts):
     return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
 
 
-def report(now: datetime | None = None, recent_hours: float | None = None) -> dict:
+def report(now: datetime | None = None, recent_hours: float | None = None,
+           root=None) -> dict:
     """Collection health.
 
     `recent_hours` scopes the *alarm* to a trailing window. Without it, a single
@@ -60,12 +67,12 @@ def report(now: datetime | None = None, recent_hours: float | None = None) -> di
     schedule = [float(h) for h in cfg["snapshot_schedule_hours"]]
     tol = float(cfg["snapshot_tolerance_hours"])
 
-    panel = Panel.from_bronze(platform="youtube")
+    panel = Panel.from_bronze(platform="youtube", root=root)
 
     # --- per-post: which scheduled marks were actually hit, and how late
     ages_by_post: dict[str, list[float]] = defaultdict(list)
     cycle_hours: set[str] = set()
-    for s in iter_bronze("snapshots", platform="youtube"):
+    for s in iter_bronze("snapshots", platform="youtube", root=root):
         pid = s.get("post_id")
         age = s.get("age_hours")
         if pid is not None and age is not None:
@@ -120,6 +127,23 @@ def report(now: datetime | None = None, recent_hours: float | None = None) -> di
         per_post_completeness.append(hits / len(expected))
         per_post_strict.append(strict / len(expected))
 
+    # --- is data still arriving RIGHT NOW? ---------------------------------
+    # Computed from the FULL history, deliberately before the `horizon` filter
+    # below. The windowing exists so an old outage does not fail CI forever, but
+    # it also empties `cycle_hours` entirely once an outage outlasts the window
+    # — so a trailing-gap check derived from the windowed set reports "healthy"
+    # precisely when things are worst. This one cannot be silenced that way.
+    #
+    # The `gaps` scan further down only walks between the first and last hours
+    # that HAVE data, so it can only ever find gaps that have already closed.
+    # An outage still in progress has no closing edge, and is invisible to it.
+    # That is the failure this measure exists to catch.
+    last_data_hour = max(cycle_hours) if cycle_hours else None
+    last_data_at = (datetime.strptime(last_data_hour, "%Y-%m-%dT%H")
+                    .replace(tzinfo=timezone.utc)) if last_data_hour else None
+    hours_since_last_data = ((now - last_data_at).total_seconds() / 3600.0
+                             if last_data_at else None)
+
     # --- cycle continuity: consecutive hours with no snapshot written at all
     if horizon is not None:
         cutoff = horizon.strftime("%Y-%m-%dT%H")
@@ -161,6 +185,8 @@ def report(now: datetime | None = None, recent_hours: float | None = None) -> di
         "late_counts_by_mark": {str(k): v for k, v in sorted(late_counts.items())},
         "cycle_hours_observed": len(cycle_hours),
         "gaps": gaps,
+        "last_data_at": last_data_at.isoformat(timespec="seconds") if last_data_at else None,
+        "hours_since_last_data": hours_since_last_data,
         "recent_hours": recent_hours,
     }
 
@@ -191,6 +217,10 @@ def main(argv: list[str] | None = None) -> int:
     print(f"  snapshots collected  {p['snapshots_total']}"
           f"  (mean {p['snapshots_per_post_mean']:.1f}/post)")
     print(f"  cycle-hours observed {r['cycle_hours_observed']}")
+    if r.get("hours_since_last_data") is not None:
+        flag = "  <-- COLLECTION IS DOWN" if (
+            r["hours_since_last_data"] > MAX_HOURS_SINCE_DATA) else ""
+        print(f"  last data arrived    {r['hours_since_last_data']:.1f}h ago{flag}")
     print("-" * 66)
     print(f"  mean completeness    {r['mean_completeness']:.1%}"
           f"   ({r['posts_evaluated']} posts evaluated)")
@@ -231,12 +261,23 @@ def main(argv: list[str] | None = None) -> int:
         problems.append("no posts tracked at all - discovery is not working")
     elif p["snapshots_total"] == 0:
         problems.append("posts tracked but zero snapshots - snapshotting is not working")
-    if r["gaps"]:
+
+    stale = r.get("hours_since_last_data")
+    if r["gaps"] or (stale is not None and stale > MAX_HOURS_SINCE_DATA):
         print("-" * 66)
         print("  OUTAGES:")
         for start, length in r["gaps"]:
             print(f"    {length} consecutive hours with no data from {start}")
+        if stale is not None and stale > MAX_HOURS_SINCE_DATA:
+            print(f"    ONGOING: nothing collected for {stale:.1f}h "
+                  f"(last data {r['last_data_at']})")
+    if r["gaps"]:
         problems.append(f"{len(r['gaps'])} outage(s)")
+    # The one that matters while it is still fixable. A closed gap is history;
+    # this is the collector being down right now.
+    if stale is not None and stale > MAX_HOURS_SINCE_DATA:
+        problems.append(f"collection STOPPED {stale:.1f}h ago "
+                        f"(last data {r['last_data_at']})")
     if (r["posts_evaluated"] >= MIN_POSTS_TO_JUDGE
             and r["mean_completeness"] < COLLAPSE):
         problems.append(
