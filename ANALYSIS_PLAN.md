@@ -187,6 +187,74 @@ there to bound.
 
 ## Amendment log
 
+**2026-09-05 — Instagram Cohort B ran with an 18-hour hole, and the collector
+paid for it.**
+
+*Change.* None to the design. This entry records a collection defect and its
+effect on Cohort B's observation record, so the gap is reported rather than
+discovered later in the data.
+
+*What happened.* Between 2026-09-04T00:00Z and 2026-09-04T17:00Z the Scrape
+Creators profile endpoint returned HTTP 200 with an empty payload for all three
+Cohort B accounts. Eighteen consecutive cycle-hours recorded `posts_seen: 0`.
+The endpoint recovered at 2026-09-04T18:00Z and the remaining rounds completed
+normally; the cohort ran its full 24 rounds and closed on schedule at
+2026-09-05T11:00Z.
+
+*Why it cost more than the data.* The cadence gate decided whether a round was
+due by looking at when data was last written to bronze, not at when a round was
+last attempted. A round returning no posts writes no snapshots, so the gate's
+reference timestamp stopped advancing and every 30-minute CI invocation
+qualified as "due". Credits remaining fell from 161 to 41 across the window:
+120 spent against the 18 the schedule called for, so 102 were wasted outright,
+on a budget that cannot be topped up. The failure was invisible in the cycle
+reports because an empty payload is not an exception, so `errors` stayed empty
+and each round recorded itself as clean.
+
+*Effect on the data.* Cohort B has no Instagram observations in that 18-hour
+window. Posts published inside it were not seen until the endpoint recovered,
+and posts already being tracked carry a gap of up to 18 hours in their series,
+which for some will fall below the four usable intervals a death label
+requires. The affected posts are identifiable from the snapshot timestamps and
+are counted in the attrition table under `insufficient_observations` like any
+other. Velocity is computed on actual observed timestamps, so the gap is
+recorded honestly rather than absorbed into an assumed grid.
+
+*Status of the outcome data at amendment.* No hypothesis is tested on Instagram
+data (section 4), so no confirmatory result is affected and the YouTube
+analysis is untouched. Cohort B's data is retained and reported, including this
+gap.
+
+*Fixed* (commit `6731e9c`). The gate now counts rounds attempted rather than
+rounds that returned data; an empty profile is recorded as an error; and a
+circuit breaker stops spending after three consecutive empty rounds. The
+existing cohort tests all used a client that always returns a post, so the gate
+had only ever been exercised on the happy path.
+
+*A second defect found the same day* (commit `c36041e`). The collection monitor
+could not detect an outage that was still in progress: its gap scan walks only
+between the first and last hours that have data, so a gap with no closing edge
+is outside the loop by construction, and the 12-hour alarm window CI passes
+empties the cycle-hour set entirely once an outage outlasts it. Simulated
+outages of 2 to 96 hours all reported `STATUS: healthy` and exited 0. Since the
+README identifies a silent outage as this project's most expensive failure, the
+completeness figures reported in the papers rest on that alarm working; it now
+measures time since last data from the full unwindowed history and fails the
+build past three hours.
+
+*One further correction, same date* (commit `dd2bc7a`). The screening artifact
+`config/ig_screening.json` cited by the 2026-09-02 amendment did not contain the
+Cohort B measurements. `ig_screen.run()` wrote to that path unconditionally and
+the test suite calls it with placeholder handles, so running the tests
+overwrote the real measurements with mocked failures, and that state was
+committed. The genuine artifact has been recovered from commit `a8b044a` and
+does back the account table: spotify 1.5 posts/day, bonappetitmag 1.3, 9gag
+6.1, all matching. Two caveats in the recovered artifact are now recorded in
+`config/channels.yaml` — it was measured for a 48h window, and `bonappetitmag`
+carries `verdict: REJECT` at that duration, which extending the cohort to 72h
+is what overturned. The screening tool now takes an output path and the tests
+write elsewhere.
+
 **2026-09-02 — Instagram Cohort B: three accounts over 72h, not five over 48h.**
 
 *Change.* Section 4 describes Instagram as "bounded 48h cohorts of 5–6
@@ -286,3 +354,4 @@ result existed, not after seeing one.
 | 2026-08-31 | *this commit* | Per-creator daily admission cap, YouTube only | Bulk uploader supplied 59% of the panel; see above |
 | 2026-09-01 | *this commit* | Landmark design: predict remaining lifetime from t=7h | 53% of deaths fell inside the feature window, making prediction circular; see below |
 | 2026-09-02 | *this commit* | Instagram Cohort B: 3 accounts x 72h, pinned-aware screening | Cohort A yielded 1 death; its screening was distorted by pinned posts; see above |
+| 2026-09-05 | *this commit* | No design change; records an 18h Instagram collection gap, the gate defect that tripled spend during it, a blind outage alarm, and the recovery of the screening artifact | API returned empty payloads 2026-09-04T00:00-17:00Z; 102 credits wasted; see above |
