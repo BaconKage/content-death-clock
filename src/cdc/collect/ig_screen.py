@@ -38,10 +38,15 @@ import logging
 import sys
 import time
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 from cdc.config import ROOT, secrets, settings
 from cdc.collect.instagram import InstagramClient
+
+# Committed evidence for the account selection. Overridable so that callers with
+# fake handles cannot destroy it — see `run`.
+DEFAULT_OUT = ROOT / "config" / "ig_screening.json"
 
 log = logging.getLogger("cdc.ig_screen")
 
@@ -167,7 +172,16 @@ def _verdict(r: dict[str, Any]) -> tuple[str, str]:
 def run(handles: list[str], dry_run: bool = False,
         interval_h: float | None = None,
         duration_h: float | None = None,
-        key_index: int | None = None) -> dict[str, Any]:
+        key_index: int | None = None,
+        out_path=None) -> dict[str, Any]:
+    """Screen candidate accounts. `out_path` overrides where the evidence lands.
+
+    The default target is a *committed* file, so anything that calls this with
+    fake handles — the test suite, most obviously — must pass its own path.
+    Running the tests used to overwrite the real screening measurements with
+    mocked HTTP 500s, and did: the artifact backing the Cohort B account table
+    was destroyed that way and had to be recovered from git history.
+    """
     cfg = settings()["instagram"]
     interval_h = interval_h or float(cfg["cohort_interval_hours"])
     duration_h = duration_h or float(cfg["cohort_duration_hours"])
@@ -261,9 +275,13 @@ def run(handles: list[str], dry_run: bool = False,
     out = {"screened_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
            "interval_hours": interval_h, "duration_hours": duration_h,
            "results": rows}
-    path = ROOT / "config" / "ig_screening.json"
+    path = Path(out_path) if out_path is not None else DEFAULT_OUT
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(out, indent=2), encoding="utf-8")
-    print(f"  wrote {path.relative_to(ROOT)}")
+    try:
+        print(f"  wrote {path.relative_to(ROOT)}")
+    except ValueError:                       # a path outside the repo, e.g. tmp
+        print(f"  wrote {path}")
     return out
 
 

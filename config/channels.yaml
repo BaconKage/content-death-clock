@@ -145,6 +145,27 @@ instagram:
   #   bonappetitmag         1.3            218h             12
   #   9gag                  6.1             47h              8
   #
+  # PROVENANCE. The posts/day and grid-retention figures above are checkable
+  # against `config/ig_screening.json`, and `tests/test_ig_screen.py` asserts
+  # they still match. Two caveats a reader should have:
+  #
+  #   * That artifact was measured for a 48h window (`duration_hours: 48.0`),
+  #     so its `predicted_snapshots` column reads 8.0 / 8.0 / 7.8 where the
+  #     table above says 12 / 12 / 8. The table is the same measurement carried
+  #     forward to the 72h cohort that was actually run; the underlying rates
+  #     are identical.
+  #   * bonappetitmag carries `verdict: REJECT` in the artifact, on the ground
+  #     that 1.3 posts/day yields only ~3 new posts inside 48 hours. Extending
+  #     the window to 72h is precisely what made it viable, and it was selected
+  #     on that basis. The rejection is left in the artifact rather than
+  #     rewritten, because the disagreement is the evidence.
+  #
+  # This file was briefly lost: `ig_screen.run()` wrote to it unconditionally
+  # and the test suite calls that function with fake handles, so running the
+  # tests replaced these measurements with three placeholder HTTP 500s — and
+  # that state was committed on 2026-09-02. It was recovered from commit
+  # a8b044a. The tool now takes an `out_path` and the tests pass their own.
+  #
   # Rejected at the same screening, with reasons:
   #   wired          likes hidden -> API reports 0 -> reads as instant death
   #   natgeo         0.3/day  -> ~0 new posts inside the window

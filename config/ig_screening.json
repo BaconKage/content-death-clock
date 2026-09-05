@@ -1,19 +1,122 @@
 {
-  "screened_at": "2026-09-02T10:53:26+00:00",
+  "screened_at": "2026-09-02T10:42:32+00:00",
   "interval_hours": 3.0,
-  "duration_hours": 72.0,
+  "duration_hours": 48.0,
   "results": [
     {
-      "handle": "a",
-      "status": "error: HTTP 500"
+      "handle": "natgeo",
+      "followers": 268642201,
+      "posts_returned": 12,
+      "span_hours": 981.0,
+      "posts_per_day": 0.3,
+      "hours_in_grid": 1070.2,
+      "predicted_snapshots": 8.0,
+      "expected_new_posts": 0.5,
+      "counts_hidden": 0,
+      "pct_video": 58,
+      "status": "ok",
+      "verdict": "REJECT",
+      "why": "posts too slowly (0.3/day) \u2014 only ~0 new posts inside the window"
     },
     {
-      "handle": "b",
-      "status": "error: HTTP 500"
+      "handle": "nasa",
+      "followers": 104414925,
+      "posts_returned": 12,
+      "span_hours": 479.7,
+      "posts_per_day": 0.6,
+      "hours_in_grid": 523.3,
+      "predicted_snapshots": 8.0,
+      "expected_new_posts": 1.1,
+      "counts_hidden": 0,
+      "pct_video": 42,
+      "status": "ok",
+      "verdict": "REJECT",
+      "why": "posts too slowly (0.6/day) \u2014 only ~1 new posts inside the window"
     },
     {
-      "handle": "c",
-      "status": "error: HTTP 500"
+      "handle": "wired",
+      "followers": 2355229,
+      "posts_returned": 12,
+      "span_hours": 12776.3,
+      "posts_per_day": 0.0,
+      "hours_in_grid": 13937.8,
+      "predicted_snapshots": 8.0,
+      "expected_new_posts": 0.0,
+      "counts_hidden": 1,
+      "pct_video": 25,
+      "status": "ok",
+      "verdict": "REJECT",
+      "why": "likes hidden on some posts \u2014 reads as instant death"
+    },
+    {
+      "handle": "theverge",
+      "followers": 583,
+      "posts_returned": 0,
+      "status": "too few posts to measure a rate"
+    },
+    {
+      "handle": "vogue",
+      "status": "not found"
+    },
+    {
+      "handle": "tasty",
+      "followers": 4797,
+      "posts_returned": 5,
+      "span_hours": 3531.4,
+      "posts_per_day": 0.0,
+      "hours_in_grid": 10594.3,
+      "predicted_snapshots": 8.0,
+      "expected_new_posts": 0.1,
+      "counts_hidden": 0,
+      "pct_video": 100,
+      "status": "ok",
+      "verdict": "REJECT",
+      "why": "posts too slowly (0.0/day) \u2014 only ~0 new posts inside the window"
+    },
+    {
+      "handle": "bonappetitmag",
+      "followers": 4939465,
+      "posts_returned": 12,
+      "span_hours": 199.8,
+      "posts_per_day": 1.3,
+      "hours_in_grid": 218.0,
+      "predicted_snapshots": 8.0,
+      "expected_new_posts": 2.6,
+      "counts_hidden": 0,
+      "pct_video": 58,
+      "status": "ok",
+      "verdict": "REJECT",
+      "why": "posts too slowly (1.3/day) \u2014 only ~3 new posts inside the window"
+    },
+    {
+      "handle": "spotify",
+      "followers": 14417540,
+      "posts_returned": 12,
+      "span_hours": 170.6,
+      "posts_per_day": 1.5,
+      "hours_in_grid": 186.1,
+      "predicted_snapshots": 8.0,
+      "expected_new_posts": 3.1,
+      "counts_hidden": 0,
+      "pct_video": 33,
+      "status": "ok",
+      "verdict": "OK",
+      "why": "8 snapshots/post, ~3 new posts"
+    },
+    {
+      "handle": "9gag",
+      "followers": 52046624,
+      "posts_returned": 12,
+      "span_hours": 43.0,
+      "posts_per_day": 6.1,
+      "hours_in_grid": 46.9,
+      "predicted_snapshots": 7.8,
+      "expected_new_posts": 12.3,
+      "counts_hidden": 0,
+      "pct_video": 42,
+      "status": "ok",
+      "verdict": "OK",
+      "why": "8 snapshots/post, ~12 new posts"
     }
   ]
 }
