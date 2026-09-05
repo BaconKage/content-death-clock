@@ -1,0 +1,46 @@
+{
+  "platform": "instagram",
+  "cycle_id": "2026-09-05T05",
+  "started_at": "2026-09-05T05:01:53+00:00",
+  "dry_run": false,
+  "accounts_called": 3,
+  "posts_seen": 36,
+  "snapshots": 35,
+  "new_posts": 2,
+  "skipped_hidden_counts": 1,
+  "errors": [],
+  "cohort_round": 23,
+  "cohort_elapsed_hours": 66.03,
+  "credits": {
+    "active_key_index": 2,
+    "total_remaining": 23,
+    "keys": [
+      {
+        "key_id": "d4dbf5c1521b",
+        "spent_this_run": 0,
+        "spent_total": 100,
+        "budget_total": 100,
+        "remaining": 0
+      },
+      {
+        "key_id": "0b1b0116857a",
+        "spent_this_run": 0,
+        "spent_total": 100,
+        "budget_total": 100,
+        "remaining": 0
+      },
+      {
+        "key_id": "146ecc509ee6",
+        "spent_this_run": 3,
+        "spent_total": 77,
+        "budget_total": 100,
+        "remaining": 23
+      }
+    ]
+  },
+  "files": [
+    "/home/runner/work/content-death-clock/content-death-clock/data/bronze/platform=instagram/dt=2026-09-05/posts-2026-09-05T05.jsonl",
+    "/home/runner/work/content-death-clock/content-death-clock/data/bronze/platform=instagram/dt=2026-09-05/snapshots-2026-09-05T05.jsonl"
+  ],
+  "finished_at": "2026-09-05T05:02:01+00:00"
+}
