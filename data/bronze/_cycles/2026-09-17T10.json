@@ -1,20 +1,20 @@
 {
   "cycle_id": "2026-09-17T10",
-  "started_at": "2026-09-17T10:22:20+00:00",
+  "started_at": "2026-09-17T10:31:27+00:00",
   "dry_run": false,
   "panel_before": {
     "posts_total": 915,
-    "posts_active": 641,
-    "posts_due": 12,
-    "snapshots_total": 9805,
-    "snapshots_per_post_mean": 10.71584699453552
+    "posts_active": 638,
+    "posts_due": 16,
+    "snapshots_total": 9807,
+    "snapshots_per_post_mean": 10.718032786885246
   },
   "discovered": 0,
-  "snapshotted": 2,
+  "snapshotted": 7,
   "errors": [
     "discovery:@sciencephile:404 Client Error: Not Found for url: https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails%2Csnippet&playlistId=UUVNmqNpLvAsJ1tgwY0AGGHQ&maxResults=50&key=AIzaSyDt82QCll8_wDCXi1GbJOQle54y9JwL79w"
   ],
-  "due_count": 12,
+  "due_count": 16,
   "quota": {
     "units_spent": 64,
     "calls": 64,
@@ -27,5 +27,5 @@
   "files": [
     "/home/runner/work/content-death-clock/content-death-clock/data/bronze/platform=youtube/dt=2026-09-17/snapshots-2026-09-17T10.jsonl"
   ],
-  "finished_at": "2026-09-17T10:22:37+00:00"
+  "finished_at": "2026-09-17T10:31:45+00:00"
 }
