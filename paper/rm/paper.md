@@ -809,17 +809,131 @@ the two are never pooled.
 
 ## 5. Discussion
 
-`[PENDING — write after §4]`
+### 5.1 What we set out to test, and what came back
 
-Points the discussion must cover regardless of which way the results fall:
+We asked whether the time at which a post stops receiving meaningful attention can be
+predicted from signals observable in its first session. The answer, across 686 posts and
+498 observed deaths, is: **weakly, and almost entirely because of who posted it.**
 
-- What a C-index of the observed magnitude means in practical terms for someone deciding
-  when to stop promoting a post.
-- Whether early dynamics added information over creator size, and what it means if they did
-  not — a null on H2 would say decay timing is largely a property of the audience rather than
-  the post, which is itself an interesting and reportable claim.
-- Whether the two label definitions agreed, and what a disagreement would imply about the
-  construct "attention death".
+Both primary models discriminate better than chance (RSF 0.621, Weibull AFT 0.600, both
+intervals excluding 0.5), so H1 holds in the limited sense that attention death is not
+unpredictable. But a creator-size-only baseline reaches 0.599 on its own. Everything our
+feature set contributes beyond a single number describing the channel amounts to, at most,
+two points of concordance — and that margin fails every robustness check we committed to
+in advance.
+
+### 5.2 A C-index near 0.6, in practical terms
+
+The headline metric is easy to over-read, so we state it concretely. A concordance index
+of 0.62 means that, shown two posts, the model identifies which will die first about 62
+times in 100. Chance is 50. Knowing only the subscriber count gets 60.
+
+For a creator deciding when to stop promoting a post, that is not a usable signal. The
+absolute predictions are worse still: MAE of 0.329 on log₁₀ hours back-transforms to a
+typical error of a factor of **2.1**, so a post that truly dies at 20 hours is routinely
+predicted at 9 or at 43. Nothing in this study supports deploying such a prediction as a
+countdown, and §4.3's most uncomfortable result — that a single constant, the Kaplan–Meier
+median, achieves *lower* absolute error than either fitted model — should be read as the
+honest ceiling on what this feature set can do.
+
+The gap between the two metrics is itself informative. A model that spreads predictions
+across a range buys ordering at the cost of variance, and when recoverable signal is thin
+that trade is not worth making. Ranking improved; calibration did not.
+
+### 5.3 The H2 null is the substantive finding
+
+H2 was the hypothesis that mattered, and the one we pre-specified against a deliberately
+hard baseline. It does not survive.
+
+Of four pre-specified comparisons — two models × two tests — one passes. The forest's
+paired Wilcoxon reaches p = 0.019; its bootstrap interval on the C-index difference
+includes zero; the Weibull AFT is indistinguishable from creator size on both (Δ = +0.0008,
+p = 0.760). Moving the landmark to 3h *reverses* the sign and makes the forest
+significantly worse than the baseline (p = 0.006); moving it to 12h erases the difference
+(p = 0.394). Loosening the death threshold to 0.10 removes it; tightening to 0.02 restores
+it for both models. A mechanically different outcome definition reproduces neither
+hypothesis.
+
+A result that exists at one landmark out of three, at thresholds at or below the one we
+happened to choose, on one of two models, under one of two tests, is not a finding. We
+therefore report **H2 as not supported**, and treat the isolated significant test as what
+it most likely is: the one cell of a small grid that fell below 0.05.
+
+**What that null claims.** If early engagement dynamics add nothing beyond creator size,
+then the timing of attention death is largely a property of the **audience** rather than
+of the **post**. A channel's subscriber base appears to determine not only how much
+attention a post receives but roughly how long it holds it, and the particular trajectory
+of a post's first six hours tells us little more. §4.5 supports this directly and is the
+clearest pattern in the data: median time to death rises monotonically from 41.5h for
+micro channels to 89.5h for mid and 113.0h for large — a 2.7× spread across tiers,
+dwarfing anything our dynamic features recover.
+
+This is a more interesting claim than a working countdown would have been, and it runs
+against the intuition that early velocity is diagnostic. It is also consistent with the
+literature we build on: Szabó and Huberman's log-linear relationship works because early
+magnitude predicts later magnitude, and Pinto et al.'s gains concentrate in trajectory
+*shape* for predicting *volume*. Neither establishes that shape predicts *timing*, and our
+result suggests it largely does not.
+
+### 5.4 Two constructs, not one
+
+The robustness label was chosen to fail differently from the primary one, and the
+comparison earns its place. The two agree on ordering (Spearman ρ = +0.718) but disagree
+systematically on timing: saturation arrives at a median of **0.633** of the time at which
+velocity collapses.
+
+That offset is not noise and not a bug. It says a post stops **growing** appreciably well
+before it stops **receiving** attention — two distinct ideas that the phrase "attention
+death" silently conflates. Any study reporting one of them alone, including a future
+version of this one, is making a narrower claim than its language implies. We regard
+pinning down which construct matters for a given application as a more valuable next step
+than improving the C-index by a further two points.
+
+The failure of the saturation outcome to reproduce H1 or H2 (§4.6.1) compounds this.
+Under that label both models sit at chance. We note the structural reasons it is the weaker
+test — zero censoring by construction, 71 extrapolated fits — without using them to dismiss
+the result, because we selected the check in advance precisely so it could not be dismissed
+afterwards.
+
+### 5.5 What the method contributes independently of the result
+
+Three elements of the design survive the null and would apply to any future attempt.
+
+**Landmarking was not optional.** Before Amendment 2, 53% of observed deaths fell inside
+the six-hour feature window, meaning the majority of "predictions" were determined by the
+observations they were built from. Any study predicting content decay from early signals
+faces this and, as far as we can tell from §2, none of the prior work we surveyed addresses
+it. A reported accuracy that includes circular cases is not comparable to one that excludes
+them.
+
+**Censoring is not a technicality.** 27.4% of our analysis set was still alive when
+observation ended, and these are systematically the longest-lived posts. Dropping them —
+the natural move in a regression framing — would have biased every estimate toward
+short-lived content. At the pre-registered threshold this is a quarter of the sample; at
+0.02 it is 44%.
+
+**Grouping by creator changes the answer.** Our 686 posts come from 47 creators. Random
+k-fold would place the same channel in train and test and, given §4.5's tier effect, would
+mostly measure the model's ability to recognise creators it had already seen.
+
+### 5.6 Why the pre-registration did work here
+
+This study produced a result its authors did not want, and the mechanism that made
+reporting it straightforward was built before the result existed.
+
+The analysis plan was frozen on 2026-08-30 with 179 posts collected, zero death labels
+computed and zero models fitted. Every subsequent deviation is a dated commit with a stated
+reason. The draft carried, in advance, a note recording that the creator-size baseline had
+outscored the model in the dress rehearsal and committing to report that if it held. The
+evaluation tooling refuses to print results below 50 observed deaths. Cohort B is sealed
+behind a flag and a ledger.
+
+None of that made the analysis correct. What it did was remove the decisions that would
+otherwise have been made *after* seeing the numbers — which threshold, which landmark,
+which of two tests to feature, whether to mention a robustness check that failed. §4.6.2
+shows exactly how much latitude those choices carry: at 0.02 we could have reported both
+models beating creator size at p < 0.0001. That run exists because we promised it, not
+because we liked it.
 
 ## 6. Limitations
 
@@ -861,7 +975,48 @@ is observational and involves no intervention on any user or creator.
 
 ## 8. Conclusion
 
-`[PENDING]`
+We asked when a social media post stops receiving meaningful attention, and whether that
+moment can be predicted from the post's first session. Across a prospectively collected
+panel of 686 YouTube posts from 47 channels, observed every 30 minutes for up to 14 days
+and yielding 498 observed deaths, the answer is that it can be predicted — weakly — and
+that creator size accounts for essentially all of the predictability.
+
+Both censoring-aware models discriminate better than chance (Random Survival Forest
+C-index 0.621, 95% CI 0.569–0.678; Weibull AFT 0.600, 0.540–0.657), so **H1 is supported
+on discrimination and rejected on calibration**: neither model predicts the actual time
+better than a constant, and both are significantly worse than the Kaplan–Meier median,
+which attains the lowest absolute error of any method tested. Every approach we tried, from
+a random survival forest to a single number, is wrong by a factor of roughly two.
+
+**H2 is not supported.** A creator-size-only baseline reaches C-index 0.599 unaided. One of
+four pre-specified comparisons favours a model, and it survives neither a change of
+landmark, nor a loosening of the death threshold, nor a mechanically different outcome
+definition. We report this as a null rather than as a marginal positive, because it is one.
+
+The substantive claim we can make is therefore about audiences rather than posts: **how
+long content holds attention appears to be determined largely by who published it, not by
+how it began.** Median time to attention death rises from 41.5 hours for channels under
+10,000 subscribers to 113.0 hours for those above 500,000 — a spread no feature derived
+from a post's first six hours came close to matching.
+
+Two secondary findings stand on their own. A post stops *growing* well before it stops
+*receiving* attention: our two independently motivated labels agree on ordering
+(ρ = +0.718) but the saturation label fires at a median of 63% of the velocity label's
+time, so "attention death" names two distinguishable constructs rather than one. And
+landmarking is not a refinement but a requirement: before we imposed it, 53% of observed
+deaths fell inside the feature window, making the majority of predictions circular.
+
+We make no causal claim. The design is observational, the sampling frame is a committed
+query list rather than a random sample of YouTube, and generalisation beyond it is not
+asserted. A temporal holdout of 234 posts remains sealed and will be evaluated exactly
+once.
+
+What we offer alongside the result is the apparatus that made reporting it
+straightforward: a plan frozen in version control before any outcome existed, every
+deviation logged as a dated amendment, tooling that refuses to present underpowered
+numbers, and robustness analyses run because they were promised rather than because they
+were welcome. The finding is modest and partly negative. The evidence that we did not go
+looking for a better one is the part we would most want a reader to check.
 
 ---
 
