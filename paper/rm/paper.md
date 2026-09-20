@@ -45,8 +45,10 @@ method tested. Against a creator-size-only baseline (C-index 0.599) the evidence
 inconsistent: the forest's paired Wilcoxon is significant (p = 0.019) but its bootstrap
 interval on the C-index difference includes zero (+0.022, 95% CI −0.015 to +0.065), and the
 Weibull AFT is indistinguishable from the baseline on every measure (Δ = +0.0008,
-p = 0.760). A pre-registered robustness analysis using a mechanically different outcome
-reproduces neither hypothesis.
+p = 0.760). Pre-registered robustness analyses weaken this further: a mechanically
+different outcome definition reproduces neither hypothesis, and H2's single passing test
+survives neither moving the landmark to 3h or 12h nor loosening the death threshold to
+0.10.
 
 **Conclusion.** Time to attention death is predictable from first-session signals to a
 small but measurable degree, and creator size accounts for most of that predictability.
@@ -706,11 +708,62 @@ than sample-dependent:
   those columns were 0% available. `caption_len` and `hashtag_count` are Instagram-only
   and are 0% populated on YouTube, as expected.
 
-- **Landmark sensitivity** (3h and 12h) and **threshold sensitivity** (velocity fraction
-  at 0.02, 0.05, 0.10): `[PENDING]`. These require parameterising the landmark and
-  threshold at the command line, which the evaluation entry point does not currently
-  expose; both are held fixed at their pre-registered values (7.0h, 0.05) in the results
-  above. This is declared as outstanding work rather than silently omitted.
+**Landmark sensitivity.** Recomputed at landmarks of 3h and 12h
+(`python -m cdc.eval.report --landmark 3.0`). Features are capped at the landmark, so an
+earlier landmark cannot read a later observation; at 3h this leaves only 5 features with
+adequate coverage, against 11 at 7h and 12h.
+
+| Landmark | n | Deaths | RSF C-index | Weibull C-index | Creator-size C-index | RSF vs creator-size |
+|---|---|---|---|---|---|---|
+| 3h | 704 | 517 | 0.5932 [0.540, 0.652] | 0.6026 | 0.5972 | **+0.0204, p = 0.006 — favours the *baseline*** |
+| **7h (registered)** | 686 | 498 | **0.6207** [0.569, 0.678] | 0.5995 | 0.5987 | −0.0101, p = 0.019 — favours the model |
+| 12h | 685 | 497 | 0.6185 [0.563, 0.681] | 0.6004 | 0.6012 | −0.0116, p = 0.394 — no difference |
+
+**Threshold sensitivity.** Recomputed at velocity fractions of 0.02 and 0.10.
+
+| Threshold | n | Deaths | Censored | RSF C-index | Weibull C-index | Creator-size | RSF vs creator-size | Weibull vs creator-size |
+|---|---|---|---|---|---|---|---|---|
+| 0.02 | 691 | 390 | 43.6% | 0.6632 [0.600, 0.727] | 0.6527 | 0.6363 | **p < 0.0001** | **p = 0.031** |
+| **0.05 (registered)** | 686 | 498 | 27.4% | 0.6207 | 0.5995 | 0.5987 | p = 0.019 | p = 0.760 |
+| 0.10 | 673 | 584 | 13.2% | 0.5954 [0.553, 0.645] | 0.5720 | 0.5677 | p = 0.369 | p = 0.828 |
+
+**These analyses do not support the robustness of H2. They undermine it.**
+
+The support for H2 appears only inside a narrow band of analyst choices, and both
+directions of movement dissolve it:
+
+- Move the landmark **earlier** and the forest becomes *significantly worse* than creator
+  size (p = 0.006, sign reversed). Move it **later** and the difference vanishes
+  (p = 0.394). The registered 7h landmark is the only one of the three at which H2's single
+  passing test passes.
+- Loosen the death threshold to 0.10 and neither model beats creator size. Tighten it to
+  0.02 and both do, comfortably.
+
+The threshold pattern is monotone rather than noisy, which makes it interpretable: a
+stricter threshold pushes death later, raises censoring from 13% to 44%, and leaves a
+harder discrimination problem on which the models have more room to help. That is a real
+property of the estimand, not an artefact — but it means **the answer to H2 is a function
+of where "dead" is defined**, and we pre-specified 0.05 without knowing that.
+
+**On the appearance that 7h is the flattering choice.** The registered landmark is also
+where the models look best on absolute error (MAE 0.329 at 7h against 0.447 at 3h and
+0.443 at 12h), and a sceptical reader is right to ask whether it was selected for that.
+It was not, and the record shows it was not: the move from 6h to 7h is Amendment 2, dated
+2026-09-01, and its stated ground is a measurement one — the collector runs every 30
+minutes, so the nominal 6-hour reading arrives at a median of 6.08h, and a strict 6.00h
+cutoff discarded it for 72 of 86 posts, leaving every 6-hour feature 0% populated. That
+amendment was committed fifteen days before Cohort A closed and before any death label
+existed for the posts analysed here. The coincidence is real and we report it; the
+chronology is what distinguishes it from tuning.
+
+**Feature coverage.** Eleven features cleared the 50% coverage requirement at the
+registered landmark and entered the models: `log_value_at_1h` (95.0% coverage),
+`log_value_at_3h` (97.5%), `log_value_at_6h` (95.9%), `velocity_to_6h` (95.9%),
+`log_growth_1_3h` (90.8%), `log_growth_3_6h` (93.0%), `decay_ratio_3_6_over_1_3` (91.1%),
+`log_follower_count` (100%), `log_duration_sec` (95.8%), `publish_hour_utc`, `title_len`.
+Coverage above 90% on every early-engagement feature confirms that Amendment 2 fixed the
+problem it was introduced for. `caption_len` and `hashtag_count` are Instagram-only and
+are 0% populated on YouTube, as expected.
 
 ### 4.7 Cohort B — temporal holdout
 

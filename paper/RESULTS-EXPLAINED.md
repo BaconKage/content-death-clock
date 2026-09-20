@@ -200,6 +200,42 @@ There are honest reasons the cross-check is a weaker test — under this
 definition nothing is ever "still alive," so the survival models can't show
 their main advantage — but we can't use that to wave the failure away.
 
+### And when we wiggle the settings, the answer changes
+
+We also promised in advance to redo everything with two dials moved, to see
+whether our answer was solid or just a lucky setting.
+
+**Dial 1 — when we make the prediction** (we chose 7 hours):
+
+| Predict at | Does the model beat subscriber count? |
+|---|---|
+| 3 hours | **No — it's significantly *worse*** |
+| **7 hours (our choice)** | Yes, just barely |
+| 12 hours | No difference |
+
+**Dial 2 — how quiet counts as "dead"** (we chose 5% of peak speed):
+
+| "Dead" means dropping below | Does the model beat subscriber count? |
+|---|---|
+| 2% of peak | **Yes, clearly** |
+| **5% (our choice)** | Barely, on one test |
+| 10% of peak | No |
+
+Read those two tables together and the message is uncomfortable but clear:
+**our one positive result only exists at the exact settings we happened to
+pick.** Nudge either dial in either direction and it disappears — or reverses.
+
+That is what "not robust" means, and it is the most important thing in this
+whole analysis.
+
+*One thing we should say out loud before anyone else notices:* our chosen
+7-hour mark is also where the model looks best. That looks suspicious. But we
+moved from 6 hours to 7 on **1 September** — fifteen days before we closed the
+dataset, and for a boring technical reason (our collector runs every 30 minutes,
+so the "6-hour" reading actually arrives at 6.08 hours on average, and a strict
+6.00 cutoff was throwing away nearly all of it). The git history shows the date.
+We're pointing at the coincidence ourselves rather than hoping nobody spots it.
+
 ---
 
 ## 7. Why this is a good result, not a failed project
