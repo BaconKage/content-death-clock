@@ -17,8 +17,13 @@ python -m cdc.eval.report --platform youtube
 We asked whether you can watch a post's first six hours and predict when it will
 stop getting attention.
 
-**The answer is: a little, but not much — and most of what you can predict, you
-could already have guessed from the size of the channel.**
+**The answer is: barely — and essentially everything we can predict, we could
+already have guessed from the size of the channel.**
+
+Our models can put posts in order (which dies first) slightly better than
+chance. They cannot say *when* any better than simply guessing the average. And
+the claim that early behaviour adds anything beyond channel size does not hold
+up across the checks we set ourselves in advance.
 
 That is a real answer, and we are reporting it as we promised to on 30 August,
 before we had seen any results.
@@ -136,22 +141,26 @@ It is an honest and slightly humbling result, and it goes in the paper.
 | Ranking which post dies first | ✅ **Supported.** Both models beat a constant, and the confidence intervals exclude a coin flip. |
 | Predicting the actual time | ❌ **Not supported.** No better than "everything dies at 48 hours" (p = 0.40 and p = 0.55), and significantly worse than guessing the typical lifetime. |
 
-### H2 — weakly supported, and only for one model
+### H2 — not really supported
 
-| Model | vs subscriber count | Verdict |
+Our plan committed us to **two** different tests for this, decided in advance.
+They disagree, which is the honest headline.
+
+| Model | Test 1 (per-post errors) | Test 2 (ranking, with error bars) |
 |---|---|---|
-| Random Survival Forest | p = 0.019 | ✅ Beats it — the one test that passes |
-| Weibull AFT | p = 0.76 | ❌ No difference at all |
+| Random Survival Forest | ✅ passes (p = 0.019) | ❌ fails — the range of plausible values includes "no difference at all" |
+| Weibull AFT | ❌ fails (p = 0.76) | ❌ fails |
 
-The forest scores 62% against subscriber count's 60%. The test says that gap is
-statistically real. But the confidence intervals around those two numbers
-overlap across most of their range, so we describe this as **weak support, not
-a clear win.**
+Three of the four boxes are failures. Only one test, on one of the two models,
+comes out in favour.
 
-**Plain summary:** early engagement dynamics carry a small, detectable amount of
-extra information — but creator size accounts for most of what is predictable,
-and the effect is small enough that a different modelling choice makes it
-disappear.
+The Weibull AFT scores 0.5995 against subscriber count's 0.5987 — a difference
+of less than one part in a thousand. On that model, watching the first six hours
+tells you **nothing** you didn't already know from the channel size.
+
+**Plain summary:** we cannot claim that early engagement dynamics add real
+information beyond creator size. One test out of four says they might. That is
+not enough to hang a claim on, and we are not going to.
 
 ---
 
@@ -173,6 +182,23 @@ data.
 
 Our frozen plan said in advance that disagreement between the two measures would
 be a finding to report, not a problem to hide. So here it is.
+
+### And the cross-check does not back up our main result
+
+We also re-ran the entire analysis using that second definition of death instead
+of the first. If our findings were solid, they should show up either way.
+
+**They don't.** Under the second definition, both models drop to roughly a coin
+flip — 54% and 52%, with error bars that comfortably include 50%. Neither beats
+subscriber count either.
+
+That matters. A cross-check we chose *in advance*, precisely so it couldn't be
+cherry-picked, fails to reproduce the main finding. It is fair to treat this as
+evidence **against** our already-weak result rather than a footnote.
+
+There are honest reasons the cross-check is a weaker test — under this
+definition nothing is ever "still alive," so the survival models can't show
+their main advantage — but we can't use that to wave the failure away.
 
 ---
 
@@ -203,9 +229,17 @@ strong evidence that the problem itself is hard, not that we modelled it badly.
 **We can say:**
 - Time-to-attention-death can be ranked slightly better than chance from signals
   in a post's first six hours.
-- Creator size accounts for most of that predictive power.
-- Absolute predictions remain imprecise (typically wrong by ~2×).
+- Creator size accounts for essentially all of that predictive power.
+- Absolute predictions remain imprecise (typically wrong by ~2×), and no method
+  we tried beats guessing the average.
 - A post stops growing before it stops receiving attention.
+- Smaller channels' posts die much faster: median 41h for micro channels against
+  113h for large ones. This is exploratory, but it is the clearest pattern in the
+  data.
+
+**We cannot say:**
+- That early engagement dynamics add anything beyond creator size. One test out
+  of four supports it; the pre-registered cross-check does not.
 
 **We cannot say:**
 - That early engagement *causes* anything. This is an observational study; we
