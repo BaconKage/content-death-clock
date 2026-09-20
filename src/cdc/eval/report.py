@@ -87,13 +87,15 @@ def dumps_strict(obj) -> str:
 
 def run(platform: str = "youtube", n_splits: int | None = None,
         n_boot: int = 500, write: bool = True, outcome: str = "death",
-        cohort: str = "A", unlock_holdout: bool = False) -> dict:
+        cohort: str = "A", unlock_holdout: bool = False,
+        landmark: float | None = None, threshold: float | None = None) -> dict:
     prior_holdout: list = []
     if cohort.upper() == "B":
         # Refuses unless deliberately unlocked; see cdc.eval.holdout.
         prior_holdout = holdout.check_unlocked(unlock_holdout, platform)
 
-    af = dataset.build(platform=platform, cohort=cohort)
+    af = dataset.build(platform=platform, cohort=cohort,
+                       landmark=landmark, threshold=threshold)
     df = af.frame
 
     print("=" * 68)
@@ -263,6 +265,11 @@ def run(platform: str = "youtube", n_splits: int | None = None,
     if write:
         suffix = "" if outcome == "death" else f"_{outcome}"
         suffix += "" if cohort.upper() == "A" else f"_cohort{cohort.upper()}"
+        # A sensitivity run must never overwrite the pre-registered result.
+        if landmark is not None:
+            suffix += f"_lm{str(landmark).replace('.', 'p')}"
+        if threshold is not None:
+            suffix += f"_th{str(threshold).replace('.', 'p')}"
         p = path_for("gold_dir") / f"evaluation_{platform}{suffix}.json"
         p.write_text(dumps_strict(out), encoding="utf-8")
         print(f"  wrote {p.relative_to(ROOT)}")
@@ -284,10 +291,19 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--outcome", default="death", choices=["death", "saturation"],
                     help="which pre-registered outcome to model "
                          "(saturation is the plan's robustness label)")
+    ap.add_argument("--landmark", type=float, default=None,
+                    help="override modelling.landmark_hours for a sensitivity "
+                         "run (plan section 6). Features are capped at the "
+                         "landmark, so an earlier landmark cannot read later "
+                         "observations. Writes to its own file.")
+    ap.add_argument("--threshold", type=float, default=None,
+                    help="override labels.velocity_frac_of_peak for a "
+                         "sensitivity run. Writes to its own file.")
     args = ap.parse_args(argv)
     run(args.platform, args.splits, args.boot, write=not args.no_write,
         outcome=args.outcome, cohort=args.cohort,
-        unlock_holdout=args.unlock_holdout)
+        unlock_holdout=args.unlock_holdout,
+        landmark=args.landmark, threshold=args.threshold)
     return 0
 
 

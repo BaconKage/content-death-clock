@@ -60,21 +60,40 @@ def freeze_instant() -> pd.Timestamp:
 
 
 def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None,
-          cohort: str = "all") -> AnalysisFrame:
+          cohort: str = "all", landmark: float | None = None,
+          threshold: float | None = None) -> AnalysisFrame:
     """Features joined to labels, with the pre-specified exclusions applied.
 
     Landmarked: only posts still alive at ``modelling.landmark_hours`` are
     eligible, and the outcome is the time remaining from the landmark. Both the
     landmarked outcome (``t_death``) and the raw one (``t_death_from_publish``)
     are kept, so a sensitivity analysis needs no re-derivation.
+
+    ``landmark`` and ``threshold`` override the configured values for one run.
+    They exist for the pre-registered sensitivity analyses (plan section 6) and
+    for nothing else: the committed values in ``settings.yaml`` remain the
+    pre-specified ones, and a sensitivity run never overwrites them.
     """
     sd = path_for("silver_dir")
     snaps = pd.read_parquet(sd / "snapshots.parquet")
     posts = pd.read_parquet(sd / "posts.parquet").set_index("post_id")
 
     cfg = settings()["modelling"]
-    cutoff = float(cfg["feature_cutoff_hours"])
-    landmark = float(cfg.get("landmark_hours", 0) or 0)
+    landmark = (float(cfg.get("landmark_hours", 0) or 0) if landmark is None
+                else float(landmark))
+
+    # Features may never be drawn from after the moment the prediction is made.
+    # At the pre-registered 7h landmark the configured 7h cutoff already
+    # satisfies that. But a sensitivity run at a 3h landmark must not be allowed
+    # to read the 6h observation: that would be leakage, and it would make the
+    # earlier landmark look better precisely because it is cheating. Capping at
+    # the landmark is what keeps the comparison honest.
+    cutoff = min(float(cfg["feature_cutoff_hours"]), landmark or float("inf"))
+
+    label_cfg = None
+    if threshold is not None:
+        label_cfg = dict(settings()["labels"])
+        label_cfg["velocity_frac_of_peak"] = float(threshold)
     att: dict[str, int] = {}
 
     # `cohort` is the ordinary way to select; `cohort_end` stays as a raw
@@ -122,7 +141,7 @@ def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None,
 
         obs = [Observation(a, x) for a, x in
                zip(v["age_hours"].to_numpy(float), v["primary_value"].to_numpy(float))]
-        lab = label_post(str(pid), obs)
+        lab = label_post(str(pid), obs, cfg=label_cfg)
         if not lab.usable:
             reasons[lab.exclude_reason] = reasons.get(lab.exclude_reason, 0) + 1
             continue
