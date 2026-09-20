@@ -59,6 +59,20 @@ def freeze_instant() -> pd.Timestamp:
     return pd.Timestamp(raw.replace("Z", "+00:00")).tz_convert("UTC")
 
 
+def _cohort_b_close() -> pd.Timestamp | None:
+    """The pre-specified Cohort B upper boundary, from settings.
+
+    Fixed on 2026-09-20, after the Cohort A analysis was complete and before the
+    holdout was opened; the holdout ledger was empty at the time. Returns None
+    when unset, which leaves Cohort B open-ended — acceptable only before a
+    close date has been chosen.
+    """
+    raw = settings()["modelling"].get("cohort_b_close_utc")
+    if not raw:
+        return None
+    return pd.Timestamp(str(raw).replace("Z", "+00:00")).tz_convert("UTC")
+
+
 def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None,
           cohort: str = "all", landmark: float | None = None,
           threshold: float | None = None) -> AnalysisFrame:
@@ -119,16 +133,28 @@ def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None,
     # all model selection is complete.
     if cohort_end is not None and cohort != "ALL":
         after = cohort == "B"
+        # Cohort B is bounded at BOTH ends. Its lower edge is the Cohort A
+        # freeze; its upper edge is `cohort_b_close_utc`, fixed in settings.yaml
+        # on 2026-09-20 while the holdout ledger was still empty. Without an
+        # upper edge the holdout would silently grow every time collection ran,
+        # so "evaluate it once" would have no fixed referent and a disappointing
+        # result could be diluted by waiting.
+        close = _cohort_b_close() if after else None
         keep = set()
         for p in ids:
             if p not in posts.index:
                 continue
             pub = posts.loc[p, "published_at"]
-            if (pub >= cohort_end) if after else (pub < cohort_end):
+            ok = (pub >= cohort_end) if after else (pub < cohort_end)
+            if ok and close is not None and pub >= close:
+                ok = False
+            if ok:
                 keep.add(p)
-        att[f"cohort {cohort} "
-            f"({'on/after' if after else 'before'} "
-            f"{cohort_end.isoformat()})"] = len(keep)
+        label = (f"cohort {cohort} (on/after {cohort_end.isoformat()}"
+                 + (f", before {close.isoformat()}" if close is not None else "")
+                 + ")") if after else \
+                f"cohort {cohort} (before {cohort_end.isoformat()})"
+        att[label] = len(keep)
         ids = keep
 
     rows: list[dict[str, Any]] = []

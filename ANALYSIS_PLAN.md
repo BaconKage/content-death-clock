@@ -187,6 +187,53 @@ there to bound.
 
 ## Amendment log
 
+**2026-09-20 — Cohort B closes 2026-10-04, and both cohorts are analysed only
+once every member has completed its observation window.**
+
+*Change.* Two scheduling decisions, neither of which alters the design.
+
+1. **Cohort B closes to new admissions at 2026-10-04T00:00:00Z**, fixed in
+   `settings.yaml` as `modelling.cohort_b_close_utc` and enforced in
+   `cdc.models.dataset`. Section 7 bounded the holdout below, at the Cohort A
+   freeze, but left it open above, so it grew every time the collector ran and
+   "evaluated exactly once" had no fixed referent.
+2. **Neither cohort is analysed for the record until every post in it has
+   completed the 336-hour tracking window** set in `collection.max_track_hours`.
+   Cohort A's final analysis therefore falls on or after **2026-09-30**; the
+   Cohort B holdout evaluation falls on or after **2026-10-18**.
+
+*Reason for the close date.* A holdout that can be extended is not a holdout.
+Running it, disliking the number, and collecting another fortnight would convert
+it into a second validation set — the same failure the unlock flag and the
+ledger exist to prevent, arrived at by a slower route. The date was chosen on
+2026-09-20, after the Cohort A analysis was complete and written up, and
+**before the holdout was opened or inspected in any way**. The ledger at
+`data/gold/holdout_evaluations.jsonl` was empty at that moment and remains so,
+which is the record that the choice was made blind.
+
+*Reason for the maturation rule.* The Cohort A analysis reported on 2026-09-20
+was computed while **416 of its 852 posts were still inside their 14-day
+observation window**. Cohort A's membership was frozen by publication date on
+2026-09-16, but its *outcomes* continue to mature: a post currently recorded as
+right-censored may yet be observed to die. The effect is already measurable —
+between two runs hours apart on the same frozen membership, observed deaths rose
+from 498 to 500. Reporting a half-matured analysis understates deaths,
+overstates the censoring rate, and would leave every figure in section 4 liable
+to drift for another nine days.
+
+It would also confound the comparison the holdout exists to make. If Cohort A
+were analysed at partial maturity and Cohort B at full maturity, any difference
+between them would mix temporal generalisation — the thing being tested — with
+how long each cohort happened to be watched. Holding both to the same completed
+window is what makes the comparison interpretable.
+
+*Status of the outcome data at amendment.* Cohort A results have been examined
+and are reported in the paper draft; they are explicitly provisional under this
+amendment and will be superseded by the matured run. **Cohort B has not been
+opened, inspected, or evaluated.** No model selection decision was informed by
+anything in this entry: the close date is a calendar choice made blind, and the
+maturation rule is mechanical and outcome-independent.
+
 **2026-09-05 — Instagram Cohort B ran with an 18-hour hole, and the collector
 paid for it.**
 
@@ -355,3 +402,4 @@ result existed, not after seeing one.
 | 2026-09-01 | *this commit* | Landmark design: predict remaining lifetime from t=7h | 53% of deaths fell inside the feature window, making prediction circular; see below |
 | 2026-09-02 | *this commit* | Instagram Cohort B: 3 accounts x 72h, pinned-aware screening | Cohort A yielded 1 death; its screening was distorted by pinned posts; see above |
 | 2026-09-05 | *this commit* | No design change; records an 18h Instagram collection gap, the gate defect that tripled spend during it, a blind outage alarm, and the recovery of the screening artifact | API returned empty payloads 2026-09-04T00:00-17:00Z; 102 credits wasted; see above |
+| 2026-09-20 | *this commit* | Cohort B closes 2026-10-04; both cohorts analysed only after every member completes its 336h window | An unbounded holdout grows on every collection run; and Cohort A was analysed with 416 of 852 posts still maturing, deaths already drifting 498→500; see above |

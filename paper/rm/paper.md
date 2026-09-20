@@ -475,6 +475,17 @@ The suite contains 157 tests and runs in CI on every push.
 > with `python -m cdc.eval.report --platform youtube`. Appendix B retains the earlier
 > dress-rehearsal run (7 observed deaths) as evidence that the pipeline executed end to
 > end before the freeze; it is not a result and is not cited as one.
+>
+> **⚠ These figures are provisional and will be superseded.** Cohort A's *membership* was
+> frozen by publication date on 2026-09-16, but its *outcomes* were still maturing when
+> this analysis ran: **416 of 852 posts remained inside their 14-day observation window**,
+> so posts currently recorded as right-censored may yet be observed to die. The drift is
+> already measurable — observed deaths rose from 498 to 500 between two runs hours apart on
+> identical membership. Under the amendment of 2026-09-20 the final Cohort A analysis is
+> run on or after **2026-09-30**, once every member has completed its 336-hour window, and
+> those numbers replace these. The direction of travel is known: deaths will rise and the
+> censoring rate will fall. Whether the conclusions move with them is not yet known and is
+> not assumed.
 
 ### 4.1 Sample and attrition
 

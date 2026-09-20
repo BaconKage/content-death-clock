@@ -150,6 +150,17 @@ modelling:
   landmark_hours: 7.0
   # Pre-specified 2026-08-30, before any outcome data was examined.
   cohort_a_freeze_utc: "2026-09-16T00:00:00Z"
+  # Cohort B, the temporal holdout, closes here. Chosen 2026-09-20 — after the
+  # Cohort A analysis was complete and written up, and BEFORE the holdout was
+  # opened or inspected in any way. The ledger at data/gold/
+  # holdout_evaluations.jsonl was empty when this was set, which is the record
+  # that it was chosen blind.
+  #
+  # Picking the boundary in advance is the whole point. Running the holdout,
+  # disliking the number and then collecting another fortnight would convert it
+  # from a test into a second validation set, which is precisely what a holdout
+  # exists to prevent.
+  cohort_b_close_utc: "2026-10-04T00:00:00Z"
   cv:
     strategy: group_kfold      # grouped by creator — never random k-fold
     n_splits: 5
