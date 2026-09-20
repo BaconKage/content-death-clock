@@ -88,11 +88,41 @@ def dumps_strict(obj) -> str:
 def run(platform: str = "youtube", n_splits: int | None = None,
         n_boot: int = 500, write: bool = True, outcome: str = "death",
         cohort: str = "A", unlock_holdout: bool = False,
-        landmark: float | None = None, threshold: float | None = None) -> dict:
+        landmark: float | None = None, threshold: float | None = None,
+        force_immature: bool = False) -> dict:
     prior_holdout: list = []
     if cohort.upper() == "B":
         # Refuses unless deliberately unlocked; see cdc.eval.holdout.
         prior_holdout = holdout.check_unlocked(unlock_holdout, platform)
+
+    # --- maturity gate -------------------------------------------------
+    # Checked BEFORE any label is computed, so it cannot be tripped by having
+    # already looked. A cohort whose posts are still inside the tracking window
+    # has provisional outcomes: censored posts may yet be seen to die.
+    mat = dataset.cohort_maturity(platform=platform, cohort=cohort)
+    if not mat["mature"] and cohort.upper() in ("A", "B"):
+        msg = (f"cohort {mat['cohort']} has not matured: {mat['immature']} of "
+               f"{mat['n']} posts are still inside the "
+               f"{settings()['collection']['max_track_hours']}h observation "
+               f"window. All members complete at {mat['matures_at']}.")
+        if cohort.upper() == "B":
+            # The holdout is evaluated once. Doing that on half-observed
+            # outcomes would spend the single shot on a number that is going to
+            # change, and would confound temporal generalisation with how long
+            # each cohort happened to be watched.
+            if not force_immature:
+                raise SystemExit(
+                    f"\nREFUSED — {msg}\n\n"
+                    "  Cohort B is evaluated exactly once. Wait until it has\n"
+                    "  matured, or pass --force-immature if you genuinely\n"
+                    "  intend to spend the holdout on provisional outcomes.\n")
+            print(f"\n  *** --force-immature: {msg} ***")
+        else:
+            print("\n" + "!" * 68)
+            print(f"  PROVISIONAL — {msg}")
+            print("  Deaths will rise and the censoring rate will fall.")
+            print("  Do not report these as final; re-run after that instant.")
+            print("!" * 68)
 
     af = dataset.build(platform=platform, cohort=cohort,
                        landmark=landmark, threshold=threshold)
@@ -242,6 +272,10 @@ def run(platform: str = "youtube", n_splits: int | None = None,
         "platform": platform, "underpowered": underpowered,
         "n_posts": len(df), "n_deaths": deaths, "n_creators": creators,
         "outcome": outcome, "cohort": cohort.upper(),
+        # Travels with the numbers, so a stale artifact cannot be mistaken for a
+        # final one by anything reading the JSON rather than the console.
+        "provisional": not mat["mature"],
+        "cohort_maturity": mat,
         "freeze_instant": dataset.freeze_instant().isoformat(),
         "censoring_rate": cens, "n_splits": splits,
         "agreement": agreement,
@@ -299,11 +333,16 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--threshold", type=float, default=None,
                     help="override labels.velocity_frac_of_peak for a "
                          "sensitivity run. Writes to its own file.")
+    ap.add_argument("--force-immature", action="store_true",
+                    help="proceed even though the cohort is still inside its "
+                         "observation window. Cohort A only warns; Cohort B "
+                         "refuses without this, because it is evaluated once.")
     args = ap.parse_args(argv)
     run(args.platform, args.splits, args.boot, write=not args.no_write,
         outcome=args.outcome, cohort=args.cohort,
         unlock_holdout=args.unlock_holdout,
-        landmark=args.landmark, threshold=args.threshold)
+        landmark=args.landmark, threshold=args.threshold,
+        force_immature=args.force_immature)
     return 0
 
 

@@ -3,12 +3,23 @@
 **Amogha V Prasad · S Anannya · Sanidhya Tiwari · Shubhang Srinivas Varda**
 RV University, Bengaluru — 7th Semester, Research Methodology
 
-> **Draft status.** Method (§3) is final and follows `ANALYSIS_PLAN.md`, frozen
-> 2026-08-30, plus the dated amendments reproduced in Appendix A. Cohort A closed
-> 2026-09-16T00:00:00Z and **§4 is now complete**, with two declared exceptions: the
-> landmark and threshold sensitivity analyses (§4.6.2) are outstanding, and Cohort B
-> (§4.7) is sealed and unevaluated by design. §5 Discussion and §8 Conclusion remain to be
-> written against the results now in hand.
+> **Draft status, as of 2026-09-20.** Method (§3) is final and follows
+> `ANALYSIS_PLAN.md`, frozen 2026-08-30, plus the dated amendments reproduced in
+> Appendix A. §4 Results, §5 Discussion and §8 Conclusion are **written in full**.
+>
+> Two things remain, both by design rather than omission:
+>
+> 1. **The Cohort A figures in §4 are provisional.** Membership was frozen on
+>    2026-09-16, but 416 of its 852 posts were still inside their 336-hour observation
+>    window when the analysis ran, so censored posts may yet be seen to die. The final
+>    Cohort A analysis is run on or after **2026-09-30**, once every member has completed
+>    that window, and replaces the present numbers. See §4's opening note and Amendment 5.
+> 2. **Cohort B (§4.7) is sealed and unevaluated.** It closes to admissions on
+>    2026-10-04 and matures on or after **2026-10-18**; it is evaluated exactly once,
+>    after that. The holdout ledger is empty, which is the evidence.
+>
+> The interpretation in §5 and §8 is written against the provisional figures. It will be
+> re-checked against the final ones rather than assumed to carry over.
 
 ---
 

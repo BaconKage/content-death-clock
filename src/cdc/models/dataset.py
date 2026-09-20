@@ -73,6 +73,51 @@ def _cohort_b_close() -> pd.Timestamp | None:
     return pd.Timestamp(str(raw).replace("Z", "+00:00")).tz_convert("UTC")
 
 
+def cohort_maturity(platform: str = "youtube", cohort: str = "A",
+                    now: pd.Timestamp | None = None) -> dict[str, Any]:
+    """Has every post in a cohort finished its observation window yet?
+
+    Membership is frozen by publication date; *outcomes* are not. A post inside
+    its ``collection.max_track_hours`` window is still being observed, and one
+    currently recorded as right-censored may yet be seen to die. Analysing a
+    cohort before it has matured therefore understates deaths and overstates
+    censoring, and the figures keep moving until the last member ages out.
+
+    Measured 2026-09-20: a Cohort A run made while 416 of 852 posts were still
+    inside their window reported 498 deaths, and 500 a few hours later on
+    identical membership. That is what this guard exists to catch.
+
+    Reads publication dates only. It computes no labels, so it is safe to call
+    against the sealed holdout.
+    """
+    now = now or pd.Timestamp.now(tz="UTC")
+    window = pd.Timedelta(hours=float(settings()["collection"]["max_track_hours"]))
+    posts = pd.read_parquet(path_for("silver_dir") / "posts.parquet")
+    posts = posts[posts["platform"] == platform]
+    pub = pd.to_datetime(posts["published_at"], utc=True, format="mixed")
+
+    cohort = (cohort or "all").upper()
+    if cohort == "A":
+        sel = pub < freeze_instant()
+    elif cohort == "B":
+        close = _cohort_b_close()
+        sel = pub >= freeze_instant()
+        if close is not None:
+            sel &= pub < close
+    else:
+        sel = pd.Series(True, index=pub.index)
+
+    pub = pub[sel]
+    if pub.empty:
+        return {"cohort": cohort, "n": 0, "immature": 0, "mature": True,
+                "matures_at": None}
+    matures_at = pub.max() + window
+    immature = int(((pub + window) > now).sum())
+    return {"cohort": cohort, "n": int(len(pub)), "immature": immature,
+            "mature": immature == 0,
+            "matures_at": matures_at.isoformat()}
+
+
 def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None,
           cohort: str = "all", landmark: float | None = None,
           threshold: float | None = None) -> AnalysisFrame:

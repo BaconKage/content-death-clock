@@ -5,9 +5,13 @@
 **Amogha V Prasad · S Anannya · Sanidhya Tiwari · Shubhang Srinivas Varda**
 RV University, Bengaluru — 7th Semester, Big Data Analytics
 
-> **Draft status.** Architecture, cost model, reliability analysis and the scalability
-> benchmark are final and measured. Final dataset dimensions are `[PENDING]` until Cohort A
-> closes on 2026-09-16.
+> **Draft status, as of 2026-09-20.** Architecture, cost model, reliability analysis and
+> the scalability benchmark are final and measured. Cohort A closed 2026-09-16 and
+> collection continues for the Cohort B holdout, so **dataset dimensions grow until
+> 2026-10-04** and the figures marked `[PENDING]` below are filled at the end of
+> collection rather than now. Current scale, for orientation only: 1,088 YouTube posts and
+> 11,903 snapshots, plus 396 Instagram posts and 1,506 snapshots
+> (`python -m cdc.collect.monitor`).
 
 ---
 
