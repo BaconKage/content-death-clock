@@ -41,6 +41,29 @@ log = logging.getLogger("cdc.silver")
 SNAPSHOT_KEY = ("post_id", "snapshot_ts")
 
 
+def _as_id(v: Any) -> str | None:
+    """Identifiers are strings, always — whatever the API sent.
+
+    Scrape Creators returns an Instagram owner id as a JSON number on some
+    responses and a quoted string on others. Measured 2026-09-20 across the
+    committed bronze: 6 of 19 Instagram creators appear as *both*, so the same
+    account (spotify, 9gag, bonappetitmag) lands under two distinct keys. That
+    matters twice over — it splits a creator in any per-creator grouping, and it
+    gave the column a mixed dtype that pyarrow refuses to write at all, which
+    blocked the silver build outright.
+
+    Bronze is append-only and already committed, so the normalisation belongs
+    here, in the layer whose job is to be typed and clean.
+    """
+    if v is None:
+        return None
+    if isinstance(v, bool):        # guard: bool is an int subclass
+        return str(v)
+    if isinstance(v, float) and v.is_integer():
+        return str(int(v))
+    return str(v)
+
+
 def _parse_ts(v: Any) -> pd.Timestamp | None:
     if v in (None, ""):
         return None
@@ -57,9 +80,9 @@ def build_posts(platforms: tuple[str, ...] = ("youtube", "instagram")) -> pd.Dat
         recs = dedupe(iter_bronze("posts", platform=plat), ("post_id",))
         for r in recs:
             rows.append({
-                "post_id": r.get("post_id"),
+                "post_id": _as_id(r.get("post_id")),
                 "platform": plat,
-                "creator_id": r.get("creator_id"),
+                "creator_id": _as_id(r.get("creator_id")),
                 "creator_handle": r.get("creator_handle") or r.get("creator_title"),
                 # Instagram only: the grid this post was found on, which is not
                 # always its owner (collab posts). Older records predate the
@@ -160,9 +183,9 @@ def build_snapshots(platforms: tuple[str, ...] = ("youtube", "instagram")) -> pd
                   if isinstance(metric_by_platform, dict) else metric_by_platform)
         for r in recs:
             rows.append({
-                "post_id": r.get("post_id"),
+                "post_id": _as_id(r.get("post_id")),
                 "platform": plat,
-                "creator_id": r.get("creator_id"),
+                "creator_id": _as_id(r.get("creator_id")),
                 "snapshot_ts": _parse_ts(r.get("snapshot_ts")),
                 "published_at": _parse_ts(r.get("published_at")),
                 "age_hours": r.get("age_hours"),
