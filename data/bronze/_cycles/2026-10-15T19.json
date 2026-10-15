@@ -1,6 +1,6 @@
 {
   "cycle_id": "2026-10-15T19",
-  "started_at": "2026-10-15T19:26:24+00:00",
+  "started_at": "2026-10-15T19:31:46+00:00",
   "dry_run": false,
   "panel_before": {
     "posts_total": 2330,
@@ -16,13 +16,13 @@
   ],
   "quota_exceeded": true,
   "quota": {
-    "units_spent": 10,
-    "calls": 10,
+    "units_spent": 3,
+    "calls": 3,
     "budget": 400,
     "by_endpoint": {
-      "playlistItems": 10
+      "playlistItems": 3
     }
   },
   "files": [],
-  "finished_at": "2026-10-15T19:26:27+00:00"
+  "finished_at": "2026-10-15T19:31:47+00:00"
 }
