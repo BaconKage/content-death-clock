@@ -1,31 +1,28 @@
 {
   "cycle_id": "2026-10-15T16",
-  "started_at": "2026-10-15T16:01:57+00:00",
+  "started_at": "2026-10-15T16:31:34+00:00",
   "dry_run": false,
   "panel_before": {
-    "posts_total": 2327,
-    "posts_active": 680,
-    "posts_due": 27,
-    "snapshots_total": 27396,
-    "snapshots_per_post_mean": 11.773098409969919
+    "posts_total": 2330,
+    "posts_active": 683,
+    "posts_due": 23,
+    "snapshots_total": 27411,
+    "snapshots_per_post_mean": 11.764377682403433
   },
-  "discovered": 3,
-  "snapshotted": 15,
-  "errors": [],
-  "skipped_creator_cap": 9,
-  "due_count": 27,
+  "discovered": 0,
+  "snapshotted": 0,
+  "errors": [
+    "quota:playlistItems: daily quota exhausted \u2014 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"The request cannot be completed because you have exceeded your \\u003ca href=\\\"/youtube/v3/getting-started#quota\\\"\\u003equota\\u003c/a\\u003e.\",\n    \"error"
+  ],
+  "quota_exceeded": true,
   "quota": {
-    "units_spent": 65,
-    "calls": 65,
+    "units_spent": 53,
+    "calls": 53,
     "budget": 400,
     "by_endpoint": {
-      "playlistItems": 63,
-      "videos": 2
+      "playlistItems": 53
     }
   },
-  "files": [
-    "/home/runner/work/content-death-clock/content-death-clock/data/bronze/platform=youtube/dt=2026-10-15/posts-2026-10-15T16.jsonl",
-    "/home/runner/work/content-death-clock/content-death-clock/data/bronze/platform=youtube/dt=2026-10-15/snapshots-2026-10-15T16.jsonl"
-  ],
-  "finished_at": "2026-10-15T16:02:19+00:00"
+  "files": [],
+  "finished_at": "2026-10-15T16:31:48+00:00"
 }
