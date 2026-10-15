@@ -1,11 +1,11 @@
 {
   "cycle_id": "2026-10-15T19",
-  "started_at": "2026-10-15T19:01:35+00:00",
+  "started_at": "2026-10-15T19:26:24+00:00",
   "dry_run": false,
   "panel_before": {
     "posts_total": 2330,
     "posts_active": 679,
-    "posts_due": 82,
+    "posts_due": 84,
     "snapshots_total": 27411,
     "snapshots_per_post_mean": 11.764377682403433
   },
@@ -16,13 +16,13 @@
   ],
   "quota_exceeded": true,
   "quota": {
-    "units_spent": 3,
-    "calls": 3,
+    "units_spent": 10,
+    "calls": 10,
     "budget": 400,
     "by_endpoint": {
-      "playlistItems": 3
+      "playlistItems": 10
     }
   },
   "files": [],
-  "finished_at": "2026-10-15T19:01:36+00:00"
+  "finished_at": "2026-10-15T19:26:27+00:00"
 }
