@@ -47,6 +47,20 @@ FEATURE_COLUMNS = [
     "log_duration_sec", "publish_hour_utc", "title_len",
 ]
 
+# Pre-registered in ANALYSIS_PLAN section 5 but NOT part of the confirmatory
+# specification, because they were built on 2026-10-16 - after the Cohort A
+# analysis was closed and written up on 2026-09-20, and after its H2 result was
+# seen. Building a pre-specified feature is legitimate; choosing to build it
+# because the result disappointed is not, and the distinction is the timing.
+#
+# They are computed into the frame (see dataset._add_creator_relative and
+# _add_category_dummies) and available to any clearly-labelled post-hoc
+# exploratory analysis. They must not enter H1 or H2.
+EXPLORATORY_FEATURE_COLUMNS = [
+    "acceleration", "publish_weekday", "publish_is_weekend", "tag_count",
+    "log_creator_median_velocity", "log_rel_velocity_6h",
+]
+
 
 @dataclass
 class Cohort:

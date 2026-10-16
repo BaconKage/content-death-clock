@@ -23,15 +23,24 @@ def test_freeze_instant_is_read_from_settings_and_is_utc():
     assert f.tzinfo is not None, "a naive freeze instant would silently shift"
 
 
-def test_cohort_a_and_b_partition_the_posts():
-    """Every post belongs to exactly one cohort — none lost, none double-counted."""
+def test_cohort_a_and_b_are_disjoint_subsets():
+    """A and B never overlap, and both sit inside the unsplit frame.
+
+    They do NOT sum to it. Cohort B is bounded ABOVE as well as below, by
+    `cohort_b_close_utc` (amendment 2026-09-20), so posts published after the
+    close date belong to neither cohort. An earlier version of this test
+    asserted a two-way partition and failed once that bound existed — the
+    assertion was wrong, not the code.
+    """
     from cdc.models import dataset
     a = dataset.build(cohort="A").frame
     b = dataset.build(cohort="B").frame
     both = dataset.build(cohort="all").frame
-    assert len(a) + len(b) == len(both)
     if len(a) and len(b):
-        assert not set(a["post_id"]) & set(b["post_id"])
+        assert not set(a["post_id"]) & set(b["post_id"]), "cohorts overlap"
+    assert len(a) + len(b) <= len(both)
+    assert set(a["post_id"]) <= set(both["post_id"])
+    assert set(b["post_id"]) <= set(both["post_id"])
 
 
 def test_cohort_argument_is_validated():

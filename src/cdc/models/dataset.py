@@ -18,6 +18,9 @@ import numpy as np
 import pandas as pd
 
 from cdc.config import path_for, settings
+
+# A creator baseline needs more than one prior observation to be a baseline.
+MIN_PRIOR_POSTS = 2
 from cdc.labels.death import Observation, label_post
 from cdc.transform.features import features_for_post
 
@@ -245,6 +248,7 @@ def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None,
             "peak_velocity": lab.peak_velocity,
             "monotonicity_repairs": lab.monotonicity_repairs,
             "stratum_tier": meta.get("stratum_tier"),
+            "published_at": meta.get("published_at"),
             "last_observed_hours": lab.last_observed_hours,
         })
         feats.update(_saturation_fields(lab, landmark))
@@ -263,8 +267,94 @@ def build(platform: str = "youtube", cohort_end: pd.Timestamp | None = None,
             att["excluded: no early observation"] = -(before - len(df))
             att["FINAL analysis set"] = len(df)
 
+    df = _add_creator_relative(df)
+    df = _add_category_dummies(df)
+
     return AnalysisFrame(frame=df, attrition=att, platform=platform,
                          cohort=cohort.lower())
+
+
+def _add_creator_relative(df: pd.DataFrame) -> pd.DataFrame:
+    """How this post is doing *for this creator*, not in absolute terms.
+
+    The plan's feature list includes "creator historical median velocity". It
+    was never built, and its absence is probably why the early-engagement
+    features added so little over creator size: ``log_value_at_6h`` and
+    ``log_follower_count`` are largely the same measurement. A video with 4,000
+    views at six hours is a triumph on a 2,000-subscriber channel and a corpse
+    on a 20-million-subscriber one, and the model had no way to tell those
+    apart.
+
+    **Leakage discipline, which is the whole difficulty here.** The creator
+    statistic is built from
+    * only the creator's posts published **strictly earlier** than this one, and
+    * only their **early velocity** — never their death times.
+
+    Both restrictions matter. Using later posts would import the future. Using
+    prior posts' *outcomes* would import the answer. Using prior posts' early
+    velocity imports neither: at the moment this post publishes, its creator's
+    earlier videos have already been observed, so the feature is available in
+    reality exactly as it is here.
+
+    Note that a creator's posts all land in the same CV fold by construction
+    (GroupKFold groups on creator), so this feature never carries information
+    across the train/test boundary.
+
+    Requires at least two prior posts; below that the median is not a creator
+    baseline, it is one observation. Posts without enough history get NaN and
+    are handled by the usual coverage rule rather than being dropped.
+    """
+    if df.empty or "velocity_to_6h" not in df.columns:
+        return df
+    d = df.copy()
+    if "published_at" not in d.columns:
+        return d
+
+    d = d.sort_values(["creator_id", "published_at"]).copy()
+    v = pd.to_numeric(d["velocity_to_6h"], errors="coerce")
+    d["_v"] = v
+    g = d.groupby("creator_id", sort=False)["_v"]
+    prior_med = g.transform(lambda s: s.shift(1).expanding().median())
+    prior_n = g.transform(lambda s: s.shift(1).expanding().count())
+
+    enough = prior_n >= MIN_PRIOR_POSTS
+    med = prior_med.where(enough)
+    d["creator_median_velocity_prior"] = med
+    d["log_creator_median_velocity"] = np.where(
+        med.notna() & (med > 0), np.log10(med.astype(float) + 1.0), np.nan)
+
+    # Relative performance. No epsilon smoothing, for the same reason the
+    # growth ratios have none: it would reintroduce a scale dependence and
+    # distort small creators most.
+    ok = med.notna() & (med > 0) & v.notna() & (v > 0)
+    d["log_rel_velocity_6h"] = np.where(ok, np.log10(v / med), np.nan)
+    d["n_prior_posts"] = prior_n.fillna(0).astype(int)
+    return d.drop(columns="_v").reset_index(drop=True)
+
+
+def _add_category_dummies(df: pd.DataFrame, max_categories: int = 10
+                          ) -> pd.DataFrame:
+    """One-hot the content category, which the plan lists and nothing used.
+
+    One-hot rather than an integer code: the categories are nominal, and an
+    integer would tell the AFT model that `gaming < music < science` means
+    something. Trees would tolerate it; a parametric model would not, and both
+    read the same columns.
+    """
+    if df.empty or "stratum_category" not in df.columns:
+        return df
+    d = df.copy()
+    cats = (d["stratum_category"].astype("string").str.strip().str.lower()
+            .replace({"": pd.NA}))
+    keep = cats.value_counts().head(max_categories).index
+    for c in keep:
+        # A post with no recorded category gets 0 in every dummy rather than
+        # NaN. All-zero is the implicit reference level ("other or unknown"),
+        # which is unambiguous because the categories listed here are not
+        # exhaustive. NaN would instead be median-imputed per column, which
+        # for a 0/1 indicator is meaningless.
+        d[f"cat_{c}"] = (cats == c).fillna(False).astype(float)
+    return d
 
 
 def _saturation_fields(lab, landmark: float) -> dict[str, Any]:
