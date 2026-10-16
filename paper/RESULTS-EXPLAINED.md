@@ -3,6 +3,13 @@
 **RV University · 7th Semester · Research Methodology**
 Amogha V Prasad · S Anannya · Sanidhya Tiwari · Shubhang Srinivas Varda
 
+> **Out of date — superseded by the paper.** This explainer was written from the
+> *provisional* run of 20 September 2026 (498 deaths), while Cohort A was still being
+> observed. The final numbers (563 deaths) are in [`rm/paper.md`](rm/paper.md) §4. The main
+> story holds, with one change: the single H2 test that passed on 20 September no longer
+> passes, so "H2 — not really supported" is now simply "not supported". This file will be
+> rewritten from the final numbers.
+
 Cohort A analysis, run 20 September 2026. Every number here comes from
 `data/gold/evaluation_youtube.json`, reproducible with:
 
