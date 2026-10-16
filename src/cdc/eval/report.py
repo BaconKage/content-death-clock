@@ -32,7 +32,9 @@ from cdc.eval.validate import (
     concordance,
     grouped_cv,
     mae_log10,
+    paired_delta_bootstrap,
     paired_wilcoxon,
+    rmse_log10,
 )
 from cdc.eval import holdout
 from cdc.eval.robustness import label_agreement, print_agreement, saturation_frame
@@ -43,7 +45,12 @@ from cdc.models.baselines import (
     PeakVelocityHeuristic,
     SubscriberOnly,
 )
-from cdc.models.survival import RandomSurvivalForest, WeibullAFT
+from cdc.models.survival import (
+    GradientBoostedUncensored,
+    LogLinearUncensored,
+    RandomSurvivalForest,
+    WeibullAFT,
+)
 
 # Below these, the run is a rehearsal rather than a result. The thresholds are
 # deliberately generous: even at 50 deaths a C-index is wobbly.
@@ -86,10 +93,26 @@ def dumps_strict(obj) -> str:
 
 
 def run(platform: str = "youtube", n_splits: int | None = None,
-        n_boot: int = 500, write: bool = True, outcome: str = "death",
+        n_boot: int | None = None, write: bool = True, outcome: str = "death",
         cohort: str = "A", unlock_holdout: bool = False,
         landmark: float | None = None, threshold: float | None = None,
-        force_immature: bool = False) -> dict:
+        force_immature: bool = False,
+        feature_set: str = "confirmatory") -> dict:
+    if feature_set not in ("confirmatory", "exploratory"):
+        raise ValueError(f"feature_set must be confirmatory or exploratory, "
+                         f"got {feature_set!r}")
+    if feature_set == "exploratory" and cohort.upper() == "B":
+        # Amendment 2026-10-16: the holdout is evaluated with the confirmatory
+        # eleven only. The exploratory set was built after the Cohort A result
+        # was seen, so spending the holdout on it would turn a one-shot test of
+        # the registered model into a second chance for a post-hoc one.
+        raise SystemExit(
+            "\nREFUSED - the exploratory feature set is never evaluated on\n"
+            "  Cohort B (amendment 2026-10-16). The holdout tests the\n"
+            "  confirmatory specification only.\n")
+    # The plan fixes 2,000 resamples. Taken from settings so the CLI cannot
+    # quietly run fewer, and recorded in the artifact so a reader can check.
+    n_boot = int(n_boot or settings()["modelling"]["bootstrap_iterations"])
     prior_holdout: list = []
     if cohort.upper() == "B":
         # Refuses unless deliberately unlocked; see cdc.eval.holdout.
@@ -199,7 +222,12 @@ def run(platform: str = "youtube", n_splits: int | None = None,
         print("  construction. Censoring-aware models cannot show their")
         print("  advantage here, and the comparison is correspondingly weaker.")
 
-    feats = dataset.usable_features(df)
+    if feature_set == "exploratory":
+        feats = dataset.usable_features(df, columns=dataset.exploratory_columns(df))
+        print("\n  *** EXPLORATORY feature set (amendment 2026-10-16). Post-hoc:")
+        print("  *** not a test of H1 or H2, and never run on Cohort B. ***")
+    else:
+        feats = dataset.usable_features(df)
     print(f"\n  features used ({len(feats)}): {', '.join(feats) if feats else 'NONE'}")
     if not feats:
         print("\n  no feature has enough coverage yet — cannot model.")
@@ -229,11 +257,20 @@ def run(platform: str = "youtube", n_splits: int | None = None,
         "subscriber_only": lambda: SubscriberOnly(),
         "peak_velocity": lambda: PeakVelocityHeuristic(),
     }
-    models = {**primary, **baselines}
+    # The plan's two comparators, trained on observed deaths only. Reported for
+    # contrast and kept out of every hypothesis test below.
+    comparators = {
+        "loglinear_uncensored": lambda: LogLinearUncensored(feats),
+        "gbm_uncensored": lambda: GradientBoostedUncensored(feats),
+    }
+    models = {**primary, **baselines, **comparators}
+    roles = {**{m: "primary" for m in primary},
+             **{m: "baseline" for m in baselines},
+             **{m: "comparator" for m in comparators}}
 
     stacked, results = {}, {}
     print("\n" + "-" * 68)
-    print(f"  {'model':<24} {'C-index':>9} {'95% CI':>18} {'MAE log10':>11}")
+    print(f"  {'model':<24} {'C-index':>9} {'95% CI':>18} {'MAE log10':>11} {'RMSE':>7}")
     print("-" * 68)
     for name, factory in models.items():
         try:
@@ -244,9 +281,12 @@ def run(platform: str = "youtube", n_splits: int | None = None,
         stacked[name] = s
         c = concordance(s["duration"], s["event"], s["predicted"])
         mae = mae_log10(s["duration"], s["event"], s["predicted"])
+        rmse = rmse_log10(s["duration"], s["event"], s["predicted"])
         _, lo, hi = bootstrap_ci_by_creator(s, "concordance", n_boot=n_boot)
-        results[name] = {"c_index": c, "ci_low": lo, "ci_high": hi, "mae_log10": mae}
-        print(f"  {name:<24} {c:>9.3f} {f'[{lo:.3f}, {hi:.3f}]':>18} {mae:>11.3f}")
+        results[name] = {"c_index": c, "ci_low": lo, "ci_high": hi,
+                         "mae_log10": mae, "rmse_log10": rmse, "role": roles[name]}
+        print(f"  {name:<24} {c:>9.3f} {f'[{lo:.3f}, {hi:.3f}]':>18} "
+              f"{mae:>11.3f} {rmse:>7.3f}")
 
     # --- hypothesis tests, every primary model vs every baseline
     tests: dict[str, dict] = {}
@@ -267,6 +307,23 @@ def run(platform: str = "youtube", n_splits: int | None = None,
                 print(f"  {mname:<24} vs {bname:<16} "
                       f"n={t['n_pairs']:<4} med {mds:<10} p={ps}")
 
+    # --- paired bootstrap on metric DIFFERENCES (plan section 6)
+    deltas: dict[str, dict] = {}
+    pairs = [(m, b) for m in fitted_primary for b in baselines if b in stacked]
+    if pairs:
+        deltas = paired_delta_bootstrap(stacked, pairs, n_boot=n_boot)
+        print("\n" + "-" * 68)
+        print(f"  paired creator bootstrap, {n_boot} draws "
+              "(delta C > 0 and delta MAE < 0 favour the model)")
+        print("-" * 68)
+        for key, d in deltas.items():
+            if not d.get("n_boot"):
+                print(f"  {key:<44} n/a")
+                continue
+            print(f"  {key:<44} dC {d['delta_c_index']:+.4f} "
+                  f"[{d['delta_c_ci_low']:+.4f}, {d['delta_c_ci_high']:+.4f}]  "
+                  f"dMAE {d['delta_mae_log10']:+.4f}")
+
     out = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "platform": platform, "underpowered": underpowered,
@@ -277,10 +334,12 @@ def run(platform: str = "youtube", n_splits: int | None = None,
         "provisional": not mat["mature"],
         "cohort_maturity": mat,
         "freeze_instant": dataset.freeze_instant().isoformat(),
-        "censoring_rate": cens, "n_splits": splits,
+        "censoring_rate": cens, "n_splits": splits, "n_boot": n_boot,
+        "feature_set": feature_set,
+        "confirmatory": feature_set == "confirmatory",
         "agreement": agreement,
         "features": feats, "attrition": af.attrition,
-        "results": results, "wilcoxon": tests,
+        "results": results, "wilcoxon": tests, "paired_bootstrap": deltas,
     }
 
     print("\n" + "=" * 68)
@@ -304,9 +363,18 @@ def run(platform: str = "youtube", n_splits: int | None = None,
             suffix += f"_lm{str(landmark).replace('.', 'p')}"
         if threshold is not None:
             suffix += f"_th{str(threshold).replace('.', 'p')}"
+        if feature_set == "exploratory":
+            suffix += "_exploratory"
         p = path_for("gold_dir") / f"evaluation_{platform}{suffix}.json"
         p.write_text(dumps_strict(out), encoding="utf-8")
         print(f"  wrote {p.relative_to(ROOT)}")
+        # Out-of-fold predictions, so calibration and any later re-analysis of
+        # THIS run can be done without re-running it - which for Cohort B
+        # would be a second look at the holdout.
+        pp = path_for("gold_dir") / f"predictions_{platform}{suffix}.parquet"
+        pd.concat([s.assign(model=n) for n, s in stacked.items()],
+                  ignore_index=True).to_parquet(pp, index=False)
+        print(f"  wrote {pp.relative_to(ROOT)}")
     return out
 
 
@@ -314,7 +382,9 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Run the pre-registered evaluation.")
     ap.add_argument("--platform", default="youtube")
     ap.add_argument("--splits", type=int, default=None)
-    ap.add_argument("--boot", type=int, default=500)
+    ap.add_argument("--boot", type=int, default=None,
+                    help="bootstrap resamples; defaults to the plan's "
+                         "modelling.bootstrap_iterations (2000)")
     ap.add_argument("--no-write", action="store_true")
     ap.add_argument("--cohort", default="A", choices=["A", "B", "all"],
                     help="A = the analysis set (default). B = the temporal "
@@ -337,12 +407,18 @@ def main(argv: list[str] | None = None) -> int:
                     help="proceed even though the cohort is still inside its "
                          "observation window. Cohort A only warns; Cohort B "
                          "refuses without this, because it is evaluated once.")
+    ap.add_argument("--feature-set", default="confirmatory",
+                    choices=["confirmatory", "exploratory"],
+                    help="exploratory = the plan's full section-5 list, built "
+                         "post hoc on 2026-10-16. Labelled, written to its own "
+                         "file, and refused on Cohort B.")
     args = ap.parse_args(argv)
     run(args.platform, args.splits, args.boot, write=not args.no_write,
         outcome=args.outcome, cohort=args.cohort,
         unlock_holdout=args.unlock_holdout,
         landmark=args.landmark, threshold=args.threshold,
-        force_immature=args.force_immature)
+        force_immature=args.force_immature,
+        feature_set=args.feature_set)
     return 0
 
 

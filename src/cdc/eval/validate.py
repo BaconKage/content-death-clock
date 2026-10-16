@@ -87,6 +87,20 @@ def mae_log10(durations, events, predictions) -> float:
     return float(np.mean(np.abs(d - p)))
 
 
+def rmse_log10(durations, events, predictions) -> float:
+    """Root mean squared error on log10 hours, over observed deaths only.
+
+    Named in the frozen plan alongside MAE. Same restriction and for the same
+    reason: a censored post has no true duration to score against.
+    """
+    m = np.asarray(events).astype(bool)
+    if m.sum() == 0:
+        return float("nan")
+    d = np.log10(np.clip(np.asarray(durations, float)[m], 1e-6, None))
+    p = np.log10(np.clip(np.asarray(predictions, float)[m], 1e-6, None))
+    return float(np.sqrt(np.mean((d - p) ** 2)))
+
+
 def per_post_abs_error(durations, events, predictions) -> pd.Series:
     """Per-post |error| on log10 time, NaN where censored. Feeds Wilcoxon."""
     d = np.asarray(durations, float)
@@ -191,6 +205,83 @@ def bootstrap_ci_by_creator(stacked: pd.DataFrame, metric: str = "concordance",
         return float(point), float("nan"), float("nan")
     lo, hi = np.percentile(vals, [100 * alpha / 2, 100 * (1 - alpha / 2)])
     return float(point), float(lo), float(hi)
+
+
+def paired_delta_bootstrap(stacked: dict[str, pd.DataFrame],
+                           pairs: Iterable[tuple[str, str]],
+                           n_boot: int | None = None, seed: int | None = None,
+                           alpha: float = 0.05) -> dict[str, dict[str, float]]:
+    """Bootstrap intervals on metric DIFFERENCES, model minus baseline.
+
+    The frozen plan asks for "confidence intervals on metric differences",
+    resampled by creator. Two separate per-model intervals are not that: they
+    can overlap heavily while the paired difference is clearly non-zero, or the
+    reverse. The difference must be computed on the **same** creator draw for
+    both members of the pair, and every pair here shares one set of draws.
+
+    Returns, per ``"model vs baseline"``: the point difference in C-index and
+    in MAE (log10), their percentile intervals, and the share of draws in which
+    the model's C-index was higher. Positive delta-C favours the model; negative
+    delta-MAE favours the model.
+    """
+    cfg = settings()["modelling"]
+    n_boot = n_boot or int(cfg["bootstrap_iterations"])
+    seed = cfg["random_seed"] if seed is None else seed
+    pairs = list(pairs)
+    names = sorted({n for p in pairs for n in p})
+
+    # Align every model on post_id, so row i is the same post everywhere.
+    ref = stacked[names[0]][["post_id", "creator_id", "duration", "event"]]
+    ref = ref.reset_index(drop=True)
+    order = ref["post_id"].to_numpy()
+    preds = {}
+    for n in names:
+        s = stacked[n].set_index("post_id").loc[order]
+        preds[n] = s["predicted"].to_numpy(float)
+    dur = ref["duration"].to_numpy(float)
+    ev = ref["event"].to_numpy()
+    # Sorted, to match the creator order bootstrap_ci_by_creator draws from.
+    rows_by_creator = {c: np.flatnonzero(ref["creator_id"].to_numpy() == c)
+                       for c in sorted(pd.unique(ref["creator_id"]))}
+    creators = np.array(list(rows_by_creator))
+
+    def both(idx):
+        return {n: (concordance(dur[idx], ev[idx], preds[n][idx]),
+                    mae_log10(dur[idx], ev[idx], preds[n][idx])) for n in names}
+
+    point = both(np.arange(len(dur)))
+    rng = np.random.default_rng(seed)
+    draws: dict[str, list[tuple[float, float]]] = {f"{m} vs {b}": [] for m, b in pairs}
+    for _ in range(n_boot):
+        pick = rng.choice(creators, size=len(creators), replace=True)
+        idx = np.concatenate([rows_by_creator[c] for c in pick])
+        try:
+            v = both(idx)
+        except (ZeroDivisionError, ValueError):
+            continue
+        for m, b in pairs:
+            draws[f"{m} vs {b}"].append((v[m][0] - v[b][0], v[m][1] - v[b][1]))
+
+    out = {}
+    lo_q, hi_q = 100 * alpha / 2, 100 * (1 - alpha / 2)
+    for m, b in pairs:
+        key = f"{m} vs {b}"
+        arr = np.array(draws[key], dtype=float)
+        if not len(arr):
+            out[key] = {"n_boot": 0}
+            continue
+        dc, dm = arr[:, 0], arr[:, 1]
+        out[key] = {
+            "n_boot": int(len(arr)),
+            "delta_c_index": point[m][0] - point[b][0],
+            "delta_c_ci_low": float(np.percentile(dc, lo_q)),
+            "delta_c_ci_high": float(np.percentile(dc, hi_q)),
+            "share_draws_model_c_higher": float((dc > 0).mean()),
+            "delta_mae_log10": point[m][1] - point[b][1],
+            "delta_mae_ci_low": float(np.nanpercentile(dm, lo_q)),
+            "delta_mae_ci_high": float(np.nanpercentile(dm, hi_q)),
+        }
+    return out
 
 
 def paired_wilcoxon(model_stacked: pd.DataFrame,

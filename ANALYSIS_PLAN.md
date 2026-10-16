@@ -187,6 +187,172 @@ there to bound.
 
 ## Amendment log
 
+**2026-10-16 — The confirmatory feature set is the eleven that ran; the Cohort B
+evaluation is declared before it is opened; the 336-hour observation was never
+taken.**
+
+Three parts. Parts 1 and 3 record things that had already happened; part 2 fixes
+the holdout procedure in writing two days before the holdout can be opened.
+
+*Part 1 — a deviation from section 5, found after the results.*
+
+*What the plan says and what ran.* Section 5 lists the independent variables.
+Five of them never entered any model: **tag count, publish weekday, content
+category, creator historical median velocity, and acceleration as a raw
+difference of velocities.** Acceleration did enter in ratio form
+(`decay_ratio_3_6_over_1_3`, velocity over 3–6h divided by velocity over 1–3h).
+The feature whitelist, `FEATURE_COLUMNS` in `src/cdc/models/synthetic.py`, was
+written on **2026-08-31** (commit `aef3cd7`) with eleven columns, before any
+death label existed, and every model reported so far has used exactly those
+eleven: value at 1h, 3h and 6h; velocity to 6h; log growth 1→3h and 3→6h; the
+3–6h/1–3h decay ratio; log subscriber count; log duration; publish hour; title
+length. Three of the five omitted variables were computed by the feature layer
+and never whitelisted; creator historical median velocity was never built.
+
+*When it was found.* 2026-10-16, **after** the Cohort A results, including the
+H2 null, had been examined and written up. The omission was not declared at the
+time and should have been.
+
+*Decision.* The confirmatory specification for H1 and H2, on Cohort A **and on
+Cohort B**, is the eleven-column set as run. The five omitted variables were
+built on 2026-10-16 (commit `8910e05`, with leakage tests) and may appear only in
+a labelled exploratory analysis, `--feature-set exploratory`, which writes to its
+own file and which the harness **refuses to run on Cohort B**. Its result is
+reported in the paper whatever it says, and is not evidence for or against H1 or
+H2.
+
+*Reason.* The eleven-column whitelist is the specification that was in force
+before any outcome was seen. Adopting the fuller list now, with the H2 answer in
+view, would make the choice of feature set a decision taken after the result,
+which is the kind of decision this plan exists to prevent. Building variables
+the plan named is legitimate. Promoting them into the confirmatory test once
+the test has disappointed is not, and the difference between the two is only
+the timing.
+
+*Part 2 — the Cohort B evaluation, declared before it is opened.*
+
+*State of the holdout.* The ledger `data/gold/holdout_evaluations.jsonl` does
+not exist: no model has been fitted to, or scored on, Cohort B. **One
+disclosure.** On 2026-10-16, during a status check, death labels were computed
+for Cohort B in order to count its analysable posts, observed deaths and
+creators (831, 655 and 50). No model was fitted, no metric computed and no
+prediction made. A death count is outcome data, so the look is recorded here.
+
+*Procedure.* The registered evaluation, applied unchanged to Cohort B: Cohort B
+posts only (published 2026-09-16T00:00Z ≤ t < 2026-10-04T00:00Z, creator daily cap
+applied), the 7-hour landmark, the 5% threshold sustained for 2 intervals, the
+eleven confirmatory features under the 50% coverage rule, `GroupKFold(5)` grouped
+by creator **within Cohort B**, both primary models, all four baselines and both
+comparators, 2,000 creator-resampled bootstrap draws, seed 20260830.
+
+*Why Cohort B is cross-validated within itself rather than scored by a model
+trained on Cohort A.* The frame's channels publish in both cohorts: **43 of
+Cohort B's 51 creators also appear in Cohort A** (counted from publication
+records only). A model trained on Cohort A and scored on Cohort B would
+therefore have seen almost every test creator during training. That is the
+leakage section 6 pre-specifies grouping by creator to prevent. The within-cohort
+path has also been the implemented one since 2026-09-02 (commit `b002da9`),
+before any Cohort A result existed. What the holdout tests is therefore whether
+the registered procedure's result **replicates on an independent, later sample
+of posts**, not how a model frozen on Cohort A performs going forward in time,
+and the paper describes it that way.
+
+*Command and timing.* Run **once**, on or after 2026-10-18 (every Cohort B post
+completes its 336-hour window at 2026-10-17T23:00Z):
+
+```
+python -m cdc.eval.report --platform youtube --cohort B --unlock-holdout
+```
+
+from the commit containing this amendment, or from a later commit that changes
+nothing under `src/cdc/models/`, `src/cdc/labels/`, `src/cdc/eval/` or
+`config/settings.yaml`. The ledger entry is committed whatever the result.
+
+*Interpretation, fixed now.* Exactly as Cohort A was read. H1 is supported on
+discrimination if a primary model's C-index interval excludes 0.5, and on
+absolute error only if that model beats the better of the two naive baselines
+(Wilcoxon, α = 0.05). H2 is counted as supported only if a primary model beats
+the creator-size-only baseline on **both** pre-specified tests: the paired
+Wilcoxon at α = 0.05 favouring the model, **and** a paired bootstrap interval on
+ΔC-index that excludes zero. Holm-adjusted Wilcoxon p-values across the two
+primary models are reported alongside. A disagreement between Cohort A and
+Cohort B is reported as it falls, in either direction.
+
+*Pipeline additions in this commit, all outcome-independent.* The evaluation
+harness now produces quantities section 6 names that it had never produced. The
+first is the **paired creator bootstrap on metric differences**, ΔC-index and
+ΔMAE, with both members of each pair drawn on the same creators. Until now the
+paper's interval on a difference was computed outside the harness, and for
+Cohort B it could not have been computed at all without a second run. The others
+are **RMSE** on log₁₀ time, the two **comparators** (log-time linear regression
+and gradient boosting, uncensored subset, outside every hypothesis test), the
+bootstrap count read from `settings.yaml` and recorded in the artifact (the CLI
+had defaulted to 500), and the **out-of-fold predictions** written to
+`data/gold/`, so that the plan's calibration plot needs no second look. Re-running
+Cohort A on this commit reproduces the matured Cohort A run of
+2026-10-16T05:28Z to the last digit (every C-index, interval, MAE and Wilcoxon
+statistic); the additions only add rows.
+
+*Part 3 — the 2026-10-15 quota outage, and the scheduling defect it exposed.*
+
+*What happened.* From **2026-10-15T16:31Z** every YouTube Data API call returned
+HTTP 403 `quotaExceeded`. The last complete cycle ran at 16:02Z. The collector
+kept firing every 30 minutes and recorded no observations. The quota resets at
+midnight Pacific time, **2026-10-16T07:00Z**, after this amendment was written.
+
+*The cause is not established at the time of writing.* The collector's own
+meter recorded 64–65 units per cycle at about 52 cycles per day, roughly 3,400
+units per day against a 10,000-unit allowance. The quota day resets at midnight
+Pacific (07:00Z), so by 16:31Z the collector had spent about 1,200 units of that
+day's allowance. Its own usage cannot account for the exhaustion, which points
+to other consumption of the same Google Cloud project's quota. This is to be
+confirmed from the Cloud console and reported in the technical report. The
+runner guards spending per cycle (`max_quota_per_cycle`) but not per day, so the
+first warning was the 403 itself.
+
+*Effect on the data: none, on either cohort.* No post in either cohort was owed
+an observation inside the outage. The last observation any post receives is its
+240-hour one (see below), and the latest Cohort B post, published 2026-10-03,
+received it before 2026-10-14T00:00Z.
+
+*The defect found while checking that.* **The 336-hour observation the plan
+schedules (section 4) has never been taken, for any post.** No YouTube post in
+the dataset has an observation older than 241 hours. Since the first commit
+(2026-08-30, `95e18e8`), `Panel.due` owes a post a scheduled mark only once its
+age has passed that mark, but drops the post from the panel as soon as its age
+exceeds `max_track_hours`, which is 336, the last mark itself. The 336-hour mark
+could therefore be met only by a cycle landing at exactly 336.000 hours, and
+none ever did. The collection monitor did not show it: its per-mark coverage
+table lists only marks with at least one hit, so a mark that was missed every
+time had no row at all.
+
+*What it changes, stated as it is.*
+
+1. **The effective observation window is 240 hours (10 days), not 14 days.**
+   Of Cohort A's 123 censored posts, 121 are censored at their 240-hour
+   observation, 233 hours after the landmark; the other two stopped being
+   observable earlier.
+2. **The latest confirmable death is at the 168-hour observation.** Death needs
+   two consecutive sub-threshold intervals and 168→240h is the last interval
+   there is, so a post still above threshold at 168 hours is right-censored at
+   240. The latest death in Cohort A is at 168.5 hours.
+3. **It is the same for every post in both cohorts and does not depend on any
+   outcome.** It narrows the estimand, to death within the first week, rather
+   than biasing any comparison between models, baselines or cohorts.
+4. The 336-hour maturity rule of 2026-09-20 was therefore conservative:
+   outcomes stop changing at 240 hours. The declared Cohort B date of
+   2026-10-18 stands regardless.
+
+*Handling.* No change to the analysis. The papers report the window as 240
+hours and death as confirmable up to 168 hours. The collector is **not** fixed
+now. Both cohorts were collected under the same instrument, and no hypothesis
+uses posts published after the Cohort B close, so a fix would buy no analysable
+observation and would make the record harder to read.
+
+*Status of the outcome data at amendment.* Cohort A has fully matured (686
+posts, 563 observed deaths) and its results have been examined. Cohort B has had
+only the counts disclosed in Part 2 computed. The ledger is empty.
+
 **2026-09-20 — Cohort B closes 2026-10-04, and both cohorts are analysed only
 once every member has completed its observation window.**
 
@@ -403,3 +569,4 @@ result existed, not after seeing one.
 | 2026-09-02 | *this commit* | Instagram Cohort B: 3 accounts x 72h, pinned-aware screening | Cohort A yielded 1 death; its screening was distorted by pinned posts; see above |
 | 2026-09-05 | *this commit* | No design change; records an 18h Instagram collection gap, the gate defect that tripled spend during it, a blind outage alarm, and the recovery of the screening artifact | API returned empty payloads 2026-09-04T00:00-17:00Z; 102 credits wasted; see above |
 | 2026-09-20 | *this commit* | Cohort B closes 2026-10-04; both cohorts analysed only after every member completes its 336h window | An unbounded holdout grows on every collection run; and Cohort A was analysed with 416 of 852 posts still maturing, deaths already drifting 498→500; see above |
+| 2026-10-16 | *this commit* | Confirmatory feature set fixed as the 11 that ran, exploratory set barred from Cohort B; Cohort B procedure, command and reading rule declared before opening; harness adds the plan's paired-difference intervals, RMSE, comparators and saved predictions; records a quota outage and that the 336h observation was never taken | Section 5 named 5 variables no model used, found only after the results; a holdout must be specified before it is opened; checking the 2026-10-15 outage's effect showed no post was ever observed past 241h, so the effective window is 240h; see above |

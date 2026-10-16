@@ -406,16 +406,31 @@ def _saturation_fields(lab, landmark: float) -> dict[str, Any]:
     }
 
 
-def usable_features(df: pd.DataFrame, min_coverage: float = 0.5) -> list[str]:
+def exploratory_columns(df: pd.DataFrame) -> list[str]:
+    """The confirmatory eleven plus the post-hoc additions (amendment 2026-10-16).
+
+    Everything section 5 of the plan lists: the confirmatory columns, the
+    exploratory ones built on 2026-10-16, and the category dummies. For a
+    labelled exploratory analysis only, never H1 or H2.
+    """
+    from cdc.models.synthetic import EXPLORATORY_FEATURE_COLUMNS, FEATURE_COLUMNS
+    cats = sorted(c for c in df.columns if str(c).startswith("cat_"))
+    return list(FEATURE_COLUMNS) + list(EXPLORATORY_FEATURE_COLUMNS) + cats
+
+
+def usable_features(df: pd.DataFrame, min_coverage: float = 0.5,
+                    columns: list[str] | None = None) -> list[str]:
     """Feature columns present often enough to model with.
 
     A column that is 90% missing contributes nothing but noise and destabilises
     the fit on a small sample. Which columns survived is reported, so the paper
     states what the model actually used rather than what it was offered.
+
+    ``columns`` defaults to the confirmatory whitelist, ``FEATURE_COLUMNS``.
     """
     from cdc.models.synthetic import FEATURE_COLUMNS
     keep = []
-    for c in FEATURE_COLUMNS:
+    for c in (FEATURE_COLUMNS if columns is None else columns):
         if c not in df.columns:
             continue
         col = pd.to_numeric(df[c], errors="coerce")

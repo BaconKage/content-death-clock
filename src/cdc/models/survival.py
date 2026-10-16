@@ -119,11 +119,14 @@ class RandomSurvivalForest(SurvivalModel):
     summarised — and the obvious summary does not work here.
 
     The obvious summary is the median: the first time at which the predicted
-    survival curve crosses 0.5. With ~88% of our posts censored, most predicted
-    curves never reach 0.5 inside the observation window, so the median is
-    undefined for most of the sample. Software conventionally reports the
-    horizon in that case, which would collapse most posts onto one value and
-    destroy exactly the ordering the C-index measures.
+    survival curve crosses 0.5. When this was written (the 2026-09-01 dress
+    rehearsal) ~88% of posts were censored, so most predicted curves never
+    reached 0.5 inside the observation window and the median was undefined for
+    most of the sample. Software conventionally reports the horizon in that
+    case, which would collapse most posts onto one value and destroy exactly
+    the ordering the C-index measures. The matured Cohort A is only ~18%
+    censored, so that reason has largely lapsed; RMST is retained because it is
+    the summary that was fixed before any result was seen.
 
     We therefore use **restricted mean survival time**: the area under the
     predicted survival curve, from 0 to the last time observed in the training
@@ -244,6 +247,53 @@ def _rmst(times: np.ndarray, surv: np.ndarray) -> np.ndarray:
         widths = np.diff(times)
         area = area + (surv[:, :-1] * widths).sum(axis=1)
     return area
+
+
+class LogLinearUncensored(SurvivalModel):
+    """Ordinary least squares on log10 time, trained on observed deaths only.
+
+    The first of the plan's two comparators. **Not censoring-aware**: it never
+    sees a surviving post, so its training set over-represents short-lived
+    content. Reported for contrast with the censoring-aware models, never as a
+    headline and never in a hypothesis test.
+    """
+
+    name = "loglinear_uncensored"
+
+    def __init__(self, features: list[str]) -> None:
+        self.features = list(features)
+        self.model_: Any = None
+        self.medians_: dict[str, float] = {}
+        self.fallback_: float | None = None
+
+    def _design(self, X: pd.DataFrame) -> np.ndarray:
+        cols = []
+        for c in self.features:
+            v = X[c].astype(float) if c in X.columns else pd.Series(np.nan, index=X.index)
+            cols.append(v.fillna(self.medians_.get(c, 0.0)).to_numpy(float))
+        return np.column_stack(cols) if cols else np.zeros((len(X), 1))
+
+    def fit(self, X: pd.DataFrame, durations: np.ndarray, events: np.ndarray):
+        from sklearn.linear_model import LinearRegression
+
+        for c in self.features:
+            if c in X.columns:
+                self.medians_[c] = float(X[c].astype(float).median())
+
+        mask = np.asarray(events).astype(bool)
+        if mask.sum() < 20:
+            self.model_ = None
+            self.fallback_ = float(np.median(durations))
+            return self
+
+        y = np.log10(np.clip(np.asarray(durations, float)[mask], 1e-6, None))
+        self.model_ = LinearRegression().fit(self._design(X.loc[mask]), y)
+        return self
+
+    def predict(self, X: pd.DataFrame) -> np.ndarray:
+        if self.model_ is None:
+            return np.full(len(X), self.fallback_ or 48.0, dtype=float)
+        return np.power(10.0, self.model_.predict(self._design(X)))
 
 
 class GradientBoostedUncensored(SurvivalModel):
