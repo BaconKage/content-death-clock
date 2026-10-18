@@ -27,7 +27,7 @@ from typing import Any
 
 from cdc.config import ROOT, channels, secrets, settings
 from cdc.collect.panel import Panel, discovery_window
-from cdc.collect.youtube import QuotaExceeded, QuotaMeter, YouTubeClient
+from cdc.collect.youtube import QuotaExceeded, QuotaMeter, YouTubeClient, redact
 from cdc.collect.youtube import _parse_ts
 from cdc.storage.bronze import BronzeWriter, cycle_id, iter_bronze
 
@@ -102,8 +102,11 @@ def run_cycle(dry_run: bool = False, discover: bool = True,
                 except QuotaExceeded:
                     raise
                 except Exception as exc:                      # one bad channel
-                    log.warning("discovery failed for %s: %s", ch.get("handle"), exc)
-                    report["errors"].append(f"discovery:{ch.get('handle')}:{exc}")
+                    # Redacted again here, belt and braces: this string is
+                    # committed to a public repository with the cycle log.
+                    msg = redact(exc, getattr(client, "api_key", None))
+                    log.warning("discovery failed for %s: %s", ch.get("handle"), msg)
+                    report["errors"].append(f"discovery:{ch.get('handle')}:{msg}")
                     continue
                 for u in uploads:
                     if u["video_id"] not in panel.posts:
@@ -190,8 +193,9 @@ def run_cycle(dry_run: bool = False, discover: bool = True,
     except QuotaExceeded as exc:
         # Commit what we have — partial data beats no data, and the next cycle
         # catches up. Then fail loudly so CI marks the run red.
-        log.error("QUOTA: %s", exc)
-        report["errors"].append(f"quota:{exc}")
+        msg = redact(exc, getattr(client, "api_key", None))
+        log.error("QUOTA: %s", msg)
+        report["errors"].append(f"quota:{msg}")
         report["quota_exceeded"] = True
 
     finally:

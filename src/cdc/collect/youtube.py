@@ -17,6 +17,7 @@ comfortably inside 10,000 with room for retries and a second daily backfill.
 from __future__ import annotations
 
 import logging
+import re
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -39,6 +40,26 @@ RETRY_STATUS = {429, 500, 502, 503, 504}
 
 class QuotaExceeded(RuntimeError):
     """The API refused us for the rest of the UTC day."""
+
+
+class YouTubeAPIError(RuntimeError):
+    """A request failed. The message is already stripped of the API key."""
+
+
+# The key travels as a query parameter, and `requests` puts the full URL into
+# the text of HTTPError and connection errors. On 2026-09-17 a 404 for one
+# channel wrote that text into a cycle log, which was committed to this public
+# repository with the live key in it. Every message that leaves this client is
+# passed through `redact` first, so an error can never carry the key out again.
+_KEY_PARAM = re.compile(r"([?&]key=)[^&\s\"'#]+")
+
+
+def redact(text: object, secret: str | None = None) -> str:
+    """Remove API keys from text bound for a log, a report or a commit."""
+    s = _KEY_PARAM.sub(r"\1REDACTED", str(text))
+    if secret:
+        s = s.replace(secret, "REDACTED")
+    return s
 
 
 @dataclass
@@ -97,25 +118,29 @@ class YouTubeClient:
             try:
                 r = self.session.get(url, params=payload, timeout=30)
             except requests.RequestException as exc:
+                msg = redact(exc, self.api_key)
                 if attempt == attempts:
-                    raise
+                    # `from None`: the chained original would print the URL.
+                    raise YouTubeAPIError(f"{endpoint}: {msg}") from None
                 log.warning("%s network error (%s), retry %d/%d",
-                            endpoint, exc, attempt, attempts)
+                            endpoint, msg, attempt, attempts)
                 time.sleep(backoff)
                 backoff *= 2
                 continue
 
             if r.status_code == 403 and "quota" in r.text.lower():
-                raise QuotaExceeded(f"{endpoint}: daily quota exhausted — {r.text[:200]}")
-            if r.status_code in RETRY_STATUS:
-                if attempt == attempts:
-                    r.raise_for_status()
+                raise QuotaExceeded(redact(
+                    f"{endpoint}: daily quota exhausted — {r.text[:200]}", self.api_key))
+            if r.status_code in RETRY_STATUS and attempt < attempts:
                 log.warning("%s HTTP %d, retry %d/%d",
                             endpoint, r.status_code, attempt, attempts)
                 time.sleep(backoff)
                 backoff *= 2
                 continue
-            r.raise_for_status()
+            try:
+                r.raise_for_status()
+            except requests.HTTPError as exc:
+                raise YouTubeAPIError(redact(exc, self.api_key)) from None
             return r.json()
         raise RuntimeError("unreachable")
 
