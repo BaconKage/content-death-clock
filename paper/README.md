@@ -5,7 +5,7 @@ Two deliverables, one dataset, one repo.
 | | File | Course | Status |
 |---|---|---|---|
 | Empirical paper | [`rm/paper.md`](rm/paper.md) | Research Methodology | Written in full; **all results final** — Cohort A matured 2026-10-16, Cohort B holdout evaluated once 2026-10-18 (§4.7); figures in `rm/figures/` |
-| Technical report | [`bda/report.md`](bda/report.md) | Big Data Analytics | Method + benchmark final; scale-up numbers final |
+| Technical report | [`bda/report.md`](bda/report.md) | Big Data Analytics | **Final** (2026-10-18): full-history cost and coverage figures, benchmark re-run on the final data, reliability and security incidents through 2026-10-18 |
 
 ## How to read the drafts
 
