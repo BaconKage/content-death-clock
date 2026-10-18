@@ -1,0 +1,28 @@
+{
+  "cycle_id": "2026-10-18T05",
+  "started_at": "2026-10-18T05:01:39+00:00",
+  "dry_run": false,
+  "panel_before": {
+    "posts_total": 2400,
+    "posts_active": 640,
+    "posts_due": 110,
+    "snapshots_total": 28546,
+    "snapshots_per_post_mean": 11.894166666666667
+  },
+  "discovered": 0,
+  "snapshotted": 0,
+  "errors": [
+    "quota:playlistItems: daily quota exhausted \u2014 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"The request cannot be completed because you have exceeded your \\u003ca href=\\\"/youtube/v3/getting-started#quota\\\"\\u003equota\\u003c/a\\u003e.\",\n    \"error"
+  ],
+  "quota_exceeded": true,
+  "quota": {
+    "units_spent": 2,
+    "calls": 2,
+    "budget": 400,
+    "by_endpoint": {
+      "playlistItems": 2
+    }
+  },
+  "files": [],
+  "finished_at": "2026-10-18T05:01:40+00:00"
+}
