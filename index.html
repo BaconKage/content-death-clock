@@ -1,0 +1,1082 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Content Death Clock</title>
+<meta name="description" content="When does a YouTube video stop getting attention? A pre-registered study and the data pipeline behind it. RV University, Research Methodology and Big Data Analytics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one editorial column of chapters, each a short text lede beside or above the
+   interactive figure it explains; figures sit on a white "instrument" panel. */
+:root {
+  --paper: #f4f5f2; --panel: #ffffff; --ink: #14181b; --ink-2: #48525b; --muted: #747d85;
+  --rule: #dcdfdb; --grid: #e7e9e5; --alive: #2a78d6; --small: #eb6834; --mid: #1baf7a;
+  --large: #2a78d6; --death: #d03b3b; --warn: #b07800; --ok: #0a7f3f; --chip: #eceee9;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0f1315; --panel: #161c1f; --ink: #edf0f1; --ink-2: #b5bdc3; --muted: #838d94;
+  --rule: #273136; --grid: #20292d; --alive: #3987e5; --small: #d95926; --mid: #199e70;
+  --large: #3987e5; --death: #e66767; --warn: #d9a227; --ok: #2fb36b; --chip: #1f272b; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #0f1315; --panel: #161c1f; --ink: #edf0f1; --ink-2: #b5bdc3; --muted: #838d94;
+  --rule: #273136; --grid: #20292d; --alive: #3987e5; --small: #d95926; --mid: #199e70;
+  --large: #3987e5; --death: #e66767; --warn: #d9a227; --ok: #2fb36b; --chip: #1f272b; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.6 var(--body); }
+.wrap { max-width: 70rem; margin-inline: auto; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
+a { color: inherit; text-underline-offset: 3px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -0.015em; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(1.7rem, 1.2rem + 2vw, 2.6rem); line-height: 1.1; }
+h3 { font-size: 1.15rem; font-weight: 500; letter-spacing: 0; }
+p { margin: 0; }
+.lede { max-width: 40rem; color: var(--ink-2); }
+.lede strong, .lede b { color: var(--ink); font-weight: 600; }
+.eyebrow { font: 500 0.78rem/1 var(--mono); text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); display: flex; gap: 10px; align-items: center; }
+.eyebrow .tag { color: var(--paper); background: var(--ink); padding: 4px 7px; border-radius: 4px; letter-spacing: 0.08em; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.note .num, .lede .num { font-family: var(--body); }
+
+/* header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; }
+.brand { font: 700 1rem/1 var(--display); display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.brand .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--death); }
+.nav { display: flex; gap: 18px; font-size: 0.88rem; overflow-x: auto; scrollbar-width: none; }
+.nav a { text-decoration: none; color: var(--ink-2); white-space: nowrap; }
+.nav a:hover { color: var(--ink); }
+
+/* hero */
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; padding-block: clamp(36px, 7vw, 84px) clamp(28px, 5vw, 56px); }
+.hero h1 { font-size: clamp(2.6rem, 1.6rem + 5vw, 5.2rem); line-height: 0.95; letter-spacing: -0.03em; }
+.hero .q { font-size: clamp(1.15rem, 1rem + 0.6vw, 1.4rem); margin-top: 18px; max-width: 32rem; color: var(--ink-2); }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
+.fact { border-top: 2px solid var(--ink); padding-top: 8px; }
+.fact .v { font: 500 clamp(1.3rem, 1rem + 1vw, 1.8rem)/1.1 var(--mono); font-variant-numeric: tabular-nums; }
+.fact .k { font-size: 0.82rem; color: var(--muted); line-height: 1.35; margin-top: 4px; }
+.course { margin-top: 22px; font-size: 0.85rem; color: var(--muted); }
+.clock { background: var(--panel); border: 1px solid var(--rule); border-radius: var(--r); padding: 16px; }
+.clock-read { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--mono); font-size: 0.85rem; color: var(--muted); }
+.clock-read .t { font-size: 1.6rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+.status { font: 500 0.8rem/1 var(--mono); letter-spacing: 0.1em; padding: 5px 8px; border-radius: 4px; background: var(--chip); color: var(--ink); }
+.status.dead { background: var(--death); color: #fff; }
+.status.alive { background: var(--alive); color: #fff; }
+
+/* chapters */
+section.chapter { padding-block: clamp(48px, 8vw, 96px); border-top: 1px solid var(--rule); }
+.chapter .wrap > .head { display: flex; flex-direction: column; gap: 14px; margin-bottom: clamp(22px, 3vw, 36px); }
+.chapter.dark { background: var(--ink); color: var(--paper); border-top: 0; }
+.chapter.dark .lede { color: color-mix(in srgb, var(--paper) 78%, var(--ink)); }
+.chapter.dark .lede strong { color: var(--paper); }
+.chapter.dark .eyebrow { color: color-mix(in srgb, var(--paper) 60%, var(--ink)); }
+.chapter.dark .eyebrow .tag { background: var(--paper); color: var(--ink); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); gap: 18px; }
+.panel { background: var(--panel); color: var(--ink); border: 1px solid var(--rule); border-radius: var(--r); padding: clamp(14px, 2vw, 22px); display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.panel .note { font-size: 0.86rem; color: var(--muted); line-height: 1.5; }
+.panel .note b { color: var(--ink); font-weight: 600; }
+.chart { position: relative; width: 100%; min-height: 230px; }
+.chart svg { display: block; overflow: visible; }
+.chart text { fill: var(--muted); font: 400 11.5px var(--body); }
+.chart .lab { fill: var(--ink); font-weight: 500; }
+.chart .domain, .chart .tick line { stroke: var(--rule); }
+.chart .gridl line { stroke: var(--grid); }
+.chart .gridl .domain { display: none; }
+.tip { position: absolute; pointer-events: none; z-index: 5; background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; box-shadow: 0 6px 22px rgb(0 0 0 / 0.14); padding: 7px 10px; font-size: 12.5px; line-height: 1.45; color: var(--ink); white-space: nowrap; }
+.tip .h { color: var(--muted); font-family: var(--mono); font-size: 11.5px; margin-bottom: 2px; }
+.tip .sw { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.82rem; color: var(--ink-2); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 500 0.82rem/1 var(--body); padding: 8px 12px; border-radius: 999px; border: 1px solid var(--rule); background: var(--panel); color: var(--ink-2); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn { font: 600 0.9rem/1 var(--body); padding: 11px 16px; border-radius: 8px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--ink); }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--alive); outline-offset: 2px; }
+
+/* player */
+.player-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.player-bar input[type=range] { flex: 1 1 14rem; accent-color: var(--ink); }
+.readout { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.readout div { border-left: 2px solid var(--rule); padding-left: 10px; }
+.readout .k { font-size: 0.75rem; color: var(--muted); }
+.readout .v { font: 500 1.15rem/1.2 var(--mono); font-variant-numeric: tabular-nums; }
+
+/* pipeline */
+.flow { position: relative; }
+.flow svg { width: 100%; height: auto; display: block; }
+.flow .node rect { fill: var(--panel); stroke: var(--rule); }
+.flow .node .n { font: 500 15px var(--mono); fill: var(--ink); }
+.flow .node .s { font: 600 12.5px var(--body); fill: var(--ink); }
+.flow .node .u { font: 400 11px var(--body); fill: var(--muted); }
+.flow .link { stroke: var(--rule); stroke-width: 2; fill: none; }
+.flow .packet { fill: var(--alive); }
+.layers { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 12px; margin-top: 12px; }
+.layers div { font-size: 0.86rem; color: var(--ink-2); border-top: 1px solid var(--rule); padding-top: 8px; }
+.layers b { color: var(--ink); font-weight: 600; display: block; }
+
+/* quota bars */
+.quota-row { display: grid; grid-template-columns: 6.5rem 1fr; gap: 10px; align-items: center; font-size: 0.85rem; }
+.qbar { height: 18px; border-radius: 4px; background: var(--grid); position: relative; overflow: hidden; display: flex; }
+.qbar span { height: 100%; }
+.qbar .ours { background: var(--alive); }
+.qbar .theirs { background: repeating-linear-gradient(45deg, var(--death), var(--death) 5px, color-mix(in srgb, var(--death) 70%, var(--panel)) 5px, color-mix(in srgb, var(--death) 70%, var(--panel)) 10px); }
+
+/* incidents */
+.incidents { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 12px; }
+.incident { border: 1px solid var(--rule); border-radius: var(--r); padding: 14px; background: var(--panel); display: flex; flex-direction: column; gap: 6px; }
+.incident time { font: 500 0.75rem/1 var(--mono); color: var(--muted); }
+.incident h3 { font-size: 1rem; }
+.incident p { font-size: 0.86rem; color: var(--ink-2); line-height: 1.5; }
+.incident p b { color: var(--ink); font-weight: 600; }
+
+/* hypotheses */
+.hyp { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 16px; }
+.hcard { border: 1px solid var(--rule); border-radius: var(--r); background: var(--panel); padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.hcard .code { font: 500 0.8rem/1 var(--mono); color: var(--muted); }
+.verdict { display: grid; grid-template-columns: 7.5rem 1fr; gap: 8px; font-size: 0.86rem; border-top: 1px solid var(--rule); padding-top: 8px; }
+.pill { font: 600 0.78rem/1 var(--body); display: inline-flex; align-items: center; gap: 6px; }
+.pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.pill.partly { color: var(--warn); }
+.pill.no { color: var(--death); }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: 0; margin-top: 18px; border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; background: var(--panel); }
+.steps div { padding: 14px; border-right: 1px solid var(--rule); font-size: 0.85rem; color: var(--ink-2); }
+.steps div:last-child { border-right: 0; }
+.steps time { font: 500 0.75rem/1 var(--mono); color: var(--muted); display: block; margin-bottom: 6px; }
+.steps b { color: var(--ink); font-weight: 600; display: block; margin-bottom: 2px; }
+
+/* game */
+.game { display: flex; flex-direction: column; gap: 16px; }
+.score { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.score > div { background: color-mix(in srgb, var(--paper) 8%, transparent); border: 1px solid color-mix(in srgb, var(--paper) 22%, transparent); border-radius: 8px; padding: 10px 12px; }
+.score .k { font-size: 0.75rem; color: color-mix(in srgb, var(--paper) 65%, var(--ink)); }
+.score .v { font: 500 1.4rem/1.2 var(--mono); font-variant-numeric: tabular-nums; }
+.duel { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.vcard { text-align: left; background: var(--panel); color: var(--ink); border: 2px solid transparent; border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 10px; cursor: pointer; font: inherit; min-width: 0; }
+.vcard:hover:not([disabled]) { border-color: var(--alive); }
+.vcard[disabled] { cursor: default; }
+.vcard .who { font: 500 0.78rem/1 var(--mono); color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.vcard .size { font: 700 1.1rem/1.2 var(--display); }
+.vcard .meta { font-size: 0.82rem; color: var(--muted); }
+.spark { width: 100%; height: 56px; }
+.vrow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; font-size: 0.78rem; color: var(--muted); }
+.vrow b { display: block; font: 500 0.95rem/1.2 var(--mono); color: var(--ink); }
+.vcard .reveal { font-size: 0.86rem; line-height: 1.45; border-top: 1px solid var(--rule); padding-top: 8px; }
+.vcard.first { border-color: var(--ok); }
+.vcard .tagline { font: 600 0.78rem/1 var(--body); }
+.verdict-line { font-size: 1rem; min-height: 1.6em; }
+.game-ctl { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.chapter.dark .btn { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+
+/* reveal */
+.switch { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 4px; background: var(--panel); gap: 4px; flex-wrap: wrap; }
+.switch button { font: 600 0.9rem/1 var(--body); border: 0; border-radius: 999px; padding: 10px 16px; background: transparent; color: var(--ink-2); cursor: pointer; }
+.switch button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.story { font: 700 clamp(1.25rem, 1rem + 1vw, 1.7rem)/1.25 var(--display); max-width: 40rem; min-height: 3.2em; }
+.bars2 { display: flex; flex-direction: column; gap: 12px; }
+.b2 { display: grid; grid-template-columns: 11rem 1fr 3.5rem; gap: 10px; align-items: center; font-size: 0.88rem; }
+.b2 .track { height: 22px; background: var(--grid); border-radius: 4px; position: relative; }
+.b2 .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; transition: width 700ms cubic-bezier(.2,.7,.2,1); }
+.b2 .val { font-family: var(--mono); text-align: right; font-variant-numeric: tabular-nums; }
+.b2 .chance { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--ink); opacity: 0.55; }
+
+/* meaning + footer */
+.takeaways { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 16px; }
+.takeaways div { border-top: 2px solid var(--ink); padding-top: 10px; }
+.takeaways h3 { margin-bottom: 6px; }
+.takeaways p { color: var(--ink-2); font-size: 0.95rem; }
+footer { border-top: 1px solid var(--rule); padding-block: 36px 48px; font-size: 0.88rem; color: var(--ink-2); }
+footer .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 24px; }
+footer ul { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-direction: column; gap: 6px; }
+footer h3 { font-size: 0.95rem; }
+.loading { color: var(--muted); font-family: var(--mono); font-size: 0.85rem; }
+
+@media (max-width: 52rem) {
+  .hero .wrap { grid-template-columns: 1fr; }
+  .readout { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .score { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .b2 { grid-template-columns: 8rem 1fr 3.2rem; }
+}
+@media (max-width: 34rem) {
+  .duel { grid-template-columns: 1fr; }
+  .facts { grid-template-columns: 1fr 1fr; }
+  .verdict { grid-template-columns: 1fr; }
+  .nav { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .b2 .fill { transition: none; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="dot" aria-hidden="true"></span>Content Death Clock</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#watch">Watch one die</a>
+      <a href="#pipeline">The pipeline</a>
+      <a href="#test">The test</a>
+      <a href="#game">Beat the model</a>
+      <a href="#found">Findings</a>
+      <a href="#holdout">The holdout</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">A research project in two parts</p>
+        <h1>Content<br>Death Clock</h1>
+        <p class="q">Most research asks how big a post will get. We asked the opposite question: <strong>when does it stop getting attention?</strong></p>
+        <div class="facts">
+          <div class="fact"><div class="v" data-k="videos_tracked">—</div><div class="k">YouTube videos tracked</div></div>
+          <div class="fact"><div class="v" data-k="snapshots">—</div><div class="k">view counts recorded, every 30 minutes</div></div>
+          <div class="fact"><div class="v" data-k="days">—</div><div class="k">days of unattended collection</div></div>
+        </div>
+        <p class="course">RV University · 7th semester · Research Methodology and Big Data Analytics<br>Amogha V Prasad · S Anannya · Sanidhya Tiwari · Shubhang Srinivas Varda</p>
+      </div>
+      <div class="clock" aria-label="Animated example of a video losing attention">
+        <div class="clock-read"><span>hours since posting</span><span class="status" id="hero-status">ALIVE</span></div>
+        <div class="clock-read"><span class="t" id="hero-t">t+000h</span><span id="hero-views"></span></div>
+        <div class="chart" id="hero-chart" style="min-height:200px"></div>
+        <p class="note" style="font-size:0.82rem;color:var(--muted)" id="hero-note">A real video from the study. Views climb fast, then flatten. When it stops gaining views, it is "dead".</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== the question -->
+  <section class="chapter" id="watch">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow"><span class="tag">Idea</span> What "attention death" means</p>
+        <h2>Watch a video die</h2>
+        <p class="lede">We measure a video's <strong>speed</strong>: views gained per hour between two readings, as a share of its own best hour. Once its speed drops below <strong>5% of its best</strong> and stays there for two readings, we call it dead. Comparing each video with its own peak is what makes a tiny channel and a huge one comparable. Press play, or drag the slider.</p>
+      </div>
+      <div class="panel">
+        <div class="chips" id="ex-chips" role="group" aria-label="Pick a video"></div>
+        <div class="player-bar">
+          <button class="btn" id="ex-play" type="button">Play</button>
+          <label class="note" for="ex-time" style="margin:0">Time</label>
+          <input id="ex-time" type="range" min="0" max="240" step="0.5" value="240">
+        </div>
+        <div class="readout">
+          <div><div class="k">Hours since posting</div><div class="v" id="ro-t">—</div></div>
+          <div><div class="k">Total views</div><div class="v" id="ro-views">—</div></div>
+          <div><div class="k">Speed vs its best hour</div><div class="v" id="ro-speed">—</div></div>
+          <div><div class="k">Status</div><div class="v" id="ro-status">—</div></div>
+        </div>
+        <div class="grid2">
+          <div><p class="note">Total views</p><div class="chart" id="ex-views"></div></div>
+          <div><p class="note">Speed, as a share of its best hour (dashed line: the 5% death line)</p><div class="chart" id="ex-speed"></div></div>
+        </div>
+        <p class="note" id="ex-desc"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== BDA -->
+  <section class="chapter" id="pipeline">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow"><span class="tag">Big Data</span> How the data was collected</p>
+        <h2>A collector that never sleeps</h2>
+        <p class="lede">Nobody can download this data: a video's first hours happen once, and if nobody is watching, they are gone. So we built a pipeline that runs on GitHub's servers every 30 minutes, for weeks, with no one at a keyboard. It asks YouTube which of <strong data-k="channels">—</strong> channels posted something new and re-measures every video that is due a reading.</p>
+      </div>
+      <div class="panel">
+        <h3>From the API to the answer</h3>
+        <div class="flow" id="flow"></div>
+        <div class="layers">
+          <div><b>Raw files (bronze)</b>Every answer saved exactly as it came, one file per run, never edited. Committed to the public repo by the collector itself.</div>
+          <div><b>Clean tables (silver)</b>Duplicates removed, ages recomputed from real timestamps, hidden counts kept as missing rather than zero.</div>
+          <div><b>Analysis set (gold)</b>One row per video: what was visible at hour 7, and when it actually died.</div>
+          <div><b>Models</b>Survival models scored against simple baselines, never trained and tested on the same channel.</div>
+        </div>
+      </div>
+
+      <div class="grid2" style="margin-top:18px">
+        <div class="panel">
+          <h3>View counts collected per day</h3>
+          <p class="note">Hover a day. <b style="color:var(--death)">Red days</b> are when the daily API allowance was used up by someone else, after our key leaked into a public log file. Both study groups had already been fully collected.</p>
+          <div class="chart" id="daily"></div>
+        </div>
+        <div class="panel">
+          <h3>Did each scheduled reading happen?</h3>
+          <p class="note">Each video is owed a reading at set ages after posting. Bars show the share taken on time. The last one, at two weeks, <b>was never taken for any video</b>: a scheduling bug, so in practice each video was watched for ten days.</p>
+          <div class="chart" id="coverage"></div>
+        </div>
+      </div>
+
+      <div class="grid2" style="margin-top:18px">
+        <div class="panel">
+          <h3>Living inside a free budget</h3>
+          <p class="note">YouTube gives <b class="num" data-k="allowance">—</b> free units a day. One run costs <b class="num" data-k="units_per_run">—</b>, and <b class="num" data-k="discovery_share_pct">—</b> of that is asking each channel "anything new?". So tracking more videos costs almost nothing extra.</p>
+          <div class="quota-row"><span>Normal day</span><div class="qbar" id="q-normal"></div></div>
+          <p class="note" style="margin-top:6px">On three days in October, Google said the allowance was gone while our own meter said we had used a fraction of it. That mismatch is how we found the leaked key.</p>
+          <div id="q-leak" style="display:flex;flex-direction:column;gap:8px"></div>
+          <div class="legend"><span><i style="background:var(--alive)"></i>our collector</span><span><i style="background:var(--death)"></i>someone else, with the leaked key</span></div>
+        </div>
+        <div class="panel">
+          <h3>When is Spark worth it?</h3>
+          <p class="note">The same job, the speed of every video between readings, run on copies of our data scaled up to millions of rows. pandas wins on small data because Spark spends its time starting up. Past a few hundred thousand rows, Spark wins. Hover the points.</p>
+          <div class="chips" id="bench-chips" role="group" aria-label="Benchmark run"></div>
+          <div class="legend" id="bench-legend"></div>
+          <div class="chart" id="bench"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px" class="panel">
+        <h3>What broke, and how we found it</h3>
+        <p class="note">Every one of these was found by checking the data against what <b>should</b> have happened, not by trusting a green dashboard.</p>
+        <div class="incidents" id="incidents"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== RM -->
+  <section class="chapter" id="test">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow"><span class="tag">Research</span> How we tested it</p>
+        <h2>Rules first, results second</h2>
+        <p class="lede">Before a single video had died, we wrote down exactly what we would test, how, and what would count as success, and committed it to a public repository with a date on it. Every later change was added as a dated note with its reason. Then we kept a set of newer videos <strong>sealed</strong>, to be tested once, at the end.</p>
+      </div>
+      <div class="hyp" id="hyp"></div>
+      <div class="steps">
+        <div><time>30 Aug</time><b>Plan frozen</b>Hypotheses, models and tests written down. Zero results existed.</div>
+        <div><time>16 Sep</time><b>Main set closes</b>Videos after this go into the sealed holdout.</div>
+        <div><time>4 Oct</time><b>Holdout closes</b>No more videos admitted.</div>
+        <div><time>16 Oct</time><b>Holdout rules declared</b>The exact test written down two days before opening.</div>
+        <div><time>18 Oct</time><b>Holdout opened, once</b>Result reported whatever it said.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== game -->
+  <section class="chapter dark" id="game">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow"><span class="tag">Try it</span> Can you beat the model?</p>
+        <h2>Which video stops getting attention first?</h2>
+        <p class="lede">Two real videos from the study, shown as they looked <strong>seven hours after posting</strong>, which is the moment our model makes its prediction. Pick the one you think dies first. Then see what really happened, what the model said, and what you would get from channel size alone.</p>
+      </div>
+      <div class="game">
+        <div class="score">
+          <div><div class="k">You</div><div class="v" id="s-you">0 / 0</div></div>
+          <div><div class="k">The model</div><div class="v" id="s-model">0 / 0</div></div>
+          <div><div class="k">Channel size alone</div><div class="v" id="s-size">0 / 0</div></div>
+          <div><div class="k">Coin flip, on average</div><div class="v">50%</div></div>
+        </div>
+        <p class="verdict-line" id="g-line">Round 1 of 10. Pick a video.</p>
+        <div class="duel" id="duel"></div>
+        <div class="game-ctl"><button class="btn" id="g-next" type="button" hidden>Next pair</button><button class="btn ghost" id="g-again" type="button" hidden style="color:var(--paper);border-color:var(--paper)">Play again</button></div>
+        <p class="note" style="color:color-mix(in srgb, var(--paper) 62%, var(--ink));font-size:0.85rem">Pairs are drawn from main-set videos that both died at least a day apart, so every round has a true answer. The model's guesses are genuine: each video was predicted by a model that had never seen its channel. These pairs are easier than average; across all videos the model ranks correctly <span data-k="a_forest_pct">—</span> of the time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== findings -->
+  <section class="chapter" id="found">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow"><span class="tag">Research</span> What we found</p>
+        <h2>Better than guessing, but not by much</h2>
+        <p class="lede">Our best model picks the video that dies first <strong data-k="a_forest_pct">—</strong> of the time on the main set, against 50% for a coin flip. But knowing only the channel's size gets you most of that. And for the exact time, nothing we built beats simply saying "about four days" for every video.</p>
+      </div>
+      <div class="chips" id="cohort-chips" role="group" aria-label="Which videos"></div>
+      <div class="grid2" style="margin-top:14px">
+        <div class="panel">
+          <h3>How often each method picks the right video</h3>
+          <p class="note">Score 0.5 is a coin flip, 1.0 is perfect. Lines show the 95% range when we re-sample the channels. <b style="color:var(--alive)">Blue</b>: our two models. Grey: the simple rules they had to beat.</p>
+          <div class="chart" id="models" style="min-height:300px"></div>
+        </div>
+        <div class="panel">
+          <h3>How long videos keep getting attention</h3>
+          <p class="note">Share of videos still alive, by hours after the 7-hour mark, split by channel size. Hover to read the values.</p>
+          <div class="legend" id="surv-legend"></div>
+          <div class="chart" id="survival" style="min-height:280px"></div>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:18px">
+        <h3>The main hypothesis, tested every way we planned</h3>
+        <p class="note">Does a video's early growth tell you anything beyond the channel's size? Each row is one version of the test. A dot right of zero means the model ranks better than channel size alone. To count, the range must clear zero <b>and</b> a second test on timing must agree. That happens in <b class="num" id="h2-count">—</b>, and not in the two rows that matter most.</p>
+        <div class="legend" id="h2-legend"></div>
+        <div class="chart" id="h2" style="min-height:380px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== holdout -->
+  <section class="chapter" id="holdout">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow"><span class="tag">Research</span> The sealed test</p>
+        <h2>The story that didn't survive new data</h2>
+        <p class="lede">After the main analysis, we had a tidy story. Then we opened the sealed set of <strong data-k="b_videos">—</strong> newer videos, once, using rules written down two days before. Flip between them.</p>
+      </div>
+      <div class="switch" role="group" aria-label="Which result">
+        <button type="button" data-ho="A" aria-pressed="true">What the main set said</button>
+        <button type="button" data-ho="B" aria-pressed="false">What the sealed test said</button>
+      </div>
+      <p class="story" id="ho-story" style="margin-top:18px"></p>
+      <div class="grid2" style="margin-top:18px">
+        <div class="panel">
+          <h3>Ranking score</h3>
+          <p class="note">Bars start at a coin flip (0.5), so a bar's length is how much better than guessing each method is.</p>
+          <div class="bars2" id="ho-scores"></div>
+        </div>
+        <div class="panel">
+          <h3>Median lifetime by channel size</h3>
+          <p class="note">Hours after the 7-hour mark until half the videos have died.</p>
+          <div class="bars2" id="ho-tiers"></div>
+        </div>
+      </div>
+      <p class="lede" id="ho-explain" style="margin-top:18px"></p>
+    </div>
+  </section>
+
+  <!-- ===================================================== meaning -->
+  <section class="chapter" id="meaning">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow"><span class="tag">So what</span> What it means</p>
+        <h2>A modest answer you can trust</h2>
+      </div>
+      <div class="takeaways">
+        <div><h3>It is predictable, a little</h3><p>On two separate sets of videos, a model ranks which dies first about 60% of the time. That held up when we checked it on data it had never seen.</p></div>
+        <div><h3>Exact timing is out of reach</h3><p>Every method is off by about a factor of two. A single number, the average lifetime, does as well as any model on "when exactly".</p></div>
+        <div><h3>"It's all about the channel" was wrong</h3><p>The main set suggested channel size explains almost everything. The sealed test disagreed, so we withdrew that claim instead of keeping the convenient story.</p></div>
+        <div><h3>The method is the contribution</h3><p>A frozen plan, a sealed test opened once, every change dated, every failure written down. That is what makes a negative or modest result worth reading.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><h3>Read the full work</h3>
+      <ul>
+        <li><a href="https://github.com/BaconKage/content-death-clock/blob/main/paper/rm/paper.md">Research Methodology paper</a></li>
+        <li><a href="https://github.com/BaconKage/content-death-clock/blob/main/paper/bda/report.md">Big Data Analytics report</a></li>
+        <li><a href="https://github.com/BaconKage/content-death-clock/blob/main/ANALYSIS_PLAN.md">The frozen analysis plan</a></li>
+      </ul></div>
+    <div><h3>Check it yourself</h3>
+      <ul>
+        <li><a href="https://github.com/BaconKage/content-death-clock">Code repository</a></li>
+        <li><a href="https://github.com/BaconKage/content-death-clock/tree/main/data/bronze">Every raw observation</a></li>
+        <li><a href="data.json">This page's numbers</a></li>
+      </ul></div>
+    <div><h3>About</h3>
+      <p style="margin-top:8px">RV University, Bengaluru. 7th semester, Research Methodology and Big Data Analytics. Public videos and public channels only; no channel or video is named on this page. Data as of <span id="asof">—</span>.</p></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(() => {
+  'use strict';
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const V = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const fInt = d3.format(','), fPct = d3.format('.1%'), fPct0 = d3.format('.0%'), f3 = d3.format('.3f');
+  const fSi = (v) => (v >= 1e6 ? d3.format('.2~s')(v).replace('G', 'B') : v >= 1e4 ? d3.format('.3~s')(v) : fInt(Math.round(v)));
+  const day = d3.utcParse('%Y-%m-%d');
+  const TIER = { micro: 'Small (<10k)', mid: 'Mid (10k–500k)', large: 'Large (>500k)', all: 'All videos' };
+  const tierColor = (t) => ({ micro: V('--small'), mid: V('--mid'), large: V('--large'), all: V('--muted') })[t];
+  let D;
+
+  // ---------------------------------------------------------------- helpers
+  function frame(el, h) {
+    el.replaceChildren();
+    const w = Math.max(260, el.clientWidth);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', h).attr('viewBox', `0 0 ${w} ${h}`);
+    const tip = d3.select(el).append('div').attr('class', 'tip').style('display', 'none');
+    return { svg, tip, w, h };
+  }
+  function tw(svg, strings) {
+    const t = svg.append('text'); let m = 0;
+    strings.forEach((s) => { t.text(s); m = Math.max(m, t.node().getComputedTextLength()); });
+    t.remove(); return m;
+  }
+  const ax = (g, a) => g.call(a).attr('font-size', null).attr('font-family', null);
+  function showTip(tip, el, ev, head, lines) {
+    const n = tip.node(); n.replaceChildren();
+    const h = document.createElement('div'); h.className = 'h'; h.textContent = head; n.append(h);
+    lines.forEach(([c, t]) => {
+      const l = document.createElement('div');
+      if (c) { const s = document.createElement('span'); s.className = 'sw'; s.style.background = c; l.append(s); }
+      l.append(document.createTextNode(t)); n.append(l);
+    });
+    tip.style('display', null);
+    const b = el.getBoundingClientRect();
+    let x = ev.clientX - b.left + 14, y = ev.clientY - b.top + 14;
+    if (x + n.offsetWidth > b.width) x = Math.max(0, ev.clientX - b.left - n.offsetWidth - 14);
+    if (y + n.offsetHeight > b.height + 40) y = Math.max(0, ev.clientY - b.top - n.offsetHeight - 14);
+    tip.style('left', `${x}px`).style('top', `${y}px`);
+  }
+  function legend(el, items) {
+    el.replaceChildren(...items.map(([c, t, dash]) => {
+      const s = document.createElement('span'); const i = document.createElement('i');
+      i.style.background = dash ? `repeating-linear-gradient(90deg, ${c} 0 4px, transparent 4px 7px)` : c;
+      s.append(i, document.createTextNode(t)); return s;
+    }));
+  }
+  function chips(el, items, current, onPick) {
+    el.replaceChildren(...items.map(([id, label]) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = label;
+      b.setAttribute('aria-pressed', String(id === current)); b.addEventListener('click', () => onPick(id)); return b;
+    }));
+  }
+  const hours = (h) => (h >= 48 ? `${fInt(Math.round(h))}h (${d3.format('.1f')(h / 24)} days)` : `${fInt(Math.round(h))}h`);
+
+  // ------------------------------------------------------------- facts
+  function fillFacts() {
+    const s = D.summary;
+    const forestA = D.models.find((m) => m.cohort === 'A' && m.model === 'Random Survival Forest').c;
+    const extra = { discovery_share_pct: d3.format('.0%')(s.discovery_share), a_forest_pct: fPct(forestA) };
+    document.querySelectorAll('[data-k]').forEach((el) => {
+      const k = el.dataset.k; const v = k in extra ? extra[k] : s[k];
+      el.textContent = typeof v === 'number' ? fInt(v) : (v ?? '—');
+    });
+    document.getElementById('asof').textContent = d3.utcFormat('%-d %B %Y')(new Date(D.generated_at));
+  }
+
+  // ------------------------------------------------------------- hero clock
+  function hero() {
+    const ex = D.examples[0];
+    const el = document.getElementById('hero-chart');
+    const pts = ex.points.filter((p) => p.views != null);
+    const { svg, w, h } = frame(el, 200);
+    const m = { l: 8, r: 8, t: 10, b: 22 };
+    const x = d3.scaleLinear([0, 240], [m.l, w - m.r]);
+    const y = d3.scaleLinear([0, d3.max(pts, (p) => p.views) * 1.08], [h - m.b, m.t]);
+    ax(svg.append('g').attr('transform', `translate(0,${h - m.b})`), d3.axisBottom(x).tickValues([0, 24, 48, 96, 168, 240]).tickFormat((v) => `${v}h`).tickSizeOuter(0));
+    const line = d3.line().x((p) => x(p.h)).y((p) => y(p.views)).curve(d3.curveMonotoneX);
+    const area = d3.area().x((p) => x(p.h)).y0(y(0)).y1((p) => y(p.views)).curve(d3.curveMonotoneX);
+    const grad = svg.append('defs').append('linearGradient').attr('id', 'hg').attr('x2', 0).attr('y2', 1);
+    grad.append('stop').attr('offset', 0).style('stop-color', V('--alive')).style('stop-opacity', 0.28);
+    grad.append('stop').attr('offset', 1).style('stop-color', V('--alive')).style('stop-opacity', 0);
+    const clipW = svg.append('defs').append('clipPath').attr('id', 'hc').append('rect').attr('x', 0).attr('y', 0).attr('height', h).attr('width', w);
+    const g = svg.append('g').attr('clip-path', 'url(#hc)');
+    g.append('path').attr('d', area(pts)).style('fill', 'url(#hg)');
+    g.append('path').attr('d', line(pts)).style('fill', 'none').style('stroke', V('--alive')).attr('stroke-width', 2.5).attr('stroke-linecap', 'round');
+    const deathX = ex.died_h != null ? x(ex.died_h) : null;
+    const mark = svg.append('g').style('opacity', 0);
+    if (deathX != null) {
+      mark.append('line').attr('x1', deathX).attr('x2', deathX).attr('y1', m.t).attr('y2', h - m.b).style('stroke', V('--death')).attr('stroke-dasharray', '4 3');
+      mark.append('text').attr('class', 'lab').attr('x', deathX + 6).attr('y', m.t + 12).text(`dead at ${Math.round(ex.died_h)}h`);
+    }
+    const T = document.getElementById('hero-t'), S = document.getElementById('hero-status'), Vw = document.getElementById('hero-views');
+    const viewsAt = (t) => { let v = 0; for (const p of pts) { if (p.h <= t) v = p.views; } return v; };
+    const set = (t) => {
+      clipW.attr('width', x(t));
+      T.textContent = `t+${String(Math.round(t)).padStart(3, '0')}h`;
+      Vw.textContent = `${fInt(viewsAt(t))} views`;
+      const dead = ex.died_h != null && t >= ex.died_h;
+      S.textContent = dead ? 'DEAD' : 'ALIVE'; S.className = `status ${dead ? 'dead' : 'alive'}`;
+      mark.style('opacity', dead ? 1 : 0);
+    };
+    if (reduce) { set(240); return; }
+    const token = (hero.token = (hero.token || 0) + 1);   // a redraw retires the old loop
+    let t0 = null;
+    const loop = (ts) => {
+      if (token !== hero.token) return;
+      if (t0 == null) t0 = ts;
+      const t = Math.min(240, ((ts - t0) / 6500) * 240);
+      set(t);
+      if (t < 240) requestAnimationFrame(loop); else setTimeout(() => { t0 = null; requestAnimationFrame(loop); }, 2600);
+    };
+    requestAnimationFrame(loop);
+  }
+
+  // ------------------------------------------------------------- watch a video die
+  const player = { ex: 0, t: 240, playing: false, raf: null };
+  function playerUI() {
+    chips(document.getElementById('ex-chips'), D.examples.map((e, i) => [i, e.label]), player.ex, (i) => { player.ex = i; player.t = 240; stop(); playerUI(); drawPlayer(); });
+  }
+  function stop() { player.playing = false; document.getElementById('ex-play').textContent = 'Play'; if (player.raf) cancelAnimationFrame(player.raf); }
+  function drawPlayer() {
+    const ex = D.examples[player.ex];
+    const pts = ex.points.filter((p) => p.views != null);
+    const sp = ex.points.filter((p) => p.speed != null);
+    const t = player.t;
+    document.getElementById('ex-time').value = t;
+    const shownPts = pts.filter((p) => p.h <= t), shownSp = sp.filter((p) => p.h <= t);
+    const last = shownPts[shownPts.length - 1], lastSp = shownSp[shownSp.length - 1];
+    const dead = ex.died_h != null && t >= ex.died_h;
+    document.getElementById('ro-t').textContent = `${d3.format('.1f')(t)}h`;
+    document.getElementById('ro-views').textContent = last ? fInt(last.views) : '0';
+    document.getElementById('ro-speed').textContent = lastSp ? fPct(lastSp.speed) : '—';
+    const st = document.getElementById('ro-status');
+    st.textContent = dead ? `Dead at ${Math.round(ex.died_h)}h` : 'Alive';
+    st.style.color = dead ? V('--death') : V('--alive');
+    document.getElementById('ex-desc').textContent = `${ex.size}, ${ex.band}, ${ex.topic}. ` +
+      (ex.died_h != null ? `It crossed the death line for good at ${hours(ex.died_h)} after posting.` : 'It never crossed the death line while we watched it, so the study counts it as still alive at ten days. Survival models are built to use that information instead of throwing the video away.');
+    const ticks = [0, 24, 48, 72, 96, 120, 168, 240];
+    // views
+    {
+      const el = document.getElementById('ex-views');
+      const { svg, tip, w, h } = frame(el, 230);
+      const y = d3.scaleLinear([0, d3.max(pts, (p) => p.views) * 1.06], [h - 24, 10]).nice();
+      const m = { l: tw(svg, y.ticks(4).map(fSi)) + 10, r: 10, t: 10, b: 24 };
+      const x = d3.scaleLinear([0, 240], [m.l, w - m.r]);
+      ax(svg.append('g').attr('class', 'gridl').attr('transform', `translate(${m.l},0)`), d3.axisLeft(y).ticks(4).tickSize(-(w - m.l - m.r)).tickFormat(''));
+      ax(svg.append('g').attr('transform', `translate(${m.l},0)`), d3.axisLeft(y).ticks(4).tickFormat(fSi).tickSizeOuter(0));
+      ax(svg.append('g').attr('transform', `translate(0,${h - m.b})`), d3.axisBottom(x).tickValues(ticks.filter((v) => w > 420 || v % 48 === 0 || v === 240)).tickFormat((v) => `${v}h`).tickSizeOuter(0));
+      svg.append('path').attr('d', d3.line().x((p) => x(p.h)).y((p) => y(p.views))(pts)).style('fill', 'none').style('stroke', V('--grid')).attr('stroke-width', 2);
+      if (shownPts.length) svg.append('path').attr('d', d3.line().x((p) => x(p.h)).y((p) => y(p.views))(shownPts)).style('fill', 'none').style('stroke', V('--alive')).attr('stroke-width', 2.5).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
+      svg.append('g').selectAll('circle').data(shownPts).join('circle').attr('cx', (p) => x(p.h)).attr('cy', (p) => y(p.views)).attr('r', 4).style('fill', V('--alive')).style('stroke', V('--panel')).attr('stroke-width', 2)
+        .on('mousemove', (e, p) => showTip(tip, el, e, `${d3.format('.1f')(p.h)}h after posting`, [[null, `${fInt(p.views)} views`]])).on('mouseleave', () => tip.style('display', 'none'));
+      svg.append('line').attr('x1', x(t)).attr('x2', x(t)).attr('y1', m.t).attr('y2', h - m.b).style('stroke', V('--ink')).style('opacity', 0.35);
+      if (dead) svg.append('line').attr('x1', x(ex.died_h)).attr('x2', x(ex.died_h)).attr('y1', m.t).attr('y2', h - m.b).style('stroke', V('--death')).attr('stroke-dasharray', '4 3');
+    }
+    // speed
+    {
+      const el = document.getElementById('ex-speed');
+      const { svg, tip, w, h } = frame(el, 230);
+      const y = d3.scaleLinear([0, 1], [h - 24, 10]);
+      const m = { l: tw(svg, ['100%']) + 10, r: 10, t: 10, b: 24 };
+      const x = d3.scaleLinear([0, 240], [m.l, w - m.r]);
+      ax(svg.append('g').attr('class', 'gridl').attr('transform', `translate(${m.l},0)`), d3.axisLeft(y).ticks(4).tickSize(-(w - m.l - m.r)).tickFormat(''));
+      ax(svg.append('g').attr('transform', `translate(${m.l},0)`), d3.axisLeft(y).ticks(4).tickFormat(fPct0).tickSizeOuter(0));
+      ax(svg.append('g').attr('transform', `translate(0,${h - m.b})`), d3.axisBottom(x).tickValues(ticks.filter((v) => w > 420 || v % 48 === 0 || v === 240)).tickFormat((v) => `${v}h`).tickSizeOuter(0));
+      const thr = D.summary.threshold;
+      svg.append('rect').attr('x', m.l).attr('width', w - m.l - m.r).attr('y', y(thr)).attr('height', y(0) - y(thr)).style('fill', V('--death')).style('opacity', 0.1);
+      svg.append('line').attr('x1', m.l).attr('x2', w - m.r).attr('y1', y(thr)).attr('y2', y(thr)).style('stroke', V('--death')).attr('stroke-dasharray', '5 4');
+      svg.append('text').attr('x', w - m.r).attr('y', y(thr) - 6).attr('text-anchor', 'end').text('death line: 5% of its best');
+      svg.append('path').attr('d', d3.line().x((p) => x(p.h)).y((p) => y(p.speed))(sp)).style('fill', 'none').style('stroke', V('--grid')).attr('stroke-width', 2);
+      if (shownSp.length) svg.append('path').attr('d', d3.line().x((p) => x(p.h)).y((p) => y(p.speed))(shownSp)).style('fill', 'none').style('stroke', V('--small')).attr('stroke-width', 2.5).attr('stroke-linejoin', 'round');
+      svg.append('g').selectAll('circle').data(shownSp).join('circle').attr('cx', (p) => x(p.h)).attr('cy', (p) => y(p.speed)).attr('r', 4)
+        .style('fill', (p) => (p.speed < thr ? V('--death') : V('--small'))).style('stroke', V('--panel')).attr('stroke-width', 2)
+        .on('mousemove', (e, p) => showTip(tip, el, e, `${d3.format('.1f')(p.h)}h after posting`, [[null, `speed ${fPct(p.speed)} of its best hour`]])).on('mouseleave', () => tip.style('display', 'none'));
+      svg.append('line').attr('x1', x(t)).attr('x2', x(t)).attr('y1', m.t).attr('y2', h - m.b).style('stroke', V('--ink')).style('opacity', 0.35);
+    }
+  }
+  function playerControls() {
+    const rng = document.getElementById('ex-time'), btn = document.getElementById('ex-play');
+    rng.addEventListener('input', () => { stop(); player.t = +rng.value; drawPlayer(); });
+    btn.addEventListener('click', () => {
+      if (player.playing) return stop();
+      if (player.t >= 240) player.t = 0;
+      player.playing = true; btn.textContent = 'Pause';
+      let prev = null;
+      const step = (ts) => {
+        if (!player.playing) return;
+        if (prev != null) player.t = Math.min(240, player.t + ((ts - prev) / 1000) * (reduce ? 240 : 36));
+        prev = ts; drawPlayer();
+        if (player.t >= 240) return stop();
+        player.raf = requestAnimationFrame(step);
+      };
+      player.raf = requestAnimationFrame(step);
+    });
+  }
+
+  // ------------------------------------------------------------- pipeline flow
+  let flowAnim = null;
+  function drawFlow() {
+    const el = document.getElementById('flow');
+    el.replaceChildren();
+    const nodes = D.pipeline;
+    const w = Math.max(300, el.clientWidth);
+    const vertical = w < 640;
+    const nw = vertical ? Math.min(260, w - 20) : (w - 40) / nodes.length - 24, nh = 74;
+    const gap = vertical ? 30 : (w - nodes.length * nw) / (nodes.length - 1);
+    const H = vertical ? nodes.length * nh + (nodes.length - 1) * gap + 4 : nh + 8;
+    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${w} ${H}`).attr('height', H);
+    const pos = nodes.map((n, i) => (vertical ? { x: (w - nw) / 2, y: 2 + i * (nh + gap) } : { x: i * (nw + gap), y: 4 }));
+    const links = pos.slice(0, -1).map((p, i) => {
+      const q = pos[i + 1];
+      return vertical ? { x1: p.x + nw / 2, y1: p.y + nh, x2: q.x + nw / 2, y2: q.y } : { x1: p.x + nw, y1: p.y + nh / 2, x2: q.x, y2: q.y + nh / 2 };
+    });
+    svg.selectAll('line.link').data(links).join('line').attr('class', 'link').attr('x1', (l) => l.x1).attr('y1', (l) => l.y1).attr('x2', (l) => l.x2).attr('y2', (l) => l.y2);
+    const g = svg.selectAll('g.node').data(nodes).join('g').attr('class', 'node').attr('transform', (n, i) => `translate(${pos[i].x},${pos[i].y})`);
+    g.append('rect').attr('width', nw).attr('height', nh).attr('rx', 8);
+    g.append('text').attr('class', 's').attr('x', 12).attr('y', 22).text((n) => n.stage);
+    g.append('text').attr('class', 'n').attr('x', 12).attr('y', 45).text((n) => fInt(n.count));
+    g.append('text').attr('class', 'u').attr('x', 12).attr('y', 62).text((n) => n.unit);
+    const packets = svg.append('g');
+    if (flowAnim) flowAnim.stop();
+    if (reduce) return;
+    const per = 3;
+    const data = links.flatMap((l, i) => d3.range(per).map((k) => ({ l, off: k / per, i })));
+    const dots = packets.selectAll('circle').data(data).join('circle').attr('class', 'packet').attr('r', 3.5);
+    flowAnim = d3.timer((ms) => {
+      dots.each(function (d) {
+        const f = ((ms / 1400) + d.off + d.i * 0.13) % 1;
+        d3.select(this).attr('cx', d.l.x1 + (d.l.x2 - d.l.x1) * f).attr('cy', d.l.y1 + (d.l.y2 - d.l.y1) * f).attr('opacity', Math.sin(f * Math.PI));
+      });
+    });
+  }
+
+  // ------------------------------------------------------------- daily, coverage
+  function drawDaily() {
+    const el = document.getElementById('daily');
+    const rows = D.daily.map((r) => ({ ...r, date: day(r.day) }));
+    const { svg, tip, w, h } = frame(el, 240);
+    const y = d3.scaleLinear([0, d3.max(rows, (r) => r.snapshots) * 1.08], [h - 24, 8]).nice();
+    const m = { l: tw(svg, y.ticks(4).map(fInt)) + 10, r: 6, t: 8, b: 24 };
+    const x = d3.scaleBand(rows.map((r) => r.day), [m.l, w - m.r]).padding(0.25);
+    ax(svg.append('g').attr('class', 'gridl').attr('transform', `translate(${m.l},0)`), d3.axisLeft(y).ticks(4).tickSize(-(w - m.l - m.r)).tickFormat(''));
+    ax(svg.append('g').attr('transform', `translate(${m.l},0)`), d3.axisLeft(y).ticks(4).tickFormat(fInt).tickSizeOuter(0));
+    ax(svg.append('g').attr('transform', `translate(0,${h - m.b})`), d3.axisBottom(x).tickValues(rows.filter((r) => r.date.getUTCDay() === 1 && (w > 420 || r.date.getUTCDate() <= 7 || r.date.getUTCDate() > 14 && r.date.getUTCDate() <= 21)).map((r) => r.day)).tickFormat((d) => d3.utcFormat('%b %-d')(day(d))).tickSizeOuter(0));
+    svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', (r) => x(r.day)).attr('width', x.bandwidth())
+      .attr('y', (r) => y(r.snapshots)).attr('height', (r) => y(0) - y(r.snapshots)).attr('rx', 2)
+      .style('fill', (r) => (r.blocked ? V('--death') : V('--alive')));
+    svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', (r) => x(r.day) - (x.step() - x.bandwidth()) / 2).attr('width', x.step()).attr('y', m.t).attr('height', h - m.t - m.b).style('fill', 'transparent')
+      .on('mousemove', (e, r) => showTip(tip, el, e, d3.utcFormat('%a %-d %b')(r.date), [[r.blocked ? V('--death') : V('--alive'), `${fInt(r.snapshots)} view counts recorded`], [null, `${fInt(r.new_videos)} new videos · ${fInt(r.runs)} runs`], ...(r.blocked ? [[null, 'quota used up by the leaked key']] : [])]))
+      .on('mouseleave', () => tip.style('display', 'none'));
+  }
+  function drawCoverage() {
+    const el = document.getElementById('coverage');
+    const rows = D.coverage.map((r) => ({ ...r, label: `${r.mark_h}h` }));
+    const { svg, tip, w, h } = frame(el, 240);
+    const y = d3.scaleLinear([0, 1], [h - 24, 18]);
+    const m = { l: tw(svg, ['100%']) + 10, r: Math.ceil(tw(svg, [rows[rows.length - 1].label]) / 2) + 2, t: 18, b: 24 };
+    const x = d3.scaleBand(rows.map((r) => r.label), [m.l, w - m.r]).padding(0.28);
+    ax(svg.append('g').attr('class', 'gridl').attr('transform', `translate(${m.l},0)`), d3.axisLeft(y).ticks(4).tickSize(-(w - m.l - m.r)).tickFormat(''));
+    ax(svg.append('g').attr('transform', `translate(${m.l},0)`), d3.axisLeft(y).ticks(4).tickFormat(fPct0).tickSizeOuter(0));
+    const every = w < 420 ? 3 : 1;
+    ax(svg.append('g').attr('transform', `translate(0,${h - m.b})`), d3.axisBottom(x).tickValues(rows.filter((r, i) => i % every === 0 || i === rows.length - 1).map((r) => r.label)).tickSizeOuter(0));
+    svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', (r) => x(r.label)).attr('width', x.bandwidth())
+      .attr('y', (r) => y(r.on_time)).attr('height', (r) => Math.max(0, y(0) - y(r.on_time))).attr('rx', 3).style('fill', V('--alive'));
+    const last = rows[rows.length - 1];
+    svg.append('rect').attr('x', x(last.label)).attr('width', x.bandwidth()).attr('y', y(0) - 4).attr('height', 4).attr('rx', 2).style('fill', V('--death'));
+    svg.append('text').attr('class', 'lab').attr('x', x(last.label) + x.bandwidth()).attr('y', y(0) - 12).attr('text-anchor', 'end').text('never taken');
+    svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', (r) => x(r.label) - (x.step() - x.bandwidth()) / 2).attr('width', x.step()).attr('y', m.t).attr('height', h - m.t - m.b).style('fill', 'transparent')
+      .on('mousemove', (e, r) => showTip(tip, el, e, `Reading due at ${r.label}`, [[r.on_time ? V('--alive') : V('--death'), `${fPct(r.on_time)} taken on time`]]))
+      .on('mouseleave', () => tip.style('display', 'none'));
+  }
+
+  // ------------------------------------------------------------- quota
+  function drawQuota() {
+    const s = D.summary;
+    const daily = s.units_per_run * s.runs_per_day;
+    const bar = (el, ours, title) => {
+      el.replaceChildren();
+      const a = document.createElement('span'); a.className = 'ours'; a.style.width = `${(ours / s.allowance) * 100}%`; a.title = title;
+      el.append(a); return el;
+    };
+    bar(document.getElementById('q-normal'), daily, `${fInt(daily)} of ${fInt(s.allowance)} units`);
+    const n = document.getElementById('q-normal').parentElement;
+    let lab = n.querySelector('.qlab'); if (!lab) { lab = document.createElement('span'); lab.className = 'qlab note'; lab.style.gridColumn = '2'; n.append(lab); }
+    lab.textContent = `${fInt(s.units_per_run)} units × ${fInt(s.runs_per_day)} runs ≈ ${fInt(daily)} a day, ${fPct0(daily / s.allowance)} of the allowance`;
+    const box = document.getElementById('q-leak'); box.replaceChildren();
+    D.leak.forEach((d) => {
+      const row = document.createElement('div'); row.className = 'quota-row';
+      const k = document.createElement('span'); k.textContent = d3.utcFormat('%-d %b')(day(d.day));
+      const b = document.createElement('div'); b.className = 'qbar';
+      const o = document.createElement('span'); o.className = 'ours'; o.style.width = `${(d.ours / s.allowance) * 100}%`;
+      const t = document.createElement('span'); t.className = 'theirs'; t.style.width = `${((s.allowance - d.ours) / s.allowance) * 100}%`;
+      b.title = `Ours: about ${fInt(d.ours)} units. Refused at ${d.refused_at}.`;
+      b.append(o, t); row.append(k, b);
+      const note = document.createElement('span'); note.className = 'note'; note.style.gridColumn = '2';
+      note.textContent = `ours ≈ ${fInt(d.ours)} units, then refused at ${d.refused_at}`;
+      row.append(note); box.append(row);
+    });
+  }
+
+  // ------------------------------------------------------------- benchmark
+  let benchRun = null;
+  function drawBench() {
+    const runs = [...new Set(D.benchmark.map((r) => r.run))];
+    if (!benchRun) benchRun = runs[runs.length - 1];
+    chips(document.getElementById('bench-chips'), runs.map((r) => [r, r]), benchRun, (r) => { benchRun = r; drawBench(); });
+    const rows = D.benchmark.filter((r) => r.run === benchRun);
+    const engines = [...new Set(rows.map((r) => r.engine))];
+    const col = (e) => [V('--muted'), V('--small'), V('--alive')][engines.indexOf(e)];
+    legend(document.getElementById('bench-legend'), engines.map((e) => [col(e), e]));
+    const el = document.getElementById('bench');
+    const { svg, tip, w, h } = frame(el, 240);
+    const y = d3.scaleLog([d3.min(D.benchmark, (r) => r.seconds) / 1.4, d3.max(D.benchmark, (r) => r.seconds) * 1.4], [h - 26, 8]);
+    const yt = [0.01, 0.1, 1];
+    const m = { l: tw(svg, yt.map((v) => `${v}s`)) + 10, r: 16, t: 8, b: 26 };
+    const x = d3.scaleLog(d3.extent(D.benchmark, (r) => r.rows), [m.l, w - m.r]);
+    ax(svg.append('g').attr('class', 'gridl').attr('transform', `translate(${m.l},0)`), d3.axisLeft(y).tickValues(yt).tickSize(-(w - m.l - m.r)).tickFormat(''));
+    ax(svg.append('g').attr('transform', `translate(${m.l},0)`), d3.axisLeft(y).tickValues(yt).tickFormat((v) => `${v}s`).tickSizeOuter(0));
+    ax(svg.append('g').attr('transform', `translate(0,${h - m.b})`), d3.axisBottom(x).tickValues([1e3, 1e4, 1e5, 1e6]).tickFormat((v) => `${d3.format('~s')(v)} rows`).tickSizeOuter(0));
+    engines.forEach((e) => {
+      const s = rows.filter((r) => r.engine === e).sort((a, b) => a.rows - b.rows);
+      svg.append('path').attr('d', d3.line().x((r) => x(r.rows)).y((r) => y(r.seconds))(s)).style('fill', 'none').style('stroke', col(e)).attr('stroke-width', 2.5).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
+      svg.append('g').selectAll('circle').data(s).join('circle').attr('cx', (r) => x(r.rows)).attr('cy', (r) => y(r.seconds)).attr('r', 4.5).style('fill', col(e)).style('stroke', V('--panel')).attr('stroke-width', 2);
+    });
+    const pts = rows.map((r) => [x(r.rows), y(r.seconds), r]);
+    const del = d3.Delaunay.from(pts, (p) => p[0], (p) => p[1]);
+    svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', w - m.l - m.r).attr('height', h - m.t - m.b).style('fill', 'transparent')
+      .on('mousemove', (e) => {
+        const [mx, my] = d3.pointer(e); const at = pts[del.find(mx, my)][2];
+        showTip(tip, el, e, `${fInt(at.rows)} rows`, rows.filter((r) => r.rows === at.rows).map((r) => [col(r.engine), `${r.engine}: ${d3.format('.3f')(r.seconds)} s`]));
+      }).on('mouseleave', () => tip.style('display', 'none'));
+  }
+
+  // ------------------------------------------------------------- incidents (text is the BDA report's)
+  const INCIDENTS = [
+    ['31 Aug', 'The scheduler fired one run in three', 'GitHub\'s own timer skipped two of every three slots, and most videos missed their first-hour reading.', 'An outside timer now triggers every run, and the gaps between runs are measured, not assumed.'],
+    ['2 Sep', 'The first reading was being swallowed', 'A reading taken at discovery made every video look one step ahead, so the 1-hour reading was always skipped.', 'Only a reading inside a mark\'s own window counts for that mark. First-hour capture rose from 45% to 99.5%.'],
+    ['4 Sep', 'Instagram returned empty pages for 18 hours', 'The collector kept paying for empty answers: 102 credits wasted from a budget that cannot be topped up.', 'Count attempts, not successes, and stop after three empty rounds.'],
+    ['17 Sep', 'An API key was written into a public log', 'One error message contained the full web address, key included, and it was committed with the data.', 'Every error is now stripped of keys before it is saved. The leaked key was revoked and replaced.'],
+    ['16 Oct', 'The two-week reading was never taken', 'A boundary bug dropped each video from the queue at the exact moment its last reading was due.', 'Recorded openly. It affected every video equally, so comparisons stay fair; videos were watched for ten days.'],
+  ];
+  function drawIncidents() {
+    document.getElementById('incidents').replaceChildren(...INCIDENTS.map(([d, t, what, fix]) => {
+      const c = document.createElement('div'); c.className = 'incident';
+      const tm = document.createElement('time'); tm.textContent = d;
+      const h = document.createElement('h3'); h.textContent = t;
+      const p1 = document.createElement('p'); p1.textContent = what;
+      const p2 = document.createElement('p'); const b = document.createElement('b'); b.textContent = 'Fix: '; p2.append(b, document.createTextNode(fix));
+      c.append(tm, h, p1, p2); return c;
+    }));
+  }
+
+  // ------------------------------------------------------------- hypotheses
+  function drawHyp() {
+    const forest = (c) => D.models.find((m) => m.cohort === c && m.model === 'Random Survival Forest');
+    const h2 = (c) => D.h2.find((r) => r.cohort === c && r.model === 'Random Survival Forest' && (c === 'B' ? r.analysis === 'Sealed holdout' : r.analysis === 'Main analysis'));
+    const cards = [
+      { code: 'H1', q: 'Can a model beat a naive guess?', rows: [
+        ['Main set', 'partly', `Partly. It ranks videos better than chance (${f3(forest('A').c)}), but names the time no better than the average lifetime.`],
+        ['Sealed test', 'partly', `Same again (${f3(forest('B').c)}): better ranking, no better timing.`]] },
+      { code: 'H2', q: 'Does early growth add anything beyond channel size?', rows: [
+        ['Main set', 'no', `Not supported. Ahead of channel size by only ${d3.format('+.3f')(h2('A').dc)}, and neither test passes.`],
+        ['Sealed test', 'no', `Not supported. Clearly ahead on ranking (${d3.format('+.3f')(h2('B').dc)}) but not on timing, and the rule fixed in advance needs both.`]] },
+    ];
+    document.getElementById('hyp').replaceChildren(...cards.map((c) => {
+      const el = document.createElement('div'); el.className = 'hcard';
+      const code = document.createElement('span'); code.className = 'code'; code.textContent = c.code;
+      const h = document.createElement('h3'); h.textContent = c.q;
+      el.append(code, h);
+      c.rows.forEach(([who, cls, txt]) => {
+        const r = document.createElement('div'); r.className = 'verdict';
+        const a = document.createElement('span'); const p = document.createElement('span'); p.className = `pill ${cls}`; p.textContent = cls === 'no' ? 'Not supported' : 'Partly';
+        a.append(document.createTextNode(`${who} `), document.createElement('br'), p);
+        const b = document.createElement('span'); b.textContent = txt; b.style.color = 'var(--ink-2)';
+        r.append(a, b); el.append(r);
+      });
+      return el;
+    }));
+  }
+
+  // ------------------------------------------------------------- game
+  const game = { order: [], i: 0, you: 0, model: 0, size: 0, done: 0, rounds: 10, answered: false };
+  function newGame() {
+    game.order = d3.shuffle(d3.range(D.game.length)).slice(0, game.rounds);
+    Object.assign(game, { i: 0, you: 0, model: 0, size: 0, done: 0, answered: false });
+    document.getElementById('g-again').hidden = true;
+    drawRound();
+  }
+  function score() {
+    const s = (n) => `${n} / ${game.done}`;
+    document.getElementById('s-you').textContent = s(game.you);
+    document.getElementById('s-model').textContent = s(game.model);
+    document.getElementById('s-size').textContent = s(game.size);
+  }
+  function sparkline(svgEl, side) {
+    const pts = [[1, side.views_1h], [3, side.views_3h], [6, side.views_6h]].filter((p) => p[1] != null);
+    const svg = d3.select(svgEl); svg.selectAll('*').remove();
+    const w = svgEl.clientWidth || 200, h = 56;
+    svg.attr('viewBox', `0 0 ${w} ${h}`);
+    if (pts.length < 2) return;
+    const x = d3.scaleLinear([1, 6], [6, w - 6]);
+    const y = d3.scaleLinear([0, d3.max(pts, (p) => p[1]) || 1], [h - 6, 6]);
+    svg.append('path').attr('d', d3.line().x((p) => x(p[0])).y((p) => y(p[1]))(pts)).style('fill', 'none').style('stroke', V('--alive')).attr('stroke-width', 2.5).attr('stroke-linecap', 'round');
+    svg.selectAll('circle').data(pts).join('circle').attr('cx', (p) => x(p[0])).attr('cy', (p) => y(p[1])).attr('r', 3.5).style('fill', V('--alive'));
+  }
+  function card(side, key, pair) {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'vcard'; b.dataset.side = key;
+    const who = document.createElement('span'); who.className = 'who'; who.textContent = `Video ${key.toUpperCase()}`;
+    const sz = document.createElement('span'); sz.className = 'size'; sz.textContent = side.size;
+    const meta = document.createElement('span'); meta.className = 'meta'; meta.textContent = `${side.band} · ${side.topic}`;
+    const sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); sv.setAttribute('class', 'spark'); sv.setAttribute('aria-hidden', 'true');
+    const row = document.createElement('div'); row.className = 'vrow';
+    [['at 1h', side.views_1h], ['at 3h', side.views_3h], ['at 6h', side.views_6h]].forEach(([k, v]) => {
+      const c = document.createElement('div'); const vb = document.createElement('b'); vb.textContent = v == null ? '—' : fSi(v); c.append(vb, document.createTextNode(`views ${k}`)); row.append(c);
+    });
+    const rev = document.createElement('div'); rev.className = 'reveal'; rev.hidden = true;
+    b.append(who, sz, meta, sv, row, rev);
+    b.addEventListener('click', () => answer(key, pair));
+    requestAnimationFrame(() => sparkline(sv, side));
+    return b;
+  }
+  function drawRound() {
+    score();
+    const pair = D.game[game.order[game.i]];
+    const duel = document.getElementById('duel');
+    duel.replaceChildren(card(pair.a, 'a', pair), card(pair.b, 'b', pair));
+    game.answered = false;
+    document.getElementById('g-next').hidden = true;
+    document.getElementById('g-line').textContent = `Round ${game.i + 1} of ${game.rounds}. Which one stops getting attention first?`;
+  }
+  function answer(pick, pair) {
+    if (game.answered) return;
+    game.answered = true; game.done += 1;
+    const right = pick === pair.first;
+    game.you += right ? 1 : 0; game.model += pair.model_pick === pair.first ? 1 : 0; game.size += pair.size_pick === pair.first ? 1 : 0;
+    score();
+    document.querySelectorAll('#duel .vcard').forEach((c) => {
+      c.disabled = true;
+      const k = c.dataset.side, s = pair[k], rev = c.querySelector('.reveal');
+      if (k === pair.first) c.classList.add('first');
+      rev.hidden = false; rev.replaceChildren();
+      const t = document.createElement('div'); t.className = 'tagline'; t.style.color = k === pair.first ? 'var(--ok)' : 'var(--muted)';
+      t.textContent = k === pair.first ? 'Died first' : 'Lasted longer';
+      const a = document.createElement('div'); a.textContent = `Really died at ${hours(s.died_h)}`;
+      const mm = document.createElement('div'); mm.textContent = `Model expected ${hours(s.model_h)}`; mm.style.color = 'var(--muted)';
+      rev.append(t, a, mm);
+      if (k === pick) { const y = document.createElement('div'); y.textContent = 'Your pick'; y.style.fontWeight = '600'; rev.prepend(y); }
+    });
+    const mRight = pair.model_pick === pair.first, sRight = pair.size_pick === pair.first;
+    document.getElementById('g-line').textContent = `${right ? 'Right.' : 'Not this time.'} The model was ${mRight ? 'right' : 'wrong'}, and channel size alone was ${sRight ? 'right' : 'wrong'}.`;
+    if (game.i + 1 < game.rounds) document.getElementById('g-next').hidden = false;
+    else {
+      document.getElementById('g-again').hidden = false;
+      document.getElementById('g-line').textContent += ` Final: you ${game.you}, model ${game.model}, channel size ${game.size}, out of ${game.rounds}.`;
+    }
+  }
+  document.getElementById('g-next').addEventListener('click', () => { game.i += 1; drawRound(); });
+  document.getElementById('g-again').addEventListener('click', newGame);
+
+  // ------------------------------------------------------------- findings
+  let cohort = 'A';
+  const cname = (c) => (c === 'A' ? 'Main set' : 'Sealed test');
+  function findings() {
+    chips(document.getElementById('cohort-chips'), ['A', 'B'].map((c) => [c, `${cname(c)} (${fInt(D.summary[c === 'A' ? 'a_videos' : 'b_videos'])} videos)`]), cohort, (c) => { cohort = c; findings(); });
+    drawModels(); drawSurvival();
+  }
+  function drawModels() {
+    const el = document.getElementById('models');
+    const rows = D.models.filter((r) => r.cohort === cohort).sort((a, b) => b.c - a.c);
+    const { svg, tip, w, h } = frame(el, 32 + rows.length * 32);
+    const m = { l: tw(svg, rows.map((r) => r.model)) + 14, r: 46, t: 4, b: 24 };
+    const x = d3.scaleLinear([0.4, 0.72], [m.l, w - m.r]);
+    const y = d3.scaleBand(rows.map((r) => r.model), [m.t, h - m.b]).padding(0.4);
+    ax(svg.append('g').attr('class', 'gridl').attr('transform', `translate(0,${h - m.b})`), d3.axisBottom(x).ticks(4).tickSize(-(h - m.t - m.b)).tickFormat(''));
+    ax(svg.append('g').attr('transform', `translate(0,${h - m.b})`), d3.axisBottom(x).ticks(4).tickFormat(d3.format('.2f')).tickSizeOuter(0));
+    svg.append('line').attr('x1', x(0.5)).attr('x2', x(0.5)).attr('y1', m.t).attr('y2', h - m.b).style('stroke', V('--ink')).style('opacity', 0.4);
+    svg.append('text').attr('x', x(0.5) + 4).attr('y', h - m.b - 5).text('coin flip');
+    const col = (r) => (r.role === 'primary' ? V('--alive') : V('--muted'));
+    const g = svg.append('g').selectAll('g').data(rows).join('g').attr('transform', (r) => `translate(0,${y(r.model) + y.bandwidth() / 2})`);
+    g.append('text').attr('x', m.l - 10).attr('y', 4).attr('text-anchor', 'end').attr('class', (r) => (r.role === 'primary' ? 'lab' : null)).text((r) => r.model);
+    g.filter((r) => r.lo != null).append('line').attr('x1', (r) => x(r.lo)).attr('x2', (r) => x(r.hi)).style('stroke', col).attr('stroke-width', 2.5).attr('stroke-linecap', 'round');
+    g.append('circle').attr('cx', (r) => x(r.c)).attr('r', 5.5).style('fill', (r) => (r.lo == null ? V('--panel') : col(r))).style('stroke', (r) => (r.lo == null ? col(r) : V('--panel'))).attr('stroke-width', 2);
+    g.append('text').attr('x', (r) => x(r.hi ?? r.c) + 8).attr('y', 4).text((r) => f3(r.c));
+    g.append('rect').attr('x', 0).attr('y', -y.step() / 2).attr('width', w).attr('height', y.step()).style('fill', 'transparent')
+      .on('mousemove', (e, r) => showTip(tip, el, e, `${r.model} · ${cname(r.cohort)}`, [[col(r), r.lo == null ? 'Gives every video the same answer, so it cannot rank: 0.500' : `Picks the right video ${fPct(r.c)} of the time (range ${f3(r.lo)}–${f3(r.hi)})`], [null, `Timing is typically off by ${d3.format('.2f')(r.error_x)}×`]]))
+      .on('mouseleave', () => tip.style('display', 'none'));
+  }
+  function drawSurvival() {
+    const el = document.getElementById('survival');
+    const groups = ['micro', 'mid', 'large', 'all'];
+    legend(document.getElementById('surv-legend'), groups.map((g) => [tierColor(g), TIER[g], g === 'all']));
+    const S = D.survival[cohort];
+    const tmax = d3.max(groups, (g) => d3.max(S[g], (p) => p[0]));
+    const { svg, tip, w, h } = frame(el, 280);
+    const y = d3.scaleLinear([0, 1], [h - 24, 8]);
+    const m = { l: tw(svg, ['100%']) + 10, r: 10, t: 8, b: 24 };
+    const x = d3.scaleLinear([0, tmax], [m.l, w - m.r]);
+    ax(svg.append('g').attr('class', 'gridl').attr('transform', `translate(${m.l},0)`), d3.axisLeft(y).ticks(5).tickSize(-(w - m.l - m.r)).tickFormat(''));
+    ax(svg.append('g').attr('transform', `translate(${m.l},0)`), d3.axisLeft(y).ticks(5).tickFormat(fPct0).tickSizeOuter(0));
+    ax(svg.append('g').attr('transform', `translate(0,${h - m.b})`), d3.axisBottom(x).ticks(Math.min(6, Math.floor((w - m.l) / 60))).tickFormat((v) => `${v}h`).tickSizeOuter(0));
+    const ser = groups.map((g) => { const s = S[g].slice(); if (s[0][0] > 0) s.unshift([0, 1]); s.push([tmax, s[s.length - 1][1]]); return { g, s }; });
+    const line = d3.line().curve(d3.curveStepAfter).x((p) => x(p[0])).y((p) => y(p[1]));
+    ser.forEach(({ g, s }) => svg.append('path').attr('d', line(s)).style('fill', 'none').style('stroke', tierColor(g)).attr('stroke-width', g === 'all' ? 2 : 2.5).attr('stroke-dasharray', g === 'all' ? '5 4' : null));
+    const rule = svg.append('line').attr('y1', m.t).attr('y2', h - m.b).style('stroke', V('--ink')).style('opacity', 0.3).style('display', 'none');
+    const at = (s, t) => { let v = 1; for (const p of s) { if (p[0] <= t) v = p[1]; else break; } return v; };
+    svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', w - m.l - m.r).attr('height', h - m.t - m.b).style('fill', 'transparent')
+      .on('mousemove', (e) => { const t = Math.max(0, x.invert(d3.pointer(e)[0])); rule.attr('x1', x(t)).attr('x2', x(t)).style('display', null);
+        showTip(tip, el, e, `${Math.round(t)}h after the 7-hour mark · ${cname(cohort)}`, ser.map(({ g, s }) => [tierColor(g), `${TIER[g]}: ${fPct0(at(s, t))} still alive`])); })
+      .on('mouseleave', () => { tip.style('display', 'none'); rule.style('display', 'none'); });
+  }
+  function drawH2() {
+    const el = document.getElementById('h2');
+    const rows = D.h2;
+    const models = [...new Set(rows.map((r) => r.model))];
+    const mc = (mo) => [V('--alive'), V('--small')][models.indexOf(mo)];
+    legend(document.getElementById('h2-legend'), models.map((mo) => [mc(mo), mo]));
+    const n = rows.filter((r) => r.both).length;
+    document.getElementById('h2-count').textContent = `${n} of ${rows.length} rows`;
+    const an = [...new Set(rows.map((r) => r.analysis))];
+    const { svg, tip, w, h } = frame(el, 26 + an.length * 44);
+    const m = { l: Math.min(w * 0.42, tw(svg, an) + 14), r: w < 480 ? 12 : 92, t: 4, b: 24 };
+    const x = d3.scaleLinear([Math.min(-0.06, d3.min(rows, (r) => r.lo) - 0.01), d3.max(rows, (r) => r.hi) + 0.01], [m.l, w - m.r]);
+    const y = d3.scaleBand(an, [m.t, h - m.b]).padding(0.14);
+    const off = d3.scaleBand(models, [-y.bandwidth() / 2 + 6, y.bandwidth() / 2 - 6]).padding(0.3);
+    svg.append('g').selectAll('rect').data(an.slice(0, 2)).join('rect').attr('x', 0).attr('width', w).attr('y', (a) => y(a)).attr('height', y.bandwidth()).attr('rx', 6).style('fill', V('--grid'));
+    ax(svg.append('g').attr('class', 'gridl').attr('transform', `translate(0,${h - m.b})`), d3.axisBottom(x).ticks(5).tickSize(-(h - m.t - m.b)).tickFormat(''));
+    ax(svg.append('g').attr('transform', `translate(0,${h - m.b})`), d3.axisBottom(x).ticks(5).tickFormat(d3.format('+.2f')).tickSizeOuter(0));
+    svg.append('line').attr('x1', x(0)).attr('x2', x(0)).attr('y1', m.t).attr('y2', h - m.b).style('stroke', V('--ink')).style('opacity', 0.55);
+    svg.append('g').selectAll('text').data(an).join('text').attr('x', m.l - 10).attr('y', (a) => y(a) + y.bandwidth() / 2 + 4).attr('text-anchor', 'end').attr('class', (a, i) => (i < 2 ? 'lab' : null))
+      .text((a) => (tw(svg, [a]) > m.l - 14 ? `${a.slice(0, Math.floor((m.l - 14) / 6.2))}…` : a));
+    const g = svg.append('g').selectAll('g').data(rows).join('g').attr('transform', (r) => `translate(0,${y(r.analysis) + y.bandwidth() / 2 + off(r.model) + off.bandwidth() / 2})`);
+    g.append('line').attr('x1', (r) => x(r.lo)).attr('x2', (r) => x(r.hi)).style('stroke', (r) => mc(r.model)).attr('stroke-width', 2.5).attr('stroke-linecap', 'round');
+    g.append('circle').attr('cx', (r) => x(r.dc)).attr('r', 5).style('fill', (r) => mc(r.model)).style('stroke', V('--panel')).attr('stroke-width', 2);
+    if (w >= 480) g.filter((r) => r.both).append('text').attr('class', 'lab').attr('x', w - m.r + 8).attr('y', 4).text('passes both');
+    g.append('rect').attr('x', 0).attr('y', -10).attr('width', w).attr('height', 20).style('fill', 'transparent')
+      .on('mousemove', (e, r) => showTip(tip, el, e, `${r.analysis} · ${r.model}`, [[mc(r.model), `Ranking gain over channel size: ${d3.format('+.3f')(r.dc)} (range ${d3.format('+.3f')(r.lo)} to ${d3.format('+.3f')(r.hi)})`], [null, `Timing test p = ${r.p < 0.001 ? '<0.001' : d3.format('.3f')(r.p)}`], [null, r.both ? 'Passes both tests' : 'Does not pass both tests']]))
+      .on('mouseleave', () => tip.style('display', 'none'));
+  }
+
+  // ------------------------------------------------------------- holdout reveal
+  let ho = 'A';
+  function bars2(el, items, max, chance, base = 0) {
+    if (!el.children.length) {
+      items.forEach((it) => {
+        const r = document.createElement('div'); r.className = 'b2';
+        const l = document.createElement('span'); l.textContent = it.label;
+        const t = document.createElement('div'); t.className = 'track';
+        const f = document.createElement('div'); f.className = 'fill'; f.style.background = it.color; f.style.width = '0%';
+        t.append(f);
+        if (chance != null) { const c = document.createElement('div'); c.className = 'chance'; c.style.left = `${(chance / max) * 100}%`; t.append(c); }
+        const v = document.createElement('span'); v.className = 'val';
+        r.append(l, t, v); el.append(r);
+      });
+    }
+    [...el.children].forEach((r, i) => {
+      r.querySelector('.fill').style.width = `${(Math.max(0, items[i].value - base) / (max - base)) * 100}%`;
+      r.querySelector('.val').textContent = items[i].text;
+    });
+  }
+  function reveal() {
+    document.querySelectorAll('[data-ho]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.ho === ho)));
+    const f = D.models.find((m) => m.cohort === ho && m.model === 'Random Survival Forest');
+    const s = D.models.find((m) => m.cohort === ho && m.model === 'Channel size only');
+    bars2(document.getElementById('ho-scores'), [
+      { label: 'Our model', value: f.c, text: f3(f.c), color: V('--alive') },
+      { label: 'Channel size alone', value: s.c, text: f3(s.c), color: V('--muted') },
+    ], 0.68, null, 0.5);
+    const tiers = ['micro', 'mid', 'large'].map((t) => D.tiers.find((r) => r.cohort === ho && r.tier === t));
+    bars2(document.getElementById('ho-tiers'), tiers.map((r) => ({ label: TIER[r.tier], value: r.median_h, text: `${Math.round(r.median_h)}h`, color: tierColor(r.tier) })),
+      d3.max(D.tiers, (r) => r.median_h) * 1.1, null);
+    const sA = D.models.find((m) => m.cohort === 'A' && m.model === 'Channel size only').c;
+    document.getElementById('ho-story').textContent = ho === 'A'
+      ? '“It’s all about who posted it.” Channel size alone almost matches our model, and bigger channels’ videos last longer.'
+      : '“It’s all about who posted it” didn’t hold. Channel size alone fell to nearly a coin flip, and mid-size channels outlasted the big ones.';
+    document.getElementById('ho-explain').textContent = ho === 'A'
+      ? `On the main set, channel size alone scored ${f3(sA)}. Median lifetime rose neatly with channel size. It looked like a clean finding.`
+      : `On the sealed test, our model held up (${f3(f.c)}) but channel size alone dropped to ${f3(s.c)}. The neat ordering broke. So the paper withdrew the claim. The hypothesis verdict did not flip either way: the rule we wrote before opening needs two tests to pass, and the sealed test passed one.`;
+  }
+  document.querySelectorAll('[data-ho]').forEach((b) => b.addEventListener('click', () => { ho = b.dataset.ho; reveal(); }));
+
+  // ------------------------------------------------------------- boot
+  function drawAll() { hero(); drawPlayer(); drawFlow(); drawDaily(); drawCoverage(); drawQuota(); drawBench(); findings(); drawH2(); }
+  fetch('data.json').then((r) => r.json()).then((data) => {
+    D = data;
+    fillFacts(); playerUI(); playerControls(); drawIncidents(); drawHyp(); newGame();
+    drawAll(); reveal();
+    let wPrev = window.innerWidth;
+    window.addEventListener('resize', () => {
+      if (Math.abs(window.innerWidth - wPrev) < 30) return; wPrev = window.innerWidth;
+      clearTimeout(window.__r); window.__r = setTimeout(() => { drawPlayer(); drawFlow(); drawDaily(); drawCoverage(); drawBench(); drawModels(); drawSurvival(); drawH2(); }, 180);
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { drawAll(); reveal(); });
+  }).catch(() => {
+    document.querySelectorAll('.chart').forEach((c) => { c.innerHTML = '<p class="loading">Could not load data.json. Open this page from its website address, not as a local file.</p>'; });
+  });
+})();
+</script>
+</body>
+</html>
