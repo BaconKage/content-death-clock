@@ -3,18 +3,14 @@
 **Amogha V Prasad · S Anannya · Sanidhya Tiwari · Shubhang Srinivas Varda**
 RV University, Bengaluru — 7th Semester, Research Methodology
 
-> **Draft status, as of 2026-10-16.** Method (§3) follows `ANALYSIS_PLAN.md`, frozen
-> 2026-08-30, plus the six dated amendments summarised in Appendix A. **The Cohort A
-> results in §4 are final.** Every Cohort A post has completed observation, and the
-> provisional figures of 2026-09-20 (498 deaths) have been replaced by the matured
-> analysis (563 deaths). Maturation changed one conclusion, not just digits: the single
-> H2 test that passed on 2026-09-20 no longer does (§4.4). §5 and §8 have been re-checked
-> against the final numbers and rewritten where they no longer held.
->
-> One thing remains, by design: **Cohort B (§4.7) is sealed and unevaluated.** Its
-> evaluation was declared in full on 2026-10-16 (Amendment 6). It runs once, on or after
-> **2026-10-18**, and its result goes into §4.7 whatever it says. The holdout ledger is
-> empty, which is the evidence.
+> **Draft status, as of 2026-10-18.** Method (§3) follows `ANALYSIS_PLAN.md`, frozen
+> 2026-08-30, plus the six dated amendments summarised in Appendix A. **All results are
+> final.** The Cohort A results in §4 come from the matured analysis of 2026-10-16 (563
+> deaths), replacing the provisional figures of 2026-09-20 (498 deaths); maturation changed
+> one conclusion, not just digits (§4.4). **Cohort B, the sealed holdout, was evaluated once
+> on 2026-10-18, exactly as declared (§4.7).** It replicated the models' modest
+> discrimination and did *not* replicate the dominance of creator size, so §5 and §8 have
+> been revised where the Cohort A reading no longer holds.
 
 ---
 
@@ -53,14 +49,21 @@ scores C-index 0.594. The forest exceeds it by +0.022 (paired creator bootstrap 
 −0.009 to +0.065; Wilcoxon p = 0.083), and the Weibull AFT scores *below* it (−0.005,
 p = 0.440). Of five pre-registered sensitivity analyses, one — a stricter 2% death threshold,
 forest only — would satisfy H2; the other four, including a mechanically different outcome
-definition, do not.
+definition, do not. In the sealed temporal holdout (Cohort B: 831 posts, 655 deaths, 50
+creators), evaluated once as declared in advance, the forest again discriminated (C-index
+0.600, 95% CI 0.555–0.648) and again failed to beat the Kaplan–Meier median on absolute
+error. H2 was again not supported under the pre-declared rule, but for a different reason:
+the forest beat creator size on discrimination (+0.083, 95% CI +0.033 to +0.134) but not on
+absolute error (p = 0.69), and creator size alone did no better than chance (0.517).
 
 **Conclusion.** Time to attention death is predictable from first-session signals to a
-small but measurable degree, and creator size accounts for most of that predictability.
-Early engagement *dynamics* add nothing beyond creator size that survives the registered
-tests, and absolute predictions are imprecise by roughly a factor of two regardless of
-method. We report this as the result, as pre-registered on 2026-08-30, rather than as a
-specification to be improved upon.
+small, measurable and replicable degree (C-index about 0.60 in both cohorts), but absolute
+predictions are imprecise by roughly a factor of two, and no method beats the cohort's median
+lifetime on them. Whether early engagement *dynamics* add anything beyond creator size is not
+settled: in the main sample they did not, and in the holdout they did on ranking but not on
+error. Cohort A's apparent dominance of creator size did not replicate. We report all of this
+as the result, as pre-registered on 2026-08-30, rather than as a specification to be
+improved upon.
 
 **Keywords:** attention decay, survival analysis, right-censoring, landmark analysis,
 social media, pre-registration, YouTube
@@ -673,8 +676,11 @@ pre-specified test of H2, on either model, now comes out in its favour.
 **What the null can and cannot rule out.** The paired interval on the forest's advantage
 has a standard error of about 0.019. At α = 0.05 and 80% power the study could therefore
 have detected a true ΔC-index of about **0.05**, and the upper limit of the interval, +0.065,
-bounds the effect from above. The data exclude early dynamics adding a *large* amount beyond
-creator size. They cannot settle whether they add a small one (§6).
+bounds the effect from above *in this sample*. On Cohort A alone, the data exclude early
+dynamics adding a large amount of ranking information beyond creator size, and cannot settle
+whether they add a small one (§6). The holdout's estimate, +0.083, lies above that bound
+(§4.7). So the size of the advantage depends on the sample of channels, and Cohort A's
+bound should not be read as a general one.
 
 > **Recorded in advance.** Before the freeze, the draft carried a note observing that in
 > the 7-death dress rehearsal the creator-size baseline *outscored* the full model (0.817
@@ -707,6 +713,8 @@ reach attention death in roughly a third of the time that posts from large chann
 consistent with the H2 null — creator size carries most of the recoverable signal — and it is
 the single clearest pattern in the data. The micro and mid tiers each rest on 13–14
 channels, so a contrast between tiers is also a contrast between a small number of creators.
+**It did not replicate in the holdout:** in Cohort B the mid tier outlasted the large one
+(§4.7).
 
 | Category | n | Deaths | Creators | Median after the landmark (h) |
 |---|---|---|---|---|
@@ -874,35 +882,101 @@ YouTube, as expected.
 
 ### 4.7 Cohort B — temporal holdout
 
-`[PENDING]` — **not yet evaluated, and deliberately so.**
-
-Cohort B comprises the **906 YouTube posts** published from the 2026-09-16 freeze instant up
-to the close at 2026-10-04 (counted from publication records). Every one of them received
-its last observation by 2026-10-14. Under Amendment 5 the holdout is opened on or after
-**2026-10-18**, once every post has also passed the nominal 336-hour window.
-
-The evaluation was declared in full before opening (Amendment 6): the registered procedure
-applied unchanged within Cohort B (§3.8 gives the reason), the eleven confirmatory features
-only, the reading rule of §3.8, and the single command
+**Evaluated once, on 2026-10-18 at 10:54 UTC, exactly as declared in Amendment 6.** The run
+used the declared command, from the amendment commit itself (`43a5461`), checked out
+separately, because a later commit had added the figure script under `src/cdc/eval/`, a
+folder the declared rule excludes. The ledger holds one entry, reproduced in full:
 
 ```
-python -m cdc.eval.report --platform youtube --cohort B --unlock-holdout
+{"evaluated_at": "2026-10-18T10:54:32+00:00", "platform": "youtube", "git_commit": "43a546116b7f880f6a9eda6ff6435677688c8050", "n_posts": 831, "n_deaths": 655, "n_creators": 50, "results_digest": "170111c8a010", "c_index": {"weibull_aft": 0.5631544330845548, "random_survival_forest": 0.6000944884807425, "constant_48h": 0.5, "km_median": 0.45413603253368084, "subscriber_only": 0.5167670735435341, "peak_velocity": 0.5226695157310969, "loglinear_uncensored": 0.5630741487545121, "gbm_uncensored": 0.5722759681209453}}
 ```
 
-**One disclosure.** On 2026-10-16, during a status check, death labels were computed for
-Cohort B in order to count its analysable posts, deaths and creators (831, 655 and 50). No
-model was fitted and no metric was computed. It is recorded here because a death count is
-outcome data.
+**Sample.** 906 posts were published in the Cohort B window. 71 died before the landmark and
+4 had too few observations, leaving **831 posts, 655 observed deaths (21.2% censored) and 50
+creators**. These match the counts disclosed in Amendment 6.
 
-The holdout ledger (`data/gold/holdout_evaluations.jsonl`) is reproduced here in full,
-whatever it contains — number of evaluations, dates, and the code commit each ran against.
-As of writing it does not exist, which is the correct state and is itself the evidence that
-no model has been scored on Cohort B.
+| Model | Role | C-index | 95% CI (creator bootstrap) | MAE log₁₀ | RMSE log₁₀ |
+|---|---|---|---|---|---|
+| Random Survival Forest | primary | **0.600** | [0.555, 0.648] | 0.269 | 0.370 |
+| Weibull AFT | primary | 0.563 | [0.518, 0.607] | 0.290 | 0.398 |
+| Constant 48h | naive baseline | 0.500 | — | 0.316 | 0.373 |
+| KM median | naive baseline | 0.500\* | — | 0.266 | 0.394 |
+| Creator size only | baseline (H2) | 0.517 | [0.464, 0.573] | 0.281 | 0.402 |
+| Peak velocity | baseline | 0.523 | [0.481, 0.566] | 0.272 | 0.401 |
+| Log-linear, deaths only | comparator | 0.563 | [0.523, 0.612] | 0.269 | 0.340 |
+| Gradient boosting, deaths only | comparator | 0.572 | [0.517, 0.632] | **0.254** | **0.324** |
 
-Cohort B is collected by the same instrument as Cohort A, at a later date and from largely
-the same channels. If its result disagrees with Cohort A's, the disagreement is reported as
-it falls, in either direction, and is not explained away.
+\* As in §4.3; the pooled value is 0.454 [0.408, 0.502].
 
+**H1, read by the declared rule: supported on discrimination, not on absolute error.** Both
+primary intervals exclude 0.5. On absolute error the better naive baseline is again the KM
+median (MAE 0.266), and both models are significantly *worse* than it on the paired Wilcoxon
+(forest median +0.023, p = 0.017; Weibull AFT +0.010, p = 0.010). Both again beat the 48-hour
+constant (forest median −0.099, p < 0.0001; Weibull AFT −0.102, p = 0.002).
+
+**H2, read by the declared rule: not supported, but not for the same reason as in Cohort A.**
+
+| Comparison | Δ C-index | 95% CI (paired creator bootstrap, 2,000) | Draws with model ahead | Wilcoxon median, p | Holm p |
+|---|---|---|---|---|---|
+| Forest − creator size only | **+0.083** | **[+0.033, +0.134]** | 99.9% | +0.006, p = 0.691 | 0.691 |
+| Weibull AFT − creator size only | +0.046 | [−0.005, +0.091] | 96.6% | +0.004, p = 0.313 | 0.626 |
+
+The forest beats creator size on discrimination by a margin whose interval excludes zero. On
+absolute error it does not: the Wilcoxon is p = 0.691, and the bootstrap difference in MAE,
+−0.012 [−0.037, +0.010], spans zero. The rule fixed before opening requires both tests, so H2
+is not supported. This is the mirror image of the provisional Cohort A run of 2026-09-20,
+where the Wilcoxon passed and the interval did not, and the holdout is read by the same rule
+that run was read by.
+
+**Side by side.**
+
+| | Cohort A | Cohort B (holdout) |
+|---|---|---|
+| Posts / deaths / creators | 686 / 563 / 47 | 831 / 655 / 50 |
+| Censored | 17.9% | 21.2% |
+| Forest C-index | 0.616 [0.566, 0.672] | 0.600 [0.555, 0.648] |
+| Weibull AFT C-index | 0.589 [0.531, 0.643] | 0.563 [0.518, 0.607] |
+| Creator size only | 0.594 [0.544, 0.644] | **0.517 [0.464, 0.573]** |
+| Forest − creator size, Δ C-index | +0.022 [−0.009, +0.065] | **+0.083 [+0.033, +0.134]** |
+| Forest vs creator size, Wilcoxon p | 0.083 | 0.691 |
+| Lowest-error naive baseline | KM median, MAE 0.299 | KM median, MAE 0.266 |
+| H1: discrimination / absolute error | yes / no | yes / no |
+| H2 by the declared rule | no | no |
+| Labels agree on order (Spearman ρ) / timing ratio | +0.749 / 0.646 | +0.741 / 0.679 |
+
+**What replicated.** The forest's modest discrimination (0.616, then 0.600). The finding
+that no fitted model names the time of death better than the cohort's median lifetime. Both
+models beating the 48-hour folk rule. The two outcome labels agreeing on order but not on
+timing.
+
+**What did not.** The dominance of creator size. In Cohort B, creator size alone does not
+discriminate better than chance: its interval includes 0.5. The forest's lead over it is
+nearly four times what it was in Cohort A. That is not because the forest improved, but
+because the baseline fell.
+
+**Why creator size fell — exploratory, after the evaluation.** Computed descriptively on
+2026-10-18, after the single evaluation; no model was fitted or scored. The tier pattern that
+§4.5 called the clearest in Cohort A did not hold in Cohort B.
+
+| Creator tier | Cohort A median after landmark (h) | Cohort B median after landmark (h) | Cohort B creators |
+|---|---|---|---|
+| micro (<10k) | 41.5 | 65.1 | 13 |
+| mid (10k–500k) | 89.5 | **113.0** | 14 |
+| large (>500k) | 113.0 | **89.5** | 23 |
+
+The tiers still differ (log-rank p = 4.9 × 10⁻⁷), and micro channels' posts still die
+soonest, but mid and large swapped places. A baseline in which lifetime rises steadily with
+subscriber count cannot follow that, which is why it fell to chance. With 13–23 channels per
+tier, a reversal of this kind can be driven by a handful of channels, so we read it as
+instability in the creator-size relationship across samples of channels, not as a new
+pattern.
+
+**What this does to the paper's claims.** The holdout leaves both hypothesis verdicts where
+they were. It does not leave Cohort A's substantive reading where it was. The claim that
+the timing of attention death is largely a property of the *audience* rested on creator size
+explaining almost all of the forest's discrimination. In a fresh sample from largely the same
+frame, it explained very little of it, while the forest's discrimination held. §5 and §8 are
+revised accordingly.
 ### 4.8 Instagram — feasibility only
 
 Instagram is a **cross-platform feasibility demonstration, not a second test set**, and no
@@ -963,15 +1037,18 @@ matters, that has to be shown on data collected after 2026-10-16.
 ### 5.1 What we set out to test, and what came back
 
 We asked whether the time at which a post stops receiving meaningful attention can be
-predicted from signals observable in its first session. The answer, across 686 posts and
-563 observed deaths, is: **weakly, and almost entirely because of who posted it.**
+predicted from signals observable in its first session. The answer, across two cohorts
+totalling 1,517 posts and 1,218 observed deaths, is: **weakly, but replicably — and how much
+of it is down to who posted it depends on which channels you sample.**
 
 Both primary models discriminate better than chance (forest 0.616, Weibull AFT 0.589, both
 intervals excluding 0.5), so H1 holds in the limited sense that attention death is not
 unpredictable. But a creator-size-only baseline reaches 0.594 on its own. Everything our
 feature set contributes beyond a single number describing the channel amounts to about two
 points of concordance for the forest and nothing for the Weibull AFT, and that margin passes
-neither registered test.
+neither registered test. In the holdout, the forest's discrimination held (0.600) while
+creator size alone fell to chance (0.517). The margin widened to eight points on ranking, but
+still did not show up in absolute error (§4.7).
 
 ### 5.2 A C-index near 0.6, in practical terms
 
@@ -1008,24 +1085,35 @@ forest's interval spanning zero.
 
 A result that appears at one threshold, on one of two models, and nowhere under the
 registered choices, is not a finding. We therefore report **H2 as not supported.** We add the
-qualification the power analysis requires: the study rules out a large contribution from
-early dynamics (ΔC above about 0.065), not a small one.
+qualification the power analysis requires: Cohort A excludes a ranking advantage above about
+0.065, not a smaller one. The holdout's estimate of +0.083 exceeds that bound, a point taken
+up below.
 
-**What that null claims.** If early engagement dynamics add little or nothing beyond creator
-size, then the timing of attention death is largely a property of the **audience** rather
-than of the **post**. A channel's subscriber base appears to determine not only how much
-attention a post receives but roughly how long it holds it, and the particular trajectory of
-a post's first seven hours tells us little more. §4.5 supports this directly and is the
-clearest pattern in the data: median time to death rises monotonically from 41.5h for micro
-channels to 89.5h for mid and 113.0h for large — a 2.7× spread across tiers, dwarfing
-anything our dynamic features recover.
+**What the null seemed to claim, and what the holdout did to it.** On Cohort A alone, the
+natural reading was that the timing of attention death is largely a property of the
+**audience** rather than of the **post**: the channel's subscriber base sets roughly how long
+a post holds attention, and its first seven hours add little. §4.5 appeared to support that
+directly, with median time to death rising from 41.5h for micro channels to 89.5h for mid and
+113.0h for large.
 
-This is a more interesting claim than a working countdown would have been, and it runs
-against the intuition that early velocity is diagnostic. It is also consistent with the
-literature we build on: Szabó and Huberman's log-linear relationship works because early
-magnitude predicts later magnitude, and Pinto et al.'s gains concentrate in trajectory
-*shape* for predicting *volume*. Neither establishes that shape predicts *timing*, and our
-result suggests it largely does not.
+The holdout does not support that reading. In Cohort B, creator size alone ranked posts no
+better than chance, the mid tier outlasted the large one, and the forest's discrimination,
+which uses early dynamics, held at 0.600. What survives across both cohorts is narrower:
+posts from the smallest channels die soonest, and creator size is one useful input whose
+strength varies between samples of channels. It is not the explanation of decay timing.
+
+Read together, the two cohorts say early dynamics may carry ranking information beyond
+creator size: absent in Cohort A, clear in Cohort B. They do not carry it in a way that
+improves the predicted time. The registered verdict on H2 is "not supported" in both
+cohorts, and we keep it. A study that pre-registered a two-test rule does not get to drop one
+test when the other finally passes. But we no longer describe the result as a clean null
+about audiences, because the holdout shows it is not one.
+
+This bears on the literature we build on. Szabó and Huberman's log-linear relationship works
+because early magnitude predicts later magnitude, and Pinto et al.'s gains concentrate in
+trajectory *shape* for predicting *volume*. Neither establishes that shape predicts *timing*.
+Our two cohorts disagree about whether it does beyond creator size, which makes the question
+worth a larger study rather than an answer.
 
 ### 5.4 Two constructs, not one
 
@@ -1084,8 +1172,9 @@ The analysis plan was frozen on 2026-08-30 with 179 posts collected, zero death 
 computed and zero models fitted. Every subsequent deviation is a dated commit with a stated
 reason. The draft carried, in advance, a note recording that the creator-size baseline had
 outscored the model in the dress rehearsal and committing to report that if it held. The
-evaluation tooling refuses to print results below 50 observed deaths. Cohort B is sealed
-behind a flag and a ledger, and its evaluation was declared before it was opened.
+evaluation tooling refuses to print results below 50 observed deaths. Cohort B was sealed
+behind a flag and a ledger, its evaluation was declared before it was opened, and it was run
+once.
 
 None of that made the analysis correct. What it did was remove the decisions that would
 otherwise have been made *after* seeing the numbers — which threshold, which landmark,
@@ -1101,6 +1190,13 @@ left out of every model, and the omission was found only on 2026-10-16, after th
 plan with the whitelist could have found it — but did not prevent it. We report it as a
 deviation found late, rather than repairing it in the direction the result would have
 favoured.
+
+The holdout is where the design earned its keep most plainly. Had Cohort A been the whole
+study, its tidy story — audience, not post — would have gone into the conclusion
+unchallenged. A sealed sample, evaluated once by rules written beforehand, is what showed
+that the story did not travel to new data. It also cut the other way: the holdout's one
+favourable test does not get to promote H2 to "supported", because the rule written before
+opening says it takes two.
 
 ## 6. Limitations
 
@@ -1126,8 +1222,10 @@ Most were stated in advance in the frozen plan; items 8 and 9 were found afterwa
    which nothing is interpreted, not a power calculation. The effective unit of independence
    is the creator (47), not the post, which is why every interval is bootstrapped by
    creator. For H2 specifically, the paired interval's standard error of about 0.019 gives a
-   minimum detectable ΔC-index of roughly 0.05 at 80% power: the study can rule out a large
-   contribution from early dynamics but cannot resolve a small one. The exploratory tier and
+   minimum detectable ΔC-index of roughly 0.05 at 80% power. Cohort A alone could exclude a
+   large ranking contribution from early dynamics but not a small one. The holdout then
+   estimated one above Cohort A's bound, which says the bound is sample-specific. The
+   exploratory tier and
    category breakdowns rest on as few as one to five channels in a cell.
 8. **Death times are interval-censored and treated as exact.** A death is located at the
    end of the first sub-threshold interval, and 96.1% of deaths fall on eight schedule
@@ -1139,6 +1237,10 @@ Most were stated in advance in the frozen plan; items 8 and 9 were found afterwa
    matured (§3.7); and the 2026-09-20 draft reported a pooled C-index for a constant baseline
    without noting that it was an artefact (§4.3). Each is disclosed rather than corrected in
    the direction the result would favour.
+10. **One replication, from largely the same channels.** The holdout is a later sample of
+    posts, and 43 of its 50 creators also appear in Cohort A. Its disagreement with Cohort A
+    about creator size shows how much a result here can depend on which 47–50 channels are
+    sampled. Settling H2 needs more creators, not more posts from the same ones.
 
 ## 7. Ethics
 
@@ -1154,8 +1256,10 @@ is observational and involves no intervention on any user or creator.
 We asked when a social media post stops receiving meaningful attention, and whether that
 moment can be predicted from the post's first session. Across a prospectively collected
 panel of 686 YouTube posts from 47 channels, observed every 30 minutes for up to ten days
-and yielding 563 observed deaths, the answer is that it can be predicted — weakly — and that
-creator size accounts for essentially all of the predictability.
+and yielding 563 observed deaths, plus a sealed holdout of 831 posts evaluated once, the
+answer is that it can be predicted — weakly, but replicably. How much of that predictability
+belongs to creator size rather than to the post's own early behaviour, the two cohorts do not
+agree on.
 
 Both censoring-aware models discriminate better than chance (Random Survival Forest
 C-index 0.616, 95% CI 0.566–0.672; Weibull AFT 0.589, 0.531–0.643), so **H1 is supported on
@@ -1164,21 +1268,22 @@ dies at 48 hours, but neither predicts the actual time better than the cohort's 
 lifetime, which attains the lowest absolute error of any method tested. Every approach we
 tried, from a random survival forest to a single number, is wrong by a factor of about two.
 
-**H2 is not supported.** A creator-size-only baseline reaches C-index 0.594 unaided. No
-pre-specified test, on either model, shows early dynamics adding to it: the forest's
-advantage of +0.022 has an interval spanning zero, and the Weibull AFT falls below the
-baseline. One of five sensitivity analyses would reverse that, at a stricter death threshold
-and for one model only. We report this as a null rather than as a marginal positive, because
-it is one, with the stated qualification that the study can rule out a large effect but not
-a small one.
+**H2 is not supported, in either cohort, by the rule fixed in advance.** In Cohort A a
+creator-size-only baseline reached C-index 0.594 unaided, and no pre-specified test showed
+early dynamics adding to it. In the holdout, the forest again discriminated (0.600) while
+creator size alone fell to chance (0.517), so the forest beat it on ranking (+0.083, interval
+excluding zero), but not on absolute error (p = 0.69). The rule requires both, so the verdict
+stands. We report it with one qualification that matters: the two cohorts disagree about the
+size of the ranking advantage, about +0.02 in Cohort A and +0.08 in the holdout, so the null
+is not a clean one, and a larger sample of creators is what would settle it.
 
-The substantive claim we can make is therefore about audiences rather than posts: **how
-long content holds attention appears to be determined largely by who published it, not by
-how it began.** Median time to attention death rises from 41.5 hours after the landmark for
-channels under 10,000 subscribers to 113.0 hours for those above 500,000 — a spread no
-feature derived from a post's first seven hours came close to matching. What the models can
-do is flag the minority of posts that will die early; they cannot tell apart how long the
-rest will last.
+The substantive claim Cohort A seemed to support — that how long content holds attention is
+determined largely by who published it — **did not replicate.** Posts from the smallest
+channels die soonest in both cohorts, but the ordering of mid and large channels reversed in
+the holdout, and creator size alone lost its predictive value there. What does replicate is
+narrower and more practical. The models can flag the minority of posts that will die early.
+They cannot tell apart how long the rest will last, and no method we tried names the time of
+death better than the cohort's median lifetime.
 
 Two secondary findings stand on their own. A post stops *growing* well before it stops
 *receiving* attention: our two independently motivated labels agree on ordering
@@ -1189,8 +1294,9 @@ deaths fell inside the feature window, making the majority of predictions circul
 
 We make no causal claim. The design is observational, the sampling frame is a committed
 query list rather than a random sample of YouTube, and generalisation beyond it is not
-asserted. A temporal holdout of 906 posts remains sealed, with its evaluation declared in
-advance, and will be evaluated exactly once.
+asserted. The temporal holdout was evaluated exactly once, from the commit and by the rules
+declared beforehand, and its result is reported in full whether it helped the story or not.
+It did not.
 
 What we offer alongside the result is the apparatus that made reporting it
 straightforward: a plan frozen in version control before any outcome existed, every

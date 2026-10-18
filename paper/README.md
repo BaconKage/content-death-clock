@@ -4,13 +4,13 @@ Two deliverables, one dataset, one repo.
 
 | | File | Course | Status |
 |---|---|---|---|
-| Empirical paper | [`rm/paper.md`](rm/paper.md) | Research Methodology | Written in full; **Cohort A results final** (matured, 2026-10-16); figures in `rm/figures/`; Cohort B sealed, evaluation declared, runs on/after 2026-10-18 |
+| Empirical paper | [`rm/paper.md`](rm/paper.md) | Research Methodology | Written in full; **all results final** — Cohort A matured 2026-10-16, Cohort B holdout evaluated once 2026-10-18 (§4.7); figures in `rm/figures/` |
 | Technical report | [`bda/report.md`](bda/report.md) | Big Data Analytics | Method + benchmark final; scale-up numbers final |
 
 ## How to read the drafts
 
 Everything marked **`[PENDING]`** is a number that does not exist yet and must not be
-invented. One remains, in §4.7: the Cohort B holdout, which is sealed.
+invented. None remain in the RM paper; the Cohort B holdout was evaluated on 2026-10-18.
 
 Cohort A closed **2026-09-16T00:00:00Z** (pre-specified in `settings.yaml` on
 2026-08-30). Every Cohort A post has completed observation, and the results in the RM paper
@@ -20,7 +20,8 @@ provisional 2026-09-20 figures (498 deaths) are superseded. `cdc.eval.report` st
 says `false`.
 
 Cohort B closed to admissions on **2026-10-04**. Its evaluation was declared in full on
-2026-10-16 (plan amendment 6), and it is evaluated exactly once, on or after **2026-10-18**.
+2026-10-16 (plan amendment 6) and run **once**, on 2026-10-18, from the declared commit. The
+single ledger entry is committed at `data/gold/holdout_evaluations.jsonl`.
 
 The figures are regenerated from the gold artifacts with `python -m cdc.eval.figures`.
 
