@@ -549,7 +549,7 @@ engines. Run 1 already measured the 1-million-row regime directly.
 ## 8. Honest positioning on "big data"
 
 The dataset is **2,408 YouTube posts and 28,723 snapshots**, plus 396 Instagram posts and
-1,506 snapshots: 3,222 bronze files, about 40 MB, written by 2,575 unattended collection runs
+1,506 snapshots: 3,222 bronze files, about 32 MB, written by 2,575 unattended collection runs
 over 50 days (`python -m cdc.collect.monitor`; `git log`). That is small.
 
 What makes this a big data systems problem is not volume but the other three Vs plus a fourth
@@ -578,8 +578,16 @@ death threshold, and its status: died at a stated hour, or still alive. It delib
 prediction exists; it says "no prediction available yet" instead. A demo that always shows a
 confident number teaches its audience the wrong thing about the system.
 
-**Interactive dashboard.** A web dashboard presents both deliverables for readers who will not
-run code: a pipeline tab (volume per day, the outages, coverage by scheduled mark with the
+**Public website: <https://baconkage.github.io/content-death-clock/>.** One scrolling page that explains the whole project to a reader
+who will not run code, served by GitHub Pages from the `gh-pages` branch. Its interactive parts
+are a player that replays one real video's decay against the death line, an animated diagram of
+the pipeline with its real counts, a game that shows two real videos as they looked at hour 7
+and asks the reader to beat the model, and a switch between what the main set and the sealed
+holdout said. Every chart is drawn from `site/data.json`, which `python -m cdc.site.build_data`
+builds from this repository; no video, title or channel is named, subscriber counts appear only
+as wide bands, and a test pins that no identifier reaches the file.
+
+**Interactive dashboard.** A second, tabbed dashboard presents the same material for review: a pipeline tab (volume per day, the outages, coverage by scheduled mark with the
 missing 336-hour reading, the benchmark, and the incident log) and a findings tab (one video's
 decay, survival curves and model scores switchable between the two cohorts, and the H2 test
 across every analysis). Every figure on it is drawn from a data file exported from this
@@ -592,7 +600,7 @@ the gold artifacts.
 
 ## 10. Testing and CI
 
-- **226 tests**, run on every push.
+- **237 tests**, run on every push.
 - Label functions tested against synthetic curves with analytically known death times.
 - Idempotency test: the same cycle run twice must not change the silver row count.
 - Leakage test with the discriminative power documented in §6.
@@ -624,6 +632,8 @@ src/cdc/models/                 dataset.py, survival.py, baselines.py, synthetic
 src/cdc/eval/                   validate.py, report.py (power guard), holdout.py, figures.py
 src/cdc/bench/                  amplify.py, spark_bench.py
 src/cdc/app/                    Streamlit demo
+src/cdc/site/build_data.py      builds site/data.json for the public website
+site/                           the public website (deployed to the gh-pages branch)
 data/bronze/                    the raw evidence, committed by the collector
 data/gold/holdout_evaluations.jsonl  the single Cohort B evaluation, committed
 paper/rm/figures/               the RM paper's figures
@@ -655,6 +665,10 @@ python -m cdc.eval.report --platform youtube --outcome saturation
 
 ```bash
 python -m cdc.eval.figures
+```
+
+```bash
+python -m cdc.site.build_data
 ```
 
 ```bash

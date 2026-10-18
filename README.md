@@ -1,7 +1,9 @@
 # Content Death Clock
 
 Predicting **when** social media content stops getting attention, rather than whether it
-goes viral. RV University, 7th Semester — Research Methodology + Big Data Analytics.
+goes viral.
+
+**Explore the study: <https://baconkage.github.io/content-death-clock/>** (interactive website, no install). RV University, 7th Semester — Research Methodology + Big Data Analytics.
 
 Most content-performance research predicts *growth*. We predict *decay*: given a post,
 how long until engagement velocity collapses? The deliverable is a decay curve and a

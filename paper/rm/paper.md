@@ -523,7 +523,7 @@ Two instrument checks are worth reporting in a methods paper, because both found
   analytically known death times. It is the one component where a silent bug invalidates
   every downstream number.
 
-The suite contains 221 tests and runs in CI on every push.
+The suite contains 237 tests and runs in CI on every push. A public website, <https://baconkage.github.io/content-death-clock/>, presents the study for readers who will not run code.
 
 ---
 

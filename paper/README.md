@@ -1,6 +1,6 @@
 # Papers
 
-Two deliverables, one dataset, one repo.
+Two deliverables, one dataset, one repo. **Website for readers: <https://baconkage.github.io/content-death-clock/>**
 
 | | File | Course | Status |
 |---|---|---|---|
