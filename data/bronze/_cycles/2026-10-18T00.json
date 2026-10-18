@@ -1,11 +1,11 @@
 {
   "cycle_id": "2026-10-18T00",
-  "started_at": "2026-10-18T00:01:48+00:00",
+  "started_at": "2026-10-18T00:31:29+00:00",
   "dry_run": false,
   "panel_before": {
     "posts_total": 2400,
     "posts_active": 642,
-    "posts_due": 69,
+    "posts_due": 71,
     "snapshots_total": 28546,
     "snapshots_per_post_mean": 11.894166666666667
   },
@@ -24,5 +24,5 @@
     }
   },
   "files": [],
-  "finished_at": "2026-10-18T00:01:49+00:00"
+  "finished_at": "2026-10-18T00:31:30+00:00"
 }
