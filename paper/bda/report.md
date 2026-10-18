@@ -403,10 +403,10 @@ redacts a second time before it logs or records anything. Five tests rebuild the
 2026-09-17 failure using a real `requests.Response`. A new key, restricted to the YouTube Data
 API only, replaced the old one in the GitHub secret on 2026-10-18.
 
-**Not rewritten.** The old key remains in the repository's history. Revoking it in the Google
-Cloud console is what ends the exposure: a revoked key is worthless, and rewriting a public
-history of more than 2,500 data commits, which is the study's evidence, would do more harm than leaving
-a dead string in it.
+**Revoked, not rewritten.** The leaked key was deleted in the Google Cloud console on
+2026-10-18, which ends the exposure: a revoked key is worthless. It remains in the repository's
+history, and stays there, because rewriting a public history of more than 2,500 data commits,
+which is the study's evidence, would do more harm than leaving a dead string in it.
 
 **Effect on the study: none.** Every post in both cohorts had received its last observation by
 2026-10-14. The outages cost only posts published after the Cohort B close, which no analysis
