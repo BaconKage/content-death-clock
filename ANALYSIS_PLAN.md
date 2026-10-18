@@ -187,6 +187,91 @@ there to bound.
 
 ## Amendment log
 
+**2026-10-18 — An exploratory extension, declared before its test data is examined:
+a practical early-warning model, evaluated once on a new Cohort C.**
+
+*Status.* This is not a change to H1, H2 or H3, and it is not evidence for or against any of
+them. It was conceived after the main study's results, the Cohort B holdout included, were
+known. That is why it gets a test set of its own and rules of its own, both fixed here
+before any Cohort C outcome has been computed.
+
+*Why.* The main study asks whether predictions transfer to channels a model has never seen.
+A practical tool would be used on channels that are already being tracked, and could use two
+signals the study recorded but never modelled: likes and comments in the first hours.
+Exploration on 2026-10-18 (trained on Cohort A, tested on Cohort B, both already examined)
+suggested that such a model ranks videos better and, more usefully, flags fast-fading videos
+at about three times the base rate, while its timing error stays where the study found it.
+That suggestion came from data that had already been examined, so it is tested here on data
+that has not.
+
+*Test set: Cohort C.* YouTube posts published 2026-10-04T00:00Z ≤ t < 2026-10-15T00:00Z,
+creator daily cap applied, labelled exactly as in the main study (5% of peak, two intervals,
+7-hour landmark). By publication record on 2026-10-18 there are 533 such posts, 215 of them
+already past their 240-hour window. No label, feature or prediction has been examined for
+any Cohort C post. One disclosure: the first rehearsal below built its data with a call
+that labelled every post in memory, Cohort C included, before keeping only Cohorts A and B.
+Nothing about Cohort C was printed, stored or looked at, and the code was changed the same
+day so that a rehearsal labels only the cohorts it uses. Every Cohort C post completes its
+effective 240-hour window (amendment of 2026-10-16) by 2026-10-25T00:00Z.
+
+*Known damage, stated in advance.* The quota outages caused by the leaked key
+(2026-10-15T16:31Z–2026-10-16T07:00Z, 2026-10-17T20:31Z–2026-10-18T07:00Z, and from
+2026-10-18T09:31Z to the next reset) cost some Cohort C posts one or more scheduled
+readings. Nothing is excluded or imputed for that reason. Velocity is computed on actual
+timestamps as always, posts left with too few intervals fall under the existing exclusion
+rules and are counted, and the number of Cohort C posts missing any scheduled reading from 1h
+to 240h is reported with the result.
+
+*Model, fixed.* `src/cdc/eval/practical.py` at this commit. It is trained on Cohort A plus
+Cohort B. It is the random survival forest with the registered settings (300 trees, minimum
+leaf 5, square-root feature sampling, seed 20260830), summarised by restricted mean survival
+time. Its inputs are the eleven confirmatory features plus log10(likes/views) and
+log10(comments/views) at the last reading at or before the landmark, under the 50% coverage
+rule on the training set. The primary landmark is 7h. The secondary landmark is 25h, one hour
+after the scheduled 24-hour reading, as 7h is for 6h; it adds log10 views and the latest speed
+as a share of the best speed so far, both at or before 25h. Nothing observed after a landmark
+is read. The same channels appear in training and test, deliberately: that is how a tracking
+tool is used, and it is the reason this is not a test of H2.
+
+*Claims and decision rules, fixed.*
+
+1. **Primary: the 7-hour fast-fade flag.** The 20% of Cohort C posts with the shortest
+   predicted remaining time are flagged. A post "fades fast" if its attention death is
+   observed within 48 hours of posting. The claim **passes** if the lower bound of the 95%
+   creator-resampled bootstrap interval (2,000 draws) for *precision minus base rate* is
+   above zero. Precision, base rate, lift and recall are reported with their intervals.
+2. **Secondary: ranking at 7 hours.** Harrell's C-index, and the paired creator-bootstrap
+   ΔC-index against the creator-size-only baseline trained on the same data. Passes if that
+   interval excludes zero.
+3. **Descriptive: the 25-hour model** (the same two quantities), and the timing error against
+   guessing the median, at both landmarks. No pass/fail.
+
+*Rehearsal, already run, not a result.* The frozen code was run in rehearsal mode (trained on
+Cohort A, tested on Cohort B, both already examined) as a smoke test. At 7h: ranking 0.663
+against 0.555 for creator size (gain +0.108, [+0.059, +0.158]); flag precision 41.9%
+[29.5%, 56.8%] against a base rate of 13.5%, 3.1×, recall 62%; timing error 1.73× against
+1.77× for guessing the median. At 25h: ranking 0.704; flag precision 19.6% against 6.5%,
+3.0×; timing error 1.78× against 1.87×. These numbers are the reference for Cohort C, and
+Cohort C should be expected to come out lower, not higher, because nothing was chosen on it.
+
+*Command and timing.* Run **once**, on or after **2026-10-25T02:00Z**, from this commit (checked
+out separately if later commits have touched `src/cdc/eval/`, `src/cdc/models/`,
+`src/cdc/labels/` or `config/settings.yaml`):
+
+```
+python -m cdc.transform.silver
+python -m cdc.eval.practical
+```
+
+The harness refuses to run earlier and records the run in
+`data/gold/practical_evaluations.jsonl`, which is committed whatever the result. A second run
+requires `--again` and is reported as a second look. The result goes into the RM paper as a
+labelled exploratory extension, and into the technical report, whatever it says. It changes
+no verdict on H1 or H2.
+
+*Status of the outcome data at amendment.* Cohorts A and B fully examined. Cohort C:
+publication counts only.
+
 **2026-10-16 — The confirmatory feature set is the eleven that ran; the Cohort B
 evaluation is declared before it is opened; the 336-hour observation was never
 taken.**
@@ -570,3 +655,4 @@ result existed, not after seeing one.
 | 2026-09-05 | *this commit* | No design change; records an 18h Instagram collection gap, the gate defect that tripled spend during it, a blind outage alarm, and the recovery of the screening artifact | API returned empty payloads 2026-09-04T00:00-17:00Z; 102 credits wasted; see above |
 | 2026-09-20 | *this commit* | Cohort B closes 2026-10-04; both cohorts analysed only after every member completes its 336h window | An unbounded holdout grows on every collection run; and Cohort A was analysed with 416 of 852 posts still maturing, deaths already drifting 498→500; see above |
 | 2026-10-16 | *this commit* | Confirmatory feature set fixed as the 11 that ran, exploratory set barred from Cohort B; Cohort B procedure, command and reading rule declared before opening; harness adds the plan's paired-difference intervals, RMSE, comparators and saved predictions; records a quota outage and that the 336h observation was never taken | Section 5 named 5 variables no model used, found only after the results; a holdout must be specified before it is opened; checking the 2026-10-15 outage's effect showed no post was ever observed past 241h, so the effective window is 240h; see above |
+| 2026-10-18 | *this commit* | Exploratory extension declared: a practical early-warning model (registered forest plus likes/comments rates, trained on Cohorts A+B), tested once on a new Cohort C (published 2026-10-04 to 2026-10-15) on or after 2026-10-25, with its pass/fail rules fixed | Built after the main results, so it needs an untouched test set and rules written before that set is examined; not a test of H1 or H2; see above |

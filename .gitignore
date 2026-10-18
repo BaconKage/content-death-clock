@@ -23,6 +23,7 @@ data/silver/
 # that produced it, which quietly voided the guarantee.
 data/gold/*
 !data/gold/holdout_evaluations.jsonl
+!data/gold/practical_evaluations.jsonl
 data/_bench/
 !data/bronze/
 

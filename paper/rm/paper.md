@@ -4,13 +4,17 @@
 RV University, Bengaluru — 7th Semester, Research Methodology
 
 > **Draft status, as of 2026-10-18.** Method (§3) follows `ANALYSIS_PLAN.md`, frozen
-> 2026-08-30, plus the six dated amendments summarised in Appendix A. **All results are
-> final.** The Cohort A results in §4 come from the matured analysis of 2026-10-16 (563
+> 2026-08-30, plus the seven dated amendments summarised in Appendix A. **All results for H1,
+> H2 and H3 are final.** The Cohort A results in §4 come from the matured analysis of 2026-10-16 (563
 > deaths), replacing the provisional figures of 2026-09-20 (498 deaths); maturation changed
 > one conclusion, not just digits (§4.4). **Cohort B, the sealed holdout, was evaluated once
 > on 2026-10-18, exactly as declared (§4.7).** It replicated the models' modest
 > discrimination and did *not* replicate the dominance of creator size, so §5 and §8 have
 > been revised where the Cohort A reading no longer holds.
+>
+> One exploratory extension is pending by design: a practical early-warning model, declared
+> on 2026-10-18 (Amendment 7) and evaluated once on fresh videos on or after 2026-10-25
+> (§4.10). It does not bear on any hypothesis.
 
 ---
 
@@ -119,9 +123,9 @@ to stop*, and none of them is answered by a forecast of eventual total views.
   does not share the first one's failure modes.
 - **A prospectively collected, pre-registered panel.** The analysis plan was committed to
   version control on 2026-08-30, when the dataset contained 179 posts, **zero** computed
-  death labels and zero fitted models. Six subsequent deviations are logged as dated
+  death labels and zero fitted models. Seven subsequent changes are logged as dated
   amendments with stated reasons. The first four were made before any result existed;
-  the last two came after the Cohort A results had been seen, and each says so and records
+  the last three came after the Cohort A results had been seen, and each says so and records
   what it was and was not allowed to change.
 - **A landmark survival formulation** that makes the prediction task non-circular, together
   with the measurement that forced it.
@@ -1030,6 +1034,25 @@ tried after the fact, and it *was* tried after the fact. It is reported because 
 and because the plan names these variables. It does not revise H2. If the fuller feature set
 matters, that has to be shown on data collected after 2026-10-16.
 
+### 4.10 Exploratory extension: a practical early-warning model
+
+`[PENDING]` — **declared 2026-10-18, evaluated once on or after 2026-10-25.**
+
+The study shows that the exact time of attention death cannot be predicted from these
+signals, but that the ordering of videos can, modestly. A practical tool would use that
+ordering as an early warning: at hour 7, flag the videos most likely to stop getting
+attention within two days. Exploration after the main results suggested that a forest given
+likes and comments as well, and used on channels it has already seen, does this at about
+three times the base rate.
+
+Because that suggestion came from data already examined, it is being tested on a new Cohort C
+(533 videos published 4–15 October that no analysis has touched), with its model, inputs and
+pass/fail rules fixed in advance (Amendment 7). The primary claim passes only if the share of
+flagged videos that really fade within 48 hours is above the base rate with a 95% interval
+that clears it. A rehearsal on the already-examined Cohort B gave 41.9% against 13.5%.
+Cohort C's result will be reported here whatever it is. It does not bear on H1 or H2: the
+channels overlap between training and test by design, which is exactly what H2 excluded.
+
 ---
 
 ## 5. Discussion
@@ -1344,10 +1367,10 @@ verification against the source PDFs before submission.*
 
 ## Appendix A — Amendment log
 
-Summarised from `ANALYSIS_PLAN.md`, where each is given in full. All six were committed as new
+Summarised from `ANALYSIS_PLAN.md`, where each is given in full. All seven were committed as new
 commits with stated reasons; none edits history. Amendments 1–4 were made before any result
-existed. Amendments 5 and 6 came after the Cohort A results had been examined, and each records
-what it was and was not allowed to change.
+existed. Amendments 5, 6 and 7 came after the Cohort A results had been examined, and each
+records what it was and was not allowed to change.
 
 ### Amendment 1 — 2026-08-31: per-creator daily admission cap (YouTube only)
 
@@ -1448,6 +1471,24 @@ apart from the counts disclosed above; ledger empty. **Made after the Cohort A r
 were examined.** Part 1 is a disclosure of a deviation found late, decided in the
 direction that does *not* use the result. Part 2 constrains the holdout before it is
 seen. Part 3 is a measurement fact.
+
+
+### Amendment 7 — 2026-10-18: an exploratory extension, a practical early-warning model
+
+**Change.** Declares, before its test data is examined, a follow-up that is not part of H1, H2
+or H3: the registered forest plus likes/views and comments/views at hour 7, trained on Cohorts
+A and B and tested once, on or after 2026-10-25, on a new Cohort C of videos published 4–15
+October. The primary claim is a fast-fade flag (top 20% predicted shortest, death within 48
+hours) whose precision must clear the base rate with a 95% interval above it.
+
+**Reason.** Exploration after the results suggested the flag works at about three times the
+base rate, but on data already examined. A claim found that way needs a test set chosen
+before it is looked at.
+
+**State of outcome data at amendment.** Cohorts A and B examined. Cohort C: publication counts
+only. One disclosure: a first rehearsal labelled every post in memory before keeping only
+Cohorts A and B; nothing about Cohort C was printed, stored or looked at, and the code was
+changed the same day.
 
 ---
 
