@@ -24,6 +24,7 @@ data/silver/
 data/gold/*
 !data/gold/holdout_evaluations.jsonl
 !data/gold/practical_evaluations.jsonl
+!data/gold/instant_evaluations.jsonl
 data/_bench/
 !data/bronze/
 

@@ -187,6 +187,163 @@ there to bound.
 
 ## Amendment log
 
+**2026-10-27 — A second exploratory extension, declared before its test data is examined:
+the instant model behind the paste-a-link tool, evaluated once on Cohort C.**
+
+*Status.* This is not a change to H1, H2 or H3, and it is not evidence for or against any of
+them. It was conceived after the main study, the Cohort B holdout and the 2026-10-18
+amendment. It is tested on that amendment's Cohort C, for which no outcome has been computed
+yet. Its rules are fixed here, before that test.
+
+*Why.* The project's aim, as the team states it: a new creator pastes a link and learns
+whether the video is likely to keep getting attention, without waiting seven hours. That means
+one reading of the video, at whatever age it is pasted, and usually a channel the model has
+never seen. The 7-hour model of 2026-10-18 needs seven hours of tracking and is tested on
+channels it already knows, so it cannot answer this question.
+
+*Where the code lives.* `src/cdc/tool/`. It reads the collected data and imports helpers. It
+changes nothing under `src/cdc/eval/`, `src/cdc/models/`, `src/cdc/labels/` or
+`config/settings.yaml`, and nothing there imports it (`tests/test_tool_evaluate.py` checks
+this). The 2026-10-18 test can therefore still run from the latest commit, as that amendment
+requires.
+
+*Data and outcome, fixed.*
+- **Training data:** Cohorts A and B, 1,646 labelled videos from 56 channels.
+- **Rows:** each video contributes its reading nearest each scheduled mark, within
+  [mark − 0.75h, mark + 1.0h]. The rows at the 1, 3, 6 and 12-hour checkpoints (6,373) train
+  the model.
+- **Outcome:** the attention-death time measured **from posting**, for every video read at
+  that age, whether or not it has already faded. One reading cannot tell the difference, so
+  "fades within two days of posting" includes "has already faded".
+- **Time grid:** death and censoring times are put on the grid of scheduled marks
+  (`features.fade_mark`: the largest mark at most 0.75h past the recorded time).
+- **Inputs:** all from one reading, rounded as in `features.instant_features`:
+  - age
+  - log10 views
+  - log10 views per hour
+  - log10 likes/view
+  - log10 comments/view
+  - log10 views per subscriber
+  - log10 subscribers
+  - log10 duration
+  - publishing hour (UTC)
+  - title length
+- **Missing values:** hidden likes, disabled comments and hidden subscriber counts stay
+  missing, and the model fills them with training medians.
+
+*Model, fixed.*
+- **Forest:** the registered random survival forest settings (300 trees, minimum leaf 5,
+  square-root feature sampling, seed 20260830).
+- **Recalibration:** one parameter, log S(t) = b·log S_forest(t) + (1−b)·log S_average(t),
+  where S_average is the Kaplan–Meier curve of the training videos. `b` minimises the Brier
+  score averaged over 24, 48, 72 and 168 hours. It is fitted on predictions for channels held
+  out of training: five fixed groups of channels, split by SHA-256 of the channel id.
+- **Risk labels:** "high risk" is a two-day fade chance at or above the 80th percentile of
+  those held-out predictions; "low risk" is at or below the 20th.
+- **Frozen from Cohorts A and B at this commit:** **b = 0.54, high ≥ 0.4507, low ≤ 0.2288**.
+  Model fingerprint `dd6244df4d029d5f`. Training table SHA-256 `990a4205…29602045`. Both are in
+  `src/cdc/tool/assets/`.
+- **Use in the test:** the test reads these values and does not refit them. It refuses to run
+  if Cohorts A and B no longer reproduce the frozen table.
+
+*Test, fixed.*
+- **Test set:** Cohort C as defined on 2026-10-18: 533 posts, all past their window.
+- **Held-out channels:** every Cohort C video is predicted by a model trained on Cohorts A+B
+  **without that video's channel**, using the same five fixed groups.
+- **Rows:** each video's readings at the four checkpoints.
+- **Exclusions:** rows whose two-day status is unknown (followed for under 48 hours and not
+  faded) are left out and counted.
+
+*Claims and decision rule, fixed.* Both claims must pass. Intervals are 95%, from 2,000
+creator-resampled bootstrap draws, seed 20260830.
+
+1. **The odds beat quoting the average rate.** The Brier skill score of the two-day fade
+   chance, against the average curve's rate from the same training rows. Passes if the
+   interval's lower bound is above 0.
+2. **The high-risk label picks out fast faders.** Among rows labelled high risk, the share that
+   faded within two days of posting, minus the share among all rows. Passes if the lower bound
+   is above 0.
+
+Reported, with no pass/fail:
+- Brier skill at 1, 3 and 7 days, before and after recalibration
+- calibration by decile
+- C-index
+- the low-risk label
+- results by checkpoint
+- seen channels: one model trained on all of A+B, as deployed
+- real readings that fall between checkpoints
+- readings simulated between checkpoints at 2, 4.5 and 9 hours, interpolated from each video's
+  two neighbouring readings
+
+*Development, all on Cohorts A and B, disclosed.*
+1. A first version was tested on the same channels it was trained on, and flagged fast faders
+   at about twice the base rate. The cause was the channel's subscriber count acting as an
+   identifier. The design changed to held-out channels, which is how a new creator uses the
+   tool.
+2. Fade times were first conditioned on the video being alive at the reading. They were
+   replaced by the unconditional outcome above, because the app cannot know whether a video is
+   still alive.
+3. Leaves of 20 were compared with the registered 5, and 5 was kept.
+4. Held-out calibration showed the forest overconfident at both ends: predicted 5%, observed
+   12%; predicted 84%, observed 70%. That is why the recalibration step exists.
+
+Nothing was chosen on Cohort C.
+
+*Rehearsal, already run, not a result.* The full protocol, with Cohort A as training and
+Cohort B as test. `b` and the thresholds were fitted on A (b = 0.56, high ≥ 0.512).
+- **Size:** 3,529 rows, 894 videos, 51 channels.
+- **Brier skill:** **+0.082 [+0.008, +0.164]**.
+- **High-risk label:** **52.7%** faded within two days, against **31.2%** overall (gap
+  [+0.119, +0.372], 1.69×, 17.9% of rows labelled).
+- **Other:** C-index 0.610. Low-risk rows faded within two days 13.8% of the time.
+- **Calibration-in-the-large:** predicted 0.369 against observed 0.312 at two days. Cohort B
+  faded less often than Cohort A.
+- **Seen channels:** Brier skill +0.203, high-risk label 80.1%.
+- **Simulated in-between readings:** Brier skill +0.086, high-risk label 53.6%.
+
+Both claims pass in the rehearsal, the odds narrowly. Cohort C should be expected to come out
+lower.
+
+*Tips, decided on Cohorts A and B and stated here.*
+- **Candidates,** declared before computing: five within-channel patterns. They are likes per
+  view, comments per view, views per subscriber at six hours, video length and title length.
+- **Measure:** for each, the share of same-channel pairs with a known fade order in which the
+  video with more of the factor lasted longer.
+- **Rule:** a tip is kept only if its 95% creator-bootstrap interval excludes 0.5 on the same
+  side, in A and in B separately.
+- **Result: none passed.** The closest were:
+  - likes per view: A 0.568 [0.519, 0.631], B 0.558 [0.491, 0.611]
+  - comments per view: A 0.523 [0.491, 0.566], B 0.544 [0.504, 0.592]
+- **In the tool:** it shows no tips and says why. It quotes two descriptive facts from A and B:
+  72% of videos had their fastest views within six hours, and the median video had 52% of its
+  first ten days' views by 24 hours.
+
+*What the result does to the tool.*
+- **On a pass:** the recipe is refitted on Cohorts A+B+C, with `b` and the thresholds set by
+  the same held-out procedure, and that model is served. The tested numbers are kept alongside
+  it, and the app reports the Cohort C numbers.
+- **On a fail:** the app shows no odds, only the video's numbers and comparisons, and the
+  papers say so.
+
+*Command and timing.* Run **once**, after the 2026-10-18 test. Run it from this commit, or from
+a later one that does not change `src/cdc/tool/{features,table,model,evaluate}.py` or
+`src/cdc/tool/assets/`:
+
+```
+python -m cdc.transform.silver
+python -m cdc.tool.evaluate --cohort-c
+python -m cdc.tool.evaluate --finalize
+```
+
+- **Ledger:** the run is recorded in `data/gold/instant_evaluations.jsonl`, which is committed
+  whatever the result.
+- **Second run:** requires `--again` and is reported as a second look.
+- **Reporting:** the result goes into the RM paper and the technical report as a labelled
+  exploratory extension.
+
+*Status of the outcome data at amendment.* Cohorts A and B are fully examined. Cohort C:
+publication counts only. No tool code has labelled it.
+
 **2026-10-18 — An exploratory extension, declared before its test data is examined:
 a practical early-warning model, evaluated once on a new Cohort C.**
 
@@ -656,3 +813,4 @@ result existed, not after seeing one.
 | 2026-09-20 | *this commit* | Cohort B closes 2026-10-04; both cohorts analysed only after every member completes its 336h window | An unbounded holdout grows on every collection run; and Cohort A was analysed with 416 of 852 posts still maturing, deaths already drifting 498→500; see above |
 | 2026-10-16 | *this commit* | Confirmatory feature set fixed as the 11 that ran, exploratory set barred from Cohort B; Cohort B procedure, command and reading rule declared before opening; harness adds the plan's paired-difference intervals, RMSE, comparators and saved predictions; records a quota outage and that the 336h observation was never taken | Section 5 named 5 variables no model used, found only after the results; a holdout must be specified before it is opened; checking the 2026-10-15 outage's effect showed no post was ever observed past 241h, so the effective window is 240h; see above |
 | 2026-10-18 | *this commit* | Exploratory extension declared: a practical early-warning model (registered forest plus likes/comments rates, trained on Cohorts A+B), tested once on a new Cohort C (published 2026-10-04 to 2026-10-15) on or after 2026-10-25, with its pass/fail rules fixed | Built after the main results, so it needs an untouched test set and rules written before that set is examined; not a test of H1 or H2; see above |
+| 2026-10-27 | *this commit* | Second exploratory extension declared: the one-reading instant model behind the paste-a-link tool (registered forest, fade time from posting, one-parameter recalibration, frozen on Cohorts A+B), tested once on Cohort C with every video predicted by a model that never saw its channel; tips kept only if they hold in A and in B (none did) | The tool is used once, at any age, mostly on new channels, which the 7-hour model cannot serve; its rules must be fixed before Cohort C is examined; not a test of H1 or H2; see above |

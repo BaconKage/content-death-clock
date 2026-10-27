@@ -1,0 +1,229 @@
+{
+ "note": "Three real videos from the bronze layer (2026-09-10): an ordinary one, one with zero likes, one with likes hidden. Descriptions and thumbnails removed. Used by test_tool_features.",
+ "posts": [
+  {
+   "_cycle_id": "2026-09-10T01",
+   "_ingested_at": "2026-09-10T01:31:52+00:00",
+   "_platform": "youtube",
+   "category_id": "28",
+   "comments": 41,
+   "creator_id": "UCOhHO2ICt0ti9KAh-QHvttQ",
+   "creator_title": "Technical Guruji",
+   "description_len": 937,
+   "discovered_at": "2026-09-10T01:31:30+00:00",
+   "duration_iso": "PT4M27S",
+   "likes": 287,
+   "post_id": "-4ZHytn6LgM",
+   "published_at": "2026-09-10T01:17:19Z",
+   "raw": {
+    "contentDetails": {
+     "caption": "false",
+     "contentRating": {},
+     "definition": "hd",
+     "dimension": "2d",
+     "duration": "PT4M27S",
+     "licensedContent": true,
+     "projection": "rectangular"
+    },
+    "etag": "UkHIc8ScUyBKvzBHo7TdT4WEKKU",
+    "id": "-4ZHytn6LgM",
+    "kind": "youtube#video",
+    "snippet": {
+     "categoryId": "28",
+     "channelId": "UCOhHO2ICt0ti9KAh-QHvttQ",
+     "channelTitle": "Technical Guruji",
+     "defaultAudioLanguage": "hi",
+     "defaultLanguage": "en",
+     "liveBroadcastContent": "none",
+     "publishedAt": "2026-09-10T01:17:19Z",
+     "title": "Apple iPhone Duo Exclusive First Look - World's Best Foldable!🔥🔥🔥",
+     "description": ""
+    },
+    "statistics": {
+     "commentCount": "41",
+     "favoriteCount": "0",
+     "likeCount": "287",
+     "viewCount": "3602"
+    },
+    "status": {
+     "embeddable": true,
+     "license": "youtube",
+     "madeForKids": false,
+     "privacyStatus": "public",
+     "publicStatsViewable": false,
+     "uploadStatus": "processed"
+    }
+   },
+   "stratum_category": "technology",
+   "stratum_tier": "large",
+   "tag_count": 27,
+   "title": "Apple iPhone Duo Exclusive First Look - World's Best Foldable!🔥🔥🔥",
+   "views": 3602
+  },
+  {
+   "_cycle_id": "2026-09-10T03",
+   "_ingested_at": "2026-09-10T03:02:02+00:00",
+   "_platform": "youtube",
+   "category_id": "27",
+   "comments": 0,
+   "creator_id": "UC4YLjKLcjW79HYrwFS4KQEA",
+   "creator_title": "Margdarshan IAS by Siddharth Singh",
+   "description_len": 205,
+   "discovered_at": "2026-09-10T03:01:43+00:00",
+   "duration_iso": null,
+   "likes": 0,
+   "post_id": "uMkeyAqwd0E",
+   "published_at": "2026-09-10T02:43:54Z",
+   "raw": {
+    "contentDetails": {
+     "caption": "false",
+     "contentRating": {},
+     "definition": "hd",
+     "dimension": "2d",
+     "licensedContent": false,
+     "projection": "rectangular"
+    },
+    "etag": "GbFvVicraHuTU7fOiMOKkZHXXNM",
+    "id": "uMkeyAqwd0E",
+    "kind": "youtube#video",
+    "snippet": {
+     "categoryId": "27",
+     "channelId": "UC4YLjKLcjW79HYrwFS4KQEA",
+     "channelTitle": "Margdarshan IAS by Siddharth Singh",
+     "defaultAudioLanguage": "hi",
+     "defaultLanguage": "en",
+     "liveBroadcastContent": "upcoming",
+     "publishedAt": "2026-09-10T02:43:54Z",
+     "title": "How to Read Books? | किताब पढ़ने की सही कला | Read Books Like a Pro",
+     "description": ""
+    },
+    "statistics": {
+     "commentCount": "0",
+     "favoriteCount": "0",
+     "likeCount": "0",
+     "viewCount": "0"
+    },
+    "status": {
+     "embeddable": true,
+     "license": "youtube",
+     "madeForKids": false,
+     "privacyStatus": "public",
+     "publicStatsViewable": true,
+     "uploadStatus": "processed"
+    }
+   },
+   "stratum_category": "education",
+   "stratum_tier": "mid",
+   "tag_count": 0,
+   "title": "How to Read Books? | किताब पढ़ने की सही कला | Read Books Like a Pro",
+   "views": 0
+  },
+  {
+   "_cycle_id": "2026-09-10T04",
+   "_ingested_at": "2026-09-10T04:02:00+00:00",
+   "_platform": "youtube",
+   "category_id": "24",
+   "comments": 0,
+   "creator_id": "UCGQeucWeJK8P48oPxofAS4Q",
+   "creator_title": "Ujjwal Satrangi",
+   "description_len": 964,
+   "discovered_at": "2026-09-10T04:01:42+00:00",
+   "duration_iso": "PT59S",
+   "likes": null,
+   "post_id": "aDGoYk9JaYI",
+   "published_at": "2026-09-10T04:00:30Z",
+   "raw": {
+    "contentDetails": {
+     "caption": "false",
+     "contentRating": {},
+     "definition": "hd",
+     "dimension": "2d",
+     "duration": "PT59S",
+     "licensedContent": false,
+     "projection": "rectangular"
+    },
+    "etag": "6h77tNab5MRnbRqD28OUD7MG39A",
+    "id": "aDGoYk9JaYI",
+    "kind": "youtube#video",
+    "snippet": {
+     "categoryId": "24",
+     "channelId": "UCGQeucWeJK8P48oPxofAS4Q",
+     "channelTitle": "Ujjwal Satrangi",
+     "defaultAudioLanguage": "hi",
+     "defaultLanguage": "en-US",
+     "liveBroadcastContent": "none",
+     "publishedAt": "2026-09-10T04:00:30Z",
+     "title": "🎓 MY COLLEGE FRESHERS EVENT VLOG 2026 🎉 #shorts #short #vlog #trending #youtubeshorts #minivlog",
+     "description": ""
+    },
+    "statistics": {
+     "commentCount": "0",
+     "favoriteCount": "0",
+     "viewCount": "0"
+    },
+    "status": {
+     "embeddable": true,
+     "license": "youtube",
+     "madeForKids": false,
+     "privacyStatus": "public",
+     "publicStatsViewable": true,
+     "uploadStatus": "processed"
+    }
+   },
+   "stratum_category": "entertainment",
+   "stratum_tier": "mid",
+   "tag_count": 27,
+   "title": "🎓 MY COLLEGE FRESHERS EVENT VLOG 2026 🎉 #shorts #short #vlog #trending #youtubeshorts #minivlog",
+   "views": 0
+  }
+ ],
+ "snapshots": [
+  {
+   "_cycle_id": "2026-09-10T01",
+   "_ingested_at": "2026-09-10T01:31:52+00:00",
+   "_platform": "youtube",
+   "age_hours": 0.2365,
+   "at_discovery": true,
+   "comments": 41,
+   "creator_id": "UCOhHO2ICt0ti9KAh-QHvttQ",
+   "likes": 287,
+   "post_id": "-4ZHytn6LgM",
+   "published_at": "2026-09-10T01:17:19Z",
+   "snapshot_ts": "2026-09-10T01:31:30+00:00",
+   "views": 3602
+  },
+  {
+   "_cycle_id": "2026-09-10T03",
+   "_ingested_at": "2026-09-10T03:02:02+00:00",
+   "_platform": "youtube",
+   "age_hours": 0.2971,
+   "at_discovery": true,
+   "comments": 0,
+   "creator_id": "UC4YLjKLcjW79HYrwFS4KQEA",
+   "likes": 0,
+   "post_id": "uMkeyAqwd0E",
+   "published_at": "2026-09-10T02:43:54Z",
+   "snapshot_ts": "2026-09-10T03:01:43+00:00",
+   "views": 0
+  },
+  {
+   "_cycle_id": "2026-09-10T04",
+   "_ingested_at": "2026-09-10T04:02:00+00:00",
+   "_platform": "youtube",
+   "age_hours": 0.02,
+   "at_discovery": true,
+   "comments": 0,
+   "creator_id": "UCGQeucWeJK8P48oPxofAS4Q",
+   "likes": null,
+   "post_id": "aDGoYk9JaYI",
+   "published_at": "2026-09-10T04:00:30Z",
+   "snapshot_ts": "2026-09-10T04:01:42+00:00",
+   "views": 0
+  }
+ ],
+ "subscribers": {
+  "UCOhHO2ICt0ti9KAh-QHvttQ": 23700000,
+  "UC4YLjKLcjW79HYrwFS4KQEA": 133000,
+  "UCGQeucWeJK8P48oPxofAS4Q": 64100
+ }
+}

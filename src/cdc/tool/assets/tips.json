@@ -1,0 +1,127 @@
+{
+  "rule": "kept if the 95% creator-bootstrap interval of the within-channel pair share excludes 0.5 on the same side in Cohort A and in Cohort B",
+  "measured_at_h": 6.0,
+  "candidates": {
+    "log_like_rate": {
+      "name": "likes per view",
+      "A": {
+        "share_more_lasted_longer": 0.5682091346153846,
+        "ci": [
+          0.5190869464320057,
+          0.6308495230514014
+        ],
+        "pairs": 8320,
+        "channels": 34
+      },
+      "B": {
+        "share_more_lasted_longer": 0.558395354543224,
+        "ci": [
+          0.4912104118925906,
+          0.6112710245896343
+        ],
+        "pairs": 12227,
+        "channels": 38
+      },
+      "kept": false,
+      "direction": null
+    },
+    "log_comment_rate": {
+      "name": "comments per view",
+      "A": {
+        "share_more_lasted_longer": 0.5232545108147484,
+        "ci": [
+          0.4913738737874803,
+          0.5659755865284807
+        ],
+        "pairs": 8923,
+        "channels": 38
+      },
+      "B": {
+        "share_more_lasted_longer": 0.5439324452209362,
+        "ci": [
+          0.5037051683883996,
+          0.5922924207849217
+        ],
+        "pairs": 13737,
+        "channels": 42
+      },
+      "kept": false,
+      "direction": null
+    },
+    "log_views_per_sub": {
+      "name": "views per subscriber in the first six hours",
+      "A": {
+        "share_more_lasted_longer": 0.48503457529156774,
+        "ci": [
+          0.45398653596748695,
+          0.5112127309498374
+        ],
+        "pairs": 9689,
+        "channels": 38
+      },
+      "B": {
+        "share_more_lasted_longer": 0.5192935688103966,
+        "ci": [
+          0.4595762516025399,
+          0.5574537401103656
+        ],
+        "pairs": 15005,
+        "channels": 42
+      },
+      "kept": false,
+      "direction": null
+    },
+    "log_duration_sec": {
+      "name": "video length",
+      "A": {
+        "share_more_lasted_longer": 0.5224321133412042,
+        "ci": [
+          0.4874369805496452,
+          0.5754548790370756
+        ],
+        "pairs": 8470,
+        "channels": 36
+      },
+      "B": {
+        "share_more_lasted_longer": 0.5573164918970448,
+        "ci": [
+          0.47811864542038657,
+          0.6472801729819052
+        ],
+        "pairs": 12588,
+        "channels": 42
+      },
+      "kept": false,
+      "direction": null
+    },
+    "title_len": {
+      "name": "title length",
+      "A": {
+        "share_more_lasted_longer": 0.46965631128083396,
+        "ci": [
+          0.42519236195292776,
+          0.513192747251863
+        ],
+        "pairs": 9689,
+        "channels": 38
+      },
+      "B": {
+        "share_more_lasted_longer": 0.4978673775408197,
+        "ci": [
+          0.4463136359536373,
+          0.5396729031778552
+        ],
+        "pairs": 15005,
+        "channels": 42
+      },
+      "kept": false,
+      "direction": null
+    }
+  },
+  "tips": [],
+  "facts": {
+    "videos": 1615,
+    "share_fastest_in_first_6h": 0.7157894736842105,
+    "median_share_of_10_day_views_by_24h": 0.5172194724989091
+  }
+}

@@ -1,0 +1,15 @@
+# The paste-a-link tool (src/cdc/tool/app.py), e.g. on Streamlit Community Cloud,
+# which reads this file because it sits next to the app.
+#
+# Exact versions, the ones the model was frozen with (assets/model_card.json,
+# "versions"). The app rebuilds the model at start-up and compares it with the
+# recorded fingerprint; changing a version here can change that fingerprint.
+streamlit==1.62.0
+scikit-survival==0.25.0
+scikit-learn==1.7.2
+numpy==1.26.4
+scipy==1.15.3
+pandas==2.3.3
+requests==2.32.5
+PyYAML==6.0.3
+python-dotenv==1.2.1
