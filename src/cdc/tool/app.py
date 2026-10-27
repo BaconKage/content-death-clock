@@ -27,6 +27,7 @@ if str(_SRC) not in sys.path:
 
 import streamlit as st                                              # noqa: E402
 
+import cdc.config  # noqa: E402,F401  loads .env.local, where a local run keeps YOUTUBE_TOOL_API_KEY
 from cdc.tool import table as T                                     # noqa: E402
 from cdc.tool.fetch import DailyBudget, ToolError, lookup, parse_video_id   # noqa: E402
 from cdc.tool.model import InstantModel, fingerprint                # noqa: E402

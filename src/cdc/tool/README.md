@@ -50,6 +50,21 @@ python -m cdc.tool.evaluate --freeze
 After the Cohort C test (`--cohort-c`, once), `--finalize` records the result in
 the card and, on a pass, retrains on Cohorts A+B+C.
 
+## Videos to demo with
+
+The outlook needs a video 15 minutes to 13 hours old, so demo links go stale
+within hours. Right before a demo:
+
+```
+git pull
+python -m cdc.transform.silver
+python -m cdc.tool.demo
+```
+
+This lists the freshest videos the collector has seen, with a preview of what
+the tool will say. They come from the study's own channels, which the model has
+seen, so add one fresh video from a channel outside the study.
+
 ## Run it
 
 Locally, with the tool's own key in `YOUTUBE_TOOL_API_KEY`:
