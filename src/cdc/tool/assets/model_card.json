@@ -1,16 +1,17 @@
 {
   "frozen_at": "2026-10-27T16:16:09+00:00",
-  "status": "frozen; awaiting the single Cohort C test",
+  "status": "passed its single Cohort C test; retrained on Cohorts A+B+C with the same recipe",
   "trained_on": {
     "cohorts": [
       "A",
-      "B"
+      "B",
+      "C"
     ],
-    "rows": 6373,
-    "videos": 1646,
+    "rows": 8462,
+    "videos": 2173,
     "channels": 56,
-    "table_rows_all_marks": 18821,
-    "table_sha256": "990a4205494bc13f03f9cc81e55a17748370705313842b39063e8bf629602045"
+    "table_rows_all_marks": 24544,
+    "table_sha256": "203f0d875bd9fceaca8ad6002306dc647d6a8110c47ca5c00b050fd16b84b30e"
   },
   "forest": {
     "n_estimators": 300,
@@ -18,10 +19,10 @@
     "max_features": "sqrt",
     "random_state": 20260830
   },
-  "b": 0.54,
+  "b": 0.56,
   "thresholds_p48": {
-    "high": 0.4506841489657954,
-    "low": 0.22879563874977119
+    "high": 0.4669103691947403,
+    "low": 0.2318226263752637
   },
   "fast_h": 48.0,
   "horizons_h": [
@@ -51,20 +52,20 @@
     240.0
   ],
   "average_curve": {
-    "1": 0.9635,
-    "3": 0.9332,
-    "6": 0.9204,
-    "12": 0.8827,
-    "24": 0.8205,
-    "36": 0.7772,
-    "48": 0.669,
-    "72": 0.5962,
-    "96": 0.4381,
-    "120": 0.2718,
-    "168": 0.1761,
-    "240": 0.1761
+    "1": 0.9531,
+    "3": 0.9241,
+    "6": 0.9126,
+    "12": 0.8702,
+    "24": 0.8116,
+    "36": 0.7671,
+    "48": 0.6591,
+    "72": 0.5834,
+    "96": 0.4282,
+    "120": 0.2642,
+    "168": 0.1752,
+    "240": 0.1752
   },
-  "fingerprint": "dd6244df4d029d5f",
+  "fingerprint": "70cace55a66a6017",
   "versions": {
     "python": "3.10.11",
     "numpy": "1.26.4",
@@ -273,5 +274,96 @@
     },
     "ranking_c_index": 0.6102866424346906
   },
-  "cohort_c": null
+  "cohort_c": {
+    "evaluated_at": "2026-10-27T16:33:46+00:00",
+    "git_commit": "b95e0c8c81d6a16bc193aa071c6729ff4b1bbb89",
+    "passes": true,
+    "unseen_channels": {
+      "brier_skill": 0.1325206672798065,
+      "flag_precision_minus_base": 0.24958092754702926,
+      "flag_precision": 0.621978021978022,
+      "base_rate": 0.3723970944309927,
+      "brier_skill_ci": [
+        0.04654237651373743,
+        0.23173543944396022
+      ],
+      "flag_precision_minus_base_ci": [
+        0.12203324722911198,
+        0.41033715122759035
+      ],
+      "flag_precision_ci": [
+        0.45757253029746603,
+        0.8175413870716673
+      ],
+      "base_rate_ci": [
+        0.2980541936801815,
+        0.4526001351896008
+      ],
+      "odds_pass": true,
+      "flag_pass": true,
+      "passes": true,
+      "n_rows": 2065,
+      "n_videos": 521,
+      "n_channels": 44,
+      "n_flagged": 455,
+      "n_fast": 769,
+      "share_flagged": 0.22033898305084745,
+      "lift": 1.6702010603180955,
+      "n_unknown_status_left_out": 24
+    },
+    "ranking_c_index": 0.6342730837039181,
+    "seen_channels": {
+      "brier_skill": 0.3225241448095678,
+      "flag_precision_minus_base": 0.4854117633778651,
+      "flag_precision": 0.8578088578088578,
+      "base_rate": 0.3723970944309927,
+      "brier_skill_ci": [
+        0.21697599725801398,
+        0.4275682502525046
+      ],
+      "flag_precision_minus_base_ci": [
+        0.3976966000697126,
+        0.5654217887498298
+      ],
+      "flag_precision_ci": [
+        0.7927059229488896,
+        0.8985981591250626
+      ],
+      "base_rate_ci": [
+        0.2980541936801815,
+        0.4526001351896008
+      ],
+      "odds_pass": true,
+      "flag_pass": true,
+      "passes": true,
+      "n_rows": 2065,
+      "n_videos": 521,
+      "n_channels": 44,
+      "n_flagged": 429,
+      "n_fast": 769,
+      "share_flagged": 0.20774818401937045,
+      "lift": 2.303478922464618,
+      "n_unknown_status_left_out": 24
+    },
+    "tested_model": {
+      "b": 0.54,
+      "thresholds_p48": {
+        "high": 0.4506841489657954,
+        "low": 0.22879563874977119
+      },
+      "fingerprint": "dd6244df4d029d5f",
+      "trained_on": {
+        "cohorts": [
+          "A",
+          "B"
+        ],
+        "rows": 6373,
+        "videos": 1646,
+        "channels": 56,
+        "table_rows_all_marks": 18821,
+        "table_sha256": "990a4205494bc13f03f9cc81e55a17748370705313842b39063e8bf629602045"
+      }
+    }
+  },
+  "finalized_at": "2026-10-27T16:34:53+00:00"
 }
