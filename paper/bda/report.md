@@ -5,12 +5,17 @@
 **Amogha V Prasad · S Anannya · Sanidhya Tiwari · Shubhang Srinivas Varda**
 RV University, Bengaluru — 7th Semester, Big Data Analytics
 
-> **Status, as of 2026-10-18. Final.** Both study cohorts are fully collected and analysed:
-> Cohort A closed 2026-09-16 and Cohort B, the sealed holdout, closed 2026-10-04 and was
-> evaluated once on 2026-10-18. The collector keeps running, but nothing it gathers after
-> 2026-10-04 enters an analysis. Every figure below is measured from the repository and
-> names the command or file it comes from. The scalability benchmark was re-run on the
-> final dataset on 2026-10-18 (§7).
+> **Status, as of 2026-10-27. Final.**
+> - **Study cohorts:** both are fully collected and analysed. Cohort A closed 2026-09-16.
+>   Cohort B, the sealed holdout, closed 2026-10-04 and was evaluated once on 2026-10-18.
+> - **Cohort C** (videos published 4–15 October) was the test set for two exploratory
+>   extensions. It was evaluated once on 2026-10-27, and both passed (RM paper §4.10–4.11).
+> - **What came out of it:** the pipeline now ends in a paste-a-link tool (§9.1).
+> - **Collection:** the collector keeps running, but nothing it gathers after 2026-10-15
+>   enters an analysis.
+> - **Sources:** every figure below is measured from the repository and names the command or
+>   file it comes from.
+> - **Benchmark:** re-run on the final dataset on 2026-10-18 (§7).
 
 ---
 
@@ -41,8 +46,13 @@ terabytes.
 and 831 more in a sealed holdout (Cohort B). On both, a random survival forest ranked which of
 two videos would stop getting attention first about 60% of the time (C-index 0.616 and
 0.600), against 50% for guessing, but named the time no better than the cohort's median
-lifetime. The RM paper reports and interprets those results; this report is about the system
-that made them possible.
+lifetime. A third cohort of 533 fresh videos then tested two practical uses of that ranking:
+- **an early warning at hour 7:** 57% of flagged videos faded within two days, against 17%
+  overall;
+- **odds from a single reading,** on channels the model had not seen.
+
+The second now powers a paste-a-link tool (§9.1). The RM paper reports and interprets those
+results; this report is about the system that made them possible.
 
 ---
 
@@ -548,7 +558,7 @@ engines. Run 1 already measured the 1-million-row regime directly.
 
 ## 8. Honest positioning on "big data"
 
-The dataset is **2,408 YouTube posts and 28,723 snapshots**, plus 396 Instagram posts and
+On 2026-10-18 the dataset was **2,408 YouTube posts and 28,723 snapshots**, plus 396 Instagram posts and
 1,506 snapshots: 3,222 bronze files, about 32 MB, written by 2,575 unattended collection runs
 over 50 days (`python -m cdc.collect.monitor`; `git log`). That is small.
 
@@ -569,7 +579,45 @@ and it does so by measurement rather than by assertion.
 
 ---
 
-## 9. Serving: the demo and the dashboard
+## 9. Serving: the tool, the demo and the website
+
+### 9.1 The paste-a-link tool
+
+The pipeline's end product, in `src/cdc/tool/`. A creator pastes a YouTube link. The page reads
+the video once and gives the chance it stops getting attention within two days (and after 1,
+3 and 7 days), how it compares with videos of the same age from similar-sized channels, and
+how often its warnings were right on fresh videos. The model and its single test on Cohort C
+are in the RM paper (§4.11). What matters here is how it is served.
+
+- **Two units per report.** One `videos.list` call and one `channels.list` call, through the
+  collector's own client, so the key redaction added after the leak (§5.5) protects the tool
+  too.
+- **Its own quota, and a wall on top.** The tool is meant to run on a key in its own Google
+  Cloud project. The quota belongs to the project, not the key, so a second key in the
+  collector's project would share the collector's 10,000 units.
+  - The tool also stops itself at 1,000 units a day and 30 lookups per visitor per hour.
+  - It caches each video for ten minutes, so repeat lookups cost nothing.
+- **No model file.** A saved forest breaks on the first library upgrade and runs to tens of
+  megabytes. The app ships a 2 MB anonymised training table and rebuilds the model at start-up
+  in a few seconds.
+  - It then checks the model against a fingerprint recorded when the model was frozen, and
+    says so on the page if a library difference changed it.
+  - Fade times sit on the twelve-mark grid of the collection schedule, which keeps the forest
+    small: one survival value per node per mark, not per distinct hour.
+- **One feature function, two callers.** Training reads silver; the app reads a live API
+  response. Both go through `features.instant_features`. A test pushes three recorded API
+  responses through the real silver transform on one side and the app's parser on the other,
+  and requires identical inputs.
+- **Kept apart from the research.** A test fails if any module under `eval`, `models`,
+  `labels`, `collect` or `transform` imports the tool. That is what let the 2026-10-18 test run
+  from the latest commit, as its amendment required.
+- **Nothing stored.** Links are not logged or written anywhere. Visitors see plain error
+  messages, never tracebacks (`.streamlit/config.toml`).
+
+Run it with `streamlit run src/cdc/tool/app.py`. On Streamlit Community Cloud it needs only
+`src/cdc/tool/requirements.txt`, which pins exact versions, and the key in the app's Secrets.
+
+### 9.2 The demo, the website and the dashboard
 
 **Streamlit demo** (`src/cdc/app/`, `streamlit run src/cdc/app/main.py`). Pick any tracked post
 and see its observed view curve, its velocity between readings as a share of its own peak, the
@@ -600,7 +648,13 @@ the gold artifacts.
 
 ## 10. Testing and CI
 
-- **237 tests**, run on every push.
+- **328 tests**, run with `python -m pytest`. The GitHub Actions workflows run collection and
+  the benchmark; the tests are run locally.
+- **The tool** is tested without spending quota:
+  - a fake YouTube client;
+  - the parity test above;
+  - a check that the shipped table rebuilds the frozen model's fingerprint;
+  - a headless run of the Streamlit page itself.
 - Label functions tested against synthetic curves with analytically known death times.
 - Idempotency test: the same cycle run twice must not change the silver row count.
 - Leakage test with the discriminative power documented in §6.
@@ -612,7 +666,8 @@ the gold artifacts.
   a unit**, so a schedule change can be reviewed before it is paid for.
 - **The temporal holdout is enforced in code.** Cohort B refuses to evaluate without an explicit
   unlock flag, refuses to run before every member has finished its observation window, refuses
-  the post-hoc feature set, and appends every run to a committed ledger. Making a methodological
+  the post-hoc feature set, and appends every run to a committed ledger. The two Cohort C tests
+  work the same way: one ledger each, and a second run needs `--again`. Making a methodological
   commitment executable is cheaper than remembering it, and unlike a note in a document it
   cannot be quietly forgotten under deadline.
 
@@ -623,19 +678,24 @@ the gold artifacts.
 ```
 config/settings.yaml            every experimental parameter, one file
 config/channels.resolved.yaml   the frozen sampling frame, with measured subscriber counts
-ANALYSIS_PLAN.md                pre-registered, frozen 2026-08-30, six dated amendments appended
+ANALYSIS_PLAN.md                pre-registered, frozen 2026-08-30, eight dated amendments appended
 src/cdc/collect/                youtube.py, instagram.py, runner.py, monitor.py
 src/cdc/storage/bronze.py       idempotent merge-and-dedupe writer
 src/cdc/transform/              silver.py, features.py (leakage boundary)
 src/cdc/labels/death.py         the dependent variable
 src/cdc/models/                 dataset.py, survival.py, baselines.py, synthetic.py
-src/cdc/eval/                   validate.py, report.py (power guard), holdout.py, figures.py
+src/cdc/eval/                   validate.py, report.py (power guard), holdout.py, figures.py,
+                                practical.py (the 7-hour Cohort C test)
 src/cdc/bench/                  amplify.py, spark_bench.py
+src/cdc/tool/                   the paste-a-link tool: model, Cohort C test, Streamlit page
+src/cdc/tool/assets/            the shipped training table, model card and tips
 src/cdc/app/                    Streamlit demo
+.streamlit/config.toml          the apps' theme, and no tracebacks for visitors
 src/cdc/site/build_data.py      builds site/data.json for the public website
 site/                           the public website (deployed to the gh-pages branch)
 data/bronze/                    the raw evidence, committed by the collector
 data/gold/holdout_evaluations.jsonl  the single Cohort B evaluation, committed
+data/gold/practical_evaluations.jsonl, instant_evaluations.jsonl  the two Cohort C runs
 paper/rm/figures/               the RM paper's figures
 .github/workflows/snapshot.yml  collection (externally triggered)
 .github/workflows/benchmark.yml manual, Ubuntu, pinned JDK 17
@@ -675,9 +735,20 @@ python -m cdc.site.build_data
 python -m pytest
 ```
 
-The Cohort B holdout (`--cohort B --unlock-holdout`) has been run, once, on 2026-10-18.
-Running it again is possible, and would be recorded in the ledger as a second look at the
-holdout that the paper would have to report.
+```bash
+streamlit run src/cdc/tool/app.py
+```
+
+```bash
+python -m cdc.tool.demo
+```
+
+The last command lists fresh videos to try the tool on.
+
+The Cohort B holdout (`--cohort B --unlock-holdout`) was run once, on 2026-10-18. The two
+Cohort C tests (`python -m cdc.eval.practical` and `python -m cdc.tool.evaluate --cohort-c`)
+were run once each, on 2026-10-27. Running any of them again is possible. Each would be
+recorded in its ledger as a second look, and the paper would have to report it.
 
 ---
 
@@ -702,3 +773,5 @@ holdout that the paper would have to report.
    and ours could not until it was rebuilt.
 7. **Treat the earliest available observation as the most valuable one** and never discard a
    measurement already paid for (§5.2).
+8. **Ship a model as data plus a recipe, checked by a fingerprint, not as a pickle** (§9.1).
+   The table and the code are reviewable and survive library upgrades. A pickle is neither.

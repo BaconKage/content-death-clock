@@ -6,8 +6,24 @@ goes viral.
 **Explore the study: <https://baconkage.github.io/content-death-clock/>** (interactive website, no install). RV University, 7th Semester — Research Methodology + Big Data Analytics.
 
 Most content-performance research predicts *growth*. We predict *decay*: given a post,
-how long until engagement velocity collapses? The deliverable is a decay curve and a
-countdown to "attention death", trained on repeated real observations of real posts.
+how long until engagement velocity collapses?
+
+**What we found.** The exact hour can't be predicted from public numbers. The order can,
+modestly, and that is enough for an early warning. Tested once on 533 fresh videos:
+- at hour 7, the videos the model flagged faded within two days 57% of the time, against 17%
+  overall;
+- from a single reading, on channels it had never seen, a second model gave odds that beat
+  the average rate.
+
+The papers are in [`paper/`](paper/README.md).
+
+**Check a video.** The second model powers a paste-a-link tool: paste a YouTube link, and it
+gives the chance the video keeps getting attention and how it compares with similar videos.
+It is in [`src/cdc/tool/`](src/cdc/tool/README.md).
+
+```bash
+streamlit run src/cdc/tool/app.py
+```
 
 ---
 
@@ -140,13 +156,16 @@ config/          settings.yaml (all experimental parameters) + the sample frame
 src/cdc/
   collect/       youtube client, panel state, cycle runner, monitor, resolver
   storage/       bronze layer
-  transform/     silver/gold (week 1)
-  labels/        death.py — the dependent variable
-  models/        baselines + survival (week 2)
-  eval/          GroupKFold, bootstrap, Wilcoxon (week 2)
-  bench/         pandas vs Spark scalability (week 2)
-  app/           Streamlit demo (week 3)
-tests/           label correctness + offline end-to-end pipeline test
+  transform/     silver/gold
+  labels/        death.py, the dependent variable
+  models/        baselines + survival
+  eval/          GroupKFold, bootstrap, Wilcoxon, the holdout and the 7-hour Cohort C test
+  bench/         pandas vs Spark scalability
+  site/          builds the public website's data
+  tool/          the paste-a-link tool: one-reading model, its Cohort C test, Streamlit page
+  app/           Streamlit demo of tracked posts
+tests/           328 tests: labels, leakage, pipeline, holdout guards, the tool
+site/            the public website (deployed to the gh-pages branch)
 paper/rm/        Research Methodology paper
 paper/bda/       Big Data Analytics report
 ```
@@ -163,7 +182,11 @@ python -m pytest
 `tests/test_pipeline_offline.py` drives the real runner through a simulated 21-day
 collection against a fake API — no network — and asserts that fast decayers come out with
 shorter lifetimes than slow ones, that a retried cycle does not duplicate data, and that
-the quota cost matches the model documented above.
+the quota cost matches the model documented above. The `tests/test_tool_*.py` files cover
+the paste-a-link tool without spending quota:
+- recorded API responses must give identical inputs through the training path and the app;
+- the shipped table must rebuild the frozen model;
+- the Streamlit page is driven headless.
 
 ---
 

@@ -4,13 +4,23 @@ Two deliverables, one dataset, one repo. **Website for readers: <https://baconka
 
 | | File | Course | Status |
 |---|---|---|---|
-| Empirical paper | [`rm/paper.md`](rm/paper.md) | Research Methodology | Written in full; **all results final** — Cohort A matured 2026-10-16, Cohort B holdout evaluated once 2026-10-18 (§4.7); figures in `rm/figures/` |
-| Technical report | [`bda/report.md`](bda/report.md) | Big Data Analytics | **Final** (2026-10-18): full-history cost and coverage figures, benchmark re-run on the final data, reliability and security incidents through 2026-10-18 |
+| Empirical paper | [`rm/paper.md`](rm/paper.md) | Research Methodology | Written in full; **all results final**. Cohort A matured 2026-10-16; the Cohort B holdout was evaluated once on 2026-10-18 (§4.7); the two Cohort C extensions were evaluated once each on 2026-10-27 (§4.10–4.11). Figures in `rm/figures/` |
+| Technical report | [`bda/report.md`](bda/report.md) | Big Data Analytics | **Final** (2026-10-27): full-history cost and coverage figures, benchmark re-run on the final data, reliability and security incidents, and the paste-a-link tool the pipeline now serves (§9.1) |
 
 ## How to read the drafts
 
 Everything marked **`[PENDING]`** is a number that does not exist yet and must not be
-invented. None remain in the RM paper; the Cohort B holdout was evaluated on 2026-10-18.
+invented. None remain in either paper. The Cohort B holdout was evaluated on 2026-10-18, and
+Cohort C on 2026-10-27.
+
+Cohort C (videos published 4–15 October) was declared as a test set for two exploratory
+extensions:
+- the 7-hour early-warning model (plan amendment 7, 2026-10-18);
+- the one-reading model behind the paste-a-link tool (amendment 8, 2026-10-27).
+
+Each was run once from commit `b95e0c8`, and both passed. Their ledgers are committed at
+`data/gold/practical_evaluations.jsonl` and `data/gold/instant_evaluations.jsonl`. Neither
+bears on H1 or H2.
 
 Cohort A closed **2026-09-16T00:00:00Z** (pre-specified in `settings.yaml` on
 2026-08-30). Every Cohort A post has completed observation, and the results in the RM paper

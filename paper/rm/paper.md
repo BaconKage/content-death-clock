@@ -3,8 +3,8 @@
 **Amogha V Prasad · S Anannya · Sanidhya Tiwari · Shubhang Srinivas Varda**
 RV University, Bengaluru — 7th Semester, Research Methodology
 
-> **Draft status, as of 2026-10-18.** Method (§3) follows `ANALYSIS_PLAN.md`, frozen
-> 2026-08-30, plus the seven dated amendments summarised in Appendix A. **All results for H1,
+> **Draft status, as of 2026-10-27.** Method (§3) follows `ANALYSIS_PLAN.md`, frozen
+> 2026-08-30, plus the eight dated amendments summarised in Appendix A. **All results for H1,
 > H2 and H3 are final.** The Cohort A results in §4 come from the matured analysis of 2026-10-16 (563
 > deaths), replacing the provisional figures of 2026-09-20 (498 deaths); maturation changed
 > one conclusion, not just digits (§4.4). **Cohort B, the sealed holdout, was evaluated once
@@ -12,9 +12,10 @@ RV University, Bengaluru — 7th Semester, Research Methodology
 > discrimination and did *not* replicate the dominance of creator size, so §5 and §8 have
 > been revised where the Cohort A reading no longer holds.
 >
-> One exploratory extension is pending by design: a practical early-warning model, declared
-> on 2026-10-18 (Amendment 7) and evaluated once on fresh videos on or after 2026-10-25
-> (§4.10). It does not bear on any hypothesis.
+> Two exploratory extensions were declared after those results and evaluated once each, on
+> 2026-10-27, on 533 fresh videos (Cohort C): a 7-hour early-warning model (Amendment 7,
+> §4.10) and a one-reading model for a paste-a-link tool (Amendment 8, §4.11). Both passed
+> their pre-declared rules. Neither bears on any hypothesis.
 
 ---
 
@@ -58,14 +59,20 @@ creators), evaluated once as declared in advance, the forest again discriminated
 0.600, 95% CI 0.555–0.648) and again failed to beat the Kaplan–Meier median on absolute
 error. H2 was again not supported under the pre-declared rule, but for a different reason:
 the forest beat creator size on discrimination (+0.083, 95% CI +0.033 to +0.134) but not on
-absolute error (p = 0.69), and creator size alone did no better than chance (0.517).
+absolute error (p = 0.69), and creator size alone did no better than chance (0.517). Two
+exploratory extensions, declared after these results and each tested once on 533 fresh videos
+(Cohort C), passed their pre-declared rules. At hour 7, a forest given likes and comments
+flagged videos that would fade within two days of posting at 3.3 times the base rate. From a
+single reading, on channels it had not seen, a second model gave two-day odds that beat
+quoting the average rate.
 
 **Conclusion.** Time to attention death is predictable from first-session signals to a
 small, measurable and replicable degree (C-index about 0.60 in both cohorts), but absolute
 predictions are imprecise by roughly a factor of two, and no method beats the cohort's median
 lifetime on them. Whether early engagement *dynamics* add anything beyond creator size is not
 settled: in the main sample they did not, and in the holdout they did on ranking but not on
-error. Cohort A's apparent dominance of creator size did not replicate. We report all of this
+error. Cohort A's apparent dominance of creator size did not replicate. On fresh videos, the
+ranking signal does support a practical early warning, though not a clock. We report all of this
 as the result, as pre-registered on 2026-08-30, rather than as a specification to be
 improved upon.
 
@@ -527,7 +534,10 @@ Two instrument checks are worth reporting in a methods paper, because both found
   analytically known death times. It is the one component where a silent bug invalidates
   every downstream number.
 
-The suite contains 237 tests and runs in CI on every push. A public website, <https://baconkage.github.io/content-death-clock/>, presents the study for readers who will not run code.
+The suite contains 328 tests, run with `python -m pytest`. The repository's automated
+workflows run the collector and the benchmark; the tests are run locally. A public website,
+<https://baconkage.github.io/content-death-clock/>, presents the study for readers who will
+not run code. The paste-a-link tool built on §4.11 is in `src/cdc/tool/`.
 
 ---
 
@@ -1036,7 +1046,9 @@ matters, that has to be shown on data collected after 2026-10-16.
 
 ### 4.10 Exploratory extension: a practical early-warning model
 
-`[PENDING]` — **declared 2026-10-18, evaluated once on or after 2026-10-25.**
+**Declared 2026-10-18 (Amendment 7); evaluated once, on 2026-10-27T16:33Z**, from commit
+`b95e0c8`. The run is recorded in `data/gold/practical_evaluations.jsonl`. Not a test of H1 or
+H2.
 
 The study shows that the exact time of attention death cannot be predicted from these
 signals, but that the ordering of videos can, modestly. A practical tool would use that
@@ -1045,13 +1057,114 @@ attention within two days. Exploration after the main results suggested that a f
 likes and comments as well, and used on channels it has already seen, does this at about
 three times the base rate.
 
-Because that suggestion came from data already examined, it is being tested on a new Cohort C
-(533 videos published 4–15 October that no analysis has touched), with its model, inputs and
-pass/fail rules fixed in advance (Amendment 7). The primary claim passes only if the share of
-flagged videos that really fade within 48 hours is above the base rate with a 95% interval
-that clears it. A rehearsal on the already-examined Cohort B gave 41.9% against 13.5%.
-Cohort C's result will be reported here whatever it is. It does not bear on H1 or H2: the
-channels overlap between training and test by design, which is exactly what H2 excluded.
+Because that suggestion came from data already examined, it was tested on a new Cohort C:
+533 videos published 4–15 October that no analysis had touched. The model, inputs and
+pass/fail rules were fixed in advance, and training used Cohorts A and B. The channels
+overlap between training and test by design, which is exactly what H2 excluded.
+
+**Table 4.10 — Cohort C, single evaluation**
+
+| | 7h (primary) | 25h (secondary) |
+|---|---|---|
+| Test videos (deaths, channels) | 468 (372, 44) | 411 (318, 42) |
+| C-index, model | 0.702 | 0.715 |
+| C-index, creator size only | 0.561 | 0.503 |
+| ΔC, paired creator bootstrap | +0.141 [+0.084, +0.197] | +0.212 [+0.126, +0.292] |
+| Flag precision (top 20%) | 57.4% [41.1%, 74.0%] | 20.5% [10.3%, 29.5%] |
+| Base rate (death within 48h of posting) | 17.3% | 6.6% |
+| Precision minus base rate, 95% CI | [+0.271, +0.549] | [+0.046, +0.219] |
+| Lift; recall | 3.3×; 67% | 3.1×; 63% |
+| Timing error (guessing the median) | 1.93× (1.97×) | 1.82× (1.86×) |
+
+- **The primary claim passes.** Of the 94 videos flagged at hour 7, 57.4% faded within 48
+  hours of posting, against 17.3% of all test videos. The interval on the difference clears
+  zero comfortably.
+- **The secondary ranking claim also passes.**
+- **Better than the rehearsal.** Both results came out higher than on Cohort B (41.9% against
+  13.5%; ΔC +0.108), which is more than the design led us to expect. One cohort of 44 channels
+  cannot say whether that is luck.
+- **Timing did not improve.** The model's error is about a factor of two, as everywhere else in
+  the study, and guessing the median does almost as well.
+- **Missing readings.** 250 of the 533 Cohort C posts missed at least one scheduled reading,
+  mostly at 96–240 hours during the October quota outages. As declared, nothing was excluded
+  or imputed for that.
+
+What this supports is narrower than "predicting when content dies", and we state it that way.
+For channels already being tracked, seven hours of views, likes and comments pick out about
+two thirds of the videos that will be finished within two days.
+
+### 4.11 Exploratory extension: one reading, on a channel the model has not seen
+
+**Declared 2026-10-27 (Amendment 8), before any Cohort C outcome had been computed, and
+evaluated once the same day**, from commit `b95e0c8`. The run is recorded in
+`data/gold/instant_evaluations.jsonl`. Not a test of H1 or H2.
+
+The project's practical aim is a tool a creator can use without waiting: paste a link, get an
+outlook. That changes the question in two ways. The tool sees **one reading** of the video, at
+whatever age it is pasted, and usually a channel **it has never seen**. The 7-hour model of
+§4.10 meets neither condition. So a separate model was built in `src/cdc/tool/`, kept apart
+from the research code, and tested under both.
+
+**Design.**
+- **Training rows:** each Cohort A and B video's readings at 1, 3, 6 and 12 hours (6,373 rows,
+  1,646 videos, 56 channels).
+- **Inputs:** what one reading shows. These are age, views, views per hour, likes and comments
+  per view, views per subscriber, subscribers, duration, publishing hour and title length.
+- **Outcome:** the death time measured from posting, whether or not the video had already died
+  at the reading, because one reading cannot tell.
+- **Model:** the registered forest, followed by a one-parameter recalibration that pulls each
+  predicted curve part of the way toward the average curve.
+- **Fixed before the test, on Cohorts A and B:** the recalibration weight (b = 0.54), and the
+  "high risk" threshold, a two-day fade chance at or above the 80th percentile of held-out
+  predictions (0.451).
+- **Test:** every Cohort C video was predicted by a model trained **without its channel**.
+
+Two primary claims, both required:
+1. The two-day odds must beat quoting the average rate: the lower 95% creator-bootstrap bound of
+   the Brier skill score is above 0.
+2. Videos labelled high risk must fade within two days more often than videos overall: the
+   lower bound of the difference is above 0.
+
+**Table 4.11 — Cohort C, channels held out of training (2,065 readings, 521 videos, 44 channels)**
+
+| | Result | 95% CI | Rule |
+|---|---|---|---|
+| Brier skill, two-day odds vs average rate | +0.133 | [+0.047, +0.232] | pass |
+| High-risk label: faded within two days | 62.2% vs 37.2% overall | difference [+0.122, +0.410] | pass |
+| Share labelled high risk | 22.0% | | |
+| Low-risk label: faded within two days | 21.6% vs 37.2% | | |
+| C-index | 0.634 | | |
+
+- **Calibration held up.** Predicted and observed two-day fading were 34.9% and 37.2%, and
+  83.0% against 82.8% by day 7.
+- **The recalibration mostly helped.** It improved the scores at two, three and seven days,
+  and cost a little at one day (Brier skill +0.241 after, +0.292 before). We report that
+  rather than re-tune it.
+- **In-between ages work.** Readings simulated between the checkpoints, at 2, 4.5 and 9 hours,
+  scored as well as the checkpoints themselves (Brier skill +0.131; high risk 62.3% against
+  37.3%). That matters because the tool is used at any age.
+- **Seen channels flatter the model.** On channels the model *had* seen, the same test gives
+  Brier skill +0.323 and high-risk precision 85.8%. Much of a forest's apparent skill on a
+  known channel is memory of that channel, which is why the held-out design was chosen.
+
+As in §4.10, the result is better than the rehearsal (trained on A, tested on B: Brier skill
++0.082 [+0.008, +0.164]; 52.7% against 31.2%), and one cohort cannot say why. The pass is for
+odds and an early warning. It is not a claim that a single reading tells when a video will
+die.
+
+**Tips that were not kept.** The tool was also meant to say what tends to make videos last.
+- **Candidates,** declared before computing: five within-channel patterns. They were likes per
+  view, comments per view, early views per subscriber, length and title length.
+- **Rule:** a pattern is kept only if it holds in Cohort A and in Cohort B separately.
+- **Result: none did.** The closest were likes per view (A 0.568 [0.519, 0.631], B 0.558
+  [0.491, 0.611]) and comments per view (A 0.523 [0.491, 0.566], B 0.544 [0.504, 0.592]).
+- **In the tool:** it gives no such advice and says why. These would in any case have been
+  associations. Nothing in an observational design shows that changing a video's likes or
+  length would change its lifespan.
+
+As declared, after the pass the model was refitted with the same recipe on Cohorts A, B and C
+(2,173 videos) for use in the tool. The numbers above are those of the model fixed before the
+test.
 
 ---
 
@@ -1221,9 +1334,23 @@ that the story did not travel to new data. It also cut the other way: the holdou
 favourable test does not get to promote H2 to "supported", because the rule written before
 opening says it takes two.
 
+### 5.7 What the study supports in practice
+
+The study set out to predict when content stops getting attention. It found that the time
+cannot be named from public numbers, but the order can, modestly. Both extensions tested on
+fresh videos use exactly that, and nothing more:
+- a tracked channel's videos can be flagged at hour 7;
+- a creator can be given honest odds from one reading of a video, on a channel the model has
+  never seen.
+
+The paste-a-link tool built on §4.11 reports chances and its own measured hit rate, never a
+time of death. It gives no "do this to last longer" advice, because none of the candidate
+patterns held up in both cohorts. That is a smaller product than the "death clock" the
+project is named after, and it is the one the evidence supports.
+
 ## 6. Limitations
 
-Most were stated in advance in the frozen plan; items 8 and 9 were found afterwards.
+Most were stated in advance in the frozen plan; items 8 to 11 were added afterwards.
 
 1. **Observational design.** No causal claim. We predict decay; we do not explain it.
 2. **Not a random sample.** Generalisation beyond the committed frame is not claimed. The
@@ -1264,6 +1391,16 @@ Most were stated in advance in the frozen plan; items 8 and 9 were found afterwa
     posts, and 43 of its 50 creators also appear in Cohort A. Its disagreement with Cohort A
     about creator size shows how much a result here can depend on which 47–50 channels are
     sampled. Settling H2 needs more creators, not more posts from the same ones.
+11. **The fresh-video extensions are exploratory and rest on one cohort.** Cohort C was
+    examined once, by rules fixed beforehand. But:
+    - both extensions were conceived after the main results;
+    - its videos come from the same sampling frame;
+    - 250 of its 533 posts missed at least one scheduled reading during the October outages;
+    - both results came out better than their rehearsals, and one cohort cannot say whether
+      that is luck.
+
+    In §4.11 the channels were held out of training, but they are still channels from that
+    frame.
 
 ## 7. Ethics
 
@@ -1314,6 +1451,16 @@ Two secondary findings stand on their own. A post stops *growing* well before it
 time, so "attention death" names two distinguishable constructs rather than one. And
 landmarking is not a refinement but a requirement: before we imposed it, 53% of observed
 deaths fell inside the feature window, making the majority of predictions circular.
+
+Two exploratory extensions, declared after these results and each tested once on 533 fresh
+videos, show what the ranking signal is good for:
+- **At hour 7, on channels already being tracked,** a forest given likes and comments flagged
+  videos that would fade within two days at 3.3 times the base rate (57% against 17%).
+- **From a single reading of a video on a channel it had never seen,** a second model gave
+  two-day odds that beat the average rate (Brier skill +0.13). Its high-risk label was right
+  62% of the time, against 37% for videos overall.
+
+That is an early warning, not a clock, and the tool built on it says so.
 
 We make no causal claim. The design is observational, the sampling frame is a committed
 query list rather than a random sample of YouTube, and generalisation beyond it is not
@@ -1367,9 +1514,9 @@ verification against the source PDFs before submission.*
 
 ## Appendix A — Amendment log
 
-Summarised from `ANALYSIS_PLAN.md`, where each is given in full. All seven were committed as new
-commits with stated reasons; none edits history. Amendments 1–4 were made before any result
-existed. Amendments 5, 6 and 7 came after the Cohort A results had been examined, and each
+Summarised from `ANALYSIS_PLAN.md`, where each is given in full. All eight were committed as
+new commits with stated reasons; none edits history. Amendments 1–4 were made before any
+result existed. Amendments 5 to 8 came after the Cohort A results had been examined, and each
 records what it was and was not allowed to change.
 
 ### Amendment 1 — 2026-08-31: per-creator daily admission cap (YouTube only)
@@ -1489,6 +1636,33 @@ before it is looked at.
 only. One disclosure: a first rehearsal labelled every post in memory before keeping only
 Cohorts A and B; nothing about Cohort C was printed, stored or looked at, and the code was
 changed the same day.
+
+**Result.** Evaluated once on 2026-10-27; both claims passed (§4.10).
+
+### Amendment 8 — 2026-10-27: a second exploratory extension, the instant model behind the tool
+
+**Change.** Declares, before any Cohort C outcome is computed, a one-reading model for a
+paste-a-link tool:
+- the registered forest, on inputs from a single reading at 1–12 hours;
+- the death time measured from posting;
+- a one-parameter recalibration toward the average curve, with that weight and the high-risk
+  threshold frozen from Cohorts A and B;
+- one test on Cohort C, with every video predicted by a model trained without its channel;
+- two primary claims, both required: the two-day odds beat the average rate, and the high-risk
+  label beats the base rate.
+
+It also fixes the rule for "what makes videos last" tips (a tip must hold in A and in B
+separately) and records that none passed.
+
+**Reason.** The tool is used once, at any age, mostly on channels the model has not seen. The
+7-hour model of Amendment 7 meets neither condition. The new model's development, all on
+Cohorts A and B, is disclosed in full in the plan. That includes a first version tested on
+seen channels, whose skill turned out to be memory of the channel.
+
+**State of outcome data at amendment.** Cohorts A and B examined. Cohort C: publication counts
+only; no tool code had labelled it.
+
+**Result.** Evaluated once on 2026-10-27; both claims passed (§4.11).
 
 ---
 
