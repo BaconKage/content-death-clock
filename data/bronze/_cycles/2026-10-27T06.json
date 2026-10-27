@@ -1,18 +1,18 @@
 {
   "cycle_id": "2026-10-27T06",
-  "started_at": "2026-10-27T06:31:26+00:00",
+  "started_at": "2026-10-27T06:44:01+00:00",
   "dry_run": false,
   "panel_before": {
     "posts_total": 2720,
     "posts_active": 521,
-    "posts_due": 14,
-    "snapshots_total": 32799,
-    "snapshots_per_post_mean": 12.058455882352941
+    "posts_due": 5,
+    "snapshots_total": 32809,
+    "snapshots_per_post_mean": 12.062132352941177
   },
   "discovered": 0,
-  "snapshotted": 10,
+  "snapshotted": 1,
   "errors": [],
-  "due_count": 14,
+  "due_count": 5,
   "quota": {
     "units_spent": 64,
     "calls": 64,
@@ -25,5 +25,5 @@
   "files": [
     "/home/runner/work/content-death-clock/content-death-clock/data/bronze/platform=youtube/dt=2026-10-27/snapshots-2026-10-27T06.jsonl"
   ],
-  "finished_at": "2026-10-27T06:31:47+00:00"
+  "finished_at": "2026-10-27T06:44:26+00:00"
 }
