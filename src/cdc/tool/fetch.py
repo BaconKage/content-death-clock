@@ -66,13 +66,13 @@ class ToolError(Exception):
     """A failure the page can explain. ``kind`` picks the message; no raw text."""
 
     MESSAGES = {
-        "bad_link": "That doesn't look like a link to a YouTube video. Try one like "
+        "bad_link": "That doesn’t look like a link to a YouTube video. Try one like "
                     "https://www.youtube.com/watch?v=... or https://youtu.be/...",
         "not_found": "YouTube has no public video at that link. It may be private, deleted, or mistyped.",
         "daily_cap": "The tool has reached its daily limit of lookups. Please try again tomorrow (UTC).",
         "youtube_quota": "YouTube's daily limit for this tool has been reached. Please try again tomorrow.",
-        "youtube_error": "YouTube didn't answer properly just now. Please try again in a minute.",
-        "no_key": "The tool isn't connected to YouTube yet (no API key is configured).",
+        "youtube_error": "YouTube didn’t answer properly just now. Please try again in a minute.",
+        "no_key": "The tool isn’t connected to YouTube yet (no API key is configured).",
     }
 
     def __init__(self, kind: str) -> None:
@@ -112,7 +112,7 @@ class Lookup:
 
 
 def lookup(video_id: str, api_key: str | None, budget: DailyBudget, client=None) -> Lookup:
-    """Fetch one video and its channel's subscriber count: two units."""
+    """Fetch one video and its channel’s subscriber count: two units."""
     from cdc.collect.youtube import QuotaExceeded, QuotaMeter, YouTubeAPIError, YouTubeClient
 
     if not _ID.match(video_id or ""):

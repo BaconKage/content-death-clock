@@ -44,29 +44,41 @@ def _submit(monkeypatch, url: str, lookup) -> AppTest:
 
 
 def _text(at: AppTest) -> str:
-    parts = [m.value for m in at.markdown] + [m.value for m in at.info] + [m.value for m in at.error]
-    parts += [m.value for m in at.warning] + [m.value for m in at.subheader]
-    return "\n".join(parts)
+    """The visible words of every HTML block the page drew (the page is built from st.html)."""
+    import html
+    import re
+    body = " ".join(e.proto.body for e in at.get("html") if "<style>" not in e.proto.body)
+    return html.unescape(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", body)))
 
 
 def test_a_fresh_video_gets_the_full_report(monkeypatch):
     at = _submit(monkeypatch, "https://youtu.be/abcdefghijk?si=x", _fake(4.0))
     t = _text(at)
-    for heading in ("Attention outlook", "How it compares", "What to do now",
-                    "What tends to make videos last"):
+    for heading in ("The chance it fades within two days of being posted", "still getting views",
+                    "Compared with similar videos", "What you can do", "How much can you trust this?",
+                    "Technical details"):
         assert heading in t
-    assert "chance it stops getting attention within two days" in t
-    assert "built differently" not in t                       # the fingerprint matched
+    assert "matches the tested build" in t and "built slightly differently" not in t
 
 
 def test_an_older_video_gets_comparisons_only(monkeypatch):
     t = _text(_submit(monkeypatch, "https://youtu.be/abcdefghijk", _fake(40.0)))
-    assert "Too old for a reliable outlook" in t and "How it compares" in t
-    assert "Attention outlook" not in t
+    assert "too old for a forecast" in t and "Compared with similar videos" in t
+    assert "fades within two days of being posted" not in t
 
 
 def test_bad_links_and_youtube_failures_show_plain_messages(monkeypatch):
     t = _text(_submit(monkeypatch, "https://vimeo.com/123", _fake(4.0)))
-    assert "doesn't look like a link to a YouTube video" in t
+    assert "look like a link to a YouTube video" in t
     t = _text(_submit(monkeypatch, "https://youtu.be/abcdefghijk", _fake(4.0, fail="daily_cap")))
     assert "daily limit" in t
+
+
+def test_before_any_check_the_page_explains_itself(monkeypatch):
+    import streamlit as st
+    st.cache_data.clear()
+    at = AppTest.from_file(APP, default_timeout=180)
+    at.run()
+    assert not at.exception
+    t = _text(at)
+    assert "Will this video keep getting views?" in t and "What you’ll get" in t

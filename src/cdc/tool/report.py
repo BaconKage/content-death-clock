@@ -1,6 +1,6 @@
 """One lookup in, the report the page shows out. No I/O, so every branch is testable.
 
-What the report says depends on the video's age, because that is what the data
+What the report says depends on the video’s age, because that is what the data
 supports:
 
 * under ``MIN_AGE_H``: too new; come back at the first checkpoint
@@ -27,7 +27,7 @@ BANDS = ((None, 4.0, "under 10,000 subscribers"), (4.0, 6.0, "10,000 to 1 millio
          (6.0, None, "over 1 million subscribers"))
 MIN_REF_ROWS, MIN_REF_CHANNELS = 100, 5
 LAST_MARK = MARKS[-1]
-DAYS = ((24.0, "1 day"), (48.0, "2 days"), (72.0, "3 days"), (168.0, "7 days"))
+DAYS = ((24.0, "After 1 day"), (48.0, "After 2 days"), (72.0, "After 3 days"), (168.0, "After a week"))
 
 
 def band_of(log_subs: float) -> tuple[float | None, float | None, str] | None:
@@ -50,7 +50,7 @@ def percentile(table: pd.DataFrame, feature: str, value: float, age_h: float,
                log_subs: float) -> dict[str, Any] | None:
     """Where a value sits among videos of a similar age and channel size, 0-100.
 
-    Taken at the two scheduled marks either side of the video's age and
+    Taken at the two scheduled marks either side of the video’s age and
     interpolated on a log-age scale, so a 9-hour-old video is compared with
     6- and 12-hour readings rather than snapped to one of them.
     """
@@ -107,38 +107,41 @@ def build_report(item: dict[str, Any], subscribers: Any, now: datetime, model: I
     live = sn.get("liveBroadcastContent")
     if live in ("live", "upcoming") or age <= 0:
         rep["status"] = "live"
-        rep["notes"].append("This is a live stream or a premiere that hasn't started. The study "
-                            "followed ordinary uploads, so the tool can't say anything about it yet.")
+        rep["notes"].append("The study followed ordinary uploads, so it can’t say anything about a live "
+                            "stream or a premiere that hasn’t started.")
         return rep
     if not feats:
         rep["status"] = "no_numbers"
-        rep["notes"].append("YouTube didn't report a view count for this video, so there is nothing to measure.")
+        rep["notes"].append("YouTube didn’t share a view count for this video, so there’s nothing to measure.")
         return rep
     if age > LAST_MARK + 1.0:
         rep["status"] = "beyond_window"
-        rep["notes"].append(f"This video is {age / 24:.0f} days old. The study followed videos for "
-                            "their first 10 days, so beyond that there is nothing to compare it with.")
+        rep["notes"].append(f"This video is {age / 24:.0f} days old. We followed videos for their first "
+                            "10 days, so there’s nothing to compare it with.")
         return rep
 
     if subscribers is None:
-        rep["notes"].append("This channel hides its subscriber count. The model used a typical "
-                            "channel size in its place, and comparisons are against all channel sizes.")
+        rep["notes"].append("This channel hides its subscriber count, so we compared it with channels "
+                            "of every size and assumed a typical size for the forecast.")
     if facts["likes"] is None:
-        rep["notes"].append("Likes are hidden on this video, so the model used a typical value.")
+        rep["notes"].append("Likes are hidden on this video, so the forecast assumes a typical number.")
     if facts["comments"] is None:
-        rep["notes"].append("Comments are turned off on this video, so the model used a typical value.")
+        rep["notes"].append("Comments are turned off on this video, so the forecast assumes a typical number.")
     ls = feats.get("log_subscribers", float("nan"))
     tl = table.groupby("channel")["log_subscribers"].first()
     if math.isfinite(ls) and (ls < tl.min() or ls > tl.max()):
-        rep["notes"].append("Your channel is outside the size range of the channels we studied, "
-                            "so treat these numbers with extra caution.")
+        rep["notes"].append("This channel is bigger or smaller than any channel we studied, so take "
+                            "these numbers with extra caution.")
 
-    size_feature = "log_views_per_sub" if math.isfinite(feats.get("log_views_per_sub", float("nan"))) else "log_views"
-    for f, label in ((size_feature, "views per subscriber" if size_feature == "log_views_per_sub" else "views"),
-                     ("log_like_rate", "likes per view"), ("log_comment_rate", "comments per view")):
+    by_size = math.isfinite(feats.get("log_views_per_sub", float("nan")))
+    for f, metric, label in (
+            ("log_views_per_sub" if by_size else "log_views", "views per subscriber" if by_size else "views",
+             "Views, for a channel this size" if by_size else "Views"),
+            ("log_like_rate", "likes per view", "Likes, for the number of views"),
+            ("log_comment_rate", "comments per view", "Comments, for the number of views")):
         pc = percentile(table, f, feats.get(f, float("nan")), age, ls)
         if pc:
-            rep["comparisons"].append({"metric": label, **pc})
+            rep["comparisons"].append({"metric": metric, "label": label, **pc})
 
     if age < MIN_AGE_H:
         rep["status"] = "too_new"
@@ -150,7 +153,7 @@ def build_report(item: dict[str, Any], subscribers: Any, now: datetime, model: I
 
     rep["status"] = "ok"
     if not _odds_enabled(card):
-        rep["notes"].append("The outlook is switched off: it did not pass its test on new videos.")
+        rep["notes"].append("The forecast is switched off because it did not pass its test on new videos.")
         return rep
     s = model.survival(pd.DataFrame([feats], columns=FEATURES))[0]
     p48 = float(1 - s[col(FAST_H)])
@@ -163,17 +166,16 @@ def build_report(item: dict[str, Any], subscribers: Any, now: datetime, model: I
         "typical_still_going": [{"after": label, "h": h, "chance": float(model.average_[col(h)])}
                                 for h, label in DAYS],
     }
-    fx = tips.get("facts", {})
-    early = (f"In our data, {fx.get('share_fastest_in_first_6h', 0):.0%} of videos had their fastest "
-             f"views within six hours of posting, and a typical video got about "
-             f"{fx.get('median_share_of_10_day_views_by_24h', 0):.0%} of its first ten days' views in its first day.")
+    day1 = tips.get("facts", {}).get("median_share_of_10_day_views_by_24h", 0.5)
+    early = f"The typical video we tracked got {day1:.0%} of its first ten days’ views on day one."
     if risk == "high":
-        rep["todo"] = ["This video looks more likely than most to stop getting attention within two days.",
-                       early, "If you plan to share or promote it, doing it soon reaches it while it still has momentum."]
+        rep["todo"] = [early, "If you plan to share or promote this video, do it soon, while people are "
+                              "still finding it."]
     elif risk == "low":
-        rep["todo"] = ["This video looks more likely than most to keep getting views past its second day.",
-                       early]
+        rep["todo"] = ["No need to rush. This video looks likely to keep finding viewers past its second day.",
+                       f"Even so, day one is usually the busiest: the typical video we tracked got "
+                       f"{day1:.0%} of its first ten days’ views on day one."]
     else:
-        rep["todo"] = ["This video's outlook is about average for its age.", early,
-                       "If you plan to share or promote it, earlier is when it still has momentum."]
+        rep["todo"] = [early, "If you plan to share or promote this video, earlier is better, while people "
+                              "are still finding it."]
     return rep

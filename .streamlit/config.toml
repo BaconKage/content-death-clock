@@ -1,0 +1,36 @@
+# Streamlit theme for the project's apps, matching the public website
+# (site/index.html): Bricolage Grotesque headings, IBM Plex Sans text, the same
+# paper, ink and blue, 10px corners. Light and dark follow the visitor's system.
+
+[theme]
+font = "'IBM Plex Sans':https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+headingFont = "'Bricolage Grotesque':https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&display=swap"
+codeFont = "'IBM Plex Mono':https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
+baseRadius = "10px"
+baseFontSize = 16
+showWidgetBorder = true
+
+[theme.light]
+primaryColor = "#2a78d6"
+backgroundColor = "#f4f5f2"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#14181b"
+borderColor = "#c9cec9"
+linkColor = "#2a78d6"
+
+[theme.dark]
+primaryColor = "#3987e5"
+backgroundColor = "#0f1315"
+secondaryBackgroundColor = "#161c1f"
+textColor = "#edf0f1"
+borderColor = "#34414a"
+linkColor = "#5b9bea"
+
+[client]
+# Visitors see the page, not Streamlit's developer menu or error tracebacks.
+toolbarMode = "minimal"
+showErrorDetails = "none"
+showSidebarNavigation = false
+
+[browser]
+gatherUsageStats = false
