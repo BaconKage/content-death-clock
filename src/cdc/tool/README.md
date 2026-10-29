@@ -36,7 +36,7 @@ research code: nothing in `src/cdc/eval`, `src/cdc/models`, `src/cdc/labels` or
 | `fetch.py` | link parsing, the YouTube lookup (2 units), the daily cap |
 | `report.py` | builds the report; no I/O |
 | `app.py` | the Streamlit page, written for non-technical readers |
-| `../../../.streamlit/config.toml` | the page's theme: the website's fonts and colours, light and dark |
+| `../../../.streamlit/config.toml` | the page's theme: the website's fonts, a light colour scheme of its own |
 | `assets/` | the shipped training table, model card and tips |
 
 ## Rebuild

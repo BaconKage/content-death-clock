@@ -82,3 +82,34 @@ def test_before_any_check_the_page_explains_itself(monkeypatch):
     assert not at.exception
     t = _text(at)
     assert "Will this video keep getting views?" in t and "What you’ll get" in t
+
+
+def _page_end(at: AppTest) -> list[str]:
+    """What actually sits at the bottom of the page now (st.get can include replaced elements)."""
+    return [getattr(getattr(c, "proto", None), "body", "") for c in at.main.children.values()][-2:]
+
+
+def test_a_failed_check_never_shows_the_previous_videos_report(monkeypatch):
+    good = _fake(4.0)
+
+    def lookup(video_id, api_key, budget, client=None):
+        if video_id == "zzzzzzzzzzz":
+            raise Fe.ToolError("not_found")
+        return good(video_id, api_key, budget, client)
+
+    at = _submit(monkeypatch, "https://youtu.be/abcdefghijk", lookup)
+    assert "The chance it fades within two days" in _text(at)
+    at.text_input[0].input("https://youtu.be/zzzzzzzzzzz")
+    at.button[0].click()
+    at.run()
+    assert not at.exception
+    end = " ".join(_page_end(at))
+    assert "no public video" in end
+    assert "The chance it fades" not in end and "cdc-video" not in end
+
+
+def test_a_failed_first_check_takes_down_the_loading_placeholder(monkeypatch):
+    at = _submit(monkeypatch, "https://youtu.be/abcdefghijk", _fake(4.0, fail="daily_cap"))
+    end = _page_end(at)
+    assert "daily limit" in end[0]
+    assert not any("cdc-skel" in b for b in end)
