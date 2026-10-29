@@ -47,27 +47,39 @@ SESSION_LIMIT, SESSION_WINDOW_S = 30, 3600
 TEAM = "Amogha V Prasad, S Anannya, Sanidhya Tiwari and Shubhang Srinivas Varda"
 
 st.set_page_config(page_title="Content Death Clock: will your video keep getting views?",
-                   page_icon=":material/hourglass_top:", layout="centered")
+                   page_icon=":material/hourglass_top:", layout="wide")
 
 CSS = """
 <style>
 :root{
-  --paper:#f4f5f2;--panel:#ffffff;--ink:#14181b;--ink2:#48525b;--muted:#5f6870;--rule:#dcdfdb;--chip:#eceee9;
-  --accent:#2a78d6;--high:#b85c00;--ok:#0a7f3f;--typ:#48525b;--empty:#c9ced2;--bad:#b3261e;
+  --paper:#f5f0e6;--panel:#fffdf8;--ink:#25232b;--ink2:#514d58;--muted:#68636d;--rule:#e5ded2;--chip:#eee8dc;
+  --accent:#7138c8;--accent-dark:#5925ad;--high:#bd5a22;--ok:#258052;--typ:#77717e;--empty:#d8d0c5;--bad:#a9322c;
   --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
 }
-@media (prefers-color-scheme: dark){:root{
-  --paper:#0f1315;--panel:#161c1f;--ink:#edf0f1;--ink2:#b5bdc3;--muted:#9aa4ab;--rule:#273136;--chip:#1f272b;
-  --accent:#5b9bea;--high:#e8954a;--ok:#2fb36b;--typ:#b5bdc3;--empty:#3a454b;--bad:#f08b84;}}
-
 [data-testid="stHeader"],[data-testid="stToolbar"],[data-testid="stDecoration"],
 [data-testid="InputInstructions"]{display:none!important}
-[data-testid="stMainBlockContainer"],.block-container{max-width:760px;padding-top:0.5rem;padding-bottom:3rem}
-[data-testid="stTextInput"] label p{font-weight:600;font-size:0.95rem}
-[data-testid="stTextInput"] input{height:3rem;font-size:1rem}
-[data-testid="stFormSubmitButton"] button{height:3rem;font-weight:600;font-size:1rem;white-space:nowrap}
+[data-testid="stMainBlockContainer"],.block-container{max-width:1600px;padding:1.2rem clamp(1rem,4vw,4rem) 3rem}
+[data-testid="stSidebar"]{background:#292631;border-right:0}
+[data-testid="stSidebar"] [data-testid="stMarkdown"]{color:#f7f3ec}
+[data-testid="stSidebar"] a{color:#e8d5ff!important;text-decoration:none!important}
+[data-testid="stSidebar"] a:hover{color:#fff!important}
+[data-testid="stTextInput"] label p{font-weight:600;font-size:0.95rem;color:var(--ink)}
+[data-testid="stTextInput"] input{height:3.25rem;font-size:1rem;background:var(--panel);border-color:var(--rule);color:var(--ink)}
+[data-testid="stFormSubmitButton"] button{height:3.25rem;font-weight:700;font-size:1rem;white-space:nowrap;background:var(--accent);border-color:var(--accent);color:#fff}
+[data-testid="stFormSubmitButton"] button:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:#fff}
 [data-testid="stFormSubmitButton"] button:active{transform:translateY(1px)}
+[data-testid="stAppViewContainer"]{background:var(--paper)}
+div[data-testid="stForm"]{background:var(--panel);border:1px solid var(--rule);border-radius:18px;padding:1.1rem 1.25rem;box-shadow:0 12px 36px #3627190d}
+.cdc-side{display:flex;flex-direction:column;min-height:calc(100vh - 2rem);padding:.6rem 1rem;color:#f7f3ec;font-family:var(--body)}
+.cdc-side-brand{font-family:var(--display);font-weight:700;font-size:1.05rem;color:#fff!important;margin:.35rem 0 2.6rem}
+.cdc-side-label{font-size:.7rem;letter-spacing:.14em;font-weight:700;color:#aaa4b5;margin-bottom:.7rem!important}
+.cdc-side-link{display:block;border-radius:9px;padding:.7rem .65rem;color:#e9e4ed!important;font-size:.92rem}
+.cdc-side-link:hover{background:#ffffff16;text-decoration:none!important}
+.cdc-side-note{margin-top:auto;border-top:1px solid #ffffff26;padding-top:1rem;color:#c6c1cd;font-size:.8rem;line-height:1.55}
+.cdc-eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.14em;color:var(--accent)}
+.cdc-hero-copy h1{font-family:var(--display);font-weight:700;font-size:clamp(2.3rem,5vw,4rem);line-height:1.03;letter-spacing:-.02em;margin:0 0 .85rem;max-width:13ch}
+.cdc-hero-copy p{font-size:1.08rem;line-height:1.6;color:var(--ink2);max-width:55ch;margin:0 0 1rem}
 
 .cdc{font-family:var(--body);color:var(--ink)}
 .cdc a{color:var(--accent);text-decoration:none}
@@ -76,38 +88,57 @@ CSS = """
 .cdc p{margin:0}
 .cdc dl{padding:0}.cdc dt,.cdc dd{margin:0}
 
-.cdc-nav{display:flex;justify-content:space-between;align-items:center;height:60px;
-  border-bottom:1px solid var(--rule);margin-bottom:2.5rem;gap:1rem}
+.cdc-nav{display:flex;justify-content:space-between;align-items:center;height:48px;
+  border-bottom:1px solid var(--rule);margin-bottom:1.6rem;gap:1rem}
 .cdc-brand{font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--ink)!important}
 .cdc-nav a.cdc-brand:hover{text-decoration:none}
 .cdc-navlink{font-size:0.95rem;white-space:nowrap}
 
-.cdc-hero h1{font-weight:700;font-size:clamp(2rem,5.4vw,2.85rem);line-height:1.08;margin-bottom:0.85rem}
-.cdc-hero p{font-size:1.1rem;line-height:1.55;color:var(--ink2);max-width:50ch;margin-bottom:0.5rem}
+.cdc-hero h1{font-weight:700;font-size:clamp(2.3rem,5vw,4rem);line-height:1.03;margin-bottom:0.85rem;max-width:13ch}
+.cdc-hero p{font-size:1.08rem;line-height:1.6;color:var(--ink2);max-width:55ch;margin-bottom:0.5rem}
+.cdc-form{background:var(--panel);border:1px solid var(--rule);border-radius:18px;padding:1.2rem 1.35rem;box-shadow:0 12px 36px #3627190d}
+.cdc-form .cdc-help{margin-top:.5rem}
+.cdc-visual{min-height:205px;background:#eee6f6;border:1px solid #dfd1ee;border-radius:18px;padding:1.35rem;position:relative;overflow:hidden}
+.cdc-visual h2{font-size:1.15rem;margin-bottom:.25rem}.cdc-visual p{font-size:.9rem;color:#5e5667;margin:0}
+.cdc-chart{height:82px;margin-top:1.25rem;position:relative;border-bottom:2px solid #d8cde5}
+.cdc-chart i{position:absolute;display:block;height:4px;background:#7138c8;border-radius:8px;transform-origin:left center}
+.cdc-chart i:first-child{left:0;top:8px;width:22%;transform:rotate(7deg);background:#bd5a22}
+.cdc-chart i:nth-child(2){left:22%;top:11px;width:20%;transform:rotate(15deg)}
+.cdc-chart i:nth-child(3){left:42%;top:17px;width:20%;transform:rotate(4deg)}
+.cdc-chart i:nth-child(4){left:62%;top:19px;width:19%;transform:rotate(13deg)}
+.cdc-chart i:nth-child(5){left:81%;top:24px;width:19%;transform:rotate(5deg)}
+.cdc-hero-grid{display:flex;flex-direction:column;gap:1rem}
 .cdc-help{font-size:0.9rem;color:var(--muted);line-height:1.5}
 .cdc-error{color:var(--bad);font-size:0.95rem;line-height:1.5}
 
-.cdc-intro{margin-top:2.75rem}
-.cdc-intro h2{font-size:1.2rem;margin-bottom:1.1rem}
-.cdc-intro dl{display:grid;grid-template-columns:11rem 1fr;gap:0.9rem 1.5rem;margin:0}
-.cdc-intro dt{font-weight:600}
-.cdc-intro dd{margin:0;color:var(--ink2);line-height:1.5}
+.cdc-intro{margin-top:2rem}
+.cdc-intro h2{font-size:1.35rem;margin-bottom:1rem}
+.cdc-intro dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:0}
+.cdc-intro dl>div{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:1rem 1.1rem;box-shadow:0 5px 18px #36271908}
+.cdc-intro dt{font-weight:700;margin-bottom:.4rem}
+.cdc-intro dd{margin:0;color:var(--ink2);line-height:1.5;font-size:.93rem}
 
-.cdc-video{display:grid;grid-template-columns:176px 1fr;gap:1.1rem;align-items:center;margin:2.5rem 0 1.25rem}
+.cdc-results{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:1rem;align-items:start;margin-top:1rem}
+.cdc-results-main,.cdc-results-side{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.cdc-card{background:var(--panel);border:1px solid var(--rule);border-radius:16px;padding:1.2rem 1.35rem;box-shadow:0 5px 18px #36271908;margin:0!important}
+.cdc-card .cdc-sec{margin-top:0}
+.cdc-card .cdc-sec h3{font-size:1.15rem}
+.cdc-card .cdc-details{margin:0;border:0;padding:0}
+.cdc-video{display:grid;grid-template-columns:minmax(130px,220px) 1fr;gap:1.2rem;align-items:center;margin:0 0 1rem}
 .cdc-video img{width:176px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;background:var(--chip);display:block}
 .cdc-vtitle{font-family:var(--body)!important;font-weight:600;font-size:1.15rem!important;line-height:1.35;
   letter-spacing:0!important;margin-bottom:0.3rem!important}
 .cdc-vmeta{color:var(--ink2);font-size:0.95rem}
-.cdc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;padding:1rem 0;
-  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin-bottom:1.75rem}
+.cdc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;padding:1rem 0 0;
+  border-top:1px solid var(--rule);margin:0}
 .cdc-stats b{display:block;font-size:1.3rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.25}
 .cdc-stats span{color:var(--ink2);font-size:0.875rem}
 
-.cdc-notice{background:var(--chip);border-radius:10px;padding:0.8rem 1rem;font-size:0.95rem;
+.cdc-notice{background:#f8eadf;border:1px solid #f0d2bd;border-radius:12px;padding:0.8rem 1rem;font-size:0.95rem;
   color:var(--ink2);line-height:1.5;margin-bottom:0.75rem}
 
 .cdc-verdict{--state:var(--typ);background:var(--panel);border:1px solid var(--rule);
-  border-left:5px solid var(--state);border-radius:10px;padding:1.5rem 1.5rem 1.3rem;margin-bottom:0.5rem}
+  border-left:5px solid var(--state);border-radius:16px;padding:1.35rem;margin:0!important;box-shadow:0 5px 18px #36271908}
 .cdc-verdict.high{--state:var(--high)}.cdc-verdict.low{--state:var(--ok)}
 .cdc-verdict h2{font-size:1.55rem;line-height:1.2;margin-bottom:0.65rem}
 .cdc-lead{font-size:1.08rem;line-height:1.55;margin-bottom:1.2rem!important}
@@ -120,10 +151,11 @@ CSS = """
 .cdc-sq.typ i.on{background:var(--typ);border-color:var(--typ)}
 .cdc-key{font-size:0.875rem;color:var(--muted);line-height:1.5}
 
-.cdc-sec{margin-top:2.5rem}
+.cdc-sec{margin-top:1rem}
 .cdc-sec h3{font-size:1.25rem;margin-bottom:0.35rem}
 .cdc-sub{color:var(--ink2);font-size:0.95rem;line-height:1.5;margin-bottom:1.1rem!important}
-.cdc-week{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.cdc-week{display:grid;grid-template-columns:repeat(2,1fr);gap:.85rem}
+.cdc-week>div{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:.8rem}
 .cdc-week .when{font-size:0.9rem;color:var(--ink2);display:block;margin-bottom:0.15rem}
 .cdc-week b{font-family:var(--display);font-size:2rem;font-weight:700;line-height:1.1;display:block;
   font-variant-numeric:tabular-nums}
@@ -148,23 +180,31 @@ CSS = """
 .cdc-details dt{color:var(--muted)}
 .cdc-details dd{margin:0;line-height:1.5;font-variant-numeric:tabular-nums}
 
-.cdc-foot{margin-top:3.5rem;padding-top:1.25rem;border-top:1px solid var(--rule);color:var(--muted);
-  font-size:0.875rem;line-height:1.6}
+.cdc-foot{margin-top:3.5rem;color:var(--muted);font-size:0.875rem;line-height:1.6;text-align:center}
 
 .cdc-skel{margin-top:2.5rem}
 .cdc-skel div{background:var(--chip);border-radius:10px}
 @media (prefers-reduced-motion: no-preference){.cdc-skel div{animation:cdc-pulse 1.2s ease-in-out infinite alternate}}
 @keyframes cdc-pulse{from{opacity:1}to{opacity:0.55}}
+@keyframes cdc-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.cdc-report-enter{animation:cdc-enter .28s ease-out both}
+@media (prefers-reduced-motion: reduce){.cdc-report-enter{animation:none}}
 
 @media (max-width:600px){
-  .cdc-stats,.cdc-week{grid-template-columns:repeat(2,1fr);row-gap:1.1rem}
+  [data-testid="stMainBlockContainer"],.block-container{padding:1rem 1rem 2rem}
+  .cdc-hero,.cdc-results{grid-template-columns:1fr}
+  .cdc-hero h1{font-size:2.45rem}
+  .cdc-hero-copy h1{font-size:2.45rem}
+  .cdc-side{min-height:0}.cdc-side-brand{margin-bottom:1.2rem}.cdc-side-note{margin-top:1rem}
+  .cdc-stats,.cdc-week{grid-template-columns:repeat(2,1fr);row-gap:.8rem}
   .cdc-video{grid-template-columns:1fr}.cdc-video img{width:100%}
   .cdc-array{grid-template-columns:1fr;gap:0.3rem}.cdc-array .who{margin-top:0.4rem}
-  .cdc-intro dl,.cdc-details dl{grid-template-columns:1fr;gap:0.2rem}
+  .cdc-intro dl,.cdc-details dl{grid-template-columns:1fr;gap:.65rem}
   .cdc-intro dd,.cdc-details dd{margin-bottom:0.7rem}
   .cdc-verdict{padding:1.2rem 1.1rem 1.1rem}
   .cdc-navlink{font-size:0.9rem}
 }
+@media (min-width:601px) and (max-width:950px){.cdc-hero{grid-template-columns:1fr}.cdc-results{grid-template-columns:1fr}}
 </style>
 """
 
@@ -207,6 +247,13 @@ def session_allows() -> bool:
         return False
     seen.append(now)
     return True
+
+
+def begin_report() -> None:
+    """Switch to the report view before Streamlit reruns after form submission."""
+    st.session_state["cdc_report_view"] = True
+    st.session_state["cdc_lookup_pending"] = True
+    st.session_state["cdc_report_error"] = None
 
 
 # --------------------------------------------------------------- plain words
@@ -393,33 +440,41 @@ def details(rep: dict, card: dict, fp_ok: bool) -> str:
 
 def report_html(rep: dict, card: dict, fp_ok: bool) -> str:
     s = rep["status"]
-    parts = [video_header(rep), notices(rep) if s not in ("live", "beyond_window", "no_numbers") else ""]
+    head = video_header(rep)
+    notice = notices(rep) if s not in ("live", "beyond_window", "no_numbers") else ""
+    main, side = [], []
     if s == "ok" and rep["outlook"]:
         o = rep["outlook"]
-        parts += [verdict(o), week(o), compare(rep), todo(rep), trust(rep)]
+        main += [verdict(o), week(o)]
+        side += [compare(rep), todo(rep), trust(rep)]
     elif s == "ok":
-        parts += [panel("Forecasts are switched off.", "The forecast did not pass its test on new videos, "
-                        "so this page only shows comparisons."), compare(rep)]
+        main += [panel("Forecasts are switched off.", "The forecast did not pass its test on new videos, "
+                       "so this page only shows comparisons.")]
+        side += [compare(rep)]
     elif s == "too_new":
         m = rep["minutes_until_ready"]
-        parts += [panel(f"Check back in about {m} minute{'s' if m != 1 else ''}.",
-                        "The forecast starts 15 minutes after a video goes up, once it has a few views to go on."),
-                  compare(rep)]
+        main += [panel(f"Check back in about {m} minute{'s' if m != 1 else ''}.",
+                       "The forecast starts 15 minutes after a video goes up, once it has a few views to go on.")]
+        side += [compare(rep)]
     elif s == "too_old_for_odds":
-        parts += [panel("This video is too old for a forecast.",
-                        "Forecasts work for videos up to 13 hours old. You can still see how it compares "
-                        "with videos of the same age."), compare(rep)]
+        main += [panel("This video is too old for a forecast.",
+                       "Forecasts work for videos up to 13 hours old. You can still see how it compares "
+                       "with videos of the same age.")]
+        side += [compare(rep)]
     elif s == "live":
-        parts += [panel("Live streams aren’t covered.", rep["notes"][0])]
+        main += [panel("Live streams aren’t covered.", rep["notes"][0])]
     elif s == "beyond_window":
-        parts += [panel("This video is more than 10 days old.", rep["notes"][0])]
+        main += [panel("This video is more than 10 days old.", rep["notes"][0])]
     else:
-        parts += [panel("There is nothing to measure yet.", rep["notes"][0])]
+        main += [panel("There is nothing to measure yet.", rep["notes"][0])]
     if not fp_ok:
-        parts.append('<p class="cdc-notice">This copy of the tool was built slightly differently from the '
-                     'tested one, so its numbers may differ a little.</p>')
-    parts.append(details(rep, card, fp_ok))
-    return "".join(parts)
+        side.append('<p class="cdc-notice">This copy of the tool was built slightly differently from the '
+                    'tested one, so its numbers may differ a little.</p>')
+    side.append(details(rep, card, fp_ok))
+    wrap = lambda values: "".join(f'<div class="cdc-card">{v}</div>' for v in values if v)
+    return (f'<div id="results" class="cdc-results">'
+            f'<div class="cdc-results-main"><div class="cdc-card">{head}</div>{notice}{wrap(main)}</div>'
+            f'<div class="cdc-results-side">{wrap(side)}</div></div>')
 
 
 SKELETON = ('<div class="cdc-skel"><div style="height:99px;margin-bottom:1.25rem"></div>'
@@ -430,53 +485,78 @@ SKELETON = ('<div class="cdc-skel"><div style="height:99px;margin-bottom:1.25rem
 def main() -> None:
     st.html(CSS)
     model, table, card, tips, fp_ok = load()
-    n = card["trained_on"]
-    html(f'<nav class="cdc-nav"><a class="cdc-brand" href="{SITE}" target="_blank" rel="noopener">'
-         f'Content Death Clock</a><a class="cdc-navlink" href="{SITE}" target="_blank" rel="noopener">'
-         f'How the study works</a></nav>'
-         f'<header class="cdc-hero"><h1>Will this video keep getting views?</h1>'
-         f'<p>Paste a YouTube link. We’ll estimate how long it keeps getting attention, using '
-         f'{n["videos"]:,} videos we tracked for ten days.</p></header>')
-
-    with st.form("check", border=False):
-        left, right = st.columns([5, 1.45], vertical_alignment="bottom")
-        url = left.text_input("YouTube video link", placeholder="https://www.youtube.com/watch?v=...")
-        go = right.form_submit_button("Check video", type="primary", width="stretch")
-    msg = st.empty()
-    msg.html('<div class="cdc"><p class="cdc-help">Works on any public video or Short. Forecasts are for '
-             'videos posted in the last 13 hours.</p></div>')
-
-    out = st.empty()
-    if not go:
-        out.html('<div class="cdc"><section class="cdc-intro"><h2>What you’ll get</h2><dl>'
-                 '<dt>The chances</dt><dd>How likely the video is to still be getting views 1, 2, 3 and 7 '
-                 'days after it was posted.</dd>'
-                 '<dt>A comparison</dt><dd>Its views, likes and comments next to videos of the same age '
-                 'from channels of a similar size.</dd>'
-                 '<dt>A next step</dt><dd>A plain suggestion, based on what happened to the videos we '
-                 'tracked.</dd></dl></section></div>')
+    report_view = st.session_state.get("cdc_report_view", False)
+    if report_view:
+        st.html('<style>[data-testid="stSidebar"]{display:none!important}'
+                '[data-testid="stMainBlockContainer"],.block-container{max-width:1600px;margin-inline:auto}'
+                'div[data-testid="stForm"]{max-width:100%;padding:.55rem .8rem;animation:cdc-enter .28s ease-out both}'
+                '</style>')
+        edge_left, center, edge_right = st.columns([1, 8, 1])
+        with center:
+            with st.form("check", border=False):
+                input_col, button_col = st.columns([5, 1.8], vertical_alignment="bottom")
+                input_col.text_input("YouTube video link", placeholder="https://www.youtube.com/watch?v=...",
+                                     label_visibility="collapsed", key="cdc_url")
+                button_col.form_submit_button("Check video", type="primary", width="stretch",
+                                              on_click=begin_report)
+        url = st.session_state.get("cdc_url", "")
+        msg = st.empty()
+        out = st.empty()
     else:
-        vid = parse_video_id(url)
-        error = None
-        if not vid:
-            error = ToolError("bad_link").message
-        elif not session_allows():
-            error = "You’ve checked a lot of videos in the last hour. Please wait a while and try again."
-        else:
-            out.html(f'<div class="cdc">{SKELETON}</div>')
-            try:
-                item, subs, fetched_at = cached_lookup(vid)
-                rep = build_report(item, subs, fetched_at, model, table, card, tips)
-                rep["item_snippet"] = item.get("snippet") or {}
-                out.html(f'<div class="cdc">{report_html(rep, card, fp_ok)}</div>')
-            except ToolError as e:
-                error = e.message
+        st.sidebar.html(f'<div class="cdc-side"><a class="cdc-side-brand" href="{SITE}" target="_blank" rel="noopener">'
+                        '◷ &nbsp; Content Death Clock</a><p class="cdc-side-label">WORKSPACE</p>'
+                        '<a class="cdc-side-link" href="#check-video">⌕ &nbsp; Check a video</a>'
+                        '<a class="cdc-side-link" href="#what-you-get">▦ &nbsp; What you’ll get</a>'
+                        f'<a class="cdc-side-link" href="{SITE}" target="_blank" rel="noopener">↗ &nbsp; Study website</a>'
+                        '<div class="cdc-side-note">A research tool for understanding how video attention changes over time.</div></div>')
+        html('<nav class="cdc-nav"><span class="cdc-eyebrow">VIDEO ATTENTION FORECAST</span>'
+             f'<a class="cdc-navlink" href="{SITE}" target="_blank" rel="noopener">About the study ↗</a></nav>')
+        left, right = st.columns([1.1, .9], gap="large", vertical_alignment="center")
+        with left:
+            html('<header class="cdc-hero-copy" id="check-video"><h1>Will this video keep getting views?</h1></header>')
+            with st.form("check", border=False):
+                url = st.text_input("YouTube video link", placeholder="https://www.youtube.com/watch?v=...",
+                                    key="cdc_url")
+                st.form_submit_button("Check video", type="primary", width="stretch", on_click=begin_report)
+            html('<p class="cdc-help">Works with public YouTube videos and Shorts. Forecasts are available for videos posted in the last 13 hours.</p>')
+        with right:
+            html('<div class="cdc-visual"><h2>Attention changes over time</h2>'
+                 '<p>Every video has its own pace. We compare it with patterns seen across the study.</p>'
+                 '<div class="cdc-chart" role="img" aria-label="Illustrative attention curve gradually fading over time">'
+                 '<i></i><i></i><i></i><i></i><i></i></div></div>')
+        out = st.empty()
+        out.html('<div class="cdc"><section class="cdc-intro" id="what-you-get"><h2>What you’ll get</h2><dl>'
+                 '<div><dt>The chances</dt><dd>How likely the video is to still be getting views 1, 2, 3 and 7 '
+                 'days after it was posted.</dd></div>'
+                 '<div><dt>A comparison</dt><dd>Its views, likes and comments next to videos of the same age '
+                 'from channels of a similar size.</dd></div>'
+                 '<div><dt>A next step</dt><dd>A plain suggestion, based on what happened to the videos we '
+                 'tracked.</dd></div></dl></section></div>')
+        html(f'<footer class="cdc-foot">A project by {TEAM}</footer>')
+    if st.session_state.get("cdc_report_view", False):
+        pending = st.session_state.pop("cdc_lookup_pending", False)
+        error = st.session_state.get("cdc_report_error")
+        if pending:
+            error = None
+            vid = parse_video_id(url)
+            if not vid:
+                error = ToolError("bad_link").message
+            elif not session_allows():
+                error = "You’ve checked a lot of videos in the last hour. Please wait a while and try again."
+            else:
+                out.html(f'<div class="cdc-report-enter"><div class="cdc">{SKELETON}</div></div>')
+                try:
+                    item, subs, fetched_at = cached_lookup(vid)
+                    rep = build_report(item, subs, fetched_at, model, table, card, tips)
+                    rep["item_snippet"] = item.get("snippet") or {}
+                    st.session_state["cdc_report_html"] = report_html(rep, card, fp_ok)
+                except ToolError as e:
+                    error = e.message
+            st.session_state["cdc_report_error"] = error
         if error:
-            out.empty()
             msg.html(f'<div class="cdc"><p class="cdc-error" role="alert">{escape(error)}</p></div>')
-
-    html(f'<footer class="cdc-foot">A student research project at RV University, for Research Methodology '
-         f'and Big Data Analytics, by {TEAM}. We don’t keep the links you check.</footer>')
+        if st.session_state.get("cdc_report_html"):
+            out.html(f'<div class="cdc-report-enter cdc">{st.session_state["cdc_report_html"]}</div>')
 
 
 main()
