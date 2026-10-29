@@ -16,8 +16,8 @@ file would break on the first library upgrade; a table and a recipe do not.
 10" next to a picture of ten squares, percentiles as "ahead of 69 in 100
 similar videos", and every number the study itself would quote (Brier skill,
 C-index, the model fingerprint) is kept in the technical details at the bottom.
-The look follows the public website: same fonts, colours and corners, set in
-``.streamlit/config.toml``.
+The fonts are the public website's. The page has its own light colour scheme,
+set in ``.streamlit/config.toml`` and the CSS below.
 """
 from __future__ import annotations
 
@@ -538,6 +538,9 @@ def main() -> None:
         error = st.session_state.get("cdc_report_error")
         if pending:
             error = None
+            # A new check starts from nothing: if it fails, the last video's report
+            # must not stay on screen under the error, as if it were this video's.
+            st.session_state.pop("cdc_report_html", None)
             vid = parse_video_id(url)
             if not vid:
                 error = ToolError("bad_link").message
@@ -554,6 +557,7 @@ def main() -> None:
                     error = e.message
             st.session_state["cdc_report_error"] = error
         if error:
+            out.empty()                       # take down the loading placeholder
             msg.html(f'<div class="cdc"><p class="cdc-error" role="alert">{escape(error)}</p></div>')
         if st.session_state.get("cdc_report_html"):
             out.html(f'<div class="cdc-report-enter cdc">{st.session_state["cdc_report_html"]}</div>')
