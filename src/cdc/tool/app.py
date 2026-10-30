@@ -12,8 +12,8 @@ The model is rebuilt from ``assets/training_table.csv`` when the app starts,
 then checked against the fingerprint recorded when it was frozen. A saved model
 file would break on the first library upgrade; a table and a recipe do not.
 
-**Written for people who are not statisticians.** Chances are given as "2 in
-10" next to a picture of ten squares, percentiles as "ahead of 69 in 100
+**Written for people who are not statisticians.** Chances are given as
+percentages next to a picture of ten squares, percentiles as "ahead of 69 in 100
 similar videos", and every number the study itself would quote (Brier skill,
 C-index, the model fingerprint) is kept in the technical details at the bottom.
 The look follows the public website: same fonts, colours and corners, set in
@@ -143,7 +143,7 @@ div[data-testid="stForm"]{background:var(--panel);border:1px solid var(--rule);b
 .cdc-verdict h2{font-size:1.55rem;line-height:1.2;margin-bottom:0.65rem}
 .cdc-lead{font-size:1.08rem;line-height:1.55;margin-bottom:1.2rem!important}
 .cdc-lead strong{font-weight:600}
-.cdc-array{display:grid;grid-template-columns:7.5rem auto;gap:0.6rem 1rem;align-items:center;margin-bottom:1rem}
+.cdc-array{display:grid;grid-template-columns:10rem auto;gap:0.6rem 1rem;align-items:center;margin-bottom:1rem}
 .cdc-array .who{font-size:0.95rem;color:var(--ink2)}
 .cdc-sq{display:inline-grid;grid-template-columns:repeat(10,20px);gap:5px}
 .cdc-sq i{display:block;width:20px;height:20px;border-radius:5px;border:2px solid var(--empty);box-sizing:border-box}
@@ -343,15 +343,17 @@ HEADLINE = {"low": "This video looks likely to keep getting views for a while.",
 
 
 def verdict(o: dict) -> str:
-    n, said = in_ten(o["fade_within_2_days"])
-    t, tsaid = in_ten(o["typical"])
+    n, _ = in_ten(o["fade_within_2_days"])
+    t, _ = in_ten(o["typical"])
+    p48, typical = o["fade_within_2_days"], o["typical"]
     return (
         f'<div class="cdc-verdict {o["risk"]}"><h2>{HEADLINE[o["risk"]]}</h2>'
-        f'<p class="cdc-lead">The chance it fades within two days of being posted is <strong>{said}</strong>. '
-        f'For a typical video, it’s {tsaid}.</p>'
-        f'<div class="cdc-array" role="img" aria-label="This video {n} in 10, typical video {t} in 10">'
-        f'<span class="who">This video</span>{squares(n)}'
-        f'<span class="who">Typical video</span>{squares(t, "typ")}</div>'
+        f'<p class="cdc-lead">The chance it fades within two days of being posted is '
+        f'<strong>{p48:.1%}</strong>. For a typical video, it’s <strong>{typical:.1%}</strong>.</p>'
+        f'<div class="cdc-array" role="img" aria-label="Exact model predictions: '
+        f'this video {p48:.1%}; typical video {typical:.1%}. The ten squares are a rounded visual guide.">'
+        f'<span class="who">This video ({p48:.1%})</span>{squares(n)}'
+        f'<span class="who">Typical video ({typical:.1%})</span>{squares(t, "typ")}</div>'
         f'<p class="cdc-key">Each filled square is a 1 in 10 chance of fading within two days. '
         f'Fading means its views slow to a trickle (under 5% of its busiest pace) and stay that low.</p></div>')
 
@@ -559,4 +561,5 @@ def main() -> None:
             out.html(f'<div class="cdc-report-enter cdc">{st.session_state["cdc_report_html"]}</div>')
 
 
-main()
+if __name__ == "__main__":
+    main()

@@ -82,3 +82,40 @@ def test_before_any_check_the_page_explains_itself(monkeypatch):
     assert not at.exception
     t = _text(at)
     assert "Will this video keep getting views?" in t and "What you’ll get" in t
+
+
+def test_verdict_shows_exact_one_decimal_probabilities_and_typical_value():
+    from cdc.tool import app as A
+
+    rendered = A.verdict({"fade_within_2_days": 0.224, "typical": 0.341, "risk": "typical"})
+
+    assert "22.4%" in rendered
+    assert "34.1%" in rendered
+    assert "about 2 in 10" not in rendered
+    assert "Exact model predictions: this video 22.4%; typical video 34.1%" in rendered
+    assert "ten squares are a rounded visual guide" in rendered
+
+
+def test_distinct_probabilities_no_longer_collapse_to_the_same_text():
+    from cdc.tool import app as A
+
+    first = 0.21
+    second = 0.24
+    assert A.in_ten(first)[1] == A.in_ten(second)[1] == "about 2 in 10"
+
+    first_rendered = A.verdict({"fade_within_2_days": first, "typical": 0.3, "risk": "typical"})
+    second_rendered = A.verdict({"fade_within_2_days": second, "typical": 0.3, "risk": "typical"})
+    assert "21.0%" in first_rendered
+    assert "24.0%" in second_rendered
+    assert first_rendered != second_rendered
+
+
+def test_probability_squares_remain_ten_and_round_visually():
+    from cdc.tool import app as A
+
+    rendered = A.verdict({"fade_within_2_days": 0.224, "typical": 0.341, "risk": "typical"})
+
+    assert rendered.count("<i class=") == 20
+    assert rendered.count('<i class="on"></i>') == 5  # .224 rounds to 2 in 10; .341 to 3 in 10
+    assert 'class="cdc-sq "' in rendered
+    assert 'class="cdc-sq typ"' in rendered
