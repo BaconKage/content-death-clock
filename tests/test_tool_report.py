@@ -7,6 +7,7 @@ import pytest
 
 from cdc.tool import model as M
 from cdc.tool import report as R
+from cdc.tool import app as A
 from tests.tool_synth import as_table, synthetic_rows
 
 NOW = datetime(2026, 10, 27, 12, 0, tzinfo=timezone.utc)
@@ -59,6 +60,24 @@ def test_risk_label_follows_the_frozen_thresholds(env):
     for high, low, want in ((p, 0.0, "high"), (1.0, p, "low"), (1.0, 0.0, "typical")):
         c = dict(card, thresholds_p48={"high": high, "low": low})
         assert run(env, item(5), card=c)["outlook"]["risk"] == want
+
+
+def test_risk_uses_full_precision_even_when_display_rounds_across_threshold(env):
+    _, _, card, _ = env
+    base = run(env, item(5))
+    p = base["outlook"]["fade_within_2_days"]
+    shown = float(f"{p:.1%}"[:-1]) / 100
+    assert shown != p
+
+    threshold = (shown + p) / 2
+    want = "typical" if shown > p else "high"
+    c = dict(card, thresholds_p48={"high": threshold, "low": 0.0})
+    rep = run(env, item(5), card=c)
+
+    assert rep["outlook"]["risk"] == want
+    rendered = A.verdict(rep["outlook"])
+    assert f"{p:.1%}" in rendered
+    assert f'cdc-verdict {want}' in rendered
 
 
 def test_too_new_says_when_to_come_back(env):
