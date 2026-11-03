@@ -1,18 +1,20 @@
 {
   "cycle_id": "2026-11-03T02",
-  "started_at": "2026-11-03T02:01:38+00:00",
+  "started_at": "2026-11-03T02:31:40+00:00",
   "dry_run": false,
   "panel_before": {
     "posts_total": 3003,
     "posts_active": 551,
-    "posts_due": 6,
-    "snapshots_total": 36269,
-    "snapshots_per_post_mean": 12.077589077589078
+    "posts_due": 8,
+    "snapshots_total": 36274,
+    "snapshots_per_post_mean": 12.07925407925408
   },
   "discovered": 0,
-  "snapshotted": 5,
-  "errors": [],
-  "due_count": 6,
+  "snapshotted": 7,
+  "errors": [
+    "discovery:@LinusTechTips:404 Client Error: Not Found for url: https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails%2Csnippet&playlistId=UUXuqSBlHAE6Xw-yeJA0Tunw&maxResults=50&key=REDACTED"
+  ],
+  "due_count": 8,
   "quota": {
     "units_spent": 64,
     "calls": 64,
@@ -25,5 +27,5 @@
   "files": [
     "/home/runner/work/content-death-clock/content-death-clock/data/bronze/platform=youtube/dt=2026-11-03/snapshots-2026-11-03T02.jsonl"
   ],
-  "finished_at": "2026-11-03T02:01:57+00:00"
+  "finished_at": "2026-11-03T02:32:20+00:00"
 }
