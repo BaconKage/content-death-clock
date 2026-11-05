@@ -96,6 +96,30 @@ def test_verdict_shows_exact_one_decimal_probabilities_and_typical_value():
     assert "ten squares are a rounded visual guide" in rendered
 
 
+def test_survival_chart_uses_existing_checkpoints_and_has_interactive_tooltips():
+    from cdc.tool import app as A
+
+    current = [{"after": f"After {d}", "h": h, "chance": p}
+               for d, h, p in ((1, 24, .91), (2, 48, .73), (3, 72, .61), (7, 168, .28))]
+    typical = [{"after": f"After {d}", "h": h, "chance": p}
+               for d, h, p in ((1, 24, .88), (2, 48, .69), (3, 72, .58), (7, 168, .31))]
+    rendered = A.survival_chart({"still_going": current, "typical_still_going": typical}).to_dict()
+
+    assert rendered["mark"]["type"] == "line"
+    assert rendered["encoding"]["x"]["title"] == "Time since publication (days)"
+    assert rendered["encoding"]["y"]["title"] == "Probability of still receiving meaningful attention"
+    assert rendered["config"]["background"] == "#fffdf8"
+    assert rendered["config"]["view"]["fill"] == "#fffdf8"
+    assert rendered["height"] == 430
+    assert {v["series"] for v in rendered["data"]["values"]} == {"Current video", "Typical video"}
+    assert rendered["encoding"]["tooltip"][-1]["format"] == ".2%"
+    assert "params" not in rendered          # no zoom or pan bound to the scales
+    assert any(v["checkpoint"] == "After 1" and v["probability"] == .91
+               for v in rendered["data"]["values"])
+    assert any(v["checkpoint"] == "After 7" and v["probability"] == .31
+               for v in rendered["data"]["values"])
+
+
 def test_distinct_probabilities_no_longer_collapse_to_the_same_text():
     from cdc.tool import app as A
 

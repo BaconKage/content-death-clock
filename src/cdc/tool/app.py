@@ -33,6 +33,7 @@ if str(_SRC) not in sys.path:
     sys.path.insert(0, str(_SRC))
 
 import streamlit as st                                              # noqa: E402
+import altair as alt                                                # noqa: E402
 
 import cdc.config  # noqa: E402,F401  loads .env.local, where a local run keeps YOUTUBE_TOOL_API_KEY
 from cdc.tool import table as T                                     # noqa: E402
@@ -65,7 +66,8 @@ CSS = """
 [data-testid="stSidebar"] a{color:#e8d5ff!important;text-decoration:none!important}
 [data-testid="stSidebar"] a:hover{color:#fff!important}
 [data-testid="stTextInput"] label p{font-weight:600;font-size:0.95rem;color:var(--ink)}
-[data-testid="stTextInput"] input{height:3.25rem;font-size:1rem;background:var(--panel);border-color:var(--rule);color:var(--ink)}
+[data-testid="stTextInput"] input{height:3.25rem;padding-block:.75rem;box-sizing:border-box;line-height:1.5;
+  font-size:1rem;background:var(--panel);border-color:var(--rule);color:var(--ink)}
 [data-testid="stFormSubmitButton"] button{height:3.25rem;font-weight:700;font-size:1rem;white-space:nowrap;background:var(--accent);border-color:var(--accent);color:#fff}
 [data-testid="stFormSubmitButton"] button:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:#fff}
 [data-testid="stFormSubmitButton"] button:active{transform:translateY(1px)}
@@ -119,7 +121,9 @@ div[data-testid="stForm"]{background:var(--panel);border:1px solid var(--rule);b
 .cdc-intro dd{margin:0;color:var(--ink2);line-height:1.5;font-size:.93rem}
 
 .cdc-results{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:1rem;align-items:start;margin-top:1rem}
+.cdc-results>.cdc-overview{grid-column:1/-1}
 .cdc-results-main,.cdc-results-side{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.cdc-report-stack{display:flex;flex-direction:column;gap:1rem;min-width:0}
 .cdc-card{background:var(--panel);border:1px solid var(--rule);border-radius:16px;padding:1.2rem 1.35rem;box-shadow:0 5px 18px #36271908;margin:0!important}
 .cdc-card .cdc-sec{margin-top:0}
 .cdc-card .cdc-sec h3{font-size:1.15rem}
@@ -160,6 +164,19 @@ div[data-testid="stForm"]{background:var(--panel);border:1px solid var(--rule);b
 .cdc-week b{font-family:var(--display);font-size:2rem;font-weight:700;line-height:1.1;display:block;
   font-variant-numeric:tabular-nums}
 .cdc-week .vs{font-size:0.85rem;color:var(--muted)}
+.cdc-week>div:first-child{background:#f0e8fa;border-color:#dfd1ee}
+.cdc-week>div:first-child b{color:var(--accent-dark)}
+.cdc-chart-card{padding:1rem!important}
+.cdc-chart-card h3{font-size:1.15rem;margin-bottom:.2rem}
+.cdc-chart-card p{color:var(--muted);font-size:.875rem;margin:0 0 .4rem}
+div[data-testid="stVerticalBlockBorderWrapper"]{border-color:var(--rule);border-radius:16px;background:var(--panel)}
+.st-key-survival-chart-card{background:var(--panel)!important;border:1px solid var(--rule)!important;
+  border-radius:16px!important;padding:1rem!important}
+.st-key-survival-chart-card [data-testid="stVegaLiteChart"]{background:var(--panel)!important;border-radius:10px}
+.cdc-legend{display:flex;gap:1.2rem;flex-wrap:wrap;margin:.25rem 0 0!important;color:var(--ink2);font-size:.9rem}
+.cdc-legend span{display:inline-flex;align-items:center;gap:.45rem}
+.cdc-legend i{width:18px;height:3px;border-radius:2px;background:var(--accent)}
+.cdc-legend .typ{background:var(--typ)}
 .cdc-cmp{display:grid;grid-template-columns:1fr auto;gap:0.15rem 1rem;padding:0.85rem 0;border-top:1px solid var(--rule)}
 .cdc-cmp .what{font-weight:500}
 .cdc-cmp .lvl{font-weight:600;text-align:right}
@@ -168,7 +185,7 @@ div[data-testid="stForm"]{background:var(--panel);border:1px solid var(--rule);b
 .cdc-sec li{margin-bottom:0.35rem}
 .cdc-body{line-height:1.6;color:var(--ink);margin-bottom:0.75rem!important;max-width:65ch}
 
-.cdc-details{margin-top:2.25rem;border-top:1px solid var(--rule);padding-top:1rem}
+.cdc-details{margin-top:.35rem;border-top:1px solid var(--rule);padding-top:1rem}
 .cdc-details summary{cursor:pointer;font-weight:600;color:var(--accent);list-style:none;display:inline-flex;
   align-items:center;gap:0.45rem}
 .cdc-details summary::-webkit-details-marker{display:none}
@@ -364,7 +381,43 @@ def week(o: dict) -> str:
         f'<span class="vs">Typical video: {t["chance"]:.0%}</span></div>'
         for s, t in zip(o["still_going"], o["typical_still_going"]))
     return (f'<section class="cdc-sec"><h3>Chance it’s still getting views</h3>'
-            f'<p class="cdc-sub">Counted from when it was posted.</p><div class="cdc-week">{cells}</div></section>')
+            f'<p class="cdc-sub">From publication · model probabilities</p><div class="cdc-week">{cells}</div></section>')
+
+
+def survival_chart(o: dict) -> alt.Chart:
+    """Build a chart from the report's existing exact checkpoints, with tooltips.
+
+    No zoom or pan: on a phone they capture the scroll, and a scroll over the
+    chart stretched the axis to impossible probabilities (below 0%).
+    """
+    values = []
+    for key, name in (("still_going", "Current video"),
+                      ("typical_still_going", "Typical video")):
+        for point in o[key]:
+            values.append({"day": float(point["h"]) / 24,
+                           "probability": float(point["chance"]),
+                           "checkpoint": point["after"], "series": name})
+    return (alt.Chart(alt.Data(values=values))
+            .mark_line(point=alt.OverlayMarkDef(filled=True, size=85), strokeWidth=3)
+            .encode(
+                x=alt.X("day:Q", title="Time since publication (days)",
+                        scale=alt.Scale(domain=[0, 7]),
+                        axis=alt.Axis(values=[1, 2, 3, 7], format=".0f")),
+                y=alt.Y("probability:Q", title="Probability of still receiving meaningful attention",
+                        scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format=".0%", tickCount=5)),
+                color=alt.Color("series:N", title=None,
+                                scale=alt.Scale(domain=["Current video", "Typical video"],
+                                                range=["#7138c8", "#77717e"]),
+                                legend=alt.Legend(orient="top", direction="horizontal")),
+                detail="series:N", order="day:Q",
+                tooltip=[alt.Tooltip("series:N", title="Video"),
+                         alt.Tooltip("checkpoint:N", title="Checkpoint"),
+                         alt.Tooltip("probability:Q", title="Survival probability", format=".2%")],
+            )
+            .properties(height=430, padding={"left": 12, "right": 18, "top": 6, "bottom": 8})
+            .configure(background="#fffdf8")
+            .configure_view(fill="#fffdf8", stroke=None)
+            .configure_axis(gridColor="#e9e3da", labelColor="#68636d", titleColor="#514d58"))
 
 
 def compare(rep: dict) -> str:
@@ -382,9 +435,9 @@ def compare(rep: dict) -> str:
                else f"Behind {round(100 - p)} in 100 similar videos")
         rows.append(f'<div class="cdc-cmp"><span class="what">{escape(c["label"])}</span>'
                     f'<span class="lvl">{level(p)}</span><span class="det">{det}</span></div>')
-    return (f'<section class="cdc-sec"><h3>Compared with similar videos</h3>'
+    return (f'<details class="cdc-details cdc-similar"><summary>Compared with similar videos</summary>'
             f'<p class="cdc-sub">Videos {age}, from {group}. Based on {cs[0]["videos"]:,} videos '
-            f'from {cs[0]["channels"]} channels.</p>{"".join(rows)}</section>')
+            f'from {cs[0]["channels"]} channels.</p>{"".join(rows)}</details>')
 
 
 def todo(rep: dict) -> str:
@@ -406,13 +459,13 @@ def trust(rep: dict) -> str:
         tested = (f"In a trial run on {a['videos']:,} videos from channels it had never seen, when it "
                   f"warned that a video might fade within two days, it was right about {right} times in 10. "
                   f"Across all those videos, about {base} in 10 faded that fast.")
-    return (f'<section class="cdc-sec"><h3>How much can you trust this?</h3>'
+    return (f'<details class="cdc-details"><summary>How much can you trust this?</summary>'
             f'<p class="cdc-body">{tested}</p>'
             f'<p class="cdc-body">It gives chances, not an exact time. Our study found that the exact '
             f'hour a video fades can’t be predicted from public numbers.</p>'
             f'<p class="cdc-body">We also looked for habits that make videos last longer, such as more '
             f'likes or comments, video length and titles. None held up clearly in both groups of videos we '
-            f'studied, so we don’t give tips we can’t back up.</p></section>')
+            f'studied, so we don’t give tips we can’t back up.</p></details>')
 
 
 def details(rep: dict, card: dict, fp_ok: bool) -> str:
@@ -447,8 +500,8 @@ def report_html(rep: dict, card: dict, fp_ok: bool) -> str:
     main, side = [], []
     if s == "ok" and rep["outlook"]:
         o = rep["outlook"]
-        main += [verdict(o), week(o)]
-        side += [compare(rep), todo(rep), trust(rep)]
+        main += [verdict(o)]
+        side += [week(o), todo(rep), compare(rep), trust(rep)]
     elif s == "ok":
         main += [panel("Forecasts are switched off.", "The forecast did not pass its test on new videos, "
                        "so this page only shows comparisons.")]
@@ -475,8 +528,36 @@ def report_html(rep: dict, card: dict, fp_ok: bool) -> str:
     side.append(details(rep, card, fp_ok))
     wrap = lambda values: "".join(f'<div class="cdc-card">{v}</div>' for v in values if v)
     return (f'<div id="results" class="cdc-results">'
-            f'<div class="cdc-results-main"><div class="cdc-card">{head}</div>{notice}{wrap(main)}</div>'
+            f'<div class="cdc-card cdc-overview">{head}</div>'
+            f'<div class="cdc-results-main">{notice}{wrap(main)}</div>'
             f'<div class="cdc-results-side">{wrap(side)}</div></div>')
+
+
+def render_interactive_report(rep: dict, card: dict, fp_ok: bool) -> None:
+    """Render the forecast in native Streamlit blocks so its chart stays interactive."""
+    o = rep["outlook"]
+    html(f'<div class="cdc-card cdc-overview">{video_header(rep)}</div>')
+    notice = notices(rep)
+    if notice:
+        html(notice)
+    left, right = st.columns([1.15, .85], gap="large", vertical_alignment="top")
+    with left:
+        html(f'<div class="cdc-card">{verdict(o)}</div>')
+        with st.container(border=True, key="survival-chart-card"):
+            html('<div class="cdc-chart-card"><h3>Survival over time</h3>'
+                 '<p>Probability of still receiving meaningful attention</p></div>')
+            _, chart_center, _ = st.columns([.03, .94, .03])
+            with chart_center:
+                st.altair_chart(survival_chart(o), use_container_width=True, theme=None,
+                                key=f"survival-{rep['facts'].get('video_id', 'video')}")
+    with right:
+        side = [week(o), todo(rep), compare(rep), trust(rep)]
+        if not fp_ok:
+            side.append('<p class="cdc-notice">This copy of the tool was built slightly differently from the '
+                        'tested one, so its numbers may differ a little.</p>')
+        side.append(details(rep, card, fp_ok))
+        content = "".join(f'<div class="cdc-card">{v}</div>' for v in side if v)
+        html(f'<div class="cdc-report-stack">{content}</div>')
 
 
 SKELETON = ('<div class="cdc-skel"><div style="height:99px;margin-bottom:1.25rem"></div>'
@@ -543,6 +624,7 @@ def main() -> None:
             # A new check starts from nothing: if it fails, the last video's report
             # must not stay on screen under the error, as if it were this video's.
             st.session_state.pop("cdc_report_html", None)
+            st.session_state.pop("cdc_report_data", None)
             vid = parse_video_id(url)
             if not vid:
                 error = ToolError("bad_link").message
@@ -554,6 +636,7 @@ def main() -> None:
                     item, subs, fetched_at = cached_lookup(vid)
                     rep = build_report(item, subs, fetched_at, model, table, card, tips)
                     rep["item_snippet"] = item.get("snippet") or {}
+                    st.session_state["cdc_report_data"] = rep
                     st.session_state["cdc_report_html"] = report_html(rep, card, fp_ok)
                 except ToolError as e:
                     error = e.message
@@ -561,7 +644,11 @@ def main() -> None:
         if error:
             out.empty()                       # take down the loading placeholder
             msg.html(f'<div class="cdc"><p class="cdc-error" role="alert">{escape(error)}</p></div>')
-        if st.session_state.get("cdc_report_html"):
+        rep = st.session_state.get("cdc_report_data")
+        if rep and rep.get("status") == "ok" and rep.get("outlook"):
+            with out.container():
+                render_interactive_report(rep, card, fp_ok)
+        elif st.session_state.get("cdc_report_html"):
             out.html(f'<div class="cdc-report-enter cdc">{st.session_state["cdc_report_html"]}</div>')
 
 
