@@ -385,7 +385,11 @@ def week(o: dict) -> str:
 
 
 def survival_chart(o: dict) -> alt.Chart:
-    """Build an interactive chart from the report's existing exact checkpoints."""
+    """Build a chart from the report's existing exact checkpoints, with tooltips.
+
+    No zoom or pan: on a phone they capture the scroll, and a scroll over the
+    chart stretched the axis to impossible probabilities (below 0%).
+    """
     values = []
     for key, name in (("still_going", "Current video"),
                       ("typical_still_going", "Typical video")):
@@ -413,8 +417,7 @@ def survival_chart(o: dict) -> alt.Chart:
             .properties(height=430, padding={"left": 12, "right": 18, "top": 6, "bottom": 8})
             .configure(background="#fffdf8")
             .configure_view(fill="#fffdf8", stroke=None)
-            .configure_axis(gridColor="#e9e3da", labelColor="#68636d", titleColor="#514d58")
-            .interactive())
+            .configure_axis(gridColor="#e9e3da", labelColor="#68636d", titleColor="#514d58"))
 
 
 def compare(rep: dict) -> str:

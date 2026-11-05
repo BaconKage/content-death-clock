@@ -113,6 +113,7 @@ def test_survival_chart_uses_existing_checkpoints_and_has_interactive_tooltips()
     assert rendered["height"] == 430
     assert {v["series"] for v in rendered["data"]["values"]} == {"Current video", "Typical video"}
     assert rendered["encoding"]["tooltip"][-1]["format"] == ".2%"
+    assert "params" not in rendered          # no zoom or pan bound to the scales
     assert any(v["checkpoint"] == "After 1" and v["probability"] == .91
                for v in rendered["data"]["values"])
     assert any(v["checkpoint"] == "After 7" and v["probability"] == .31
